@@ -42,9 +42,7 @@ function Layout() {
           <li>
             <Link to='/register'>Register</Link>
           </li>
-          <li>
-            <Link to='/dashboard'>Dashboard</Link>
-          </li>
+
           <li>
             <Link to='/nothing-here'>Nothing Here</Link>
           </li>
@@ -73,14 +71,6 @@ function About() {
   return (
     <div>
       <h2>About</h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
     </div>
   );
 }

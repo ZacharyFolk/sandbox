@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Post() {
+export default function Post({ post }) {
   return (
     <div className='post'>
       <img src='https://placekitten.com/200/300' alt='' className='postImg' />
@@ -9,7 +9,7 @@ export default function Post() {
           <span className='postCat'>javaScript</span>
           <span className='postCat'>react</span>
         </div>
-        <span className='postTitle'>Lorem ipsum dolor sit ame</span>
+        <span className='postTitle'>{post.title}</span>
         <hr />
         <span className='postDate'>1 hour ago</span>
       </div>
