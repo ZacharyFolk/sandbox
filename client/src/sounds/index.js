@@ -6,7 +6,6 @@ let keys = [
 ];
 
 function typeSound() {
-  console.log('yep');
   let i = Math.floor(Math.random() * keys.length);
   console.log(keys[i]);
   keys[i].currentTime = 0;
