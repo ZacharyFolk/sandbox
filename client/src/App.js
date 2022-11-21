@@ -1,13 +1,18 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Home from './pages/home/Home';
 import './main.css';
+import './animation.css';
 export default function App() {
   const user = false;
+
   return (
-    <div>
+    <div id='crt'>
+      <div className='scanline'></div>
+
       {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
