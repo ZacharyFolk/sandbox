@@ -1,5 +1,12 @@
 import { React, Component, useEffect } from 'react';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Outlet,
+  Link,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 
 import key1 from './../../sounds/key1.mp3';
 import key2 from './../../sounds/key2.mp3';
@@ -9,6 +16,8 @@ import key4 from './../../sounds/key4.mp3';
 class Terminal extends Component {
   constructor(props) {
     super(props);
+    console.log('from constructor');
+    console.log(props.parseIt);
     this.keys = [key1, key2, key3, key4];
     this.state = {
       number: 0,
@@ -23,7 +32,9 @@ class Terminal extends Component {
     this.setState({ number: Math.floor(Math.random() * len) });
     new Audio(this.keys[this.state.number]).play();
     console.log(e.keyCode);
-    console.log(e.target);
+    console.log('from handleKeys');
+
+    console.log(this.props.parseIt);
 
     let code = e.keyCode;
     switch (code) {
@@ -36,7 +47,8 @@ class Terminal extends Component {
           let string = this.state.input;
 
           let command = string.toLowerCase();
-          this.commander(command);
+          this.props.parseIt(command);
+          // this.commander(command);
         });
         // console.log(this.state.input); // Can not use immediately so why need callback ^
         console.log('pressed enter');
@@ -47,10 +59,10 @@ class Terminal extends Component {
   };
 
   commander = (command) => {
+    // move to parent
     console.log(command);
     switch (command) {
       case 'about':
-        console.log('cool');
         break;
       default:
         console.log('what do?');

@@ -4,7 +4,7 @@ export default function About() {
   return (
     <>
       <div className='container'>
-        <div class='main'></div>
+        <div className='main'></div>
         <Sidebar />
       </div>
     </>

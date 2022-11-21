@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useState, Component } from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
+
 import './main.css';
 import './animation.css';
 export default function App() {
   const user = false;
+  const [input, parseIt] = useState('');
 
   return (
     <div id='crt'>
@@ -33,12 +35,16 @@ export default function App() {
   );
 }
 
+function parseIt(input) {
+  console.log('parseIt value');
+  console.log(input);
+}
 function Layout() {
   return (
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-      <Terminal />
+      <Terminal parseIt={parseIt} />
 
       <nav>
         <ul>
