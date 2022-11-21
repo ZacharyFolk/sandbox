@@ -4,6 +4,7 @@ import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Home from './pages/home/Home';
+import About from './pages/about/About';
 import './main.css';
 import './animation.css';
 export default function App() {
@@ -45,7 +46,7 @@ function Layout() {
             <Link to='/'>Home</Link>
           </li>
           <li>
-            <Link to='/register'>Register</Link>
+            <Link to='/about'>About</Link>
           </li>
 
           <li>
@@ -72,13 +73,13 @@ function Layout() {
 //   );
 // }
 
-function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
-}
+// function About() {
+//   return (
+//     <div>
+//       <h2>About</h2>
+//     </div>
+//   );
+// }
 
 function NoMatch() {
   return (
