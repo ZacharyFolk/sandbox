@@ -162,3 +162,43 @@ pre {
   margin-left: 1px;
   line-height: 1rem;
 }
+
+/* *************
+*              *
+*    Layout    *
+*              *
+************* */
+.about-container {
+  display: flex;
+  width: 95%;
+  margin: 40px auto 0;
+  max-width: 1280px;
+}
+.about-col-1 {
+  width: 60%;
+  padding: 20px 40px;
+}
+.about-col-2 {
+  width: 40%;
+}
+.about-col-2 img {
+  max-width: 90%;
+  margin: 10px auto;
+  border: 1px solid var(--secondary-color);
+  padding: 2px;
+}
+.social-container {
+  display: flex;
+  justify-content: space-evenly;
+  scale: 0.8;
+  width: 90%;
+}
+
+.social-container a:link,
+.social-container a:visited {
+  transition: opacity 0.5s;
+  opacity: 0.65;
+}
+.social-container a:hover {
+  opacity: 1;
+}
