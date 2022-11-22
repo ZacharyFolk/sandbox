@@ -1,12 +1,5 @@
 import { React, Component, useEffect } from 'react';
-import {
-  Routes,
-  Route,
-  Outlet,
-  Link,
-  Navigate,
-  useNavigate,
-} from 'react-router-dom';
+import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 
 import key1 from './../../sounds/key1.mp3';
 import key2 from './../../sounds/key2.mp3';
@@ -17,12 +10,14 @@ class Terminal extends Component {
   constructor(props) {
     super(props);
     console.log('from constructor');
-    console.log(props.parseIt);
+    console.log(props);
     this.keys = [key1, key2, key3, key4];
     this.state = {
       number: 0,
-      input: '',
+      userinput: '',
     };
+    this.navigate = useNavigate;
+
     this.cleanInput = this.cleanInput.bind();
     this.commander = this.commander.bind();
   }
@@ -43,14 +38,14 @@ class Terminal extends Component {
         let typed = e.target.textContent;
         e.target.innerHTML = '';
         //  e.target.setAttribute('contenteditable', false);
-        this.setState({ input: typed }, function () {
-          let string = this.state.input;
+        this.setState({ userinput: typed }, function () {
+          let string = this.state.userinput;
 
           let command = string.toLowerCase();
-          this.props.parseIt(command);
-          // this.commander(command);
+
+          this.commander(command);
         });
-        // console.log(this.state.input); // Can not use immediately so why need callback ^
+        // console.log(this.state.userinput); // Can not use immediately so why need callback ^
         console.log('pressed enter');
         break;
       default:
@@ -63,6 +58,10 @@ class Terminal extends Component {
     console.log(command);
     switch (command) {
       case 'about':
+        console.log('from about command');
+        //  this.navigate('/about');
+        //  return redirect('/about');
+
         break;
       default:
         console.log('what do?');
@@ -92,5 +91,7 @@ class Terminal extends Component {
     );
   }
 }
+
+//export default withRouter(Terminal);
 
 export default Terminal;

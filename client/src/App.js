@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState, Component } from 'react';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
+import { useState, useEffect, Component } from 'react';
+import { Routes, Route, Outlet, Link, useNavigate } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Home from './pages/home/Home';
@@ -10,8 +10,14 @@ import './main.css';
 import './animation.css';
 export default function App() {
   const user = false;
-  const [input, parseIt] = useState('');
+  const test = true;
+  // const [value, parseIt] = setPath();
 
+  // function setPath() {
+  //   let navigate = useNavigate();
+  //   console.log('run setPath');
+  //   navigate('about');
+  // }
   return (
     <div id='crt'>
       <div className='scanline'></div>
@@ -22,7 +28,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='about' element={<About />} />
+          <Route path='/about' element={<About />} />
           <Route path='register' element={user ? <Home /> : <Register />} />
 
           {/* Using path="*"" means "match anything", so this route
@@ -35,16 +41,12 @@ export default function App() {
   );
 }
 
-function parseIt(input) {
-  console.log('parseIt value');
-  console.log(input);
-}
 function Layout() {
   return (
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-      <Terminal parseIt={parseIt} />
+      <Terminal />
 
       <nav>
         <ul>
@@ -70,22 +72,6 @@ function Layout() {
     </div>
   );
 }
-
-// function Home() {
-//   return (
-//     <div>
-//       <h2>Home</h2>
-//     </div>
-//   );
-// }
-
-// function About() {
-//   return (
-//     <div>
-//       <h2>About</h2>
-//     </div>
-//   );
-// }
 
 function NoMatch() {
   return (
