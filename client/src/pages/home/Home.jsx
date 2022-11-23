@@ -6,6 +6,8 @@ import axios from 'axios';
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
+  console.log('home');
+  console.log(posts);
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get('/posts');

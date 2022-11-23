@@ -8,6 +8,7 @@ import About from './pages/about/About';
 
 import './main.css';
 import './animation.css';
+
 export default function App() {
   const user = false;
   const test = true;

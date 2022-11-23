@@ -1,7 +1,9 @@
+import { React, useState, useEffect } from 'react';
+import axios from 'axios';
 import selfie from './../../images/matrix-me-small.jpg';
 import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
-
+import { oktokit } from 'octokit';
 export default function About() {
   return (
     <>
@@ -9,7 +11,7 @@ export default function About() {
         <div className='row'>
           <div className='col'>
             <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-              <div class='my-info'>
+              <div className='my-info'>
                 <p>
                   Name: Zachary Folk
                   <br />
@@ -17,19 +19,18 @@ export default function About() {
                 </p>
               </div>
               <h3>Experience: </h3>
-              <ul>
-                <li>HTML, CSS, javaScript, PHP,</li>
-                <li>mySQL, Analytics, SEO, Node</li>
-                <li>Wordpress, Magento, React, SEO</li>
-                <li>Accessibility, Performance</li>
-              </ul>
+              <p>
+                HTML, CSS, javaScript, PHP, mySQL, Analytics, SEO, Node,
+                Wordpress, Magento, React, Git, Jira, SEO, Accessibility,
+                Performance
+              </p>
+
               <Typist.Delay ms={1500} />
               <h3>Hobbies: </h3>
-              <ul>
-                <li>photography, biking, guitar,</li>
-                <li>gardening, kayaking, hiking,</li>
-                <li>birding, drawing</li>
-              </ul>
+              <p>
+                photography, biking, guitar, gardening, kayaking, hiking,
+                birding, drawing
+              </p>
 
               {/* <Typist.Paste>
               <div>
@@ -42,7 +43,6 @@ export default function About() {
 
           <div className='col'>
             <img src={selfie} alt='me' />
-
             <div className='social-container'>
               <SocialIcon
                 bgColor='#5bf870'
@@ -72,16 +72,16 @@ export default function About() {
               />
             </div>
           </div>
-
           <div className='col'>
             <Typist typingDelay={10} cursor={<span className='cursor'>|</span>}>
               <h3>About this website</h3>
               <p>
-                This website is a sandbox for me to experimnent and stay on top
-                of the rapidly changing fronend landscape of web development. I
-                am having fun with this project and experimnenting but hopefully
-                keeping it asccessible and free of errors too.
+                This website is a sandbox for me. A place where I experimnent
+                and learn, mostly from the endless resources on the internet.
+                Check out my blog for more information on that.
               </p>
+              <Typist.Delay ms={2000} />
+
               <p>
                 If you are interested in working togeterher please contact me
                 through whatever appropriate social media or you can use the
@@ -91,6 +91,65 @@ export default function About() {
           </div>
         </div>
       </div>
+      <div className='row'>
+        <div className='col'>
+          <div className='git-container'>
+            <Git />
+          </div>
+        </div>
+      </div>
     </>
   );
+}
+
+function Git() {
+  const [commits, setCommits] = useState([]);
+
+  const octokit = new Octokit({
+    auth: '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',
+    userAgent: 'zacs-sandbox v0',
+  });
+  // const url = 'https://api.github.com/repos/ZacharyFolk/simplefolk/commits';
+  useEffect(() => {
+    const fetchCommits = async () => {
+      // const res = await axios.get(url);
+
+      const res = await octokit.request(
+        'GET /repos/ZacharyFolk/simplefolk/commits'
+      );
+
+      const latestCommits = [];
+      res.data.forEach((obj) => {
+        let commit = {
+          url: obj.html_url,
+          data: obj.commit.author.date,
+          mssg: obj.commit.message,
+        };
+        latestCommits.push(commit);
+      });
+      // console.log(latestCommits);
+      setCommits(latestCommits);
+    };
+    fetchCommits();
+  }, [commits]);
+
+  console.log('what is this?');
+  console.log(commits);
+
+  return (
+    <>
+      <div className='container'>
+        <Commits commits={commits} />
+      </div>
+    </>
+  );
+}
+
+function Commits({ commits }) {
+  console.log(commits);
+  commits.map((p, i) => <Commit key={i} commit={p} />);
+}
+function Commit({ commit }) {
+  console.log('======================');
+  console.log(commit);
 }

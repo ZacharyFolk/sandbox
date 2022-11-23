@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function Post({ post }) {
+  console.log(post);
   return (
     <div className='post'>
       <img src='https://placekitten.com/200/300' alt='' className='postImg' />
