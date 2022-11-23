@@ -3,7 +3,6 @@ import axios from 'axios';
 import selfie from './../../images/matrix-me-small.jpg';
 import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
-import { oktokit } from 'octokit';
 export default function About() {
   return (
     <>
@@ -105,36 +104,48 @@ export default function About() {
 function Git() {
   const [commits, setCommits] = useState([]);
 
-  const octokit = new Octokit({
-    auth: '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',
-    userAgent: 'zacs-sandbox v0',
-  });
+  const url = 'http://localhost:9999/github_api/commit/ZacharyFolk/simplefolk';
   // const url = 'https://api.github.com/repos/ZacharyFolk/simplefolk/commits';
+  const localcommits = sessionStorage.getItem('latest-commits');
+
   useEffect(() => {
     const fetchCommits = async () => {
-      // const res = await axios.get(url);
+      // const res = await fetch(url, {
+      //   method: 'GET',
+      //   headers: headers,
+      // });
 
-      const res = await octokit.request(
-        'GET /repos/ZacharyFolk/simplefolk/commits'
-      );
+      if (!localcommits) {
+        const res = await axios.get(url);
+        const result = await res.data;
+        console.log('REQUEST MADE');
+        // console.log(result);
+        sessionStorage.setItem('latest-commits', JSON.stringify(result));
+        setCommits(result);
+      }
+
+      // storing commits to stop spamming the API
+
+      setCommits(JSON.parse(localcommits));
+      localcommits ? console.log('yes') : console.log('no');
+      console.log('COMMITS');
+      console.log(commits);
+
+      //   console.log(res);
 
       const latestCommits = [];
-      res.data.forEach((obj) => {
-        let commit = {
-          url: obj.html_url,
-          data: obj.commit.author.date,
-          mssg: obj.commit.message,
-        };
-        latestCommits.push(commit);
-      });
+      // res.data.forEach((obj) => {
+      //   let commit = {
+      //     url: obj.html_url,
+      //     data: obj.commit.author.date,
+      //     mssg: obj.commit.message,
+      //   };
+      //   latestCommits.push(commit);
+      // });
       // console.log(latestCommits);
-      setCommits(latestCommits);
     };
     fetchCommits();
-  }, [commits]);
-
-  console.log('what is this?');
-  console.log(commits);
+  }, []);
 
   return (
     <>
@@ -146,6 +157,7 @@ function Git() {
 }
 
 function Commits({ commits }) {
+  console.log('HEY WHAT THIS?');
   console.log(commits);
   commits.map((p, i) => <Commit key={i} commit={p} />);
 }

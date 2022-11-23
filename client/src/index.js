@@ -8,6 +8,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
+      console.log('can i log here?');
     </BrowserRouter>
   </React.StrictMode>
 );
