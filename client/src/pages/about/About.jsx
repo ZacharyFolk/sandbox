@@ -91,10 +91,8 @@ export default function About() {
         </div>
       </div>
       <div className='row'>
-        <div className='col'>
-          <div className='git-container'>
-            <Git />
-          </div>
+        <div className='git-container'>
+          <Git />
         </div>
       </div>
     </>
@@ -127,22 +125,8 @@ function Git() {
       // storing commits to stop spamming the API
 
       setCommits(JSON.parse(localcommits));
+
       localcommits ? console.log('yes') : console.log('no');
-      console.log('COMMITS');
-      console.log(commits);
-
-      //   console.log(res);
-
-      const latestCommits = [];
-      // res.data.forEach((obj) => {
-      //   let commit = {
-      //     url: obj.html_url,
-      //     data: obj.commit.author.date,
-      //     mssg: obj.commit.message,
-      //   };
-      //   latestCommits.push(commit);
-      // });
-      // console.log(latestCommits);
     };
     fetchCommits();
   }, []);
@@ -159,9 +143,44 @@ function Git() {
 function Commits({ commits }) {
   console.log('HEY WHAT THIS?');
   console.log(commits);
-  commits.map((p, i) => <Commit key={i} commit={p} />);
+
+  return (
+    <>
+      {' '}
+      <div className='commit'>
+        {commits.map((c, i) => (
+          <Commit key={i} commit={c} />
+        ))}
+      </div>
+    </>
+  );
 }
 function Commit({ commit }) {
   console.log('======================');
   console.log(commit);
+  let commit_link = commit.html_url;
+  let commit_date = commit.commit.committer.date;
+  let commit_msg = commit.commit.message;
+  let commit_sha = commit.sha;
+  commit_date = new Date(commit_date).toLocaleDateString('en-US', {
+    month: 'long',
+    day: '2-digit',
+    year: 'numeric',
+  });
+  commit_sha = commit_sha.substring(0, 7);
+  console.log(commit_link);
+  console.log(commit_date);
+  console.log(commit_msg);
+
+  function convertMsg() {}
+
+  return (
+    <div className='commit-container'>
+      <a href={commit_link} rel='noreferrer' target='_blank'>
+        {commit_sha}
+      </a>
+      <span>{commit_msg} </span>
+      <span>{commit_date}</span>
+    </div>
+  );
 }

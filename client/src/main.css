@@ -230,5 +230,21 @@ pre {
   max-width: 80%;
   margin: 0 auto;
 }
+
+/* GIT */
+
+.git-container {
+  display: flex;
+  width: 100%;
+}
+.git-container .container span {
+  display: flex;
+  width: 100%;
+  margin: 20px 0;
+}
+.commit-container {
+  align-items: center;
+  display: flex;
+}
 @media only screen and (min-width: 768px) {
 }
