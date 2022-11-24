@@ -156,30 +156,45 @@ function Commits({ commits }) {
   );
 }
 function Commit({ commit }) {
-  console.log('======================');
-  console.log(commit);
   let commit_link = commit.html_url;
   let commit_date = commit.commit.committer.date;
   let commit_msg = commit.commit.message;
   let commit_sha = commit.sha;
+  const emoji = require('emoji-dictionary');
+  const reg = /:([a-zA-Z]+):/g;
+
+  const replacer = function (match) {
+    let emo = match.split(':').join('');
+    console.log(
+      '======================== emo ==================================='
+    );
+    console.log(emo);
+
+    console.log(emoji.getUnicode(emo));
+    return emoji.getUnicode(emo);
+  };
+
   commit_date = new Date(commit_date).toLocaleDateString('en-US', {
     month: 'long',
     day: '2-digit',
     year: 'numeric',
   });
+
   commit_sha = commit_sha.substring(0, 7);
+
+  let cm = commit_msg.replace(reg, replacer);
+
+  console.log(commit_msg);
   console.log(commit_link);
   console.log(commit_date);
   console.log(commit_msg);
-
-  function convertMsg() {}
 
   return (
     <div className='commit-container'>
       <a href={commit_link} rel='noreferrer' target='_blank'>
         {commit_sha}
       </a>
-      <span>{commit_msg} </span>
+      <span>{cm} </span>
       <span>{commit_date}</span>
     </div>
   );
