@@ -45,5 +45,5 @@ app.listen('9999', () => {
 });
 
 app.use('/', (req, res) => {
-  console.log('this is it');
+  console.log('Root page of API');
 });
