@@ -33,6 +33,7 @@ function Git() {
 }
 
 function Commits({ commits }) {
+  console.log(commits);
   return (
     <div className='commit'>
       {commits.map((c, i) => (

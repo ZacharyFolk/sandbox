@@ -2,6 +2,7 @@ import selfie from './../../images/matrix-me-small.jpg';
 import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
+import Discogs from './../../components/discogs/Discogs';
 export default function About() {
   return (
     <>
@@ -92,6 +93,11 @@ export default function About() {
       <div className='row'>
         <div className='git-container'>
           <Git />
+        </div>
+      </div>
+      <div className='row'>
+        <div className='discogs-container'>
+          <Discogs />
         </div>
       </div>
     </>
