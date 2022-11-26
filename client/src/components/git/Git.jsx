@@ -15,14 +15,10 @@ function Git() {
         console.log('REQUEST MADE TO GITHUB.API');
         sessionStorage.setItem('latest-commits', JSON.stringify(result));
         setCommits(result);
-        return (commits = result); // this works to use state immediately?
+        return (commits = result); // this works to use state immediately
       }
 
-      // storing commits to stop spamming the API
-
       setCommits(JSON.parse(localcommits));
-      // TODO: Bug when commits not set, requires refresh
-      //   localcommits ? console.log('yes') : console.log('no');
     };
     fetchCommits();
   }, []);

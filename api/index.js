@@ -10,6 +10,7 @@ const multer = require('multer');
 const cors = require('cors');
 const middlewares = require('./github/middlewares');
 const githubRoute = require('./github/githubRoutes');
+const discoRoute = require('./discogs/discoRoutes.js');
 dotenv.config();
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -40,8 +41,10 @@ app.use('/api/users', userRoute);
 app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
 app.use('/github_api', githubRoute);
+app.use('/disco_api', discoRoute);
+
 app.listen('9999', () => {
-  console.log('you did it');
+  console.log('Starting API server at localhost:9999');
 });
 
 app.use('/', (req, res) => {
