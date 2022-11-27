@@ -38,14 +38,15 @@ function Disco({ discoresults }) {
   const records = discoresults.releases;
 
   console.log(records);
-
-  return (
-    <div className='disc'>
-      {records.map((r, i) => (
-        <Disc key={i} discinfo={r.basic_information} />
-      ))}
-    </div>
-  );
+  if (records) {
+    return (
+      <div className='disc'>
+        {records.map((r, i) => (
+          <Disc key={i} discinfo={r.basic_information} />
+        ))}
+      </div>
+    );
+  }
 }
 
 function Disc({ discinfo }) {
@@ -57,7 +58,9 @@ function Disc({ discinfo }) {
 
   return (
     <div className='record-container'>
-      <img src={imgsrc} alt={title} />
+      <div className='record-cover'>
+        <img src={imgsrc} alt={title} />
+      </div>
       <span className='caption'>
         {artist} - {title}
       </span>

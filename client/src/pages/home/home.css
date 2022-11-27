@@ -1,7 +1,3 @@
-.container,
-.single {
-  display: flex;
-}
 .sidebar {
   flex: 3;
 }

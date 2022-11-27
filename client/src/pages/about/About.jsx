@@ -8,39 +8,23 @@ export default function About() {
     <>
       <div className='container'>
         <div className='row'>
-          <div className='col'>
-            <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-              <div className='my-info'>
-                <p>
-                  Name: Zachary Folk
-                  <br />
-                  Location: Seattle, Washington, USA
-                </p>
-              </div>
-              <h3>Experience: </h3>
-              <p>
-                HTML, CSS, javaScript, PHP, mySQL, Analytics, SEO, Node,
-                Wordpress, Magento, React, Git, Jira, SEO, Accessibility,
-                Performance
-              </p>
+          <div className='col about-container'>
+            <h3>About this website</h3>
+            <p>
+              This website is a sandbox for me. A place where I experimnent and
+              learn, mostly from the endless resources on the internet. Check
+              out my blog for more information on that.
+            </p>
+            <Typist.Delay ms={2000} />
 
-              <Typist.Delay ms={1500} />
-              <h3>Hobbies: </h3>
-              <p>
-                photography, biking, guitar, gardening, kayaking, hiking,
-                birding, drawing
-              </p>
-
-              {/* <Typist.Paste>
-              <div>
-                use
-                <div>deeper div</div>
-              </div>
-            </Typist.Paste> */}
-            </Typist>
+            <p>
+              If you are interested in working togeterher please contact me
+              through whatever appropriate social media or you can use the
+              contact form here if you have a particular project in mind.
+            </p>
           </div>
 
-          <div className='col'>
+          <div className='col self-container'>
             <img src={selfie} alt='me' />
             <div className='social-container'>
               <SocialIcon
@@ -71,22 +55,42 @@ export default function About() {
               />
             </div>
           </div>
-          <div className='col'>
-            <Typist typingDelay={10} cursor={<span className='cursor'>|</span>}>
-              <h3>About this website</h3>
+          <div className='col data-container'>
+            <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+              <div className='my-info'>
+                <h3>Personal data: </h3>
+                <p>
+                  Name: Zachary Folk
+                  <br />
+                  Location: Seattle, Washington, USA
+                </p>
+              </div>
+              <h3>Experience: </h3>
               <p>
-                This website is a sandbox for me. A place where I experimnent
-                and learn, mostly from the endless resources on the internet.
-                Check out my blog for more information on that.
+                HTML, CSS, javaScript, PHP, mySQL, Analytics, SEO, Node,
+                Wordpress, Magento, React, Git, Jira, SEO, Accessibility,
+                Performance
               </p>
-              <Typist.Delay ms={2000} />
 
+              <Typist.Delay ms={1500} />
+              <h3>Hobbies: </h3>
               <p>
-                If you are interested in working togeterher please contact me
-                through whatever appropriate social media or you can use the
-                contact form here if you have a particular project in mind.
+                photography, biking, guitar, gardening, kayaking, hiking,
+                birding, drawing
               </p>
+
+              {/* <Typist.Paste>
+              <div>
+                use
+                <div>deeper div</div>
+              </div>
+            </Typist.Paste> */}
             </Typist>
+          </div>
+          <div className='col'>
+            <div className='git-container'>
+              <Git />
+            </div>
           </div>
         </div>
       </div>

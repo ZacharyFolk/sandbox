@@ -178,9 +178,8 @@ pre {
 *              *
 ************* */
 .about-container {
-  display: flex;
   width: 95%;
-  margin: 40px auto 0;
+  margin: 0 auto 0;
   max-width: 1280px;
 }
 .about-col-1 {
@@ -200,7 +199,7 @@ pre {
   display: flex;
   justify-content: space-evenly;
   scale: 0.8;
-  width: 90%;
+  width: 100%;
 }
 
 .social-container a:link,
@@ -215,20 +214,28 @@ pre {
 
 .container {
   display: flex;
-  width: 90%;
-  max-width: 1971px;
+  width: 96%;
+  /* max-width: 1971px; */
   margin: 0 auto;
 }
 .row {
   display: flex;
+  flex-wrap: wrap;
 }
 .col {
   width: 33%;
 }
 
 .col > img {
-  max-width: 80%;
   margin: 0 auto;
+}
+
+.self-container img {
+  max-width: 70%;
+  display: block;
+  margin: 20px auto 2px;
+  border: 1px solid var(--secondary-color);
+  padding: 6px;
 }
 
 /* GIT */
@@ -246,5 +253,45 @@ pre {
   align-items: center;
   display: flex;
 }
-@media only screen and (min-width: 768px) {
+
+/* DISCOGS */
+
+.discogs-container {
+  overflow: auto;
+  width: 50%;
+}
+.disc {
+  display: flex;
+}
+.record-container {
+  width: 150px;
+}
+
+.record-cover img {
+  width: 100%;
+}
+
+@media only screen and (max-width: 1200px) {
+  .col {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 799px) {
+  .row {
+    flex-direction: column;
+    width: 70%;
+  }
+
+  .col {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  /* .row {
+    flex-wrap: wrap;
+  } */
+  .col {
+    width: 25%;
+  }
 }
