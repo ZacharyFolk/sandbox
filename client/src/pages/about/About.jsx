@@ -87,21 +87,18 @@ export default function About() {
             </Typist.Paste> */}
             </Typist>
           </div>
-          <div className='col'>
-            <div className='git-container'>
-              <Git />
-            </div>
+        </div>
+      </div>
+      <div className='container'>
+        <div className='row'>
+          <div className='col-2'>
+            <h2>Latest Commits from Github</h2>
+            <Git />
           </div>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='git-container'>
-          <Git />
-        </div>
-      </div>
-      <div className='row'>
-        <div className='discogs-container'>
-          <Discogs />
+
+          <div className='discogs-container'>
+            <Discogs />
+          </div>
         </div>
       </div>
     </>

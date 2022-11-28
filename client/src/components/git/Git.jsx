@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
-
+import moment from 'moment';
 function Git() {
   const [commits, setCommits] = useState([]);
 
@@ -15,7 +15,7 @@ function Git() {
         console.log('REQUEST MADE TO GITHUB.API');
         sessionStorage.setItem('latest-commits', JSON.stringify(result));
         setCommits(result);
-        return (commits = result); // this works to use state immediately
+        // return (commits = result); // this works to use state immediately
       }
 
       setCommits(JSON.parse(localcommits));
@@ -35,7 +35,7 @@ function Git() {
 function Commits({ commits }) {
   console.log(commits);
   return (
-    <div className='commit'>
+    <div className='commit-box'>
       {commits.map((c, i) => (
         <Commit key={i} commit={c} />
       ))}
@@ -49,20 +49,27 @@ function Commit({ commit }) {
   let commit_sha = commit.sha;
   const emoji = require('emoji-dictionary');
   const reg = /:([a-zA-Z]+):/g;
+  commit_date = new Date(commit_date);
+  let time_passed = moment(commit_date, 'YYYYMMDD').fromNow();
+  // TODO :This is off by a few hours for some reason
 
   const replacer = function (match) {
     let emo = match.split(':').join('');
     return emoji.getUnicode(emo);
   };
 
-  commit_date = new Date(commit_date).toLocaleDateString('en-US', {
-    month: 'long',
-    day: '2-digit',
-    year: 'numeric',
-  });
+  // commit_date = new Date(commit_date).toLocaleDateString('en-US', {
+  //   month: 'long',
+  //   day: '2-digit',
+  //   year: 'numeric',
+  // });
 
   commit_sha = commit_sha.substring(0, 7);
+
   let cm = commit_msg.replace(reg, replacer);
+  if (cm.length > 60) {
+    cm = cm.substring(0, 60) + '...';
+  }
 
   return (
     <div className='commit-container'>
@@ -70,7 +77,7 @@ function Commit({ commit }) {
         {commit_sha}
       </a>
       <span>{cm} </span>
-      <span>{commit_date}</span>
+      <span className='time'>{time_passed}</span>
     </div>
   );
 }

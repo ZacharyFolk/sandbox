@@ -225,7 +225,9 @@ pre {
 .col {
   width: 33%;
 }
-
+.col-2 {
+  width: 50%;
+}
 .col > img {
   margin: 0 auto;
 }
@@ -252,6 +254,36 @@ pre {
 .commit-container {
   align-items: center;
   display: flex;
+}
+.time {
+  flex: 0 0 100px;
+}
+
+.commit-box {
+  /* replace with js scrolling */
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+}
+/* width */
+.commit-box::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.commit-box::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.commit-box::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.commit-box::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* DISCOGS */
