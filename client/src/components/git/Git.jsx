@@ -67,16 +67,21 @@ function Commit({ commit }) {
   commit_sha = commit_sha.substring(0, 7);
 
   let cm = commit_msg.replace(reg, replacer);
-  if (cm.length > 60) {
-    cm = cm.substring(0, 60) + '...';
+  if (cm.length > 120) {
+    cm = cm.substring(0, 120) + '...';
   }
 
   return (
     <div className='commit-container'>
-      <a href={commit_link} rel='noreferrer' target='_blank'>
+      <a
+        className='commit-sha'
+        href={commit_link}
+        rel='noreferrer'
+        target='_blank'
+      >
         {commit_sha}
       </a>
-      <span>{cm} </span>
+      <span className='commit-msg'>{cm} </span>
       <span className='time'>{time_passed}</span>
     </div>
   );

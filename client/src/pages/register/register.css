@@ -1,0 +1,23 @@
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto 10px;
+}
+.registerForm label {
+  margin: 10px 0;
+}
+
+.registerForm button {
+  margin: 10px 0;
+}
+.register {
+  display: flex;
+  flex-direction: column;
+}
+
+.registerLoginButton {
+  width: 170px;
+  text-align: center;
+  margin: 0 auto;
+}

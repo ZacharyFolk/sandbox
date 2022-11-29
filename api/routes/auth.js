@@ -13,6 +13,8 @@ router.post('/register', async (req, res) => {
       password: hashedPass,
     });
 
+    console.log('reached the register api');
+
     const user = await newUser.save();
     res.status(200).json(user);
   } catch (error) {

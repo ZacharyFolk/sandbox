@@ -80,12 +80,13 @@ class Terminal extends Component {
           ></span>
         </div>
         <div className='tools'>
-          <Link to='/'>LINK</Link>
-          <Link to='/about'>
-            <i className='fas fa-camera'></i>
+          <Link to='/'>
+            <i className='fa-solid fa-house'></i>
           </Link>
-          <i className='fas fa-terminal'></i>
-          <i className='fas fa-record-vinyl'></i>
+          <Link to='/about'>
+            <i className='fa-solid fa-circle-question'></i>
+          </Link>
+          {/* <i className='fas fa-terminal'></i> */}
         </div>
       </div>
     );

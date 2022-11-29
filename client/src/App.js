@@ -5,7 +5,7 @@ import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
-
+import Single from './pages/single/Single';
 import './main.css';
 import './animation.css';
 
@@ -31,6 +31,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='register' element={user ? <Home /> : <Register />} />
+          <Route path='/post/:postId' element={<Single />} />
 
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
@@ -48,7 +49,7 @@ function Layout() {
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
       <Terminal />
-
+      {/* 
       <nav>
         <ul>
           <li>
@@ -64,7 +65,7 @@ function Layout() {
         </ul>
       </nav>
 
-      <hr />
+      <hr /> */}
 
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for

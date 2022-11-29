@@ -21,6 +21,13 @@ body {
 a {
   outline: none;
 }
+a:link,
+a:visited {
+  color: var(--secondary-color);
+}
+a:hover {
+  color: var(--primary-color);
+}
 ul {
   padding: 0;
 }
@@ -131,6 +138,7 @@ pre {
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--secondary-color);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 .terminal {
   flex: 9;
@@ -138,7 +146,9 @@ pre {
 .tools {
   flex: 3;
 }
-
+.tools a {
+  margin: 0 10px;
+}
 .terminal {
   position: relative;
   height: 100%;
@@ -213,17 +223,20 @@ pre {
 }
 
 .container {
-  display: flex;
   width: 96%;
-  /* max-width: 1971px; */
+  max-width: 1420px;
   margin: 0 auto;
+}
+.main {
+  display: flex;
 }
 .row {
   display: flex;
-  flex-wrap: wrap;
+
+  width: 100%;
+  justify-content: center;
 }
 .col {
-  width: 33%;
 }
 .col-2 {
   width: 50%;
@@ -232,19 +245,42 @@ pre {
   margin: 0 auto;
 }
 
-.self-container img {
-  max-width: 70%;
+.selfie-container img {
+  max-width: 80%;
   display: block;
   margin: 20px auto 2px;
   border: 1px solid var(--secondary-color);
   padding: 6px;
 }
 
+.personal-data {
+  padding-top: 40px;
+  max-width: 420px;
+  width: 50%;
+}
 /* GIT */
 
-.git-container {
+.github-container {
   display: flex;
-  width: 100%;
+  width: 75%;
+  margin: 40px auto;
+  flex-direction: column;
+}
+.github-container a:link,
+.github-container a:visited {
+  color: var(--primary-color);
+}
+.github-container a:hover {
+  color: #fff;
+}
+.github-container h2,
+.discogs-container h2 {
+  margin: 10px 30px;
+  border-bottom: 1px solid var(--secondary-color);
+  padding: 4px 0;
+}
+.github-container .container {
+  width: 96%;
 }
 .git-container .container span {
   display: flex;
@@ -252,6 +288,7 @@ pre {
   margin: 20px 0;
 }
 .commit-container {
+  margin: 10px 0;
   align-items: center;
   display: flex;
 }
@@ -267,36 +304,52 @@ pre {
   max-width: 100%;
 }
 /* width */
-.commit-box::-webkit-scrollbar {
+.commit-box::-webkit-scrollbar,
+.disc::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-.commit-box::-webkit-scrollbar-track {
+.commit-box::-webkit-scrollbar-track,
+.disc::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
-.commit-box::-webkit-scrollbar-thumb {
+.commit-box::-webkit-scrollbar-thumb,
+.disc::-webkit-scrollbar-thumb {
   background: #888;
 }
 
 /* Handle on hover */
-.commit-box::-webkit-scrollbar-thumb:hover {
+.commit-box::-webkit-scrollbar-thumb:hover,
+.disc::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.commit-sha {
+  flex: 0 0 80px;
+}
+.commit-msg {
+  flex: 0 0 80%;
 }
 
 /* DISCOGS */
 
 .discogs-container {
-  overflow: auto;
-  width: 50%;
+  width: 75%;
 }
 .disc {
   display: flex;
+  flex-wrap: wrap;
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
 }
 .record-container {
   width: 150px;
+  margin: 3px 6px;
 }
 
 .record-cover img {
@@ -304,9 +357,6 @@ pre {
 }
 
 @media only screen and (max-width: 1200px) {
-  .col {
-    width: 50%;
-  }
 }
 @media only screen and (max-width: 799px) {
   .row {
@@ -323,7 +373,4 @@ pre {
   /* .row {
     flex-wrap: wrap;
   } */
-  .col {
-    width: 25%;
-  }
 }

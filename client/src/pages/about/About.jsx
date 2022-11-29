@@ -8,23 +8,7 @@ export default function About() {
     <>
       <div className='container'>
         <div className='row'>
-          <div className='col about-container'>
-            <h3>About this website</h3>
-            <p>
-              This website is a sandbox for me. A place where I experimnent and
-              learn, mostly from the endless resources on the internet. Check
-              out my blog for more information on that.
-            </p>
-            <Typist.Delay ms={2000} />
-
-            <p>
-              If you are interested in working togeterher please contact me
-              through whatever appropriate social media or you can use the
-              contact form here if you have a particular project in mind.
-            </p>
-          </div>
-
-          <div className='col self-container'>
+          <div className='col selfie-container'>
             <img src={selfie} alt='me' />
             <div className='social-container'>
               <SocialIcon
@@ -55,7 +39,7 @@ export default function About() {
               />
             </div>
           </div>
-          <div className='col data-container'>
+          <div className='col personal-data'>
             <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
               <div className='my-info'>
                 <h3>Personal data: </h3>
@@ -88,15 +72,20 @@ export default function About() {
             </Typist>
           </div>
         </div>
-      </div>
-      <div className='container'>
         <div className='row'>
-          <div className='col-2'>
-            <h2>Latest Commits from Github</h2>
+          <div className='col github-container'>
+            <h2>
+              <i class='fab fa-github-alt'></i> Latest Commits from Github
+            </h2>
             <Git />
           </div>
-
-          <div className='discogs-container'>
+        </div>
+        <div className='row'>
+          <div className='col discogs-container'>
+            <h2>
+              <i className='fas fa-record-vinyl'></i> My Record Collection from
+              Discogs
+            </h2>
             <Discogs />
           </div>
         </div>

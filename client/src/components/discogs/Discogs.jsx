@@ -61,9 +61,9 @@ function Disc({ discinfo }) {
       <div className='record-cover'>
         <img src={imgsrc} alt={title} />
       </div>
-      <span className='caption'>
+      {/* <span className='caption'>
         {artist} - {title}
-      </span>
+      </span> */}
     </div>
   );
 }

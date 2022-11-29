@@ -1,73 +1,44 @@
-import React from 'react';
-
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 export default function SinglePost() {
+  const location = useLocation();
+  // get the id for the post from pathname
+  const postid = location.pathname.split('/')[2];
+  const [post, setPost] = useState({});
+  useEffect(() => {
+    const getPost = async () => {
+      const res = await axios.get('/posts/' + postid);
+      setPost(res.data);
+    };
+    getPost();
+  }, []);
   return (
     <div className='singlePost'>
       <div className='singlePostWrapper'>
-        <img
-          src='https://placekitten.com/400/300'
-          alt=''
-          className='singlePostImg'
-        />
+        {post.photo && (
+          <img src={post.photo} alt='' className='singlePostImg' />
+        )}
+
         <h1 className='singlePostTitle'>
-          Neato cool title
+          {post.title}
           <div className='singlePostEdit'>
             <i className='singlePostIcon far fa-edit'></i>
             <i className='singlePostIcon far fa-trash-alt'></i>
           </div>
         </h1>
         <div className='singlePostInfo'>
-          <span className='singlePostAuthor'>Author: me</span>
-          <span className='singlePostDate'>1 hour ago</span>
+          <span className='singlePostAuthor'>
+            Author:
+            <Link to={`/?user=${post.username}`}>
+              <b>{post.username}</b>
+            </Link>
+          </span>
+          <span className='singlePostDate'>
+            {new Date(post.createdAt).toDateString()}
+          </span>
         </div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-          cumque vero sed officia unde libero tempore nihil nam molestiae,
-          distinctio at dolores mollitia, non necessitatibus quae suscipit omnis
-          esse et. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Maxime asperiores totam ab culpa. Optio consequuntur maxime repellat
-          earum ab dolorem, sequi ad aspernatur aperiam nesciunt rerum vitae
-          nihil laboriosam. Aperiam? Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Aperiam inventore quia ullam cumque, beatae
-          excepturi, minus sapiente sint pariatur iure molestias explicabo omnis
-          soluta maxime quo eius. Laboriosam, error quae!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-          cumque vero sed officia unde libero tempore nihil nam molestiae,
-          distinctio at dolores mollitia, non necessitatibus quae suscipit omnis
-          esse et. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Maxime asperiores totam ab culpa. Optio consequuntur maxime repellat
-          earum ab dolorem, sequi ad aspernatur aperiam nesciunt rerum vitae
-          nihil laboriosam. Aperiam? Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Aperiam inventore quia ullam cumque, beatae
-          excepturi, minus sapiente sint pariatur iure molestias explicabo omnis
-          soluta maxime quo eius. Laboriosam, error quae!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-          cumque vero sed officia unde libero tempore nihil nam molestiae,
-          distinctio at dolores mollitia, non necessitatibus quae suscipit omnis
-          esse et. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Maxime asperiores totam ab culpa. Optio consequuntur maxime repellat
-          earum ab dolorem, sequi ad aspernatur aperiam nesciunt rerum vitae
-          nihil laboriosam. Aperiam? Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Aperiam inventore quia ullam cumque, beatae
-          excepturi, minus sapiente sint pariatur iure molestias explicabo omnis
-          soluta maxime quo eius. Laboriosam, error quae!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-          cumque vero sed officia unde libero tempore nihil nam molestiae,
-          distinctio at dolores mollitia, non necessitatibus quae suscipit omnis
-          esse et. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Maxime asperiores totam ab culpa. Optio consequuntur maxime repellat
-          earum ab dolorem, sequi ad aspernatur aperiam nesciunt rerum vitae
-          nihil laboriosam. Aperiam? Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Aperiam inventore quia ullam cumque, beatae
-          excepturi, minus sapiente sint pariatur iure molestias explicabo omnis
-          soluta maxime quo eius. Laboriosam, error quae!
-        </p>
+        {post.description}
       </div>
     </div>
   );
