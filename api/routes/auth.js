@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 // Register
 
 router.post('/register', async (req, res) => {
+  console.log('reached the register api');
+
+  console.log(req.body);
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -12,8 +15,6 @@ router.post('/register', async (req, res) => {
       email: req.body.email,
       password: hashedPass,
     });
-
-    console.log('reached the register api');
 
     const user = await newUser.save();
     res.status(200).json(user);
@@ -24,6 +25,8 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    console.log('from auth.js api');
+
     const user = await User.findOne({ username: req.body.username });
     !user && res.status(400).json('Wrong credentials!');
     const validated = await bcrypt.compare(req.body.password, user.password);
