@@ -141,3 +141,7 @@
   margin: 20px 0;
   cursor: pointer;
 }
+.loginButton:disabled {
+  cursor: not-allowed;
+  background-color: bisque;
+}

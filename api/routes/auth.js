@@ -35,10 +35,10 @@ router.post('/login', async (req, res) => {
 
     // remove password from response
     const { password, ...others } = user._doc;
-
-    res.status(200).json(others);
+    // trying to return here for  Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    return res.status(200).json(others);
   } catch (error) {
-    res.status(500).json(error);
+    return res.status(500).json(error);
   }
 });
 module.exports = router;

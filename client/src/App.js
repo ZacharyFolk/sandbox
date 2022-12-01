@@ -1,25 +1,28 @@
 import * as React from 'react';
-import { useState, useEffect, Component } from 'react';
+import { useContext, useEffect, Component } from 'react';
 import { Routes, Route, Outlet, Link, useNavigate } from 'react-router-dom';
-import Terminal from './components/terminal/Terminal';
+import Terminal from './components/terminal/Terminal_Class';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
 import Single from './pages/single/Single';
+import Write from './pages/write/Write';
+import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
 
 export default function App() {
-  const user = false;
-  const test = true;
+  const { user } = useContext(Context);
   // const [value, parseIt] = setPath();
-
   // function setPath() {
   //   let navigate = useNavigate();
   //   console.log('run setPath');
   //   navigate('about');
   // }
+
+  console.log('FROM APP');
+  console.log(user);
   return (
     <div id='crt'>
       <div className='scanline'></div>
@@ -31,9 +34,9 @@ export default function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
-          <Route path='register' element={user ? <Home /> : <Register />} />
-          <Route path='login' element={user ? <Home /> : <Login />} />
-
+          <Route path='/register' element={user ? <Home /> : <Register />} />
+          <Route path='/login' element={user ? <Home /> : <Login />} />
+          <Route path='/write' element={user ? <Write /> : <Home />} />
           <Route path='/post/:postId' element={<Single />} />
 
           {/* Using path="*"" means "match anything", so this route
