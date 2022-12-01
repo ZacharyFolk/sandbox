@@ -8,6 +8,7 @@ const postsRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
 const multer = require('multer');
 const cors = require('cors');
+const path = require('path');
 const middlewares = require('./github/middlewares');
 const githubRoute = require('./github/githubRoutes');
 const discoRoute = require('./discogs/discoRoutes.js');
@@ -42,7 +43,7 @@ app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
 app.use('/github_api', githubRoute);
 app.use('/disco_api', discoRoute);
-
+app.use('/images', express.static(path.join(__dirname, '/images')));
 app.listen('9999', () => {
   console.log('Starting API server at localhost:9999');
 });
