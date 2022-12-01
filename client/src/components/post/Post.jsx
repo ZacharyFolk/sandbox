@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 export default function Post({ post }) {
+  const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   return (
     <div className='post'>
-      {post.photo && <img src={post.photo} alt='' className='postImg' />}
+      {post.photo && <img src={PF + post.photo} alt='' className='postImg' />}
       <div className='postInfo'>
         <div className='postCats'>
           {post.categories.map((c) => (
