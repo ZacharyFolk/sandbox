@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, Component } from 'react';
 import { Routes, Route, Outlet, Link, useNavigate } from 'react-router-dom';
-import Terminal from './components/terminal/Terminal_Class';
+import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';

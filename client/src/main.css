@@ -258,6 +258,19 @@ pre {
   max-width: 420px;
   width: 50%;
 }
+
+.singlePostWrapper input {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-color);
+  border: none;
+  border-bottom: 1px solid;
+}
+.singlePostWrapper input:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+.singlePostWrapper textarea {
+}
 /* GIT */
 
 .github-container {

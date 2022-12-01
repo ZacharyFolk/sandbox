@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 export default function Terminal() {
   const { user } = useContext(Context);
+  console.log(user);
   return (
     <div className='header'>
       <div className='terminal'>
@@ -15,7 +16,11 @@ export default function Terminal() {
         <Link to='/about'>
           <i className='fa-solid fa-circle-question'></i>
         </Link>
-        {user && <i className='fas fa-terminal'></i>}
+        {user && (
+          <a href='/write'>
+            <i className='fas fa-feather'></i>
+          </a>
+        )}
         {/* <i className='fas fa-terminal'></i> */}
       </div>
     </div>
