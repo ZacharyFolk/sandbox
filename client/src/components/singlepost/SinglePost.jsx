@@ -9,6 +9,7 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   const { user } = useContext(Context);
+  const content = post.description;
   useEffect(() => {
     const getPost = async () => {
       const res = await axios.get('/posts/' + postid);
@@ -22,7 +23,6 @@ export default function SinglePost() {
         {post.photo && (
           <img src={PF + post.photo} alt='' className='singlePostImg' />
         )}
-
         <h1 className='singlePostTitle'>
           {post.title}
           {post.username === user?.username && ( // this syntax checks that post author matches logged in user and ? prevents error if user null
@@ -43,7 +43,7 @@ export default function SinglePost() {
             {new Date(post.createdAt).toDateString()}
           </span>
         </div>
-        {post.description}
+        <div dangerouslySetInnerHTML={{ __html: content }} />;
       </div>
     </div>
   );
