@@ -25,20 +25,24 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    console.log('from auth.js api');
-
     const user = await User.findOne({ username: req.body.username });
+
     !user && res.status(400).json('Wrong credentials!');
-    const validated = await bcrypt.compare(req.body.password, user.password);
 
-    !validated && res.status(400).json('Wrong credentials!');
-
-    // remove password from response
-    const { password, ...others } = user._doc;
-    // trying to return here for  Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-    return res.status(200).json(others);
+    if (user) {
+      const validated = await bcrypt.compare(req.body.password, user.password);
+      if (validated) {
+        console.log('Success, logged in');
+        //console.log(user._doc);
+        // remove password from response
+        const { password, ...others } = user._doc;
+        res.status(200).json(others);
+      } else {
+        res.status(400).json('Nope.');
+      }
+    }
   } catch (error) {
-    return res.status(500).json(error);
+    res.status(500).json(error);
   }
 });
 module.exports = router;
