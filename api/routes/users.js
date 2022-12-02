@@ -2,10 +2,35 @@ const router = require('express').Router();
 const User = require('../models/User');
 const Post = require('../models/Post');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+// VERIFY
 
+const verify = (req, res, next) => {
+  console.log('reached VERIFY');
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    // console.log('in authHeader');
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, process.env.JWT_KEY, (err, payload) => {
+      if (err) {
+        return res.status(403).json('Token is not valid!');
+      }
+      console.log('Success! Token is validated.');
+      console.log(payload);
+      req.payload = payload;
+      // console.log(res);
+      next();
+    });
+  } else {
+    res.status(401).json('You are not authenticated!');
+  }
+};
 // UPDATE
 router.put('/:id', async (req, res) => {
-  if (req.body.userId === req.params.id) {
+  console.log('reached update user');
+  console.log(req.payload);
+  if (req.payload.id === req.params.id) {
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
@@ -29,11 +54,14 @@ router.put('/:id', async (req, res) => {
 
 // DELETE
 
-router.delete('/:id', async (req, res) => {
-  if (req.body.userId === req.params.id) {
+router.delete('/:id', verify, async (req, res) => {
+  console.log('reached delete user');
+  // console.log(req);
+  console.log(req.payload);
+
+  if (req.payload.id === req.params.id) {
     try {
       const user = await User.findById(req.params.id);
-
       try {
         await Post.deleteMany({ username: user.username });
         await User.findByIdAndDelete(req.params.id);

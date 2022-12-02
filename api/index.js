@@ -12,6 +12,7 @@ const path = require('path');
 const middlewares = require('./github/middlewares');
 const githubRoute = require('./github/githubRoutes');
 const discoRoute = require('./discogs/discoRoutes.js');
+
 dotenv.config();
 mongoose
   .connect(process.env.MONGO_URL, {
