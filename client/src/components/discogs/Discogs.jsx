@@ -23,7 +23,7 @@ function Discogs() {
     fetchCollection();
   }, []);
 
-  console.log(discoresults);
+  //console.log(discoresults);
   return (
     <>
       <div className='container'>
@@ -37,7 +37,7 @@ function Disco({ discoresults }) {
   const page = discoresults.pagination;
   const records = discoresults.releases;
 
-  console.log(records);
+  // console.log(records);
   if (records) {
     return (
       <div className='disc'>
@@ -54,7 +54,7 @@ function Disc({ discinfo }) {
   let imgsrc = discinfo.cover_image;
   let artist = discinfo.artists[0].name;
 
-  console.log(discinfo);
+  // console.log(discinfo);
 
   return (
     <div className='record-container'>

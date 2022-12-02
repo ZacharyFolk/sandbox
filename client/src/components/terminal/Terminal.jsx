@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 export default function Terminal() {
   const { user } = useContext(Context);
-  console.log(user);
+
   return (
     <div className='header'>
       <div className='terminal'>

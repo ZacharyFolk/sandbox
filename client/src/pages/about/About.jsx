@@ -75,7 +75,7 @@ export default function About() {
         <div className='row'>
           <div className='col github-container'>
             <h2>
-              <i class='fab fa-github-alt'></i> Latest Commits from Github
+              <i className='fab fa-github-alt'></i> Latest Commits from Github
             </h2>
             <Git />
           </div>

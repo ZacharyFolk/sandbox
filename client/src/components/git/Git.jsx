@@ -6,27 +6,29 @@ function Git() {
 
   const url = 'http://localhost:9999/github_api/commit/ZacharyFolk/sandbox';
   const localcommits = sessionStorage.getItem('latest-commits');
+  const fetchCommits = async () => {
+    if (!localcommits) {
+      const res = await axios.get(url);
+      const result = await res.data;
+      console.log('REQUEST MADE TO GITHUB.API');
+      sessionStorage.setItem('latest-commits', JSON.stringify(result));
+      setCommits(result);
+      // return (commits = result); // this works to use state immediately
+    }
+  };
 
   useEffect(() => {
-    const fetchCommits = async () => {
-      if (!localcommits) {
-        const res = await axios.get(url);
-        const result = await res.data;
-        console.log('REQUEST MADE TO GITHUB.API');
-        sessionStorage.setItem('latest-commits', JSON.stringify(result));
-        setCommits(result);
-        // return (commits = result); // this works to use state immediately
-      }
-
-      setCommits(JSON.parse(localcommits));
-    };
     fetchCommits();
   }, []);
 
+  // Doing this so it can be used immediately after being set from to localstorage from the initial fetch
+  useEffect(() => {
+    setCommits(JSON.parse(localcommits));
+  }, []);
   return (
     <>
       <div className='container'>
-        <Commits commits={commits} />
+        {commits && <Commits commits={commits} />}
       </div>
     </>
   );
