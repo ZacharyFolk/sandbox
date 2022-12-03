@@ -1,11 +1,67 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-// Register
 const jwt = require('jsonwebtoken');
+
+// REFRESH TOKEN
+let refreshTokens = [];
+
+router.post('/refresh', (req, res) => {
+  console.log('<===================== REFRESH =====================>');
+
+  // take the refresh token from the user
+  const refreshToken = req.body.token;
+  // send error if no token / not valid
+
+  console.log('REFRESH TOKEN: ', refreshToken);
+
+  if (!refreshToken) return res.status(401).json('You are not authenticated!');
+  // if (!refreshTokens.includes(refreshToken)) {
+  //   return res.status(403).json('Refresh token is not valid!');
+  // }
+
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
+    err && console.log(err);
+
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+    console.log('user: ', user);
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
+
+    refreshTokens.push(newRefreshToken);
+    console.log('REFRESH TOKENS : ', refreshTokens);
+
+    res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+  });
+  // all good, create new access token
+});
+
+const generateAccessToken = (user) => {
+  console.log(
+    '<===================== GENERATE ACCESS TOKEN =====================>'
+  );
+  console.log('user', user);
+
+  return jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+    expiresIn: '30s',
+  });
+};
+const generateRefreshToken = (user) => {
+  console.log(
+    '<===================== REFRESH ACCESS TOKEN =====================>'
+  );
+  console.log('user', user);
+
+  return jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY);
+};
+
+// REGISTER
 router.post('/register', async (req, res) => {
-  console.log('reached the register api');
-  console.log(req.body);
+  console.log('<===================== REGISTER =====================>');
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -16,36 +72,39 @@ router.post('/register', async (req, res) => {
     });
 
     const user = await newUser.save();
-    const accessToken = jwt.sign({ id: user._id }, process.env.JWT_KEY);
-    console.log('USER');
-    console.log(user);
-    console.log(
-      '=============================================================='
-    );
-
     const { password, ...others } = user._doc;
 
-    others.token = accessToken;
     res.status(200).json(others);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
+// LOGIN
 router.post('/login', async (req, res) => {
+  console.log('<===================== LOGIN =====================>');
   try {
     const user = await User.findOne({ username: req.body.username });
 
+    console.log('user: ', user);
     !user && res.status(400).json('Wrong credentials!');
 
     if (user) {
       const validated = await bcrypt.compare(req.body.password, user.password);
       if (validated) {
         console.log('Success, logged in');
-        console.log(user);
+        // console.log(user);
         // Generate an access token
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
 
-        const accessToken = jwt.sign({ id: user._id }, process.env.JWT_KEY);
+        console.log(
+          'ACCESS TOKEN',
+          accessToken,
+          ' REFRESH TOKEN',
+          refreshToken
+        );
+        refreshTokens.push(refreshToken);
 
         //console.log(user._doc);
         // remove password from response
@@ -53,6 +112,9 @@ router.post('/login', async (req, res) => {
 
         // to debug but otherwise do not include the token in the response!!
         // others.token = accessToken;
+
+        others.accessToken = accessToken;
+        others.refreshToken = refreshToken;
         res.status(200).json(others);
       } else {
         res.status(400).json('Nope.');
