@@ -6,7 +6,6 @@ export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
   const { dispatch, isFetching } = useContext(Context);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: 'LOGIN_START' });
@@ -15,12 +14,14 @@ export default function Login() {
         username: userRef.current.value,
         password: passwordRef.current.value,
       });
+
       console.log('Dispatch LOGIN_SUCCESS from login.jsx');
+      console.log('payload: res.data =>', res.data);
+
       dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
     } catch (error) {
       console.log('Dispatch LOGIN_FAILURE from login.jsx');
       console.log(error);
-
       dispatch({ type: 'LOGIN_FAILURE' });
     }
   };

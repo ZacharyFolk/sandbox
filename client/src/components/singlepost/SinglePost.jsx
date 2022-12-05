@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
+import jwt_decode from 'jwt-decode';
 export default function SinglePost() {
   const location = useLocation();
   // get the id for the post from pathname
@@ -9,20 +10,42 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   const { user } = useContext(Context);
-  const content = post.description;
+
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
 
+  const refreshToken = async () => {
+    console.log(user.accessToken);
+
+    console.log('RUNNING REFRESH TOKEN FUNCTION');
+    try {
+      const res = await axios.post('/auth/refresh', {
+        token: user.refreshToken,
+      });
+      user.accessToken = res.data.accessToken;
+      user.refreshToken = res.data.refreshToken;
+
+      console.log(user.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleDelete = async () => {
     console.log('clicked delete');
+    console.log('user from Context: ', user);
     try {
       // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
-      await axios.delete(`/posts/${post._id}`, {
+      await axiosJWT.delete(`/posts/${post._id}`, {
+        headers: { Authorization: 'Bearer ' + user.accessToken },
         data: { username: user.username },
       });
-      window.location.replace('/');
-    } catch (error) {}
+      console.log('DELETE WORKED');
+      // window.location.replace('/');
+    } catch (error) {
+      console.log('Delete dd not work', 'Error: ', error);
+    }
   };
 
   const handleUpdate = async () => {
@@ -38,6 +61,24 @@ export default function SinglePost() {
     } catch (error) {}
   };
 
+  const axiosJWT = axios.create();
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      console.log('INTERCEPTED');
+      let currentDate = new Date();
+      const decodedToken = jwt_decode(user.accessToken);
+      console.log(decodedToken);
+      if (decodedToken.exp * 1000 < currentDate.getTime()) {
+        await refreshToken();
+
+        config.headers['Authorization'] = 'Bearer ' + user.accessToken;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
   useEffect(() => {
     const getPost = async () => {
       const res = await axios.get('/posts/' + postid);
@@ -47,6 +88,7 @@ export default function SinglePost() {
     };
     getPost();
   }, [postid]);
+
   return (
     <div className='singlePost'>
       <div className='singlePostWrapper'>
@@ -78,6 +120,7 @@ export default function SinglePost() {
           </h1>
         )}
         <div className='singlePostInfo'>
+          <button className='testRefresh' onClick={refreshToken}></button>
           <span className='singlePostAuthor'>
             Author:
             <Link to={`/?user=${post.username}`}>

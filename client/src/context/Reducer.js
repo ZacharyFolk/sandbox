@@ -1,4 +1,7 @@
 const Reducer = (state, action) => {
+  console.log('{{{{{{{{{{{{{{ FROM THE REDUCER }}}}}}}}}}}}}}}}}');
+  console.log('state: ', state, ' action: ', action);
+
   switch (action.type) {
     case 'LOGIN_START':
       return {

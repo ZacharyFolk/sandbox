@@ -30,29 +30,29 @@ const verify = (req, res, next) => {
   }
 };
 // UPDATE
-router.put('/:id', async (req, res) => {
+router.put('/:id', verify, async (req, res) => {
   console.log('reached update user');
-  console.log(req.payload);
-  if (req.payload.id === req.params.id) {
-    if (req.body.password) {
-      const salt = await bcrypt.genSalt(10);
-      req.body.password = await bcrypt.hash(req.body.password, salt);
-    }
-    try {
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true } // sends updated user in response not original
-      );
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  } else {
-    res.status(401).json('You can only update your own account!');
-  }
+
+  // if (req.payload.id === req.params.id) {
+  //   if (req.body.password) {
+  //     const salt = await bcrypt.genSalt(10);
+  //     req.body.password = await bcrypt.hash(req.body.password, salt);
+  //   }
+  //   try {
+  //     const updatedUser = await User.findByIdAndUpdate(
+  //       req.params.id,
+  //       {
+  //         $set: req.body,
+  //       },
+  //       { new: true } // sends updated user in response not original
+  //     );
+  //     res.status(200).json(updatedUser);
+  //   } catch (error) {
+  //     res.status(500).json(error);
+  //   }
+  // } else {
+  //   res.status(401).json('You can only update your own account!');
+  // }
 });
 
 // DELETE
@@ -82,7 +82,7 @@ router.delete('/:id', verify, async (req, res) => {
           req.params.id
         );
 
-        res.status(200).json('User has been deleted...');
+        res.status(200).json('User has been deleted... (not really) ');
       } catch (error) {
         res.status(500).json(error);
       }

@@ -2,6 +2,32 @@ const router = require('express').Router();
 const User = require('../models/User');
 const Post = require('../models/Post');
 const { response } = require('express');
+const jwt = require('jsonwebtoken');
+// Refresh token
+let refreshTokens = [];
+// VERIFY
+const verify = (req, res, next) => {
+  console.log('<===================== VERIFY =====================>');
+  const authHeader = req.headers.authorization;
+  console.log('authHeader: ', authHeader);
+
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_KEY, (err, payload) => {
+      if (err) {
+        console.log('TOKEN NOT VALID');
+        return res.status(403).json('Token is not valid!');
+      }
+      console.log('Success! Token is validated.');
+
+      req.payload = payload;
+      // console.log(res);
+      next();
+    });
+  } else {
+    res.status(401).json('You are not authenticated!');
+  }
+};
 
 // CREATE NEW POST
 router.post('/', async (req, res) => {
@@ -16,7 +42,7 @@ router.post('/', async (req, res) => {
 
 // UPDATE POST
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', verify, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.username === req.body.username) {
@@ -42,13 +68,23 @@ router.put('/:id', async (req, res) => {
 
 // DELETE POST
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verify, async (req, res) => {
+  console.log('<========== DELETE POST ==========>');
+
+  const refreshToken = req.body.token;
+  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+  console.log('Refresh Tokens :', refreshTokens);
+
+  console.log('req.body: ', req.body);
+  console.log('req.payload:', req.payload);
+
   try {
     const post = await Post.findById(req.params.id);
     console.log(post.username);
     if (post.username === req.body.username) {
       try {
-        await post.delete();
+        // await post.delete();
+        console.log('MADE IT TO DELETE POST!');
         res.status(200).json('Post is deleted');
       } catch (error) {
         res.status(500).json(error);

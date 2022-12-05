@@ -82,7 +82,7 @@ router.post('/register', async (req, res) => {
 
 // LOGIN
 router.post('/login', async (req, res) => {
-  console.log('<===================== LOGIN =====================>');
+  console.log('<===================== LOGIN API =====================>');
   try {
     const user = await User.findOne({ username: req.body.username });
 
@@ -110,11 +110,10 @@ router.post('/login', async (req, res) => {
         // remove password from response
         const { password, ...others } = user._doc;
 
-        // to debug but otherwise do not include the token in the response!!
-        // others.token = accessToken;
-
         others.accessToken = accessToken;
         others.refreshToken = refreshToken;
+
+        console.log('LOGIN RESPONSE : ', others);
         res.status(200).json(others);
       } else {
         res.status(400).json('Nope.');

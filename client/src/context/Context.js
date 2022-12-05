@@ -12,7 +12,8 @@ export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
 
   // useEffect to set localStorage
-
+  // TODO : Here remove accessToken from localStorage so it just stays in memory for user
+  // Still store refreshToken and this should work but why is refreshToekn any more secure when it can just be forged to /refresh route
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(state.user));
   }, [state.user]);

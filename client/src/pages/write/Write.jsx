@@ -3,17 +3,16 @@ import axios from 'axios';
 import { Context } from '../../context/Context';
 export default function Write() {
   const [title, setTitle] = useState('');
-  const [description, sestDesc] = useState('');
+  const [desc, sestDesc] = useState('');
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('clicked');
     const newPost = {
       username: user.username,
       title,
-      description,
+      desc,
     };
     if (file) {
       const data = new FormData();
