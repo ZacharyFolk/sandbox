@@ -70,7 +70,7 @@ export default function SinglePost() {
       console.log(decodedToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
         await refreshToken();
-
+        console.log('INTERECEPTED user: ', user);
         config.headers['Authorization'] = 'Bearer ' + user.accessToken;
       }
       return config;

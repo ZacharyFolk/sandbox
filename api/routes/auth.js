@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 let refreshTokens = [];
 
 router.post('/refresh', (req, res) => {
+  // TODO : Since this has a route and if refreshToken is in localstorage how is this secure?  Would cookie be better to keep the refresdhToken?  accessToken will alway just be stored in memory of user object?  Will this work ok with Context and how it is using localStorage?
+
   console.log('<===================== REFRESH =====================>');
 
   // take the refresh token from the user
@@ -110,6 +112,8 @@ router.post('/login', async (req, res) => {
         // remove password from response
         const { password, ...others } = user._doc;
 
+        //  TODO : Maybe here instead update the user object with the tokens
+        // Should leave refreshToken in object though?
         others.accessToken = accessToken;
         others.refreshToken = refreshToken;
 
