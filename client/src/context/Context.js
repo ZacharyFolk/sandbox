@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   isFetching: false,
   error: false,
+  //  command: null,
 };
 export const Context = createContext(INITIAL_STATE);
 
@@ -20,12 +21,17 @@ export const ContextProvider = ({ children }) => {
   // https://reactjs.org/docs/context.html#contextprovider
   // All consumers that are descendants of a Provider will re-render whenever the Provider’s value prop changes
   // changes determined like Object.is
+
+  // useEffect(() => {
+  //   console.log('FROM CONTEXT: ', state.command);
+  // }, [state.command]);
   return (
     <Context.Provider
       value={{
         user: state.user,
         isFetching: state.isFetching,
         error: state.error,
+        //      command: state.command,
         dispatch,
       }}
     >

@@ -42,13 +42,14 @@ export default function SinglePost() {
         data: { username: user.username },
       });
       console.log('DELETE WORKED');
-      // window.location.replace('/');
+      window.location.replace('/');
     } catch (error) {
       console.log('Delete dd not work', 'Error: ', error);
     }
   };
 
   const handleUpdate = async () => {
+    console.log(post);
     try {
       await axios.put(`/posts/${post._id}`, {
         username: user.username,
@@ -58,7 +59,9 @@ export default function SinglePost() {
 
       // window.location.reload();
       setUpdateMode(false);
-    } catch (error) {}
+    } catch (error) {
+      console.log('Problem updating, error: ', error.response.data);
+    }
   };
 
   const axiosJWT = axios.create();
@@ -89,6 +92,9 @@ export default function SinglePost() {
     getPost();
   }, [postid]);
 
+  if (!post) {
+    return <div>Nothing here</div>;
+  }
   return (
     <div className='singlePost'>
       <div className='singlePostWrapper'>
@@ -120,7 +126,6 @@ export default function SinglePost() {
           </h1>
         )}
         <div className='singlePostInfo'>
-          <button className='testRefresh' onClick={refreshToken}></button>
           <span className='singlePostAuthor'>
             Author:
             <Link to={`/?user=${post.username}`}>
@@ -153,16 +158,6 @@ export default function SinglePost() {
   );
 }
 
-// example for sanitizing the data
-
-// import DOMPurify from 'dompurify'
-
-//   const data = `lorem <b onmouseover="alert('mouseover');">ipsum</b>`
-//   const sanitizedData = () => ({
-//     __html: DOMPurify.sanitize(data)
-//   })
-
-//   return (
-//     <div
-//       dangerouslySetInnerHTML={sanitizedData()}
-//     />
+// dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.desc) }}
+// DOMPurify removes too much, if use want to configure
+// https://github.com/cure53/DOMPurify/tree/main/demos#what-is-this

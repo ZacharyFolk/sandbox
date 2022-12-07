@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import './home.css';
 import Posts from '../../components/posts/Posts';
 import Sidebar from '../../components/sidebar/Sidebar';
+
 import axios from 'axios';
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -21,8 +22,9 @@ export default function Home() {
   return (
     <>
       <div className='container main'>
-        <Posts posts={posts} />
-        <Sidebar />
+        <div className='row'>
+          <Posts posts={posts} />
+        </div>
       </div>
     </>
   );

@@ -1,34 +1,117 @@
-.sidebar {
-  flex: 3;
+.container {
+  width: 96%;
+  max-width: 1640px;
+  margin: 0 auto;
 }
-.posts,
-.singlePost {
-  flex: 9;
-}
-
-.sidebarItem {
+.header-container {
+  padding: 20px 0;
+  max-width: 1640px;
   display: flex;
-  flex-direction: column;
+  margin: 0 auto;
 }
-.sidebarTitle {
-  margin: 10px 0;
-  padding: 10px 0;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
+.posts {
+  flex: 0 0 70%;
+}
+.posts-container {
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 90%;
+  margin: 0 auto;
+  flex: 0 0 70%;
+  max-width: 950px;
+  border: 1px dashed var(--primary-color);
+  padding: 30px 50px 140px;
+  /* grid definition */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: 20px;
+  grid-column-gap: 60px;
+
+  max-height: 560px;
+  overflow: auto;
+}
+.sub-heading {
+  border-bottom: 1px dashed var(--secondary-color);
+  padding-bottom: 20px;
+  margin-bottom: 60px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-align: center;
+}
+.target-output {
+  margin: 30px;
+  height: 60px;
+  overflow: auto;
+}
+/* ******************
+*                   *
+*    From Typist    *
+*                   *
+****************** */
+
+.cursor {
+  opacity: 1;
+  animation: blink 1s linear infinite;
+  margin: 0 8px;
 }
 
-.sidebarList {
-  list-style: none;
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.sidebarList li {
-  display: inline-block;
-  width: 50%;
-  margin: 5px 0;
+/* .posts-container .post {
+  padding: 20px 0;
+  flex: 0 0 95%;
+} */
+
+/* 2 across */
+/* .posts-container .post {
+  flex: 0 0 46%;
+  padding: 2%;
+} */
+
+.posts-container .post {
+  flex: 0 0 30%;
+  padding: 0 0 0 1%;
 }
 
-.post {
-  width: 300px;
+.post img,
+.singlePost img {
+  max-width: 100%;
+}
+/* replace scrollbars */
+
+.new-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+}
+/* width */
+.new-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.new-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.new-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.new-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .write {

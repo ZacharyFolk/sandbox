@@ -42,9 +42,12 @@ router.post('/', async (req, res) => {
 
 // UPDATE POST
 
-router.put('/:id', verify, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+
+    console.log(post.username);
+    console.log(req.body.username);
     if (post.username === req.body.username) {
       try {
         const updatedPost = await Post.findByIdAndUpdate(
@@ -83,7 +86,7 @@ router.delete('/:id', verify, async (req, res) => {
     console.log(post.username);
     if (post.username === req.body.username) {
       try {
-        // await post.delete();
+        await post.delete();
         console.log('MADE IT TO DELETE POST!');
         res.status(200).json('Post is deleted');
       } catch (error) {

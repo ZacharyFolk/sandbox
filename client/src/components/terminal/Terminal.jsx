@@ -1,28 +1,135 @@
-import { useContext } from 'react';
+import {
+  useContext,
+  useState,
+  useEffect,
+  ReactDOM,
+  useRef,
+  createRef,
+} from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
+import Typist from 'react-typist-component';
 export default function Terminal() {
+  const initialText = () => {
+    return (
+      <Typist typingDelay={100} cursor={<span className='cursor'>|</span>}>
+        **** ZACS WEBSITE BASIC V 0.0 ****
+        <br />
+      </Typist>
+    );
+  };
   const { user } = useContext(Context);
+  const [command, setCommand] = useState('');
+  const [getOutput, setOutput] = useState(initialText);
+  const target = createRef();
+
+  const MyComponent = () => {
+    return (
+      <Typist typingDelay={100} cursor={<span className='cursor'>|</span>}>
+        This is a typo
+        <br />
+        <Typist.Backspace count={5} />
+        <Typist.Delay ms={1500} />
+        react component
+        <Typist.Paste>
+          <div>
+            use
+            <div>deeper div</div>
+          </div>
+        </Typist.Paste>
+      </Typist>
+    );
+  };
+
+  const handleKeys = (e) => {
+    // let len = this.keys.length;
+    // this.setState({ number: Math.floor(Math.random() * len) });
+    // new Audio(this.keys[this.state.number]).play();
+    console.log(e.keyCode);
+    console.log('from handleKeys');
+
+    // console.log(this.props.parseIt);
+
+    let code = e.keyCode;
+    switch (code) {
+      case 13:
+        e.preventDefault();
+        let typed = e.target.textContent;
+        e.target.innerHTML = '';
+
+        //  e.target.setAttribute('contenteditable', false);
+        // this.setState({ userinput: typed }, function () {
+        //   let string = this.state.userinput;
+
+        //   let command = string.toLowerCase();
+
+        //   this.commander(command);
+        // });
+        // console.log(this.state.userinput); // Can not use immediately so why need callback ^
+        console.log('pressed enter');
+        setOutput('');
+        setCommand(typed);
+
+        break;
+      default:
+        console.log('soomething else');
+    }
+  };
+
+  useEffect(() => {
+    switch (command) {
+      case 'home':
+        window.location.replace('/');
+        break;
+      case 'about':
+      case 'zac':
+        // window.location.replace('/about/');
+
+        setOutput(MyComponent);
+        //  setOutput('<h1>Oh wow</h1>');
+        break;
+      case 'login':
+        window.location.replace('/login/');
+        break;
+      default:
+        console.log('neat');
+    }
+  }, [command]);
 
   return (
-    <div className='header'>
-      <div className='terminal'>
-        <span className='terminal-input' contentEditable='true'></span>
+    <>
+      <div className='header'>
+        <div className='header-container'>
+          <div className='terminal'>
+            <span
+              className='terminal-input'
+              contentEditable='true'
+              suppressContentEditableWarning={true} // yea I know what I am doing 😜
+              onKeyDown={(e) => handleKeys(e)}
+            ></span>
+          </div>
+
+          <div className='tools'>
+            <Link to='/'>
+              <i className='fa-solid fa-house'></i>
+            </Link>
+            <Link to='/about'>
+              <i className='fa-solid fa-circle-question'></i>
+            </Link>
+            {user && (
+              <a href='/write'>
+                <i className='fas fa-feather'></i>
+              </a>
+            )}
+            {/* <i className='fas fa-terminal'></i> */}
+          </div>
+        </div>
       </div>
-      <div className='tools'>
-        <Link to='/'>
-          <i className='fa-solid fa-house'></i>
-        </Link>
-        <Link to='/about'>
-          <i className='fa-solid fa-circle-question'></i>
-        </Link>
-        {user && (
-          <a href='/write'>
-            <i className='fas fa-feather'></i>
-          </a>
-        )}
-        {/* <i className='fas fa-terminal'></i> */}
+      <div className='container'>
+        <div id='targetOutput' ref={target}>
+          {getOutput}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
