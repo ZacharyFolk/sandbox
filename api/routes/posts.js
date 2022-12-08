@@ -30,10 +30,17 @@ const verify = (req, res, next) => {
 };
 
 // CREATE NEW POST
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
   const newPost = new Post(req.body);
+  const refreshToken = req.body.token;
+
+  console.log('refreshToken: ', refreshToken);
+  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
   console.log('<============== CREATING A NEW POST =====================>');
   console.log(req.body);
+  console.log('Refresh Tokens :', refreshTokens);
+  console.log('req.payload:', req.payload);
   try {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
@@ -44,27 +51,33 @@ router.post('/', async (req, res) => {
 
 // UPDATE POST
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', verify, async (req, res) => {
+  console.log('<============== UPDATING A POST =====================>');
+
   try {
     const post = await Post.findById(req.params.id);
 
-    console.log(post.username);
-    console.log(req.body.username);
-    if (post.username === req.body.username) {
-      try {
-        const updatedPost = await Post.findByIdAndUpdate(
-          req.params.id,
-          {
-            $set: req.body,
-          },
-          { new: true }
-        );
-        res.status(200).json(updatedPost);
-      } catch (error) {
-        res.status(500).json(error);
+    console.log('post: ', post);
+    if (post) {
+      console.log('found a post');
+      if (post.username === req.body.username) {
+        try {
+          const updatedPost = await Post.findByIdAndUpdate(
+            req.params.id,
+            {
+              $set: req.body,
+            },
+            { new: true }
+          );
+          res.status(200).json(updatedPost);
+        } catch (error) {
+          res.status(500).json(error);
+        }
+      } else {
+        res.status(401).json('You can only update your own posts');
       }
     } else {
-      res.status(401).json('You can only update your own posts');
+      res.status(500).json('Can not find this post');
     }
   } catch (error) {
     res.status(500).json(error);
