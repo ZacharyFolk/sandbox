@@ -11,9 +11,10 @@ import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
 export default function Terminal() {
   const initialText = () => {
+    //  cursor={<span className='cursor'>|</span>}
     return (
-      <Typist typingDelay={100} cursor={<span className='cursor'>|</span>}>
-        **** ZACS WEBSITE BASIC V 0.0 ****
+      <Typist typingDelay={100}>
+        <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 0.0 ****</h1>
         <br />
       </Typist>
     );

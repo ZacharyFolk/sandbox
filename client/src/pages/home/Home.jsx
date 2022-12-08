@@ -22,8 +22,26 @@ export default function Home() {
   return (
     <>
       <div className='container main'>
-        <div className='row'>
-          <Posts posts={posts} />
+        <Posts posts={posts} />
+        <div className='col site-summary'>
+          <p>Hi!</p>
+          <p>
+            Thanks for visiting my website. This is a sandbox for me to
+            experiment with web development and share some of my ramblings and
+            thoughts about technology in my blog.
+          </p>
+          <p>
+            You can try and type commands at the terminal prompt and see what
+            happens! This is a project of love and a place you can find out more
+            about me and my work. If you are interested in working together or
+            just want to say hey then reach out!
+          </p>
+          <p>
+            You can also check out my photography at{' '}
+            <a href='https://folkphotography.com' target='_blank'>
+              Folk Photography
+            </a>
+          </p>
         </div>
       </div>
     </>

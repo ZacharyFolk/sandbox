@@ -31,11 +31,6 @@ export default function Post({ post }) {
         <span className='post-heading'>
           -rw-r--r-- 1 root root {time} {post.title}
         </span>
-
-        <hr />
-        <span className='postDate'>
-          {new Date(post.createdAt).toDateString()}
-        </span>
       </div>
       <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(excerpt) }}></p>
       <Link to={`/post/${post._id}`}>Read the full post &gt;</Link>

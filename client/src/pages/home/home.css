@@ -3,11 +3,24 @@
   max-width: 1640px;
   margin: 0 auto;
 }
+.main {
+  padding: 0 90px;
+}
+
+.main-heading {
+  font-size: 80%;
+  text-align: center;
+}
 .header-container {
   padding: 20px 0;
   max-width: 1640px;
   display: flex;
   margin: 0 auto;
+}
+
+.site-summary {
+  padding: 0 40px;
+  width: 40%;
 }
 .posts {
   flex: 0 0 70%;
@@ -15,19 +28,10 @@
 .posts-container {
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: 90%;
-  margin: 0 auto;
-  flex: 0 0 70%;
-  max-width: 950px;
-  border: 1px dashed var(--primary-color);
-  padding: 30px 50px 140px;
-  /* grid definition */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 20px;
-  grid-column-gap: 60px;
-
-  max-height: 560px;
+  width: 50%;
+  border-top: 1px dashed var(--primary-color);
+  padding: 30px 0 0;
+  height: 420px;
   overflow: auto;
 }
 .sub-heading {
@@ -38,7 +42,7 @@
   grid-column-end: 3;
   text-align: center;
 }
-.target-output {
+#targetOutput {
   margin: 30px;
   height: 60px;
   overflow: auto;
@@ -80,7 +84,8 @@
 
 .posts-container .post {
   flex: 0 0 30%;
-  padding: 0 0 0 1%;
+  padding: 20px 0 30px;
+  border-bottom: 1px dashed var(--primary-color);
 }
 
 .post img,
@@ -101,17 +106,17 @@
 
 /* Track */
 .new-scroll::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgb(23, 33, 26);
 }
 
 /* Handle */
 .new-scroll::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--secondary-color);
 }
 
 /* Handle on hover */
 .new-scroll::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--primary-color);
 }
 
 .write {

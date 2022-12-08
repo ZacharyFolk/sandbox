@@ -32,6 +32,8 @@ const verify = (req, res, next) => {
 // CREATE NEW POST
 router.post('/', async (req, res) => {
   const newPost = new Post(req.body);
+  console.log('<============== CREATING A NEW POST =====================>');
+  console.log(req.body);
   try {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);

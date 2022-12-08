@@ -7,7 +7,7 @@ export default function About() {
   return (
     <>
       <div className='container'>
-        <div className='row'>
+        <div className='row centered'>
           <div className='col selfie-container'>
             <img src={selfie} alt='me' />
             <div className='social-container'>

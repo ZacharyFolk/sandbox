@@ -1,6 +1,6 @@
 :root {
   --primary-color: #5bf870;
-  --secondary-color: #25632d;
+  --secondary-color: #2e7938;
   --dark: #050505;
   --bg: #05321e;
 }
@@ -227,8 +227,9 @@ pre {
 }
 .row {
   display: flex;
-
   width: 100%;
+}
+.centered {
   justify-content: center;
 }
 .col {
@@ -346,6 +347,7 @@ pre {
 
 .discogs-container {
   width: 75%;
+  margin: 0 auto;
 }
 .disc {
   display: flex;
