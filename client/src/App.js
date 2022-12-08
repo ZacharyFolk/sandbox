@@ -12,7 +12,8 @@ import Settings from './pages/settings/Settings';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
-
+import Favicon from 'react-favicon';
+import blinky from './blinky';
 export default function App() {
   const { user } = useContext(Context);
   // const [value, parseIt] = setPath();
@@ -55,6 +56,7 @@ function Layout() {
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
+      <Favicon url={blinky} animationDelay={500} iconSize={16} />
       <Terminal />
       {/* 
       <nav>
