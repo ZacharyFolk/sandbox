@@ -14,7 +14,7 @@ export default function Terminal() {
     //  cursor={<span className='cursor'>|</span>}
     return (
       <Typist typingDelay={100}>
-        <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 0.0 ****</h1>
+        <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 0.1 ****</h1>
         <br />
       </Typist>
     );
@@ -38,6 +38,15 @@ export default function Terminal() {
             <div>deeper div</div>
           </div>
         </Typist.Paste>
+      </Typist>
+    );
+  };
+  const Help = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+        I am here to help! Contact me and let me know what I can do for you.
+        <br /> You can reach out to zacharyfolk@gmail.com or give me call @
+        206.714.5203.
       </Typist>
     );
   };
@@ -89,6 +98,11 @@ export default function Terminal() {
         setOutput(MyComponent);
         //  setOutput('<h1>Oh wow</h1>');
         break;
+      case 'help':
+      case '?':
+      case 'contact':
+        setOutput(Help);
+        break;
       case 'login':
         window.location.replace('/login/');
         break;
@@ -127,7 +141,7 @@ export default function Terminal() {
         </div>
       </div>
       <div className='container'>
-        <div id='targetOutput' ref={target}>
+        <div id='targetOutput' className='new-scroll' ref={target}>
           {getOutput}
         </div>
       </div>

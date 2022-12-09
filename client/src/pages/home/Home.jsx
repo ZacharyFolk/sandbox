@@ -23,7 +23,7 @@ export default function Home() {
     <>
       <div className='container main'>
         <Posts posts={posts} />
-        <div className='col site-summary'>
+        {/* <div className='col site-summary'>
           <p>Hi!</p>
           <p>
             Thanks for visiting my website. This is a sandbox for me to
@@ -42,7 +42,7 @@ export default function Home() {
               Folk Photography
             </a>
           </p>
-        </div>
+        </div> */}
       </div>
     </>
   );

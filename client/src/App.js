@@ -58,6 +58,7 @@ function Layout() {
           share across all the pages on your site, like navigation. */}
       <Favicon url={blinky} animationDelay={500} iconSize={16} />
       <Terminal />
+
       {/* 
       <nav>
         <ul>

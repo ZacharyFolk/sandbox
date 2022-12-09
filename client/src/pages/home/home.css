@@ -3,9 +3,6 @@
   max-width: 1420px;
   margin: 0 auto;
 }
-.main {
-  padding: 0 90px;
-}
 
 .main-heading {
   font-size: 1.4em;
@@ -44,9 +41,13 @@
   text-align: center;
 }
 #targetOutput {
-  margin: 30px;
+  margin: 30px 20px;
   height: 60px;
   overflow: auto;
+}
+
+#targetOutput h2 {
+  margin-bottom: 6px;
 }
 /* ******************
 *                   *
@@ -83,6 +84,10 @@
   padding: 2%;
 } */
 
+.post-wrapper {
+  width: 94%;
+  margin: 0 auto;
+}
 .posts-container .post {
   flex: 0 0 30%;
   padding: 20px 40px 30px 20px;

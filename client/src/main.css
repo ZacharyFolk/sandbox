@@ -45,38 +45,12 @@ body {
 }
 
 /* http://aleclownes.com/2017/02/01/crt-display.html */
-#crt,
-pre {
-  font-family: 'VT323', monospace;
-}
-#crt {
-  min-width: 80ch; /* This makes 80 monospace characters fit on the screen */
-  /* height: calc(80ch * 0.8); */
-  /* font-size: max(
-    1rem,
-    2.2vmin
-  ); 
-   */
-
-  /* Scale the font-size relative to the minimum screen dimension */
-  position: relative;
-  background: var(--bg);
-  background-image: radial-gradient(ellipse, var(--bg) 0%, var(--off) 90%);
-  animation: on 2s linear;
-  transition: all 0.5s;
-}
 
 #crt {
+  font-family: Consolas, monaco, monospace;
   position: relative;
   background: var(--bg);
   background-image: radial-gradient(ellipse, var(--bg) 0%, var(--dark) 90%);
-  animation: on 2s linear;
-  transition: all 0.5s;
-  background: #05321e;
-  background-image: radial-gradient(ellipse, var(--bg) 0%, var(--dark) 90%);
-  position: relative;
-  left: 0;
-  top: 0;
   width: 100%;
   min-height: 100%;
 }
@@ -144,6 +118,7 @@ pre {
   flex: 9;
 }
 .tools {
+  font-size: 20px;
   margin-right: 40px;
 }
 .tools a {
@@ -347,12 +322,12 @@ pre {
 
 .discogs-container {
   width: 75%;
-  margin: 0 auto;
+  margin: 0 auto 300px;
 }
 .disc {
   display: flex;
   flex-wrap: wrap;
-  max-height: 200px;
+  max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
@@ -371,7 +346,8 @@ pre {
 @media only screen and (max-width: 799px) {
   .row {
     flex-direction: column;
-    width: 70%;
+    margin: 0 auto;
+    width: 90%;
   }
 
   .col {

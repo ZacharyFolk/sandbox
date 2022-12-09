@@ -1,9 +1,5 @@
-# Zacs Sandbox
+# Zacs Website
 
 ---
 
-    Changelog
-
-#### [0.0.0] - 2022-11-20
-
-Just getting started
+This is my personal site where I keep a blog and work on random javaScript experiments as I learn the MERN stack.
