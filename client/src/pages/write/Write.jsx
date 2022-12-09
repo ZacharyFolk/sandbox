@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
+import jwt_decode from 'jwt-decode';
+
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, sestDesc] = useState('');
@@ -26,11 +28,45 @@ export default function Write() {
       } catch (error) {}
     }
     try {
-      const res = await axios.post('/posts', newPost);
+      const res = await axiosJWT.post('/posts', newPost);
       console.log(res.data_id);
       window.location.replace('/post/' + res.data._id);
     } catch (error) {}
   };
+  const refreshToken = async () => {
+    console.log(user.accessToken);
+
+    console.log('RUNNING REFRESH TOKEN FUNCTION');
+    try {
+      const res = await axios.post('/auth/refresh', {
+        token: user.refreshToken,
+      });
+      user.accessToken = res.data.accessToken;
+      user.refreshToken = res.data.refreshToken;
+
+      console.log(user.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const axiosJWT = axios.create();
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      console.log('INTERCEPTED');
+      let currentDate = new Date();
+      const decodedToken = jwt_decode(user.accessToken);
+      console.log(decodedToken);
+      if (decodedToken.exp * 1000 < currentDate.getTime()) {
+        await refreshToken();
+        console.log('INTERECEPTED user: ', user);
+        config.headers['Authorization'] = 'Bearer ' + user.accessToken;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <div className='write'>
