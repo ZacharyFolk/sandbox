@@ -10,23 +10,34 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   const { user } = useContext(Context);
-
+  const [theAccessToken, setAccessToken] = useState(user.accessToken);
+  const [theRefreshToken, setRefreshToken] = useState(user.refreshToken);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
 
   const refreshToken = async () => {
-    console.log(user.accessToken);
+    console.log(
+      '============ USER TOKENS BEFORE HITTING REFRESH ==============='
+    );
+    console.log('access', user.accessToken);
+    console.log('refresh', user.refreshToken);
 
-    console.log('RUNNING REFRESH TOKEN FUNCTION');
     try {
       const res = await axios.post('/auth/refresh', {
         token: user.refreshToken,
       });
+
+      setAccessToken(res.data.accessToken);
+      setRefreshToken(res.data.refreshToken);
+
+      console.log('IN USER OBJECT: ', user.refreshToken);
+
+      console.log('IN STATE :', theRefreshToken);
       user.accessToken = res.data.accessToken;
       user.refreshToken = res.data.refreshToken;
-
-      console.log(user.accessToken);
+      user.email = 'derpity@doo';
+      return res.data;
     } catch (error) {
       console.log(error);
     }
@@ -37,10 +48,27 @@ export default function SinglePost() {
     console.log('user from Context: ', user);
     try {
       // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
+      console.log(
+        '======================= CHECK THIS FROM INITIAL HANDLE DELETE ============================'
+      );
+      console.log(
+        'User Access Token at initial Delete request : ',
+        user.accessToken
+      );
+      console.log(
+        'User Refresh Token at initial Delete request : ',
+        user.refreshToken
+      );
+
+      console.log(
+        '********************************************************************************************************'
+      );
+
       await axiosJWT.delete(`/posts/${post._id}`, {
         headers: { Authorization: 'Bearer ' + user.accessToken },
         data: { username: user.username },
       });
+
       console.log('DELETE WORKED');
       window.location.replace('/');
     } catch (error) {
@@ -70,11 +98,22 @@ export default function SinglePost() {
       console.log('INTERCEPTED');
       let currentDate = new Date();
       const decodedToken = jwt_decode(user.accessToken);
-      console.log(decodedToken);
+      console.log(
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   INTERECEPTED user before REFRESH : ',
+        user
+      );
+
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        await refreshToken();
-        console.log('INTERECEPTED user: ', user);
-        config.headers['Authorization'] = 'Bearer ' + user.accessToken;
+        const data = await refreshToken();
+        console.log(
+          '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   INTERECEPTED user returning from REFRESH : ',
+          user
+        );
+        console.log(
+          'THIS IS WHAT IS SUBMITTED IN HEADER FROM INTERCEPTOR : ',
+          data
+        );
+        config.headers['Authorization'] = 'Bearer ' + data.accessToken;
       }
       return config;
     },

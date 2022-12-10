@@ -44,12 +44,15 @@ export default function Write() {
       user.accessToken = res.data.accessToken;
       user.refreshToken = res.data.refreshToken;
 
-      console.log(user.accessToken);
+      return res.data;
     } catch (error) {
       console.log(error);
     }
   };
   const axiosJWT = axios.create();
+
+  // 🐛 this seems to only work after the initial expiry?
+
   axiosJWT.interceptors.request.use(
     async (config) => {
       console.log('INTERCEPTED');
@@ -57,9 +60,9 @@ export default function Write() {
       const decodedToken = jwt_decode(user.accessToken);
       console.log(decodedToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        await refreshToken();
+        let data = await refreshToken();
         console.log('INTERECEPTED user: ', user);
-        config.headers['Authorization'] = 'Bearer ' + user.accessToken;
+        config.headers['Authorization'] = 'Bearer ' + data.accessToken;
       }
       return config;
     },

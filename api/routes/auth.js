@@ -2,11 +2,11 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_EXPIRY = '5m';
+const JWT_EXPIRY = '30s';
 // REFRESH TOKEN
 let refreshTokens = [];
 
-router.post('/refresh/', (req, res) => {
+router.post('/refresh', (req, res) => {
   // TODO : Since this has a route and if refreshToken is in localstorage how is this secure?
   // Would cookie be better to keep the refresdhToken?  accessToken will alway just be stored in memory of user object?
   // Will this work ok with Context and how it is using localStorage?
@@ -20,9 +20,9 @@ router.post('/refresh/', (req, res) => {
   console.log('REFRESH TOKEN: ', refreshToken);
   console.log('REFRESH TOKENS', refreshTokens);
   if (!refreshToken) return res.status(401).json('You are not authenticated!');
-  if (!refreshTokens.includes(refreshToken)) {
-    return res.status(403).json('Refresh token is not valid!');
-  }
+  // if (!refreshTokens.includes(refreshToken)) {
+  //   return res.status(403).json('Refresh token is not valid!');
+  // }
 
   jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
     err && console.log(err);

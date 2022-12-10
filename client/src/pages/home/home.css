@@ -211,16 +211,18 @@
   border-bottom: 1px solid var(--primary-color);
 }
 .login {
-  height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 230px;
+  margin: 0 auto;
 }
 .loginForm {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .loginForm > label {
@@ -232,8 +234,13 @@
   border: none;
 }
 .loginButton {
+  height: 40px;
   margin: 20px 0;
   cursor: pointer;
+  background-color: var(--secondary-color);
+}
+.loginButton:hover {
+  background-color: var(--primary-color);
 }
 .loginButton:disabled {
   cursor: not-allowed;
