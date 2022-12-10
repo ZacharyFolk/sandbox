@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+
 function Git() {
   const [commits, setCommits] = useState([]);
 
@@ -8,7 +10,7 @@ function Git() {
   const localcommits = sessionStorage.getItem('latest-commits');
   const fetchCommits = async () => {
     if (!localcommits) {
-      const res = await axios.get(url);
+      const res = await axiosInstance.get(url);
       const result = await res.data;
       console.log('REQUEST MADE TO GITHUB.API');
       sessionStorage.setItem('latest-commits', JSON.stringify(result));

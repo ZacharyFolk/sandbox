@@ -1,6 +1,11 @@
 #crt:before {
   content: none;
 }
+
+.title-container input {
+  width: 100%;
+  margin: 0;
+}
 .writeFormGroup {
   width: 90%;
   margin: 0 auto;

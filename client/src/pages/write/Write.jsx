@@ -48,7 +48,7 @@ export default function Write() {
       console.log(error);
     }
   };
-  const axiosJWT = axios.create();
+  const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
   // 🐛 this seems to only work after the initial expiry?
 
@@ -102,9 +102,9 @@ export default function Write() {
 
         <div className='tinyContainer'>
           <Editor
-            apiKey='h2bhjxlhndj86zedxmiyrasz4mnclrlkmctftqqal88e9qje'
+            apiKey={process.env.REACT_APP_TINY_API}
             onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue='<p>This is the initial content of the editor.</p>'
+            initialValue='<p>Write something amazing.</p>'
             value={desc}
             onEditorChange={(newValue, editor) => sestDesc(newValue)}
             init={{

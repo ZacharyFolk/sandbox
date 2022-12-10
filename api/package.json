@@ -13,7 +13,7 @@
   },
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "homepage": ".",
   "scripts": {
     "start": "nodemon index.js"
   },
