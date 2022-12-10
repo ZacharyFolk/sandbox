@@ -1,13 +1,15 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
-
+import { Editor } from '@tinymce/tinymce-react';
+import './write.css';
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, sestDesc] = useState('');
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
+  const editorRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,9 +36,6 @@ export default function Write() {
     } catch (error) {}
   };
   const refreshToken = async () => {
-    console.log(user.accessToken);
-
-    console.log('RUNNING REFRESH TOKEN FUNCTION');
     try {
       const res = await axios.post('/auth/refresh', {
         token: user.refreshToken,
@@ -76,10 +75,11 @@ export default function Write() {
       {file && (
         <img className='writeImg' src={URL.createObjectURL(file)} alt='' />
       )}
-      <form action='' className='writeForm' onSubmit={handleSubmit}>
-        <div className='writeFormGroup'>
+      <div className='writeFormGroup'>
+        <div className='image-upload'>
           <label htmlFor='fileInput'>
-            <i className='writeIcon fas fa-plus'></i>
+            <i className='writeIcon fas fa-plus'> </i>
+            <span>Add main image</span>
           </label>
           <input
             type='file'
@@ -87,26 +87,50 @@ export default function Write() {
             style={{ display: 'none' }}
             onChange={(e) => setFile(e.target.files[0])}
           />
+        </div>
+
+        <div className='title-container'>
           <input
             type='text'
             placeholder='Title'
             className='writeInput'
+            id='post_title'
             autoFocus={true}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className='writeFormGroup'>
-          <textarea
-            placeholder='Tell your story..'
-            type='text'
-            className='writeInput writeText'
-            onChange={(e) => sestDesc(e.target.value)}
-          ></textarea>
-          <button className='writeSubmit' type='submit'>
-            Publish
-          </button>
+
+        <div className='tinyContainer'>
+          <Editor
+            apiKey='h2bhjxlhndj86zedxmiyrasz4mnclrlkmctftqqal88e9qje'
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue='<p>This is the initial content of the editor.</p>'
+            value={desc}
+            onEditorChange={(newValue, editor) => sestDesc(newValue)}
+            init={{
+              height: 500,
+              menubar: false,
+              plugins:
+                'anchor lists advlist emoticons autolink autoresize code',
+              selector: 'textarea',
+              width: '100%',
+              // skin: 'oxide-dark',
+              // content_css: 'dark',
+              toolbar:
+                'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'code removeformat | anchor emoticons restoredraft',
+              content_style:
+                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            }}
+          />
         </div>
-      </form>
+
+        <div className='button-container'>
+          <button onClick={handleSubmit}>Submit</button>
+        </div>
+      </div>
     </div>
   );
 }

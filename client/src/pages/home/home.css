@@ -134,11 +134,14 @@
   margin: 0 auto;
 }
 .writeFormGroup {
-  margin-left: 150px;
-  display: flex;
-  flex-direction: column;
+  width: 90%;
+  margin: 0 auto;
 }
 
+.tox-tinymce {
+  margin: 20px auto;
+  width: 80%;
+}
 .writeIcon {
   font-size: 20px;
   width: 25px;

@@ -48,21 +48,6 @@ export default function SinglePost() {
     console.log('user from Context: ', user);
     try {
       // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
-      console.log(
-        '======================= CHECK THIS FROM INITIAL HANDLE DELETE ============================'
-      );
-      console.log(
-        'User Access Token at initial Delete request : ',
-        user.accessToken
-      );
-      console.log(
-        'User Refresh Token at initial Delete request : ',
-        user.refreshToken
-      );
-
-      console.log(
-        '********************************************************************************************************'
-      );
 
       await axiosJWT.delete(`/posts/${post._id}`, {
         headers: { Authorization: 'Bearer ' + user.accessToken },
