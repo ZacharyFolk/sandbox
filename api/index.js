@@ -42,8 +42,8 @@ app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
-app.use('/github_api', githubRoute);
-app.use('/disco_api', discoRoute);
+app.use('/api/github_api', githubRoute);
+app.use('/api/disco_api', discoRoute);
 app.use('/images', express.static(path.join(__dirname, '/images')));
 app.listen('9999', () => {
   console.log('Starting API server at localhost:9999');
