@@ -1,11 +1,4 @@
-import {
-  useContext,
-  useState,
-  useEffect,
-  ReactDOM,
-  useRef,
-  createRef,
-} from 'react';
+import { useContext, useState, useEffect, createRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';

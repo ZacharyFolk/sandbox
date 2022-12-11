@@ -207,8 +207,7 @@ body {
 .centered {
   justify-content: center;
 }
-.col {
-}
+
 .col-2 {
   width: 50%;
 }
@@ -240,8 +239,7 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   outline: none;
 }
-.singlePostWrapper textarea {
-}
+
 /* GIT */
 
 .github-container {
@@ -340,6 +338,12 @@ body {
 .record-cover img {
   width: 100%;
 }
+
+/* **************
+*               *
+*    tinymce    *
+*               *
+************** */
 
 @media only screen and (max-width: 1200px) {
 }

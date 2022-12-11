@@ -35,7 +35,7 @@ function Discogs() {
 }
 
 function Disco({ discoresults }) {
-  const page = discoresults.pagination;
+  // const page = discoresults.pagination;
   const records = discoresults.releases;
 
   // console.log(records);
@@ -53,7 +53,7 @@ function Disco({ discoresults }) {
 function Disc({ discinfo }) {
   let title = discinfo.title;
   let imgsrc = discinfo.cover_image;
-  let artist = discinfo.artists[0].name;
+  // let artist = discinfo.artists[0].name;
 
   // console.log(discinfo);
 

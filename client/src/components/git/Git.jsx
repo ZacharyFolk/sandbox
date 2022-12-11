@@ -22,7 +22,6 @@ function Git() {
   useEffect(() => {
     fetchCommits();
   }, []);
-
   // Doing this so it can be used immediately after being set to localstorage from the initial fetch
   useEffect(() => {
     setCommits(JSON.parse(localcommits));
