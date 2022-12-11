@@ -19,5 +19,6 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "proxy": "http://localhost:9999/api/"
 }

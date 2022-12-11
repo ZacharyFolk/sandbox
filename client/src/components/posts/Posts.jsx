@@ -1,6 +1,5 @@
 import React from 'react';
 import Post from '../post/Post';
-import Typist from 'react-typist-component';
 
 export default function Posts({ posts }) {
   return (
