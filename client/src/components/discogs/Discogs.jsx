@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
-
+function Discogs() {
   const [discoresults, setDisco] = useState([]);
 
   const url = 'http://localhost:9999/disco_api/users/zedbenev/0';
