@@ -4,13 +4,12 @@ const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 function Discogs() {
   const [discoresults, setDisco] = useState([]);
 
-  const url = 'http://localhost:9999/disco_api/users/zedbenev/0';
   const localdisco = sessionStorage.getItem('disco');
 
   useEffect(() => {
     const fetchCollection = async () => {
       if (!localdisco) {
-        const req = await axiosInstance.get(url);
+        const req = await axiosInstance.get('disco_api/users/zedbenev/0');
         const result = await req.data;
         console.log('REQUEST MADE TO DISCOGS API');
         sessionStorage.setItem('disco', JSON.stringify(result));

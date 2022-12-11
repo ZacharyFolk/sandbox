@@ -6,11 +6,12 @@ const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 function Git() {
   const [commits, setCommits] = useState([]);
 
-  const url = 'http://localhost:9999/github_api/commit/ZacharyFolk/sandbox';
   const localcommits = sessionStorage.getItem('latest-commits');
   const fetchCommits = async () => {
     if (!localcommits) {
-      const res = await axiosInstance.get(url);
+      const res = await axiosInstance.get(
+        'github_api/commit/ZacharyFolk/sandbox'
+      );
       const result = await res.data;
       console.log('REQUEST MADE TO GITHUB.API');
       sessionStorage.setItem('latest-commits', JSON.stringify(result));
