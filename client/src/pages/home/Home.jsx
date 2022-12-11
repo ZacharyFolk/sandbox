@@ -5,6 +5,8 @@ import Posts from '../../components/posts/Posts';
 import Sidebar from '../../components/sidebar/Sidebar';
 
 import axios from 'axios';
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const { search } = useLocation();
@@ -13,7 +15,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get('/posts' + search);
+      const res = await axiosInstance.get('/posts' + search);
       setPosts(res.data);
     };
     fetchPosts();
