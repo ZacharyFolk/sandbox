@@ -4,12 +4,16 @@ import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
 import { Editor } from '@tinymce/tinymce-react';
 import './write.css';
+
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, sestDesc] = useState('');
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
   const editorRef = useRef(null);
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +41,7 @@ export default function Write() {
   };
   const refreshToken = async () => {
     try {
-      const res = await axios.post('/auth/refresh', {
+      const res = await axiosInstance.post('/auth/refresh', {
         token: user.refreshToken,
       });
       user.accessToken = res.data.accessToken;

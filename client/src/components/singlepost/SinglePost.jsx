@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
+
 export default function SinglePost() {
   const location = useLocation();
   // get the id for the post from pathname
@@ -15,6 +16,9 @@ export default function SinglePost() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 
   const refreshToken = async () => {
     console.log(
@@ -24,7 +28,7 @@ export default function SinglePost() {
     console.log('refresh', user.refreshToken);
 
     try {
-      const res = await axios.post('/auth/refresh', {
+      const res = await axiosInstance.post('/auth/refresh', {
         token: user.refreshToken,
       });
 
@@ -77,7 +81,7 @@ export default function SinglePost() {
     }
   };
 
-  const axiosJWT = axios.create();
+  const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
   axiosJWT.interceptors.request.use(
     async (config) => {
       console.log('INTERCEPTED');
@@ -108,7 +112,7 @@ export default function SinglePost() {
   );
   useEffect(() => {
     const getPost = async () => {
-      const res = await axios.get('/posts/' + postid);
+      const res = await axiosInstance.get('/posts/' + postid);
       setPost(res.data);
       setTitle(res.data.title);
       setDesc(res.data.desc);
