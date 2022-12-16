@@ -1,5 +1,4 @@
-const { generateOptions } = require('./util');
-const https = require('https');
+const http = require('http');
 
 const getCollection = async function (req, res) {
   const user = req.params.user;
@@ -16,14 +15,14 @@ const getCollection = async function (req, res) {
       process.env.DISCO_SECRET
   );
 
-  https
+  http
     .get(options, function (apiResponse) {
       apiResponse.pipe(res);
       console.log(res);
     })
     .on('error', (e) => {
       console.log(e);
-      res.status(500).send(constants.error_message);
+      res.status(500).send('Something has gone horribly wrong.');
     });
 };
 
