@@ -1,26 +1,29 @@
+const { generateOptions } = require('./util');
+const https = require('https');
+
 const getCollection = async function (req, res) {
   const user = req.params.user;
   const folder = req.params.folder;
   !folder ? 0 : folder;
-  const url =
-    'http://api.discogs.com' +
+  const options = generateOptions(
     '/users/' +
-    user +
-    '/collection/folders/' +
-    folder +
-    '/releases?key=' +
-    process.env.DISCO_KEY +
-    '&secret=' +
-    process.env.DISCO_SECRET;
+      user +
+      '/collection/folders/' +
+      folder +
+      '/releases?key=' +
+      process.env.DISCO_KEY +
+      '&secret=' +
+      process.env.DISCO_SECRET
+  );
 
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
-      res.status(200).json(data);
+  https
+    .get(options, function (apiResponse) {
+      apiResponse.pipe(res);
+      console.log(res);
     })
-    .catch((err) => {
-      console.log(err.message);
-      res.status(500).json(err.message);
+    .on('error', (e) => {
+      console.log(e);
+      res.status(500).send(constants.error_message);
     });
 };
 

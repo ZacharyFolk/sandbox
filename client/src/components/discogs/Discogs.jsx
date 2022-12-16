@@ -9,16 +9,14 @@ function Discogs() {
 
   useEffect(() => {
     const fetchCollection = async () => {
-      console.log('ANY THING? ', process.env);
       if (!localdisco) {
+        console.log('ok trying this disco request');
         const req = await axiosInstance.get('disco_api/users/zedbenev/0');
         const result = await req.data;
         console.log('REQUEST MADE TO DISCOGS API');
         sessionStorage.setItem('disco', JSON.stringify(result));
         return setDisco(result);
       }
-      //   console.log('this is local');
-      //   console.log(localdisco);
       setDisco(JSON.parse(localdisco));
     };
 
