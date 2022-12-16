@@ -2,20 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
-const folder = 0;
-const discoUser = 'zedbenev';
-const discoRoot = 'http://api.discogs.com/';
-const discoUrl =
-  discoRoot +
-  'users/' +
-  discoUser +
-  '/collection/folders/' +
-  folder +
-  '/releases?key=' +
-  process.env.REACT_APP_DISCO_KEY +
-  '&secret=' +
-  process.env.REACT_APP_DISCO_SECRET;
-
 function Discogs() {
   const [discoresults, setDisco] = useState([]);
 
@@ -25,8 +11,7 @@ function Discogs() {
     const fetchCollection = async () => {
       console.log('ANY THING? ', process.env);
       if (!localdisco) {
-        //  const req = await axiosInstance.get('disco_api/users/zedbenev/0');
-        const req = await axios.get(discoUrl);
+        const req = await axiosInstance.get('disco_api/users/zedbenev/0');
         const result = await req.data;
         console.log('REQUEST MADE TO DISCOGS API');
         sessionStorage.setItem('disco', JSON.stringify(result));
