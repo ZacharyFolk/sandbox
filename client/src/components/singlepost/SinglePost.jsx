@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
+import { Editor } from '@tinymce/tinymce-react';
 
 export default function SinglePost() {
   const location = useLocation();
@@ -11,14 +12,14 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   const { user } = useContext(Context);
-  const [theAccessToken, setAccessToken] = useState(user.accessToken);
-  const [theRefreshToken, setRefreshToken] = useState(user.refreshToken);
+  const [theRefreshToken, setRefreshToken] = useState('');
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
+  const editorRef = useRef(null);
 
   const refreshToken = async () => {
     console.log(
@@ -32,7 +33,6 @@ export default function SinglePost() {
         token: user.refreshToken,
       });
 
-      setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
 
       console.log('IN USER OBJECT: ', user.refreshToken);
@@ -68,7 +68,7 @@ export default function SinglePost() {
   const handleUpdate = async () => {
     console.log(post);
     try {
-      await axios.put(`/posts/${post._id}`, {
+      await axiosJWT.put(`/posts/${post._id}`, {
         username: user.username,
         title,
         desc,
@@ -124,8 +124,8 @@ export default function SinglePost() {
     return <div>Nothing here</div>;
   }
   return (
-    <div className='singlePost'>
-      <div className='singlePostWrapper'>
+    <div className='container'>
+      <div className='post-wrapper'>
         {post.photo && (
           <img src={PF + post.photo} alt='' className='singlePostImg' />
         )}
@@ -154,22 +154,42 @@ export default function SinglePost() {
           </h1>
         )}
         <div className='singlePostInfo'>
-          <span className='singlePostAuthor'>
+          {/* <span className='singlePostAuthor'>
             Author:
             <Link to={`/?user=${post.username}`}>
               <b>{post.username}</b>
             </Link>
-          </span>
+          </span> */}
           <span className='singlePostDate'>
             {new Date(post.createdAt).toDateString()}
           </span>
         </div>
         {updateMode ? (
-          <textarea
-            className='singlePostDescInput'
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          />
+          <div className='tinyContainer'>
+            <Editor
+              apiKey={process.env.REACT_APP_TINY_API}
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              value={desc}
+              onEditorChange={(newValue, editor) => setDesc(newValue)}
+              init={{
+                height: 500,
+                menubar: false,
+                plugins:
+                  'anchor lists advlist emoticons autolink autoresize code',
+                selector: 'textarea',
+                width: '100%',
+                // skin: 'oxide-dark',
+                // content_css: 'dark',
+                toolbar:
+                  'undo redo | formatselect | ' +
+                  'bold italic backcolor | alignleft aligncenter ' +
+                  'alignright alignjustify | bullist numlist outdent indent | ' +
+                  'code removeformat | anchor emoticons restoredraft',
+                content_style:
+                  'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+              }}
+            />
+          </div>
         ) : (
           <div
             className='content'

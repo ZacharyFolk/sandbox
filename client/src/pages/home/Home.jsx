@@ -23,6 +23,13 @@ export default function Home() {
   return (
     <>
       <div className='container main'>
+        <p className='welcome'>
+          Welcome to my spot to experiment with javaScript and share some of my
+          work. I am a developer and photographer living in Seattle. Here you
+          can find out more about me, read random musings and tutorials on my
+          blog. Feel free to contact me if you are interested in working
+          together or have any questions.
+        </p>
         <Posts posts={posts} />
         {/* <div className='col site-summary'>
           <p>Hi!</p>

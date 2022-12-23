@@ -199,6 +199,7 @@ body {
 
 .main {
   display: flex;
+  flex-direction: column;
 }
 .row {
   display: flex;
@@ -229,6 +230,12 @@ body {
   width: 50%;
 }
 
+.singlePostTitle {
+  display: flex;
+}
+.singlePostEdit i {
+  margin: 0 10px;
+}
 .singlePostWrapper input {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--primary-color);
@@ -238,6 +245,13 @@ body {
 .singlePostWrapper input:focus {
   background-color: rgba(255, 255, 255, 0.2);
   outline: none;
+}
+
+/* Post */
+
+.post-wrapper > .content > iframe {
+  display: inherit;
+  margin: 40px auto;
 }
 
 /* GIT */
@@ -339,14 +353,6 @@ body {
   width: 100%;
 }
 
-/* **************
-*               *
-*    tinymce    *
-*               *
-************** */
-
-@media only screen and (max-width: 1200px) {
-}
 @media only screen and (max-width: 799px) {
   .row {
     flex-direction: column;
@@ -357,10 +363,4 @@ body {
   .col {
     width: 100%;
   }
-}
-
-@media only screen and (min-width: 1600px) {
-  /* .row {
-    flex-wrap: wrap;
-  } */
 }

@@ -1,5 +1,11 @@
-import { useContext, useState, useEffect, createRef } from 'react';
-import { Link } from 'react-router-dom';
+import {
+  useContext,
+  useState,
+  useEffect,
+  createRef,
+  createElement,
+} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
 export default function Terminal() {
@@ -8,15 +14,15 @@ export default function Terminal() {
     return (
       <Typist typingDelay={100}>
         <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 0.1 ****</h1>
-        <br />
       </Typist>
     );
   };
   const { user } = useContext(Context);
   const [command, setCommand] = useState('');
-  const [getOutput, setOutput] = useState(initialText);
-  const target = createRef();
+  const [output, setOutput] = useState(initialText);
 
+  const target = createRef();
+  const navigate = useNavigate();
   const MyComponent = () => {
     return (
       <Typist typingDelay={100} cursor={<span className='cursor'>|</span>}>
@@ -34,6 +40,41 @@ export default function Terminal() {
       </Typist>
     );
   };
+
+  function redirectAbout() {
+    navigate('about');
+    // window.location.replace('/about/');
+  }
+
+  const NoMatch = () => {
+    return (
+      <Typist>
+        <p>I'm sorry.. I can't do that.</p>
+      </Typist>
+    );
+  };
+
+  const Hello = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'> | </span>}>
+        <p>Oh hi! Thanks for stopping by.</p>
+      </Typist>
+    );
+  };
+
+  const AboutType = () => {
+    return (
+      <Typist
+        typingDelay={50}
+        cursor={<span className='cursor'>|</span>}
+        onTypingDone={redirectAbout}
+      >
+        Loading Zac's Bio . . . . .
+        <Typist.Delay ms={500} />
+      </Typist>
+    );
+  };
+
   const Help = () => {
     return (
       <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
@@ -44,12 +85,67 @@ export default function Terminal() {
     );
   };
 
+  const Look = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+        This is a path winding through a dimly lit forest. The path leads
+        north-south here. One particularly large tree with some low branches
+        stands at the edge of the path.
+      </Typist>
+    );
+  };
+  const Direction1 = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+        This is a forest, with trees in all directions. To the east, there
+        appears to be sunlight.
+      </Typist>
+    );
+  };
+  const Direction2 = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+        You aare in a small clearing in a well marked forest path that extends
+        to the east and west.
+      </Typist>
+    );
+  };
+
+  const Direction3 = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+        Yes! You did it! You found a chest and it has like 5000 gold and the
+        coolest sword that you have ever seen glowing with an unknown power. Oh
+        and invincibility armor. Ok are you satisfied?W Now stop typing
+        directions already!!
+      </Typist>
+    );
+  };
+
+  const DirArr = [Direction1, Direction2, Direction3];
+  const getDirections = () => {
+    let num = Math.floor(Math.random() * DirArr.length + 1);
+    console.log(num);
+    switch (num) {
+      case 1:
+        setOutput(Direction1);
+        break;
+      case 2:
+        setOutput(Direction2);
+        break;
+      case 3:
+        setOutput(Direction3);
+        break;
+      default:
+        setOutput(initialText);
+    }
+  };
   const handleKeys = (e) => {
     // let len = this.keys.length;
     // this.setState({ number: Math.floor(Math.random() * len) });
     // new Audio(this.keys[this.state.number]).play();
-    console.log(e.keyCode);
-    console.log('from handleKeys');
+    // console.log(e.keyCode);
+    // console.log('from handleKeys');
 
     // console.log(this.props.parseIt);
 
@@ -57,7 +153,7 @@ export default function Terminal() {
     switch (code) {
       case 13:
         e.preventDefault();
-        let typed = e.target.textContent;
+        let typed = e.target.textContent.toLowerCase();
         e.target.innerHTML = '';
 
         //  e.target.setAttribute('contenteditable', false);
@@ -72,10 +168,11 @@ export default function Terminal() {
         console.log('pressed enter');
         setOutput('');
         setCommand(typed);
+        console.log('typed: ', typed);
 
         break;
       default:
-        console.log('soomething else');
+      // console.log('soomething else');
     }
   };
 
@@ -86,22 +183,39 @@ export default function Terminal() {
         break;
       case 'about':
       case 'zac':
-        // window.location.replace('/about/');
-
-        setOutput(MyComponent);
-        //  setOutput('<h1>Oh wow</h1>');
+        setOutput(AboutType);
+        break;
+      case 'n':
+      case 'e':
+      case 'w':
+      case 's':
+      case 'ne':
+      case 'nw':
+      case 'se':
+      case 'sw':
+        getDirections();
         break;
       case 'help':
       case '?':
       case 'contact':
         setOutput(Help);
         break;
+      case 'hi':
+      case 'hello':
+      case 'howdy':
+        setOutput(Hello);
+        break;
+      case 'l':
+        setOutput(Look);
+        break;
+
       case 'login':
         window.location.replace('/login/');
         break;
       default:
-        console.log('neat');
+        setOutput(NoMatch);
     }
+    setCommand('');
   }, [command]);
 
   return (
@@ -135,7 +249,7 @@ export default function Terminal() {
       </div>
       <div className='container'>
         <div id='targetOutput' className='new-scroll' ref={target}>
-          {getOutput}
+          {output}
         </div>
       </div>
     </>
