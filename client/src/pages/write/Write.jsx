@@ -113,9 +113,24 @@ export default function Write() {
             onEditorChange={(newValue, editor) => sestDesc(newValue)}
             init={{
               height: 500,
-              menubar: false,
+              menubar: 'insert',
+              file_picker_types: 'file image media',
+              image_uploadtab: true,
+              images_file_types: 'jpg,svg,webp',
+              images_upload_handler: function (blobInfo, success, failure) {
+                let data = new FormData();
+                data.append('file', blobInfo.blob(), blobInfo.filename());
+                axios
+                  .post('/upload', data)
+                  .then(function (res) {
+                    success(res.data.location);
+                  })
+                  .catch(function (err) {
+                    failure('HTTP Error: ' + err.message);
+                  });
+              },
               plugins:
-                'anchor lists advlist emoticons autolink autoresize code',
+                'anchor lists advlist emoticons autolink autoresize code image',
               selector: 'textarea',
               width: '100%',
               // skin: 'oxide-dark',
@@ -124,7 +139,7 @@ export default function Write() {
                 'undo redo | formatselect | ' +
                 'bold italic backcolor | alignleft aligncenter ' +
                 'alignright alignjustify | bullist numlist outdent indent | ' +
-                'code removeformat | anchor emoticons restoredraft',
+                'image | code removeformat | anchor emoticons restoredraft',
               content_style:
                 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}

@@ -44,6 +44,8 @@ body {
   color: var(--primary-color);
 }
 
+/* Old Monitor */
+
 /* http://aleclownes.com/2017/02/01/crt-display.html */
 
 #crt {
@@ -104,6 +106,8 @@ body {
   animation: scanline 10s linear infinite;
 }
 
+/* Main Terminal */
+
 .header {
   width: 100%;
   height: 60px;
@@ -157,11 +161,98 @@ body {
   line-height: 1rem;
 }
 
+/* replace scrollbars */
+
+.new-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+}
+/* width */
+.new-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.new-scroll::-webkit-scrollbar-track {
+  background: rgb(23, 33, 26);
+}
+
+/* Handle */
+.new-scroll::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+}
+
+/* Handle on hover */
+.new-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
 /* *************
 *              *
 *    Layout    *
 *              *
 ************* */
+
+.container {
+  margin: 0 auto;
+  max-width: 1420px;
+  width: 96%;
+}
+
+p.welcome {
+  border-top: 1px dashed;
+  padding: 40px 0;
+  width: 94%;
+  margin: 0 auto;
+}
+
+.main-heading {
+  font-size: 1.4em;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.header-container {
+  padding: 20px 0;
+  max-width: 1640px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.site-summary {
+  padding: 0 40px;
+  width: 40%;
+}
+.posts {
+  flex: 0 0 70%;
+}
+.posts-container {
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  border-top: 1px dashed var(--primary-color);
+  padding: 30px 0 0;
+  height: 420px;
+  overflow: auto;
+}
+.sub-heading {
+  border-bottom: 1px dashed var(--secondary-color);
+  padding-bottom: 20px;
+  margin-bottom: 60px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-align: center;
+}
+#targetOutput {
+  margin: 30px 20px;
+  height: 60px;
+  overflow: auto;
+}
+
+#targetOutput h2 {
+  margin-bottom: 6px;
+}
+
 .about-container {
   width: 95%;
   margin: 0 auto 0;
@@ -247,13 +338,32 @@ body {
   outline: none;
 }
 
+/* Typist */
+.cursor {
+  opacity: 1;
+  animation: blink 1s linear infinite;
+  margin: 0 8px;
+}
 /* Post */
 
 .post-wrapper > .content > iframe {
   display: inherit;
   margin: 40px auto;
 }
+.post-wrapper {
+  width: 94%;
+  margin: 0 auto;
+}
+.posts-container .post {
+  flex: 0 0 30%;
+  padding: 20px 40px 30px 20px;
+  border-bottom: 1px dashed var(--primary-color);
+}
 
+.post img,
+.singlePost img {
+  max-width: 100%;
+}
 /* GIT */
 
 .github-container {
@@ -353,6 +463,145 @@ body {
   width: 100%;
 }
 
+/* Write Posts */
+
+.write {
+  padding-top: 50px;
+}
+
+.writeForm {
+  width: 90%;
+  margin: 0 auto;
+}
+.writeFormGroup {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.tox-tinymce {
+  margin: 20px auto;
+  width: 80%;
+}
+.writeIcon {
+  font-size: 20px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.writeInput {
+  font-size: 28px;
+  border: none;
+  padding: 20px;
+  width: 70vw;
+}
+.writeInput:focus {
+  outline: none;
+}
+.writeText {
+  margin-top: 20px;
+  font-size: 20px;
+}
+.writeSubmit {
+  width: 30%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--primary-color);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 16px;
+}
+/* ***************
+*                *
+*    Settings    *
+*                *
+*************** */
+
+.settings {
+  display: flex;
+}
+.settingsWrapper {
+  display: flex;
+  flex: 9;
+  flex-direction: column;
+}
+.settingsTitle {
+  display: flex;
+  justify-content: flex-end;
+}
+.settingsTitle span {
+  margin: 0 20px;
+}
+.settingsPP {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  padding: 0 60px;
+}
+.settingsForm > label {
+  font-size: 20px;
+  margin-top: 20px;
+}
+.settingsForm > input {
+  background-color: black;
+  color: var(--secondary-color);
+  margin: 10px 0;
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+/* ************
+*             *
+*    Login    *
+*             *
+************ */
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 230px;
+  margin: 0 auto;
+}
+.loginForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.loginForm > label {
+  margin: 10px 0;
+}
+
+.loginInput {
+  padding: 10px;
+  border: none;
+}
+.loginButton {
+  height: 40px;
+  margin: 20px 0;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+}
+.loginButton:hover {
+  background-color: var(--primary-color);
+}
+.loginButton:disabled {
+  cursor: not-allowed;
+  background-color: bisque;
+}
+/* Animations */
+
 @media only screen and (max-width: 799px) {
   .row {
     flex-direction: column;
@@ -362,5 +611,16 @@ body {
 
   .col {
     width: 100%;
+  }
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

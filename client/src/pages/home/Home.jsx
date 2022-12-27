@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import './home.css';
 import Posts from '../../components/posts/Posts';
 
 import axios from 'axios';
@@ -24,11 +23,13 @@ export default function Home() {
     <>
       <div className='container main'>
         <p className='welcome'>
-          Welcome to my spot to experiment with javaScript and share some of my
-          work. I am a developer and photographer living in Seattle. Here you
-          can find out more about me, read random musings and tutorials on my
-          blog. Feel free to contact me if you are interested in working
-          together or have any questions.
+          {/* TODO: Make this a config to store in the db - #4 */}
+          Hello! Welcome to the website of Zachary Folk, a developer and
+          photographer living in Seattle. Here you can find out more about me,
+          read my random musings and tutorials on the blog, or try finding
+          easter eggs by typing random stuff into the terminal! Please contact
+          me if you are interested in working together or if you have any
+          questions. Thanks for visiting! Cheers!
         </p>
         <Posts posts={posts} />
         {/* <div className='col site-summary'>
