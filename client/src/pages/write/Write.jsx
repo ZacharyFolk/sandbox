@@ -4,7 +4,7 @@ import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
 import { Editor } from '@tinymce/tinymce-react';
 import './write.css';
-
+import Prism from 'prismjs';
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, sestDesc] = useState('');
@@ -130,7 +130,7 @@ export default function Write() {
                   });
               },
               plugins:
-                'anchor lists advlist emoticons autolink autoresize code image',
+                'anchor lists advlist emoticons autolink autoresize code codesample image',
               selector: 'textarea',
               width: '100%',
               // skin: 'oxide-dark',
@@ -139,7 +139,8 @@ export default function Write() {
                 'undo redo | formatselect | ' +
                 'bold italic backcolor | alignleft aligncenter ' +
                 'alignright alignjustify | bullist numlist outdent indent | ' +
-                'image | code removeformat | anchor emoticons restoredraft',
+                'image | code codesample removeformat | anchor emoticons restoredraft',
+              codesample_global_prismjs: true,
               content_style:
                 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
