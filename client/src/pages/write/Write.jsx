@@ -4,7 +4,6 @@ import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
 import { Editor } from '@tinymce/tinymce-react';
 import './write.css';
-import Prism from 'prismjs';
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, sestDesc] = useState('');
@@ -141,8 +140,6 @@ export default function Write() {
                 'alignright alignjustify | bullist numlist outdent indent | ' +
                 'image | code codesample removeformat | anchor emoticons restoredraft',
               codesample_global_prismjs: true,
-              content_style:
-                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
           />
         </div>

@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
 import { Editor } from '@tinymce/tinymce-react';
-
+import Prism from 'prismjs';
 export default function SinglePost() {
   const location = useLocation();
   // get the id for the post from pathname
@@ -120,6 +120,10 @@ export default function SinglePost() {
     getPost();
   }, [postid]);
 
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
+
   if (!post) {
     return <div>Nothing here</div>;
   }
@@ -185,8 +189,7 @@ export default function SinglePost() {
                   'bold italic backcolor | alignleft aligncenter ' +
                   'alignright alignjustify | bullist numlist outdent indent | ' +
                   'code removeformat | anchor emoticons restoredraft',
-                content_style:
-                  'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                codesample_global_prismjs: true,
               }}
             />
           </div>
