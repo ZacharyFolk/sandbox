@@ -33,26 +33,27 @@ const verify = (req, res, next) => {
 router.put('/:id', verify, async (req, res) => {
   console.log('reached update user');
 
-  // if (req.payload.id === req.params.id) {
-  //   if (req.body.password) {
-  //     const salt = await bcrypt.genSalt(10);
-  //     req.body.password = await bcrypt.hash(req.body.password, salt);
-  //   }
-  //   try {
-  //     const updatedUser = await User.findByIdAndUpdate(
-  //       req.params.id,
-  //       {
-  //         $set: req.body,
-  //       },
-  //       { new: true } // sends updated user in response not original
-  //     );
-  //     res.status(200).json(updatedUser);
-  //   } catch (error) {
-  //     res.status(500).json(error);
-  //   }
-  // } else {
-  //   res.status(401).json('You can only update your own account!');
-  // }
+  console.log('req.payload.id check', req.payload.id, ' === ', req.params.id);
+  if (req.payload.id === req.params.id) {
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      req.body.password = await bcrypt.hash(req.body.password, salt);
+    }
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true } // sends updated user in response not original
+      );
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    res.status(401).json('You can only update your own account!');
+  }
 });
 
 // DELETE
@@ -63,11 +64,7 @@ router.delete('/:id', verify, async (req, res) => {
   const refreshToken = req.body.token;
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   console.log('Refresh Tokens from Delete :', refreshTokens);
-  // res.status(200).json('User has been deleted...');
-
-  // console.log(req);
-  console.log('req.body: ', req.body);
-  console.log('req.payload:', req.payload);
+  res.status(200).json('User has been deleted...');
 
   if (req.payload.id === req.params.id) {
     try {

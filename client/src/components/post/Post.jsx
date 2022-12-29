@@ -9,9 +9,6 @@ export default function Post({ post }) {
 
   useEffect(() => {
     let excerpt = post.desc;
-    console.log(excerpt);
-    console.log(post.createdAt);
-    console.log(time);
     if (excerpt.length > 350) {
       excerpt = excerpt.substring(0, 350) + '...';
     }

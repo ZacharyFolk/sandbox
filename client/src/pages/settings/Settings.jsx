@@ -1,25 +1,31 @@
 import { useContext, useState } from 'react';
-import Sidebar from '../../components/sidebar/Sidebar';
 import { Context } from '../../context/Context';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 export default function Settings() {
   const { user } = useContext(Context);
-
   const [file, setFile] = useState(null);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
   const [password, setPassword] = useState('');
   const [success, setSuccess] = useState(false);
-
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
   const handleSubmit = async (e) => {
+    console.log('From context : ', user.email, user.password, user.username);
     e.preventDefault();
     const updatedUser = {
       userId: user._id,
       username,
       email,
-      password,
     };
+    if (password) {
+      updatedUser.password = password;
+    }
+    console.log('UPDATED USER: ', updatedUser);
+    console.log(user.accessToken);
     if (file) {
       const data = new FormData();
       const filename = Date.now() + file.name;
@@ -29,14 +35,53 @@ export default function Settings() {
 
       try {
         await axios.post('/upload', data);
-      } catch (error) {}
+      } catch (error) {
+        console.log('Error with update : ', error);
+      }
     }
     try {
-      await axios.put('/users/' + user._id, updatedUser);
+      await axiosJWT.put('/users/' + user._id, updatedUser);
       setSuccess(true);
     } catch (error) {}
-    console.log(user);
   };
+
+  const refreshToken = async () => {
+    try {
+      const res = await axiosInstance.post('/auth/refresh', {
+        token: user.refreshToken,
+      });
+      user.accessToken = res.data.accessToken;
+      user.refreshToken = res.data.refreshToken;
+
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+
+  // 🐛 this seems to only work after the initial expiry?
+
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      console.log('INTERCEPTED');
+      let currentDate = new Date();
+      const decodedToken = jwt_decode(user.accessToken);
+      console.log(decodedToken);
+      if (decodedToken.exp * 1000 < currentDate.getTime()) {
+        let data = await refreshToken();
+        console.log('INTERECEPTED user: ', user);
+        config.headers['Authorization'] = 'Bearer ' + data.accessToken;
+      } else {
+        config.headers['Authorization'] = 'Bearer ' + user.accessToken;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <div className='settings'>
@@ -82,7 +127,6 @@ export default function Settings() {
           {success && <div>You updated your user.</div>}
         </form>
       </div>
-      <Sidebar />
     </div>
   );
 }

@@ -59,7 +59,7 @@ export default function SinglePost() {
       });
 
       console.log('DELETE WORKED');
-      window.location.replace('/');
+      // window.location.replace('/');
     } catch (error) {
       console.log('Delete dd not work', 'Error: ', error);
     }

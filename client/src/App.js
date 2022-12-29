@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useContext, useEffect, Component } from 'react';
-import { Routes, Route, Outlet, Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
