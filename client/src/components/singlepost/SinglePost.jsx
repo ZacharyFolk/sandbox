@@ -12,7 +12,6 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   const { user } = useContext(Context);
-  const [theRefreshToken, setRefreshToken] = useState('');
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
@@ -20,27 +19,14 @@ export default function SinglePost() {
     baseURL: process.env.REACT_APP_API_URL,
   });
   const editorRef = useRef(null);
-
   const refreshToken = async () => {
-    console.log(
-      '============ USER TOKENS BEFORE HITTING REFRESH ==============='
-    );
-    console.log('access', user.accessToken);
-    console.log('refresh', user.refreshToken);
-
     try {
       const res = await axiosInstance.post('/auth/refresh', {
         token: user.refreshToken,
       });
-
-      setRefreshToken(res.data.refreshToken);
-
-      console.log('IN USER OBJECT: ', user.refreshToken);
-
-      console.log('IN STATE :', theRefreshToken);
-      user.accessToken = res.data.accessToken;
       user.refreshToken = res.data.refreshToken;
-      user.email = 'derpity@doo';
+      localStorage.setItem('user', JSON.stringify(user));
+      user.accessToken = res.data.accessToken;
       return res.data;
     } catch (error) {
       console.log(error);
@@ -48,8 +34,6 @@ export default function SinglePost() {
   };
 
   const handleDelete = async () => {
-    console.log('clicked delete');
-    console.log('user from Context: ', user);
     try {
       // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
 
@@ -58,26 +42,23 @@ export default function SinglePost() {
         data: { username: user.username },
       });
 
-      console.log('DELETE WORKED');
-      // window.location.replace('/');
+      window.location.replace('/');
     } catch (error) {
-      console.log('Delete dd not work', 'Error: ', error);
+      console.log('Delete did not work', 'Error: ', error);
     }
   };
 
   const handleUpdate = async () => {
-    console.log(post);
     try {
       await axiosJWT.put(`/posts/${post._id}`, {
         username: user.username,
         title,
         desc,
       });
-
-      // window.location.reload();
+      window.location.reload();
       setUpdateMode(false);
     } catch (error) {
-      console.log('Problem updating, error: ', error.response.data);
+      console.log('Problem updating, error: ', error);
     }
   };
 
@@ -87,21 +68,13 @@ export default function SinglePost() {
       console.log('INTERCEPTED');
       let currentDate = new Date();
       const decodedToken = jwt_decode(user.accessToken);
-      console.log(
-        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   INTERECEPTED user before REFRESH : ',
-        user
-      );
+      console.log('decodedToken', decodedToken);
 
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        const data = await refreshToken();
-        console.log(
-          '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   INTERECEPTED user returning from REFRESH : ',
-          user
-        );
-        console.log(
-          'THIS IS WHAT IS SUBMITTED IN HEADER FROM INTERCEPTOR : ',
-          data
-        );
+        let data = await refreshToken();
+
+        console.log('Returning from Refresh : ', data);
+        console.log('What user here?', user);
         config.headers['Authorization'] = 'Bearer ' + data.accessToken;
       }
       return config;
@@ -119,10 +92,9 @@ export default function SinglePost() {
     };
     getPost();
   }, [postid]);
-
   useEffect(() => {
     Prism.highlightAll();
-  }, []);
+  }, [desc]);
 
   if (!post) {
     return <div>Nothing here</div>;
@@ -179,7 +151,7 @@ export default function SinglePost() {
                 height: 500,
                 menubar: false,
                 plugins:
-                  'anchor lists advlist emoticons autolink autoresize code',
+                  'anchor lists advlist emoticons autolink autoresize code codesample',
                 selector: 'textarea',
                 width: '100%',
                 // skin: 'oxide-dark',
@@ -188,7 +160,7 @@ export default function SinglePost() {
                   'undo redo | formatselect | ' +
                   'bold italic backcolor | alignleft aligncenter ' +
                   'alignright alignjustify | bullist numlist outdent indent | ' +
-                  'code removeformat | anchor emoticons restoredraft',
+                  'image | code codesample removeformat | anchor emoticons restoredraft',
                 codesample_global_prismjs: true,
               }}
             />

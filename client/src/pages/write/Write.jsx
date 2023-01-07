@@ -34,36 +34,34 @@ export default function Write() {
     }
     try {
       const res = await axiosJWT.post('/posts', newPost);
-      console.log(res.data_id);
       window.location.replace('/post/' + res.data._id);
     } catch (error) {}
   };
+
   const refreshToken = async () => {
     try {
       const res = await axiosInstance.post('/auth/refresh', {
         token: user.refreshToken,
       });
-      user.accessToken = res.data.accessToken;
       user.refreshToken = res.data.refreshToken;
-
+      localStorage.setItem('user', JSON.stringify(user));
+      user.accessToken = res.data.accessToken;
       return res.data;
     } catch (error) {
       console.log(error);
     }
   };
+
   const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
   // 🐛 this seems to only work after the initial expiry?
 
   axiosJWT.interceptors.request.use(
     async (config) => {
-      console.log('INTERCEPTED');
       let currentDate = new Date();
       const decodedToken = jwt_decode(user.accessToken);
-      console.log(decodedToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
         let data = await refreshToken();
-        console.log('INTERECEPTED user: ', user);
         config.headers['Authorization'] = 'Bearer ' + data.accessToken;
       }
       return config;

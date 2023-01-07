@@ -1,10 +1,4 @@
-import {
-  useContext,
-  useState,
-  useEffect,
-  createRef,
-  createElement,
-} from 'react';
+import { useContext, useState, useEffect, createRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
@@ -155,24 +149,11 @@ export default function Terminal() {
         e.preventDefault();
         let typed = e.target.textContent.toLowerCase();
         e.target.innerHTML = '';
-
-        //  e.target.setAttribute('contenteditable', false);
-        // this.setState({ userinput: typed }, function () {
-        //   let string = this.state.userinput;
-
-        //   let command = string.toLowerCase();
-
-        //   this.commander(command);
-        // });
-        // console.log(this.state.userinput); // Can not use immediately so why need callback ^
-        console.log('pressed enter');
         setOutput('');
         setCommand(typed);
-        console.log('typed: ', typed);
-
         break;
       default:
-      // console.log('soomething else');
+      // console.log('something else');
     }
   };
 
@@ -193,6 +174,8 @@ export default function Terminal() {
       case 'nw':
       case 'se':
       case 'sw':
+      case 'u':
+      case 'd':
         getDirections();
         break;
       case 'help':

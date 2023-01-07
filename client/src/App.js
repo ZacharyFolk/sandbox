@@ -12,6 +12,7 @@ import Settings from './pages/settings/Settings';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
+import './prism/prism.css';
 import Favicon from 'react-favicon';
 import blinky from './blinky';
 export default function App() {
