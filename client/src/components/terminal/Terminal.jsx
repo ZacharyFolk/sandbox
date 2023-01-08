@@ -1,12 +1,13 @@
 import { useContext, useState, useEffect, createRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
-import { Help, Look } from './Commands';
+import { Directions, Help, Look, NoMatch } from './Commands';
 import Cagematch from '../cagematch/Cagematch';
 export default function Terminal() {
+  const location = useLocation();
+
   const initialText = () => {
-    //  cursor={<span className='cursor'>|</span>}
     return (
       <Typist typingDelay={100}>
         <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 0.1 ****</h1>
@@ -21,49 +22,39 @@ export default function Terminal() {
   function redirectAbout() {
     navigate('about');
   }
+
+  // useEffect(() => {
+  //   console.log('LOCATION CHANGED!');
+  //   console.log(location.pathname);
+  //   if (location.pathname === '/about') {
+  //     setOutput('');
+  //     setOutput(AboutLoaded);
+  //     console.log('ABOUT PAGE!');
+  //   } else {
+  //     setOutput(initialText);
+  //   }
+  // }, [location]);
+  // const AboutLoaded = () => {
+  //   return (
+  //     <Typist typingDelay={5}>
+  //       <p>Initializing data retrieval for Zachary Folk....</p>
+  //       <Typist.Delay ms={500} />
+  //     </Typist>
+  //   );
+  // };
+
   const About = () => {
     // TODO : Figure out how too get this to work in separate component
     // navigate function is just ignored in Commands.jsx, no errors, nothing
     // maybe could get it to run in a useEffect in there but I had no luck
     return (
       <Typist
-        typingDelay={5}
+        typingDelay={50}
         cursor={<span className='cursor'>|</span>}
         onTypingDone={redirectAbout}
       >
-        <p>Loading . . . . . . . . .</p>
-        <Typist.Delay ms={500} />
-      </Typist>
-    );
-  };
-  const NoMatch = () => {
-    const nopeArray = [
-      "I'm sorry, Dave. I'm, afraid I can't do that.",
-      'Nope.',
-      'That is not something I recognize.',
-      'The longest word in the English language, according to the Guinness Book of World Records, is pneumonoultramicroscopicsilicovolcanoconiosis.',
-      'The only continent without native reptiles or snakes is Antarctica.',
-      "The world's largest snowflake on record was 15 inches wide and 8 inches thick.",
-      'In ancient Rome, it was considered a sign of leadership to be born with a crooked nose.',
-      'The first known contraceptive was crocodile dung, used by ancient Egyptians.',
-      'A group of hedgehogs is called a prickle.',
-      'A baby octopus is about the size of a flea when it is born.',
-      'Giraffes can go for weeks without drinking water because they get most of their hydration from the plants they eat.',
-      "The Great Barrier Reef, the world's largest coral reef system, can be seen from space.",
-      'The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes.',
-      'The tallest tree on record was a coast redwood in California that was 379.1 feet tall.',
-      "The word 'queue' is the only word in the English language with five consecutive vowels.",
-      'The lifespan of a single taste bud is about 10 days.',
-      "The word 'queue' is the only word in the English language with five consecutive vowels.",
-      'The longest wedding veil was over 7 miles long.',
-      "The world's largest snowflake fell in Montana in 1887 and was 15 inches wide and 8 inches thick.",
-    ];
-
-    let num = Math.floor(Math.random() * nopeArray.length + 1);
-
-    return (
-      <Typist typingDelay={10}>
-        <p>{nopeArray[num]}</p>
+        <p>Accessing data for more information about Zac</p>
+        <Typist.Delay ms={10} />
       </Typist>
     );
   };
@@ -76,60 +67,6 @@ export default function Terminal() {
     );
   };
 
-  const Direction1 = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        This is a forest, with trees in all directions. To the east, there
-        appears to be sunlight.
-      </Typist>
-    );
-  };
-  const Direction2 = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        You aare in a small clearing in a well marked forest path that extends
-        to the east and west.
-      </Typist>
-    );
-  };
-  const Direction3 = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        It is pitch black. You are likely to be eaten by a grue.
-      </Typist>
-    );
-  };
-  const Direction4 = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        Yes! You did it! You found a chest full of infinite riches, saved the
-        princess, and have rehabilitated to the dragon to be your best friend.
-        Oh and invincibility armor. Now stop typing directions already!!
-      </Typist>
-    );
-  };
-  const DirArr = [Direction1, Direction2, Direction3];
-  const getDirections = () => {
-    let num = Math.floor(Math.random() * DirArr.length + 1);
-    // instead of switch here could just do something like this?
-    // let componentName = 'Direction' + num;
-    switch (num) {
-      case 1:
-        setOutput(Direction1);
-        break;
-      case 2:
-        setOutput(Direction2);
-        break;
-      case 3:
-        setOutput(Direction3);
-        break;
-      case 4:
-        setOutput(Direction4);
-        break;
-      default:
-        setOutput('');
-    }
-  };
   const handleKeys = (e) => {
     // let len = this.keys.length;
     // this.setState({ number: Math.floor(Math.random() * len) });
@@ -172,7 +109,7 @@ export default function Terminal() {
       case 'sw':
       case 'u':
       case 'd':
-        getDirections();
+        setOutput(Directions);
         break;
       case 'help':
       case '?':

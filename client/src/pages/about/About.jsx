@@ -3,6 +3,7 @@ import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
 import Discogs from './../../components/discogs/Discogs';
+import { useEffect } from 'react';
 export default function About() {
   return (
     <>
