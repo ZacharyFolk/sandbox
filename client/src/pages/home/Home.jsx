@@ -25,15 +25,25 @@ export default function Home() {
   return (
     <>
       <div className='container main'>
-        <p className='welcome'>
-          {/* TODO: Make this a config to store in the db - #4 */}
-          Hello! Welcome to the website of Zachary Folk, a developer and
-          photographer living in Seattle. Here you can find out more about me,
-          read my random musings and tutorials on the blog, or try finding
-          easter eggs by typing random stuff into the terminal! Please contact
-          me if you are interested in working together or if you have any
-          questions. Thanks for visiting! Cheers!
-        </p>
+        <div className='welcome'>
+          <h2>
+            {/* TODO: Make this a config to store in the db - #4 */}
+            Hello!
+          </h2>
+          <p>
+            Welcome to the coding sandbox for Zachary Folk, a developer and
+            photographer living in Seattle.
+          </p>
+          <p>
+            Here you can find out more about me, read my random musings and
+            tutorials on the blog, or try finding easter eggs by typing random
+            stuff into the terminal!
+          </p>
+          <p>
+            I am always interested in new projcts so feel free to contact me if
+            you are interested in working together. Thanks for visiting!
+          </p>
+        </div>
         <Posts posts={posts} />
         {/* <div className='col site-summary'>
           <p>Hi!</p>

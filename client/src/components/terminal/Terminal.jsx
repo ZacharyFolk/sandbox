@@ -2,6 +2,8 @@ import { useContext, useState, useEffect, createRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
+import { Help, Look } from './Commands';
+import Cagematch from '../cagematch/Cagematch';
 export default function Terminal() {
   const initialText = () => {
     //  cursor={<span className='cursor'>|</span>}
@@ -14,36 +16,54 @@ export default function Terminal() {
   const { user } = useContext(Context);
   const [command, setCommand] = useState('');
   const [output, setOutput] = useState(initialText);
-
   const target = createRef();
   const navigate = useNavigate();
-  const MyComponent = () => {
+  function redirectAbout() {
+    navigate('about');
+  }
+  const About = () => {
+    // TODO : Figure out how too get this to work in separate component
+    // navigate function is just ignored in Commands.jsx, no errors, nothing
+    // maybe could get it to run in a useEffect in there but I had no luck
     return (
-      <Typist typingDelay={100} cursor={<span className='cursor'>|</span>}>
-        This is a typo
-        <br />
-        <Typist.Backspace count={5} />
-        <Typist.Delay ms={1500} />
-        react component
-        <Typist.Paste>
-          <div>
-            use
-            <div>deeper div</div>
-          </div>
-        </Typist.Paste>
+      <Typist
+        typingDelay={5}
+        cursor={<span className='cursor'>|</span>}
+        onTypingDone={redirectAbout}
+      >
+        <p>Loading . . . . . . . . .</p>
+        <Typist.Delay ms={500} />
       </Typist>
     );
   };
-
-  function redirectAbout() {
-    navigate('about');
-    // window.location.replace('/about/');
-  }
-
   const NoMatch = () => {
+    const nopeArray = [
+      "I'm sorry, Dave. I'm, afraid I can't do that.",
+      'Nope.',
+      'That is not something I recognize.',
+      'The longest word in the English language, according to the Guinness Book of World Records, is pneumonoultramicroscopicsilicovolcanoconiosis.',
+      'The only continent without native reptiles or snakes is Antarctica.',
+      "The world's largest snowflake on record was 15 inches wide and 8 inches thick.",
+      'In ancient Rome, it was considered a sign of leadership to be born with a crooked nose.',
+      'The first known contraceptive was crocodile dung, used by ancient Egyptians.',
+      'A group of hedgehogs is called a prickle.',
+      'A baby octopus is about the size of a flea when it is born.',
+      'Giraffes can go for weeks without drinking water because they get most of their hydration from the plants they eat.',
+      "The Great Barrier Reef, the world's largest coral reef system, can be seen from space.",
+      'The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes.',
+      'The tallest tree on record was a coast redwood in California that was 379.1 feet tall.',
+      "The word 'queue' is the only word in the English language with five consecutive vowels.",
+      'The lifespan of a single taste bud is about 10 days.',
+      "The word 'queue' is the only word in the English language with five consecutive vowels.",
+      'The longest wedding veil was over 7 miles long.',
+      "The world's largest snowflake fell in Montana in 1887 and was 15 inches wide and 8 inches thick.",
+    ];
+
+    let num = Math.floor(Math.random() * nopeArray.length + 1);
+
     return (
-      <Typist>
-        <p>I'm sorry.. I can't do that.</p>
+      <Typist typingDelay={10}>
+        <p>{nopeArray[num]}</p>
       </Typist>
     );
   };
@@ -56,38 +76,6 @@ export default function Terminal() {
     );
   };
 
-  const AboutType = () => {
-    return (
-      <Typist
-        typingDelay={50}
-        cursor={<span className='cursor'>|</span>}
-        onTypingDone={redirectAbout}
-      >
-        Loading Zac's Bio . . . . .
-        <Typist.Delay ms={500} />
-      </Typist>
-    );
-  };
-
-  const Help = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        I am here to help! Contact me and let me know what I can do for you.
-        <br /> You can reach out to zacharyfolk@gmail.com or give me call @
-        206.714.5203.
-      </Typist>
-    );
-  };
-
-  const Look = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        This is a path winding through a dimly lit forest. The path leads
-        north-south here. One particularly large tree with some low branches
-        stands at the edge of the path.
-      </Typist>
-    );
-  };
   const Direction1 = () => {
     return (
       <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
@@ -104,22 +92,27 @@ export default function Terminal() {
       </Typist>
     );
   };
-
   const Direction3 = () => {
     return (
       <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
-        Yes! You did it! You found a chest and it has like 5000 gold and the
-        coolest sword that you have ever seen glowing with an unknown power. Oh
-        and invincibility armor. Ok are you satisfied?W Now stop typing
-        directions already!!
+        It is pitch black. You are likely to be eaten by a grue.
       </Typist>
     );
   };
-
+  const Direction4 = () => {
+    return (
+      <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+        Yes! You did it! You found a chest full of infinite riches, saved the
+        princess, and have rehabilitated to the dragon to be your best friend.
+        Oh and invincibility armor. Now stop typing directions already!!
+      </Typist>
+    );
+  };
   const DirArr = [Direction1, Direction2, Direction3];
   const getDirections = () => {
     let num = Math.floor(Math.random() * DirArr.length + 1);
-    console.log(num);
+    // instead of switch here could just do something like this?
+    // let componentName = 'Direction' + num;
     switch (num) {
       case 1:
         setOutput(Direction1);
@@ -130,8 +123,11 @@ export default function Terminal() {
       case 3:
         setOutput(Direction3);
         break;
+      case 4:
+        setOutput(Direction4);
+        break;
       default:
-        setOutput(initialText);
+        setOutput('');
     }
   };
   const handleKeys = (e) => {
@@ -164,7 +160,7 @@ export default function Terminal() {
         break;
       case 'about':
       case 'zac':
-        setOutput(AboutType);
+        setOutput(About);
         break;
       case 'n':
       case 'e':
@@ -189,9 +185,9 @@ export default function Terminal() {
         setOutput(Hello);
         break;
       case 'l':
+      case 'look':
         setOutput(Look);
         break;
-
       case 'login':
         window.location.replace('/login/');
         break;
@@ -230,9 +226,11 @@ export default function Terminal() {
           </div>
         </div>
       </div>
-      <div className='container'>
-        <div id='targetOutput' className='new-scroll' ref={target}>
-          {output}
+      <div className='terminalWindow'>
+        <div id='targetOutput' ref={target}>
+          <div id='textContainer' className='new-scroll'>
+            {output}
+          </div>
         </div>
       </div>
     </>

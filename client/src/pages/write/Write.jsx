@@ -15,6 +15,7 @@ export default function Write() {
   });
 
   const handleSubmit = async (e) => {
+    console.log('CLICK SUBMIT');
     e.preventDefault();
     const newPost = {
       username: user.username,
@@ -35,7 +36,9 @@ export default function Write() {
     try {
       const res = await axiosJWT.post('/posts', newPost);
       window.location.replace('/post/' + res.data._id);
-    } catch (error) {}
+    } catch (error) {
+      console.log('Post failed', error.message);
+    }
   };
 
   const refreshToken = async () => {
