@@ -6,11 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { ContextProvider } from './context/Context';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ContextProvider>
-        <App />
-      </ContextProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <ContextProvider>
+      <App />
+    </ContextProvider>
+  </BrowserRouter>
 );
+
+// when added Cagemaatch could not get it to deal correctly because the effect would run twice
+// diabling <React.StrictMode> resolved this issue but that seems like a horrible "fix"

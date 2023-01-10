@@ -9,6 +9,7 @@ import About from './pages/about/About';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
+import Cagematch from './pages/cagematch/Cagematch';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
@@ -37,7 +38,8 @@ export default function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
-          <Route path='/register' element={user ? <Home /> : <Register />} />
+          {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
+          <Route path='/cagematch' element={<Cagematch />} />
           <Route path='/login' element={user ? <Home /> : <Login />} />
           <Route path='/write' element={user ? <Write /> : <Home />} />
           <Route path='/post/:postId' element={<Single />} />

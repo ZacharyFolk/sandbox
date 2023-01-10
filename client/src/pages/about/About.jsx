@@ -41,7 +41,7 @@ export default function About() {
             </div>
           </div>
           <div className='col personal-data'>
-            <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+            <Typist typingDelay={30}>
               <div className='my-info'>
                 <h3>Personal data: </h3>
                 <p>
@@ -56,20 +56,19 @@ export default function About() {
                 Wordpress, Magento, React, Git, Jira, SEO, Accessibility,
                 Performance
               </p>
-
-              <Typist.Delay ms={1500} />
               <h3>Hobbies: </h3>
               <p>
                 photography, biking, guitar, gardening, kayaking, hiking,
                 birding, drawing
               </p>
 
-              {/* <Typist.Paste>
-              <div>
-                use
-                <div>deeper div</div>
-              </div>
-            </Typist.Paste> */}
+              <Typist.Paste>
+                <div>
+                  <a target='_blank' href='/folk_zachary_resume.pdf'>
+                    ⬇ Download Latest Resume ⬇
+                  </a>
+                </div>
+              </Typist.Paste>
             </Typist>
           </div>
         </div>

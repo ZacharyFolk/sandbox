@@ -18,11 +18,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 p {
-  font-size: 1.2em;
+  font-size: 1.1em;
   line-height: 1.3em;
 }
 a {
   outline: none;
+  text-decoration: none;
 }
 a:link,
 a:visited {
