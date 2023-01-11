@@ -59,6 +59,37 @@ const cardArrayOne = [
     img: './cagematch_assets/images/cage7.jpg',
   },
 ];
+
+const cardArray = [
+  {
+    name: 'cage1',
+    img: './cagematch_assets/images/cage1.jpg',
+  },
+  {
+    name: 'cage2',
+    img: './cagematch_assets/images/cage2.jpg',
+  },
+  {
+    name: 'cage3',
+    img: './cagematch_assets/images/cage3.jpg',
+  },
+  {
+    name: 'cage4',
+    img: './cagematch_assets/images/cage4.jpg',
+  },
+  {
+    name: 'cage5',
+    img: './cagematch_assets/images/cage5.jpg',
+  },
+  {
+    name: 'cage7',
+    img: './cagematch_assets/images/cage7.jpg',
+  },
+];
+let cardArrayCopy = cardArray.map((x) => x);
+console.log(cardArrayCopy);
+let fullArray = cardArray.concat(cardArrayCopy);
+console.log(fullArray);
 cardArrayOne.sort(() => 0.5 - Math.random());
 let cardsChosen = [];
 let cardsChosenId = [];
@@ -78,7 +109,7 @@ export default class Game {
     document.querySelector('.grid').innerHTML = '';
     loses.play();
     // await pause(2);
-    await alert('Fresh deal');
+    alert('Fresh deal');
     this.i = 0;
 
     this.start();

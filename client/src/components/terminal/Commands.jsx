@@ -114,4 +114,16 @@ const NoMatch = () => {
     </Typist>
   );
 };
+
+const Commands = () => {
+  return (
+    <Typist>
+      <p>
+        Available commands : home | about | help | games | cagematch | blog |
+        contact
+      </p>
+    </Typist>
+  );
+};
+
 export { Directions, Help, Look, NoMatch };

@@ -138,6 +138,15 @@
     opacity: 1;
   }
 }
+
+.grid {
+  width: 90%;
+  margin: 0 auto;
+}
+.grid img {
+  cursor: pointer;
+  width: 25%;
+}
 .enter {
   text-align: center;
   font-size: 2rem;

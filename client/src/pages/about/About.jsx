@@ -65,7 +65,7 @@ export default function About() {
               <Typist.Paste>
                 <div>
                   <a target='_blank' href='/folk_zachary_resume.pdf'>
-                    ⬇ Download Latest Resume ⬇
+                    ⬇ Download Latest Résumé ⬇
                   </a>
                 </div>
               </Typist.Paste>
