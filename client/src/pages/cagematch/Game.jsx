@@ -9,57 +9,6 @@ let caged = './cagematch_assets/images/cage6.jpg';
 let winner = './cagematch_assets/images/cage8.jpg';
 let loses = new Audio('./cagematch_assets/sounds/cage-bunny.mp3');
 
-const cardArrayOne = [
-  {
-    name: 'cage1',
-    img: './cagematch_assets/images/cage1.jpg',
-  },
-  {
-    name: 'cage2',
-    img: './cagematch_assets/images/cage2.jpg',
-  },
-  {
-    name: 'cage3',
-    img: './cagematch_assets/images/cage3.jpg',
-  },
-  {
-    name: 'cage4',
-    img: './cagematch_assets/images/cage4.jpg',
-  },
-  {
-    name: 'cage5',
-    img: './cagematch_assets/images/cage5.jpg',
-  },
-  {
-    name: 'cage7',
-    img: './cagematch_assets/images/cage7.jpg',
-  },
-  {
-    name: 'cage1',
-    img: './cagematch_assets/images/cage1.jpg',
-  },
-  {
-    name: 'cage2',
-    img: './cagematch_assets/images/cage2.jpg',
-  },
-  {
-    name: 'cage3',
-    img: './cagematch_assets/images/cage3.jpg',
-  },
-  {
-    name: 'cage4',
-    img: './cagematch_assets/images/cage4.jpg',
-  },
-  {
-    name: 'cage5',
-    img: './cagematch_assets/images/cage5.jpg',
-  },
-  {
-    name: 'cage7',
-    img: './cagematch_assets/images/cage7.jpg',
-  },
-];
-
 const cardArray = [
   {
     name: 'cage1',
@@ -90,7 +39,7 @@ let cardArrayCopy = cardArray.map((x) => x);
 console.log(cardArrayCopy);
 let fullArray = cardArray.concat(cardArrayCopy);
 console.log(fullArray);
-cardArrayOne.sort(() => 0.5 - Math.random());
+fullArray.sort(() => 0.5 - Math.random());
 let cardsChosen = [];
 let cardsChosenId = [];
 let cardsWon = [];
@@ -130,7 +79,7 @@ export default class Game {
       grid.appendChild(card);
       dealsound.play();
       self.i++;
-      if (self.i < cardArrayOne.length) {
+      if (self.i < fullArray.length) {
         self.dealCards();
       }
     }, 200);
@@ -180,7 +129,7 @@ export default class Game {
     cardsChosen = [];
     cardsChosenId = [];
     //	resultDisplay.textContent = cardsWon.length;
-    if (cardsWon.length === cardArrayOne.length / 2) {
+    if (cardsWon.length === fullArray.length / 2) {
       cagethanksyou.play();
       const grid = document.querySelector('.grid');
       const nickscage = document.createElement('div');
@@ -198,9 +147,9 @@ export default class Game {
   flipCard(e) {
     let self = e.target;
     let cardId = self.getAttribute('data-id');
-    cardsChosen.push(cardArrayOne[cardId].name);
+    cardsChosen.push(fullArray[cardId].name);
     cardsChosenId.push(cardId);
-    self.setAttribute('src', cardArrayOne[cardId].img);
+    self.setAttribute('src', fullArray[cardId].img);
 
     if (cardsChosen.length === 2) {
       setTimeout(this.checkForMatch.bind(this), 500);

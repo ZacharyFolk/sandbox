@@ -9,7 +9,7 @@ import About from './pages/about/About';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
-import Cagematch from './pages/cagematch/Cagematch';
+import Cagematch from './pages/cagematch/Cage';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
@@ -55,6 +55,7 @@ export default function App() {
 }
 
 function Layout() {
+  // TODO : Look at using Context API for these commands instead of props
   const [command, setCommand] = useState('');
   const [output, setOutput] = useState('initialText');
 

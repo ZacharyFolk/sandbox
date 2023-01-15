@@ -14,14 +14,17 @@ export default function About() {
             <div className='social-container'>
               <SocialIcon
                 bgColor='#5bf870'
+                target={'_blank'}
                 url='https://www.linkedin.com/in/zacharyfolk/'
               />
               <SocialIcon
                 bgColor='#5bf870'
+                target={'_blank'}
                 url='https://www.instagram.com/zachary_folk/'
               />
               <SocialIcon
                 bgColor='#5bf870'
+                target={'_blank'}
                 url='https://github.com/ZacharyFolk'
               />
               <SocialIcon
@@ -32,10 +35,12 @@ export default function About() {
               />
               <SocialIcon
                 bgColor='#5bf870'
+                target={'_blank'}
                 url='https://twitter.com/FolkPhotograph1'
               />
               <SocialIcon
                 bgColor='#5bf870'
+                target={'_blank'}
                 url='https://stackoverflow.com/users/82330/zac'
               />
             </div>
