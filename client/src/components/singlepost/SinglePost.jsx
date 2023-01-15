@@ -151,7 +151,7 @@ export default function SinglePost() {
                 height: 500,
                 menubar: false,
                 plugins:
-                  'anchor lists advlist emoticons autolink autoresize code codesample',
+                  'anchor lists advlist emoticons link autolink autoresize code codesample',
                 selector: 'textarea',
                 width: '100%',
                 // skin: 'oxide-dark',
@@ -160,7 +160,7 @@ export default function SinglePost() {
                   'undo redo | formatselect | ' +
                   'bold italic backcolor | alignleft aligncenter ' +
                   'alignright alignjustify | bullist numlist outdent indent | ' +
-                  'image | code codesample removeformat | anchor emoticons restoredraft',
+                  'image link | code codesample removeformat | anchor emoticons restoredraft',
                 codesample_global_prismjs: true,
               }}
             />

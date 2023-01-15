@@ -4,7 +4,7 @@ import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
 import { Directions, Help, Look, NoMatch } from './Commands';
 import Cagematch from '../cagematch/Cagematch';
-export default function Terminal() {
+export default function Terminal(props) {
   const location = useLocation();
 
   const initialText = () => {
@@ -15,9 +15,9 @@ export default function Terminal() {
     );
   };
   const { user } = useContext(Context);
-  const [command, setCommand] = useState('');
-  const [output, setOutput] = useState(initialText);
-  const target = createRef();
+  // const [command, setCommand] = useState('');
+  // const [output, setOutput] = useState(initialText);
+
   const navigate = useNavigate();
   function redirectAbout() {
     navigate('about');
@@ -82,8 +82,8 @@ export default function Terminal() {
         e.preventDefault();
         let typed = e.target.textContent.toLowerCase();
         e.target.innerHTML = '';
-        setOutput('');
-        setCommand(typed);
+        props.setOutput('');
+        props.setCommand(typed);
         break;
       default:
       // console.log('something else');
@@ -91,13 +91,13 @@ export default function Terminal() {
   };
 
   useEffect(() => {
-    switch (command) {
+    switch (props.command) {
       case 'home':
         window.location.replace('/');
         break;
       case 'about':
       case 'zac':
-        setOutput(About);
+        props.setOutput(About);
         break;
       case 'n':
       case 'e':
@@ -109,30 +109,30 @@ export default function Terminal() {
       case 'sw':
       case 'u':
       case 'd':
-        setOutput(Directions);
+        props.setOutput(Directions);
         break;
       case 'help':
       case '?':
       case 'contact':
-        setOutput(Help);
+        props.setOutput(Help);
         break;
       case 'hi':
       case 'hello':
       case 'howdy':
-        setOutput(Hello);
+        props.setOutput(Hello);
         break;
       case 'l':
       case 'look':
-        setOutput(Look);
+        props.setOutput(Look);
         break;
       case 'login':
         window.location.replace('/login/');
         break;
       default:
-        setOutput(NoMatch);
+        props.setOutput(NoMatch);
     }
-    setCommand('');
-  }, [command]);
+    props.setCommand('');
+  }, [props.command]);
 
   return (
     <>
@@ -164,9 +164,9 @@ export default function Terminal() {
         </div>
       </div>
       <div className='terminalWindow'>
-        <div id='targetOutput' ref={target}>
+        <div id='targetOutput'>
           <div id='textContainer' className='new-scroll'>
-            {output}
+            {props.output}
           </div>
         </div>
       </div>

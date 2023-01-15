@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
@@ -55,12 +55,20 @@ export default function App() {
 }
 
 function Layout() {
+  const [command, setCommand] = useState('');
+  const [output, setOutput] = useState('initialText');
+
   return (
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
       <Favicon url={blinky} animationDelay={500} iconSize={16} />
-      <Terminal />
+      <Terminal
+        command={command}
+        setCommand={setCommand}
+        output={output}
+        setOutput={setOutput}
+      />
 
       {/* 
       <nav>
