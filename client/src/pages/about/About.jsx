@@ -3,8 +3,16 @@ import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
 import Discogs from './../../components/discogs/Discogs';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { TerminalContext } from './../../context/TerminalContext';
+
 export default function About() {
+  const { command, updateCommand } = useContext(TerminalContext);
+
+  useEffect(() => {
+    updateCommand('test');
+  }, []);
+
   return (
     <>
       <div className='container'>

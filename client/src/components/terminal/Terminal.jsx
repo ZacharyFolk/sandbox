@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import Typist from 'react-typist-component';
 import { Directions, Help, Look, NoMatch } from './Commands';
+import { TerminalContext } from '../../context/TerminalContext';
 import Cagematch from '../cagematch/Cagematch';
 export default function Terminal(props) {
   const location = useLocation();
@@ -16,7 +17,11 @@ export default function Terminal(props) {
   };
   const { user } = useContext(Context);
   // const [command, setCommand] = useState('');
-  // const [output, setOutput] = useState(initialText);
+  // const [out, setOut] = useState(props.out);
+  // const { command, updateCommand, output, updateOutput } =
+  //   useContext(TerminalContext);
+
+  const { command, updateCommand, output, updateOutput } = props;
 
   const navigate = useNavigate();
   function redirectAbout() {
@@ -67,6 +72,9 @@ export default function Terminal(props) {
     );
   };
 
+  const Test = () => {
+    return <p>testing 1 2 3</p>;
+  };
   const handleKeys = (e) => {
     // let len = this.keys.length;
     // this.setState({ number: Math.floor(Math.random() * len) });
@@ -82,8 +90,8 @@ export default function Terminal(props) {
         e.preventDefault();
         let typed = e.target.textContent.toLowerCase();
         e.target.innerHTML = '';
-        props.setOutput('');
-        props.setCommand(typed);
+
+        updateCommand(typed);
         break;
       default:
       // console.log('something else');
@@ -91,13 +99,14 @@ export default function Terminal(props) {
   };
 
   useEffect(() => {
-    switch (props.command) {
+    console.log('FROM TERMINAL WTF : ', command);
+    switch (command) {
       case 'home':
         window.location.replace('/');
         break;
       case 'about':
       case 'zac':
-        props.setOutput(About);
+        updateOutput(About);
         break;
       case 'n':
       case 'e':
@@ -109,30 +118,36 @@ export default function Terminal(props) {
       case 'sw':
       case 'u':
       case 'd':
-        props.setOutput(Directions);
+        updateOutput(Directions);
         break;
       case 'help':
       case '?':
       case 'contact':
-        props.setOutput(Help);
+        updateOutput(Help);
         break;
       case 'hi':
       case 'hello':
       case 'howdy':
-        props.setOutput(Hello);
+        updateOutput(Hello);
         break;
       case 'l':
       case 'look':
-        props.setOutput(Look);
+        updateOutput(Look);
         break;
       case 'login':
         window.location.replace('/login/');
         break;
+      case 'test':
+      case 'z':
+        console.log('i am running when changesh');
+        updateOutput('');
+        updateOutput(Test);
+        break;
       default:
-        props.setOutput(NoMatch);
+        updateOutput(NoMatch);
     }
-    props.setCommand('');
-  }, [props.command]);
+    updateCommand('');
+  }, [command]);
 
   return (
     <>
@@ -166,7 +181,7 @@ export default function Terminal(props) {
       <div className='terminalWindow'>
         <div id='targetOutput'>
           <div id='textContainer' className='new-scroll'>
-            {props.output}
+            {output}
           </div>
         </div>
       </div>

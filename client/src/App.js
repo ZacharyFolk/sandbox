@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
@@ -11,6 +11,7 @@ import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
 import Cagematch from './pages/cagematch/Cage';
 import { Context } from './context/Context';
+import { TerminalContext } from './context/TerminalContext';
 import './main.css';
 import './animation.css';
 import './prism/prism.css';
@@ -25,8 +26,6 @@ export default function App() {
   //   navigate('about');
   // }
 
-  console.log('FROM APP');
-  console.log(user);
   return (
     <div id='crt'>
       <div className='scanline'></div>
@@ -56,8 +55,12 @@ export default function App() {
 
 function Layout() {
   // TODO : Look at using Context API for these commands instead of props
-  const [command, setCommand] = useState('');
-  const [output, setOutput] = useState('initialText');
+  // const [command, setCommand] = useState('');
+  const { command, updateCommand, output, updateOutput } =
+    useContext(TerminalContext);
+
+  //const [command, setCommand] = useState('');
+  // const [output, setOutput] = useState('initialText');
 
   return (
     <div>
@@ -66,9 +69,9 @@ function Layout() {
       <Favicon url={blinky} animationDelay={500} iconSize={16} />
       <Terminal
         command={command}
-        setCommand={setCommand}
+        updateCommand={updateCommand}
         output={output}
-        setOutput={setOutput}
+        updateOutput={updateOutput}
       />
 
       {/* 
