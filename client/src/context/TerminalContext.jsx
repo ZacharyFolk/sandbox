@@ -1,10 +1,11 @@
-import { createContext, useState } from 'react';
-
+import { createContext, useState, useReducer } from 'react';
+import TerminalReducer from './TerminalReducer';
 export const TerminalContext = createContext('');
 
 export const TerminalProvider = ({ children }) => {
   const [command, setCommand] = useState('');
   const [output, setOutput] = useState('');
+  const [state, dispatch] = useReducer(TerminalReducer, '');
 
   const updateCommand = (value) => {
     if (value) {
@@ -20,7 +21,7 @@ export const TerminalProvider = ({ children }) => {
   return (
     <>
       <TerminalContext.Provider
-        value={{ command, updateCommand, output, updateOutput }}
+        value={{ command, updateCommand, output, updateOutput, dispatch }}
       >
         {children}
       </TerminalContext.Provider>
