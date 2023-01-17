@@ -61,7 +61,13 @@ export default function Terminal(props) {
       </Typist>
     );
   };
+  const Cage1 = () => {
+    return <p>Dealing cards. . . </p>;
+  };
 
+  const Cage2 = () => {
+    return <p>Ok, find the matching pairs!</p>;
+  };
   const Hello = () => {
     return <p>Oh hi! Thanks for stopping by.</p>;
   };
@@ -126,6 +132,12 @@ export default function Terminal(props) {
         break;
       case 'login':
         window.location.replace('/login/');
+        break;
+      case 'cage1':
+        props.setOutput(Cage1);
+        break;
+      case 'cage2':
+        props.setOutput(Cage2);
         break;
       default:
         props.setOutput(NoMatch);

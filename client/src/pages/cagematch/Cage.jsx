@@ -1,14 +1,31 @@
-import { useRef, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import './cagematch.css';
+import { TerminalContext } from './../../context/TerminalContext';
 
 export default function Cagematch(props) {
+  const { updateCommand } = useContext(TerminalContext);
   console.log('props', props);
 
   const [initialScreen, setInitialScreen] = useState(false);
   let chosen = [];
-  const [attempts, setAttempt] = useState(0);
+  const [hearts, setHearts] = useState(3);
   const main = useRef();
   const scoreboard = useRef();
+
+  // SOUNDS
+
+  const matchsound = new Audio(
+    './cagematch_assets/sounds/collect-point-01.wav'
+  );
+  const misssound = new Audio('./cagematch_assets/sounds/hit-01.wav');
+  const dealsound = new Audio('./cagematch_assets/sounds/menu-navigate-03.wav');
+  const cagethanksyou = new Audio('./cagematch_assets/sounds/cage-thanks.mp3');
+  const boredcage = new Audio('./cagematch_assets/sounds/cage-bored.mp3');
+  const declaration = new Audio(
+    './cagematch_assets/sounds/cage-declaration.mp3'
+  );
+
+  // IMAGES
 
   let cardbacksrc = './cagematch_assets/images/cage10.jpg';
   let caged = './cagematch_assets/images/cage6.jpg';
@@ -58,19 +75,39 @@ export default function Cagematch(props) {
       console.log('match');
       cards[chosenId1].setAttribute('src', caged);
       cards[chosenId2].setAttribute('src', caged);
+      matchsound.play();
+      // remove fail point if match
+      setHearts((z) => (z === 3 ? z : z + 1));
     } else {
-      console.log(cards[chosenId1]);
       cards[chosenId1].setAttribute('src', cardbacksrc);
       cards[chosenId2].setAttribute('src', cardbacksrc);
-      console.log('no match');
+
+      misssound.play();
+      setHearts((z) => z - 1);
     }
-    // updaate score
-    setAttempt((z) => z + 1);
+    // update score
+
     // empty the array
     chosen = [];
     // allow clicking on everything again
     enableClicking();
   };
+
+  useEffect(() => {
+    console.log('hearts', hearts);
+    switch (hearts) {
+      case 0:
+        declaration.play();
+        console.log('fail');
+        break;
+      case 1:
+        boredcage.play();
+        break;
+
+      default:
+        break;
+    }
+  }, [hearts]);
 
   const flipCard = (card) => {
     let self = card.target;
@@ -95,6 +132,7 @@ export default function Cagematch(props) {
   };
 
   function enableClicking() {
+    updateCommand('cage2');
     console.log('WHEN DO I RUN');
     let cards = getAllCards();
     // enable clicking
@@ -107,6 +145,7 @@ export default function Cagematch(props) {
     const grid = main.current;
     grid.innerHTML = '';
     console.log(fullArray);
+
     // for (var i = 0; i < fullArray.length; i++) {
     //   const card = document.createElement('img');
     //   card.setAttribute('src', cardbacksrc);
@@ -127,6 +166,8 @@ export default function Cagematch(props) {
         card.addEventListener('click', flipCard.bind(this));
         // initially disable clicking
         card.setAttribute('style', 'pointer-events: none');
+
+        dealsound.play();
 
         grid.appendChild(card);
         setTimeout(dealCards, 300, arr, i + 1);
@@ -151,13 +192,17 @@ export default function Cagematch(props) {
   //   }
 
   useEffect(() => {
+    updateCommand('cage1');
+
     init();
-    console.log('wtf', main.current);
   }, []);
 
   return (
     <div className='grid'>
-      <div className='scoreBoard'>{attempts}</div>
+      <div className='scoreBoard'>
+        <h1>CAGEMATCH</h1>
+        <span>❤ {hearts} </span>
+      </div>
       <div className='gameBoard' ref={main}></div>
       {/* <div className='fullscreen'>
         <h1 className='jt --debug'>
