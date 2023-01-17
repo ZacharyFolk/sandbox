@@ -1,10 +1,18 @@
+import { TerminalContext } from '../../context/TerminalContext';
+
 import selfie from './../../images/matrix-me-small.jpg';
 import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
 import Discogs from './../../components/discogs/Discogs';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+
 export default function About() {
+  const { command, updateCommand } = useContext(TerminalContext);
+  useEffect(() => {
+    updateCommand('help');
+  }, []);
+
   return (
     <>
       <div className='container'>

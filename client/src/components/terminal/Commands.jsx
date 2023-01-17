@@ -52,14 +52,15 @@ const Directions = () => {
   ];
   let num = Math.floor(Math.random() * directionsArray.length);
   return (
-    <Typist typingDelay={10}>
+    <Typist>
       <p>{directionsArray[num]}</p>
     </Typist>
   );
 };
 const Help = () => {
   return (
-    <Typist typingDelay={25} cursor={<span className='cursor'>|</span>}>
+    <>
+      {' '}
       <p>
         Type <em>commands</em> to see some other things you can try. (Hint:
         There is no bad input, just maybe not the output you expected.)
@@ -68,7 +69,7 @@ const Help = () => {
         Type <em>about</em> to connect with me or click the ❔ in the upper
         right corner.
       </p>
-    </Typist>
+    </>
   );
 };
 const Look = () => {

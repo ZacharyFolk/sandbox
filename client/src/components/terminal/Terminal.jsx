@@ -1,12 +1,15 @@
 import { useContext, useState, useEffect, createRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
+
+import { TerminalContext } from '../../context/TerminalContext';
 import Typist from 'react-typist-component';
 import { Directions, Help, Look, NoMatch } from './Commands';
 import Cagematch from '../cagematch/Cagematch';
 export default function Terminal(props) {
   const location = useLocation();
 
+  const { command, updateCommand } = useContext(TerminalContext);
   const initialText = () => {
     return (
       <Typist typingDelay={100}>
@@ -60,11 +63,7 @@ export default function Terminal(props) {
   };
 
   const Hello = () => {
-    return (
-      <Typist typingDelay={50} cursor={<span className='cursor'> | </span>}>
-        <p>Oh hi! Thanks for stopping by.</p>
-      </Typist>
-    );
+    return <p>Oh hi! Thanks for stopping by.</p>;
   };
 
   const handleKeys = (e) => {
@@ -83,7 +82,7 @@ export default function Terminal(props) {
         let typed = e.target.textContent.toLowerCase();
         e.target.innerHTML = '';
         props.setOutput('');
-        props.setCommand(typed);
+        updateCommand(typed);
         break;
       default:
       // console.log('something else');
@@ -91,7 +90,7 @@ export default function Terminal(props) {
   };
 
   useEffect(() => {
-    switch (props.command) {
+    switch (command) {
       case 'home':
         window.location.replace('/');
         break;
@@ -131,8 +130,8 @@ export default function Terminal(props) {
       default:
         props.setOutput(NoMatch);
     }
-    props.setCommand('');
-  }, [props.command]);
+    console.log('COMMAND CHANGED ', command);
+  }, [command]);
 
   return (
     <>
