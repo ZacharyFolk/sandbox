@@ -145,6 +145,9 @@ export default function Terminal(props) {
       case 'cage5':
         props.setOutput(<CageTips num={4} />);
         break;
+      case 'cage6':
+        props.setOutput(<CageTips num={5} />);
+        break;
       default:
         props.setOutput(NoMatch);
     }

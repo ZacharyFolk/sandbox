@@ -123,11 +123,11 @@ export default function Cagematch() {
     themesong.play();
     await waitForKey(13);
     themesong.pause();
+    setScreen(GameScreen);
     const grid = main.current;
-    grid.innerHTML = '';
 
     updateCommand('cage2');
-    // cagesings.play();
+    cagesings.play();
     // create recursive loop so can add a delay and simulate dealing cards
     const dealCards = (arr, i) => {
       if (i === arr.length) {
@@ -236,15 +236,17 @@ export default function Cagematch() {
     console.log('hearts', hearts);
     switch (hearts) {
       case 0:
-        console.log('fail');
-        shame.play();
-
+        gameOver();
+        break;
+      case 1:
+        updateCommand('cage5');
         break;
       case 2:
         getRandoSound().play();
         break;
       case 3:
         updateCommand('cage4');
+        break;
       default:
         break;
     }
@@ -278,16 +280,60 @@ export default function Cagematch() {
       </>
     );
   };
+  const FailScreen = () => {
+    return (
+      <>
+        <div className='fullscreen'>
+          <h1 className='jt --debug'>
+            <span className='jt__row'>
+              <span className='jt__text'>GAME OVER</span>
+            </span>
+            <span className='jt__row jt__row--sibling' aria-hidden='true'>
+              <span className='jt__text'>GAME OVER</span>
+            </span>
+            <span className='jt__row jt__row--sibling' aria-hidden='true'>
+              <span className='jt__text'>GAME OVER</span>
+            </span>
+            <span className='jt__row jt__row--sibling' aria-hidden='true'>
+              <span className='jt__text'>GAME OVER</span>
+            </span>
+          </h1>
+        </div>
+      </>
+    );
+  };
+  const GameScreen = () => {
+    // This seems kind of lame but this is how I reset screen
+    return (
+      <>
+        <span></span>
+      </>
+    );
+  };
 
+  const gameOver = async () => {
+    updateCommand('cage6');
+    clearBoaard();
+    setScreen(FailScreen);
+    shame.play();
+    await waitForKey(13);
+    setScreen(GameScreen);
+    setHearts(maxLives);
+
+    init();
+  };
+  const clearBoaard = () => {
+    const grid = main.current;
+    grid.innerHTML = '';
+  };
   return (
     <div className='grid'>
+      {screen}
       <div className='scoreBoard'>
         <h1>CAGEMATCH</h1>
         <span>❤ {hearts} </span>
       </div>
-      <div className='gameBoard' ref={main}>
-        {screen}
-      </div>
+      <div className='gameBoard' ref={main}></div>
     </div>
   );
 }
