@@ -141,14 +141,16 @@
 
 .grid {
   position: relative;
-  max-width: 990px;
+  max-width: 1600px;
   width: 90%;
   margin: 0 auto;
 }
 .grid img {
-  padding: 10px 7px 0;
+  padding: 10px 10px;
   cursor: pointer;
-  width: 23%;
+  width: 16%;
+  background: #323b37;
+  margin: 10px 10px 5px 10px;
 }
 .enter {
   text-align: center;
@@ -156,7 +158,6 @@
   animation: cursor 1s infinite 2s step-end;
 }
 .fullscreen {
-  background: url('./images/title-screen.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -178,17 +179,17 @@
   animation: grow 12s ease-in-out infinite alternate;
 }
 .gameBoard {
-  width: 90%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 20px auto;
 }
 .scoreBoard {
   display: flex;
   position: absolute;
-  top: -80px;
-  width: 250px;
-  flex-direction: column;
+  top: -90px;
+  width: 270px;
+  justify-content: space-evenly;
   align-items: center;
-  right: 0;
+  right: 160px;
 }
 .scoreBoard h1 {
   margin: 0;
@@ -201,17 +202,13 @@
     transform: scale(2);
   }
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 900px) {
   .grid img {
-    width: 28%;
+    scale: calc(0.9);
+    width: 25%;
+    margin: 0;
   }
-  .gameBoard {
-    width: 100%;
-  }
-  .scoreBoard {
-    flex-direction: row;
-    top: -20px;
-  }
+
   .scoreBoard h1 {
     display: none;
   }
