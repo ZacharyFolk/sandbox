@@ -29,7 +29,6 @@ export default function Cagematch(props) {
 
   let cardbacksrc = './cagematch_assets/images/cage10.jpg';
   let caged = './cagematch_assets/images/cage6.jpg';
-
   const cardArray = [
     {
       name: 'cage1',
@@ -60,8 +59,9 @@ export default function Cagematch(props) {
   let fullArray = cardArray.concat(cardArrayCopy);
   fullArray.sort(() => 0.5 - Math.random());
 
-  const checkForMatch = (card) => {
+  const checkForMatch = () => {
     console.log('CHECKING', chosen);
+    // TODO : This is bad.. could get what we need from event?
     const cards = document.querySelectorAll('img');
     console.log('cards', cards);
     let chosenName1 = chosen[0].name;
@@ -72,10 +72,16 @@ export default function Cagematch(props) {
     console.log(chosenName1, chosenName2);
 
     if (chosenName1 === chosenName2) {
-      console.log('match');
-      cards[chosenId1].setAttribute('src', caged);
-      cards[chosenId2].setAttribute('src', caged);
       matchsound.play();
+      // change image and remove pointer events : add new data-attribuute so enableClicking will skip these
+
+      cards[chosenId1].setAttribute('src', caged);
+      cards[chosenId1].setAttribute('style', 'pointer-events: none');
+      cards[chosenId2].setAttribute('src', caged);
+      cards[chosenId2].setAttribute('style', 'pointer-events: none');
+      cards[chosenId1].setAttribute('data-match', true);
+      cards[chosenId2].setAttribute('data-match', 'true');
+
       // remove fail point if match
       setHearts((z) => (z === 3 ? z : z + 1));
     } else {
@@ -93,6 +99,7 @@ export default function Cagematch(props) {
     enableClicking();
   };
 
+  // Functions based on score
   useEffect(() => {
     console.log('hearts', hearts);
     switch (hearts) {
@@ -110,7 +117,9 @@ export default function Cagematch(props) {
   }, [hearts]);
 
   const flipCard = (card) => {
+    // TODO : Use this target
     let self = card.target;
+
     let cardId = self.getAttribute('data-id');
     let cardName = fullArray[cardId].name;
     let cardObj = { id: cardId, name: cardName };
@@ -135,9 +144,14 @@ export default function Cagematch(props) {
     updateCommand('cage2');
     console.log('WHEN DO I RUN');
     let cards = getAllCards();
+
     // enable clicking
     for (const card of cards) {
-      card.setAttribute('style', 'pointer-events: auto');
+      let match = card.getAttribute('data-match');
+      console.log(match);
+      if (!match) {
+        card.setAttribute('style', 'pointer-events: auto');
+      }
     }
   }
 
@@ -156,7 +170,7 @@ export default function Cagematch(props) {
     // }
 
     // create recursive loop so can add a delay and simulate dealing cards
-    function dealCards(arr, i) {
+    const dealCards = (arr, i) => {
       if (i === arr.length) {
         enableClicking();
       } else {
@@ -172,24 +186,10 @@ export default function Cagematch(props) {
         grid.appendChild(card);
         setTimeout(dealCards, 300, arr, i + 1);
       }
-    }
+    };
     // initial index is 0 to match the natural first key of the array
-
     dealCards(fullArray, 0);
-
-    // setTimeout(function () {
-    //   // dealsound.play();
-    //   i++;
-    //   if (i < fullArray.length) {
-    //     //  deal();
-    //   }
-    // }, 200);
   };
-
-  //   if (typeof window !== 'undefined') {
-  //     // Don't need useEffect!  https://beta.reactjs.org/learn/you-might-not-need-an-effect
-  //     init();
-  //   }
 
   useEffect(() => {
     updateCommand('cage1');
