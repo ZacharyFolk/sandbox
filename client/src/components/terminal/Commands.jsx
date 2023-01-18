@@ -34,6 +34,21 @@ import { useNavigate, Navigate } from 'react-router-dom';
 //   );
 // };
 
+// CAGEMATCH game
+
+const CageTips = (props) => {
+  console.log('WHAT ARE CAGETIPS props', props);
+  const tipsArray = [
+    'Game loaded. Press any key to continue.',
+    'Dealing cards. . . . ',
+    'Game ends if you run out of ❤. Regain lost points with a correct match.',
+    'Uh Oh. Only 3 tries left!',
+    'Not looking good...',
+    'Game over.  Press Enter to play again.',
+  ];
+  return tipsArray[props.num];
+};
+
 const Directions = () => {
   const directionsArray = [
     'You find yourself in a deep tropical forest, surrounded by towering trees and the sounds of exotic birds and animals. The air is thick with humidity and the scent of flowers and herbs.',
@@ -127,4 +142,4 @@ const Commands = () => {
   );
 };
 
-export { Directions, Help, Look, NoMatch };
+export { CageTips, Directions, Help, Look, NoMatch };

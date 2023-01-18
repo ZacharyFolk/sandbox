@@ -4,7 +4,7 @@ import { Context } from '../../context/Context';
 
 import { TerminalContext } from '../../context/TerminalContext';
 import Typist from 'react-typist-component';
-import { Directions, Help, Look, NoMatch } from './Commands';
+import { CageTips, Directions, Help, Look, NoMatch } from './Commands';
 import Cagematch from '../cagematch/Cagematch';
 export default function Terminal(props) {
   const location = useLocation();
@@ -61,13 +61,7 @@ export default function Terminal(props) {
       </Typist>
     );
   };
-  const Cage1 = () => {
-    return <p>Dealing cards. . . </p>;
-  };
 
-  const Cage2 = () => {
-    return <p>Ok, find the matching pairs!</p>;
-  };
   const Hello = () => {
     return <p>Oh hi! Thanks for stopping by.</p>;
   };
@@ -104,6 +98,9 @@ export default function Terminal(props) {
       case 'zac':
         props.setOutput(About);
         break;
+      case 'clear':
+        props.setOutput('');
+        break;
       case 'n':
       case 'e':
       case 'w':
@@ -134,10 +131,19 @@ export default function Terminal(props) {
         window.location.replace('/login/');
         break;
       case 'cage1':
-        props.setOutput(Cage1);
+        props.setOutput(<CageTips num={0} />);
         break;
       case 'cage2':
-        props.setOutput(Cage2);
+        props.setOutput(<CageTips num={1} />);
+        break;
+      case 'cage3':
+        props.setOutput(<CageTips num={2} />);
+        break;
+      case 'cage4':
+        props.setOutput(<CageTips num={3} />);
+        break;
+      case 'cage5':
+        props.setOutput(<CageTips num={4} />);
         break;
       default:
         props.setOutput(NoMatch);

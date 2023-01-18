@@ -276,6 +276,7 @@ h2 {
 #textContainer {
   margin: 0 auto;
   height: 100%;
+  line-height: 4em;
 }
 .about-container {
   width: 95%;

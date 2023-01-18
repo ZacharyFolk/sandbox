@@ -4,6 +4,8 @@ import { TerminalContext } from './../../context/TerminalContext';
 
 export default function Cagematch() {
   const { updateCommand } = useContext(TerminalContext);
+  const [screen, setScreen] = useState('');
+
   let chosen = [];
   let matchedCards = [];
   const maxLives = 6;
@@ -11,6 +13,8 @@ export default function Cagematch() {
   const main = useRef();
 
   // SOUNDS
+  const themesong = new Audio('./cagematch_assets/sounds/psykick.mp3');
+
   const cagesings = new Audio('./cagematch_assets/sounds/singing.mp3');
   const misssound = new Audio('./cagematch_assets/sounds/hit-01.wav');
   const dealsound = new Audio('./cagematch_assets/sounds/deal.wav');
@@ -30,16 +34,17 @@ export default function Cagematch() {
     './cagematch_assets/sounds/collect-point-01.wav'
   );
 
-  const clipArray = [throughtoyou, boredcage, bunny];
+  const clipArray = [throughtoyou, boredcage, bunny, declaration];
   const getRandoSound = () => {
     let num = Math.floor(Math.random() * clipArray.length);
     return clipArray[num];
   };
   // IMAGES
-  let cardbacksrc = './cagematch_assets/images/cage10.jpg';
-  let caged = './cagematch_assets/images/cage6.jpg';
-  let loser = './cagematch_assets/images/cage9.jpg';
-  let winner = './cagematch_assets/images/cage8.jpg';
+  const cardbacksrc = './cagematch_assets/images/cage10.jpg';
+  const caged = './cagematch_assets/images/cage6.jpg';
+  const loser = './cagematch_assets/images/cage9.jpg';
+  const winner = './cagematch_assets/images/cage8.jpg';
+  const titleScreen = './cagematch_assets/images/title-screen.jpg';
 
   const cardArray = [
     {
@@ -88,7 +93,6 @@ export default function Cagematch() {
   fullArray.sort(() => 0.5 - Math.random());
 
   useEffect(() => {
-    updateCommand('cage1'); // send for initial message in terminal
     init();
   }, []);
 
@@ -111,12 +115,18 @@ export default function Cagematch() {
 
   // Initial deal
   const init = async () => {
+    updateCommand('cage1'); // send for initial message in terminal
+    await waitForKey();
+    updateCommand('clear');
+    setScreen(TitleScreen);
+
+    themesong.play();
+    await waitForKey(13);
+    themesong.pause();
     const grid = main.current;
     grid.innerHTML = '';
-    await waitForKey();
 
-    console.log('when go');
-
+    updateCommand('cage2');
     // cagesings.play();
     // create recursive loop so can add a delay and simulate dealing cards
     const dealCards = (arr, i) => {
@@ -129,7 +139,6 @@ export default function Cagematch() {
         card.addEventListener('click', flipCard.bind(this));
         // initially disable clicking
         card.setAttribute('style', 'pointer-events: none');
-
         dealsound.play();
         grid.appendChild(card);
         setTimeout(dealCards, 300, arr, i + 1);
@@ -141,7 +150,7 @@ export default function Cagematch() {
 
   function enableClicking() {
     // cards dealt start game
-    updateCommand('cage2');
+    updateCommand('cage3');
 
     let cards = getAllCards();
 
@@ -157,8 +166,6 @@ export default function Cagematch() {
 
   function disableClicking() {
     let cards = getAllCards();
-
-    // enable clicking
     for (const card of cards) {
       card.setAttribute('style', 'pointer-events: none');
     }
@@ -220,6 +227,8 @@ export default function Cagematch() {
     chosen = [];
     // allow clicking on everything again
     enableClicking();
+    // remove any left over message in terminal
+    updateCommand('clear');
   };
 
   // Functions based on score
@@ -231,15 +240,44 @@ export default function Cagematch() {
         shame.play();
 
         break;
-      case 1:
+      case 2:
         getRandoSound().play();
-
         break;
-
+      case 3:
+        updateCommand('cage4');
       default:
         break;
     }
   }, [hearts]);
+
+  const TitleScreen = () => {
+    return (
+      <>
+        <div
+          className='fullscreen'
+          style={{ backgroundImage: `url(${titleScreen})` }}
+        >
+          <h1 className='jt --debug'>
+            <span className='jt__row'>
+              <span className='jt__text'>Cage Match</span>
+            </span>
+            <span className='jt__row jt__row--sibling' aria-hidden='true'>
+              <span className='jt__text'>Cage Match</span>
+            </span>
+            <span className='jt__row jt__row--sibling' aria-hidden='true'>
+              <span className='jt__text'>Cage Match</span>
+            </span>
+            <span className='jt__row jt__row--sibling' aria-hidden='true'>
+              <span className='jt__text'>Cage Match</span>
+            </span>
+          </h1>
+          <div className='delayed-display'>
+            <div className='enter'>--- PRESS ENTER ---</div>
+          </div>
+        </div>
+      </>
+    );
+  };
 
   return (
     <div className='grid'>
@@ -247,26 +285,9 @@ export default function Cagematch() {
         <h1>CAGEMATCH</h1>
         <span>❤ {hearts} </span>
       </div>
-      <div className='gameBoard' ref={main}></div>
-      {/* <div className='fullscreen'>
-        <h1 className='jt --debug'>
-          <span className='jt__row'>
-            <span className='jt__text'>Cage Match</span>
-          </span>
-          <span className='jt__row jt__row--sibling' aria-hidden='true'>
-            <span className='jt__text'>Cage Match</span>
-          </span>
-          <span className='jt__row jt__row--sibling' aria-hidden='true'>
-            <span className='jt__text'>Cage Match</span>
-          </span>
-          <span className='jt__row jt__row--sibling' aria-hidden='true'>
-            <span className='jt__text'>Cage Match</span>
-          </span>
-        </h1>
-        <div className='delayed-display'>
-          <div className='enter'>--- PRESS ENTER ---</div>
-        </div>
-      </div> */}
+      <div className='gameBoard' ref={main}>
+        {screen}
+      </div>
     </div>
   );
 }

@@ -14,7 +14,7 @@
   display: block;
   width: 100%;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .jt__row:nth-child(1) {
   clip-path: polygon(-10% 75%, 110% 75%, 110% 110%, -10% 110%);
@@ -125,22 +125,25 @@
   }
 }
 .delayed-display {
-  animation: delayit 30s;
+  animation: delayit 10s;
+  animation-iteration-count: 1;
   opacity: 0;
 }
 @keyframes delayit {
   0%,
-  50% {
+  30% {
     opacity: 0;
   }
 
   70% {
     opacity: 1;
   }
+  100% {
+    opacity: 0.3;
+  }
 }
 
 .grid {
-  position: relative;
   max-width: 1600px;
   width: 90%;
   margin: 0 auto;
@@ -159,11 +162,12 @@
 }
 .fullscreen {
   background-size: cover;
-  background-position: center;
+  background-position: top -150px right 50%;
   background-repeat: no-repeat;
   height: 100vh;
   min-height: 100%;
   margin-top: -80px;
+  opacity: 0.7;
 }
 
 .cards .grid img.matched {
@@ -185,7 +189,7 @@
 .scoreBoard {
   display: flex;
   position: absolute;
-  top: -90px;
+  top: 10px;
   width: 270px;
   justify-content: space-evenly;
   align-items: center;
@@ -207,9 +211,5 @@
     scale: calc(0.9);
     width: 25%;
     margin: 0;
-  }
-
-  .scoreBoard h1 {
-    display: none;
   }
 }
