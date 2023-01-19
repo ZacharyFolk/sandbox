@@ -148,10 +148,13 @@ export default function Terminal(props) {
       case 'cage6':
         props.setOutput(<CageTips num={5} />);
         break;
+      case 'cage7':
+        props.setOutput(<CageTips num={6} />);
+        break;
       default:
         props.setOutput(NoMatch);
     }
-    console.log('COMMAND CHANGED ', command);
+    //  console.log('COMMAND CHANGED ', command);
   }, [command]);
 
   return (

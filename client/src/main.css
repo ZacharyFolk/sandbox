@@ -120,6 +120,7 @@ body {
   align-items: center;
   border-bottom: 1px solid var(--secondary-color);
   background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
 }
 
 .terminal {
@@ -251,6 +252,8 @@ h2 {
 .terminalWindow {
   background: rgb(0, 0, 0, 0.4);
   width: 100%;
+  position: relative;
+  z-index: 100;
 }
 #targetOutput {
   height: 70px;

@@ -99,7 +99,7 @@ export default function Cagematch() {
    * @returns NodeList of images
    */
   const getAllCards = () => {
-    return document.querySelectorAll('img');
+    return document.querySelectorAll('.gameBoard img');
   };
 
   /**
@@ -156,8 +156,6 @@ export default function Cagematch() {
   /**
    * Sets innerHTML of current ref to empty string ''
    * @returns {void}
-   *
-   *
    */
   const clearBoard = () => {
     const grid = main.current;
@@ -184,6 +182,7 @@ export default function Cagematch() {
     updateCommand('cage1'); // send for initial message in terminal
     await waitForKey();
     updateCommand('clear');
+
     setScreen(TitleScreen);
     themesong.play();
     await waitForKey(13);
@@ -264,7 +263,8 @@ export default function Cagematch() {
       setHearts((z) => (z === maxLives ? z : z + 1));
       console.log('Matched so far: ', matchedCards);
       if (matchedCards.length === fullArray.length) {
-        console.log('YOU ARE A BIG WEEEINER');
+        YouWin();
+        //  console.log('YOU ARE A BIG WEEEINER');
       }
     } else {
       card1.setAttribute('src', cardbacksrc);
@@ -360,13 +360,63 @@ export default function Cagematch() {
       </>
     );
   };
+  /**
+   *
+   * @returns {void}
+   */
+  const YouWin = async () => {
+    let cards = getAllCards();
+    // convert NodeList to an array
+    let cardsArray = Array.from(cards);
+    const centerIndex = Math.floor(cardsArray.length / 2);
+    console.log(cardsArray);
+    let i = 0;
+    for (let j = 0; j < cardsArray.length; j++) {
+      console.log('wut dis', cardsArray[i].src);
+      let newclass = centerIndex === j ? 'middle-card' : 'fade-it';
+      cardsArray[j].setAttribute('class', newclass);
+    }
 
-  const YouWin = () => {
-    return (
-      <>
-        <span>neat-o</span>
-      </>
-    );
+    // setInterval(() => {
+    //   cardsArray[centerIndex].src = cardsArray[i].src;
+    //   i++;
+    //   if (i === cardsArray.length) {
+    //     i = 0;
+    //   }
+    // }, 100);
+
+    // setInterval(() => {
+    //   i = (i + 1) % cardsArray.length;
+    //   let newSrc = cardsArray[i].getAttribute("src");
+    //   cardsArray[centerIndex].setAttribute("src", newSrc);
+    // }, 100);
+
+    // function replaceMiddleCard() {
+    //   console.log(
+    //     'replace middle card- what i - wtf',
+    //     cardsArray,
+    //     i,
+    //     cardsArray[i].src
+    //   );
+    //   cardsArray[i].src = cardsArray[i].src;
+    //   i++;
+    //   if (i < cardsArray.length) {
+    //     setTimeout(replaceMiddleCard, 100);
+    //   }
+    // }
+
+    // replaceMiddleCard();
+
+    // setTimeout(() => {
+    //   cardsArray[centerIndex].setAttribute('src', winner);
+    // }, 20000);
+    updateCommand('cage7');
+    cagethanksyou.play();
+    await waitForKey(13);
+    clearBoard();
+    setScreen(GameScreen);
+    setHearts(maxLives);
+    init();
   };
 
   const gameOver = async () => {

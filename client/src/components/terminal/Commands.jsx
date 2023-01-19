@@ -37,7 +37,6 @@ import { useNavigate, Navigate } from 'react-router-dom';
 // CAGEMATCH game
 
 const CageTips = (props) => {
-  console.log('WHAT ARE CAGETIPS props', props);
   const tipsArray = [
     'Game loaded. Press any key to continue.',
     'Dealing cards. . . . ',
@@ -45,6 +44,7 @@ const CageTips = (props) => {
     'Uh Oh. Only 3 tries left!',
     'Not looking good...',
     'Game over.  Press Enter to play again.',
+    'Congratulations! You did it. Press Enter to play again.',
   ];
   return tipsArray[props.num];
 };

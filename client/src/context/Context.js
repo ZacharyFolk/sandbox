@@ -15,9 +15,6 @@ export const ContextProvider = ({ children }) => {
   // TODO : Here remove accessToken from localStorage so it just stays in memory for user
   // Still store refreshToken and this should work but why is refreshToekn any more secure when it can just be forged to /refresh route
   useEffect(() => {
-    console.log('FROM CONTEXT');
-    console.log(state.user);
-
     // This breaks because the initial request is trying to use this accessToken
     // from localStorage instead of using it from the state.user
     //

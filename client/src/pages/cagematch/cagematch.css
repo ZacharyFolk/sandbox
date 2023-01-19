@@ -195,9 +195,10 @@
 }
 .scoreBoard {
   position: fixed;
-  left: 0;
+  left: 50%;
+  margin-left: -175px;
   top: 10px;
-  width: 100%;
+  z-index: 101;
 }
 .scoreBoard h1 {
   margin: 0;
@@ -215,5 +216,122 @@
     scale: calc(0.9);
     width: 25%;
     margin: 0;
+  }
+}
+/* .middle-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.gameBoard img {
+  position: relative;
+  z-index: 1;
+}
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translate(0);
+    opacity: 1;
+  }
+  to {
+    transform: rotate(360deg) translate(200px);
+    opacity: 0;
+  }
+} */
+
+.fade-it {
+  animation: disappear 2s ease-in-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.middle-card {
+  animation: caged 20s ease-in-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  position: absolute;
+  left: 40%;
+  bottom: 200px;
+  z-index: 1;
+}
+
+@keyframes caged {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(18);
+  }
+}
+
+.fade-it:nth-child(1) {
+  animation-delay: 0s;
+}
+.fade-it:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.fade-it:nth-child(3) {
+  animation-delay: 1s;
+}
+.fade-it:nth-child(4) {
+  animation-delay: 3.5s;
+}
+.fade-it:nth-child(5) {
+  animation-delay: 2s;
+}
+.fade-it:nth-child(6) {
+  animation-delay: 2.5s;
+}
+.fade-it:nth-child(7) {
+  animation-delay: 3s;
+}
+.fade-it:nth-child(8) {
+  animation-delay: 2s;
+}
+.fade-it:nth-child(9) {
+  animation-delay: 8s;
+}
+.fade-it:nth-child(10) {
+  animation-delay: 4.5s;
+}
+.fade-it:nth-child(11) {
+  animation-delay: 1s;
+}
+.fade-it:nth-child(12) {
+  animation-delay: 5.5s;
+}
+.fade-it:nth-child(13) {
+  animation-delay: 6s;
+}
+.fade-it:nth-child(14) {
+  animation-delay: 4.5s;
+}
+.fade-it:nth-child(15) {
+  animation-delay: 5s;
+}
+.fade-it:nth-child(16) {
+  animation-delay: 2.5s;
+}
+.fade-it:nth-child(17) {
+  animation-delay: 1s;
+}
+.fade-it:nth-child(18) {
+  animation-delay: 6.5s;
+}
+.fade-it:nth-child(19) {
+  animation-delay: 3s;
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

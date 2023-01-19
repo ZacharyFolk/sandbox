@@ -25,8 +25,6 @@ export default function App() {
   //   navigate('about');
   // }
 
-  console.log('FROM APP');
-  console.log(user);
   return (
     <div id='crt'>
       <div className='scanline'></div>
