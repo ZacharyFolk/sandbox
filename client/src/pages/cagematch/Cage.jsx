@@ -1,20 +1,19 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import './cagematch.css';
 import { TerminalContext } from './../../context/TerminalContext';
-
 export default function Cagematch() {
+  const maxLives = 16;
+  const dealSpeed = 30;
   const { updateCommand } = useContext(TerminalContext);
   const [screen, setScreen] = useState('');
-
+  const [hearts, setHearts] = useState(maxLives);
   let chosen = [];
   let matchedCards = [];
-  const maxLives = 6;
-  const [hearts, setHearts] = useState(maxLives);
   const main = useRef();
 
-  // SOUNDS
-  const themesong = new Audio('./cagematch_assets/sounds/psykick.mp3');
+  // =======================  SOUNDS  ======================= //
 
+  const themesong = new Audio('./cagematch_assets/sounds/psykick.mp3');
   const cagesings = new Audio('./cagematch_assets/sounds/singing.mp3');
   const misssound = new Audio('./cagematch_assets/sounds/hit-01.wav');
   const dealsound = new Audio('./cagematch_assets/sounds/deal.wav');
@@ -33,13 +32,14 @@ export default function Cagematch() {
   const matchsound = new Audio(
     './cagematch_assets/sounds/collect-point-01.wav'
   );
-
   const clipArray = [throughtoyou, boredcage, bunny, declaration];
   const getRandoSound = () => {
     let num = Math.floor(Math.random() * clipArray.length);
     return clipArray[num];
   };
-  // IMAGES
+
+  // =======================  IMAGES  ======================= //
+
   const cardbacksrc = './cagematch_assets/images/cage10.jpg';
   const caged = './cagematch_assets/images/cage6.jpg';
   const loser = './cagematch_assets/images/cage9.jpg';
@@ -92,13 +92,23 @@ export default function Cagematch() {
   let fullArray = cardArray.concat(cardArrayCopy);
   fullArray.sort(() => 0.5 - Math.random());
 
-  useEffect(() => {
-    init();
-  }, []);
+  // =======================  UTIL  ======================= //
 
+  /**
+   *
+   * @returns NodeList of images
+   */
   const getAllCards = () => {
     return document.querySelectorAll('img');
   };
+
+  /**
+   *
+   * Async function to wait for any key to be pressed
+   * Can wait for a specific key passed as a keycode number in parameter
+   * @param {number} code Which keycode to wait for requires integer
+   * @returns {Promise} Resolves when specified key is pressed or any key if no keycode provided
+   */
   const waitForKey = async function (code = null) {
     return new Promise((resolve) => {
       const handle = (event) => {
@@ -112,23 +122,89 @@ export default function Cagematch() {
       document.addEventListener('click', handle);
     });
   };
+  /**
+   * Allows clicking on all cards after they are dealt
+   * Changes the state of `command` using updateCommand function
+   * Uses getAllCards function for the NodeList
+   * Checks for data-match before enabling pointer-event
+   * @returns {void}
+   *
+   */
+  function enableClicking() {
+    updateCommand('cage3');
+    let cards = getAllCards();
+    for (const card of cards) {
+      let match = card.getAttribute('data-match');
+      if (!match) {
+        card.setAttribute('style', 'pointer-events: auto');
+      }
+    }
+  }
+  /**
+   * Disables clicking by removing pointer events on all cards
+   * Uses getAllCards function for the NodeList
+   * @returns {void}
+   *
+   *
+   */
+  function disableClicking() {
+    let cards = getAllCards();
+    for (const card of cards) {
+      card.setAttribute('style', 'pointer-events: none');
+    }
+  }
+  /**
+   * Sets innerHTML of current ref to empty string ''
+   * @returns {void}
+   *
+   *
+   */
+  const clearBoard = () => {
+    const grid = main.current;
+    grid.innerHTML = '';
+  };
+  /** 
+  useEffect hook that runs the init function when the component is mounted
+  @returns {void}
+  */
+  useEffect(() => {
+    init();
+  }, []);
 
-  // Initial deal
+  /**
+   * Game start function
+   * Sends messages to status terminal
+   * Shows title screen and music
+   * Uses waitForKey() function to proceed through screens
+   * Runs and contains the recursive dealCards function
+   * @returns {void}
+   */
+
   const init = async () => {
     updateCommand('cage1'); // send for initial message in terminal
     await waitForKey();
     updateCommand('clear');
     setScreen(TitleScreen);
-
     themesong.play();
     await waitForKey(13);
     themesong.pause();
     setScreen(GameScreen);
     const grid = main.current;
-
     updateCommand('cage2');
     cagesings.play();
-    // create recursive loop so can add a delay and simulate dealing cards
+
+    /**
+     * dealCards - A function that recursively deals cards in the game
+     * for each item in the array it uses the index of current card to set img src and data attributes
+     * it also adds a click listener to use the flipCard function
+     * clicking is disabled initially
+     * use dealSpeed value to set the rate the cards are displayed
+     * when the index equals the length of array it calls enableClicking() to set pointer-events to auto
+     *
+     * @param {Array} arr - The array of cards to be dealt
+     * @param {number} i - The index of the current card being dealt
+     * @returns {void}
+     */
     const dealCards = (arr, i) => {
       if (i === arr.length) {
         enableClicking();
@@ -141,83 +217,58 @@ export default function Cagematch() {
         card.setAttribute('style', 'pointer-events: none');
         dealsound.play();
         grid.appendChild(card);
-        setTimeout(dealCards, 300, arr, i + 1);
+        setTimeout(dealCards, dealSpeed, arr, i + 1);
       }
     };
     // initial index is 0 to match the natural first key of the array
     dealCards(fullArray, 0);
   };
-
-  function enableClicking() {
-    // cards dealt start game
-    updateCommand('cage3');
-
-    let cards = getAllCards();
-
-    // enable clicking
-    for (const card of cards) {
-      let match = card.getAttribute('data-match');
-      console.log(match);
-      if (!match) {
-        card.setAttribute('style', 'pointer-events: auto');
-      }
-    }
-  }
-
-  function disableClicking() {
-    let cards = getAllCards();
-    for (const card of cards) {
-      card.setAttribute('style', 'pointer-events: none');
-    }
-  }
-  // Card clicked
-  const flipCard = (card) => {
-    flipsound.play();
-    // TODO : Use this target
-    let self = card.target;
-
-    let cardId = self.getAttribute('data-id');
-    let cardName = fullArray[cardId].name;
-    let cardObj = { id: cardId, name: cardName };
-
-    console.log('SELF', self);
+  /**
+   * flipCard - handles the click event of a card to show which image is associated with this id
+   * @param {Event} event - The event object that triggered this function
+   * @returns {void}
+   */
+  const flipCard = (event) => {
+    let self = event.target;
+    // set the image and disable pointer events
+    self.setAttribute('src', fullArray[self.getAttribute('data-id')].img);
     self.setAttribute('style', 'pointer-events: none');
-    // SET NEW IMAGE
-    self.setAttribute('src', fullArray[cardId].img);
-    chosen.push(cardObj);
-
+    chosen.push(self);
+    flipsound.play();
     if (chosen.length === 2) {
       disableClicking();
       setTimeout(checkForMatch.bind(this), 800);
     }
-    // setChosen((x) => [...x, cardName]);
+  };
+
+  // change image, remove pointer events, and add new data-attribuute so enableClicking will skip these
+  const setMatchedAttributes = (card) => {
+    card.setAttribute('data-match', true);
+    card.setAttribute('src', caged);
+    card.setAttribute('style', 'pointer-events: none');
   };
 
   // Check choices for a match
   const checkForMatch = () => {
-    // TODO : Better way?  Have to store this in own arrays to compare them
-    //
-    const cards = document.querySelectorAll('img');
-    let chosenName1 = chosen[0].name;
-    let chosenName2 = chosen[1].name;
-    let chosenId1 = chosen[0].id;
-    let chosenId2 = chosen[1].id;
+    let card1 = chosen[0];
+    let card2 = chosen[1];
+    let cardName1 = fullArray[card1.getAttribute('data-id')].name;
+    let cardName2 = fullArray[card2.getAttribute('data-id')].name;
 
-    if (chosenName1 === chosenName2) {
+    if (cardName1 === cardName2) {
       matchsound.play();
-      // change image and remove pointer events : add new data-attribuute so enableClicking will skip these
-      cards[chosenId1].setAttribute('src', caged);
-      cards[chosenId1].setAttribute('style', 'pointer-events: none');
-      cards[chosenId2].setAttribute('src', caged);
-      cards[chosenId2].setAttribute('style', 'pointer-events: none');
-      cards[chosenId1].setAttribute('data-match', true);
-      cards[chosenId2].setAttribute('data-match', 'true');
-
+      matchedCards.push(card1, card2);
+      setMatchedAttributes(card1);
+      setMatchedAttributes(card2);
       // remove fail point if match
       setHearts((z) => (z === maxLives ? z : z + 1));
+      console.log('Matched so far: ', matchedCards);
+      if (matchedCards.length === fullArray.length) {
+        console.log('YOU ARE A BIG WEEEINER');
+      }
     } else {
-      cards[chosenId1].setAttribute('src', cardbacksrc);
-      cards[chosenId2].setAttribute('src', cardbacksrc);
+      card1.setAttribute('src', cardbacksrc);
+      card2.setAttribute('src', cardbacksrc);
 
       misssound.play();
       setHearts((z) => z - 1);
@@ -233,7 +284,6 @@ export default function Cagematch() {
 
   // Functions based on score
   useEffect(() => {
-    console.log('hearts', hearts);
     switch (hearts) {
       case 0:
         gameOver();
@@ -311,27 +361,33 @@ export default function Cagematch() {
     );
   };
 
+  const YouWin = () => {
+    return (
+      <>
+        <span>neat-o</span>
+      </>
+    );
+  };
+
   const gameOver = async () => {
     updateCommand('cage6');
-    clearBoaard();
+    clearBoard();
     setScreen(FailScreen);
     shame.play();
     await waitForKey(13);
     setScreen(GameScreen);
     setHearts(maxLives);
-
     init();
   };
-  const clearBoaard = () => {
-    const grid = main.current;
-    grid.innerHTML = '';
-  };
+
   return (
     <div className='grid'>
       {screen}
       <div className='scoreBoard'>
-        <h1>CAGEMATCH</h1>
-        <span>❤ {hearts} </span>
+        <div className='scoreWrap'>
+          <h1>CAGEMATCH</h1>
+          <span>❤ {hearts} </span>
+        </div>
       </div>
       <div className='gameBoard' ref={main}></div>
     </div>
