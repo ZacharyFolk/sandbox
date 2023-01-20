@@ -85,11 +85,18 @@ export default function About() {
             </Typist>
           </div>
         </div>
+
         <div className='row'>
           <div className='col github-container'>
             <h2>
               <i className='fab fa-github-alt'></i> Latest Commits from Github
             </h2>
+            <div className='github-chart'>
+              <img
+                src='https://ghchart.rshah.org/zacharyfolk'
+                alt='Name Your Github chart'
+              />
+            </div>
             <Git />
           </div>
         </div>
