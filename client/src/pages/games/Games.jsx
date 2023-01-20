@@ -14,7 +14,7 @@ export default function Games() {
   return (
     <>
       <div className='container'>
-        <h1 className='games'>Games</h1>
+        <h1 className='games'>GAMES</h1>
         <div className='gamegrid'>
           <div className='game'>
             {/* <div className='title'>Cagematch</div> */}

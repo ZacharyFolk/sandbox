@@ -206,7 +206,6 @@ body {
 }
 
 .welcome {
-  border-top: 1px dashed;
   padding: 40px 0;
   width: 94%;
   margin: 0 auto;
@@ -250,7 +249,8 @@ h2 {
   text-align: center;
 }
 .terminalWindow {
-  background: rgb(0, 0, 0, 0.4);
+  background: rgb(0, 0, 0, 0.2);
+  border-bottom: 1px solid #000;
   width: 100%;
   position: relative;
   z-index: 100;
@@ -266,7 +266,6 @@ h2 {
   font-size: 1.3em;
   text-align: center;
   margin: 0;
-  padding: 20px 0 0;
 }
 #targetOutput h2 {
   margin-bottom: 6px;
@@ -277,6 +276,7 @@ h2 {
   padding-right: 40px;
 }
 #textContainer {
+  padding: 0 60px;
   margin: 0 auto;
   height: 100%;
   line-height: 4em;

@@ -17,6 +17,7 @@ import './animation.css';
 import './prism/prism.css';
 import Favicon from 'react-favicon';
 import blinky from './blinky';
+import { InitialText } from './components/terminal/Commands';
 export default function App() {
   const { user } = useContext(Context);
   // const [value, parseIt] = setPath();
@@ -57,7 +58,7 @@ export default function App() {
 function Layout() {
   // TODO : Look at using Context API for these commands instead of props
   const [command, setCommand] = useState('');
-  const [output, setOutput] = useState('initialText');
+  const [output, setOutput] = useState(InitialText);
 
   return (
     <div>

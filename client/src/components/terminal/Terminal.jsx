@@ -3,27 +3,28 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import { TerminalContext } from '../../context/TerminalContext';
 import Typist from 'react-typist-component';
-import { CageTips, Directions, Help, Games, Look, NoMatch } from './Commands';
+import {
+  About,
+  CageTips,
+  Directions,
+  Help,
+  Hello,
+  Games,
+  NoMatch,
+} from './Commands';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
 
   const { output, setOutput } = props;
 
-  const initialText = () => {
-    return (
-      <Typist typingDelay={100}>
-        <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 0.1 ****</h1>
-      </Typist>
-    );
-  };
   const { user } = useContext(Context);
   // const [command, setCommand] = useState('');
   // const [output, setOutput] = useState(initialText);
 
   const navigate = useNavigate();
-  function redirectAbout() {
-    navigate('about');
-  }
+  // function redirectAbout() {
+  //   navigate('about');
+  // }
 
   // useEffect(() => {
   //   console.log('LOCATION CHANGED!');
@@ -44,17 +45,6 @@ export default function Terminal(props) {
   //     </Typist>
   //   );
   // };
-
-  const About = () => {
-    // TODO : Figure out how too get this to work in separate component
-    // navigate function is just ignored in Commands.jsx, no errors, nothing
-    // maybe could get it to run in a useEffect in there but I had no luck
-    return <>More about Me</>;
-  };
-
-  const Hello = () => {
-    return <p>Oh hi! Thanks for stopping by.</p>;
-  };
 
   const handleKeys = (e) => {
     // let len = this.keys.length;
@@ -95,15 +85,23 @@ export default function Terminal(props) {
         setOutput('');
         break;
       case 'n':
+      case 'north':
       case 'e':
+      case 'east':
       case 'w':
+      case 'west':
       case 's':
+      case 'south':
       case 'ne':
+      case 'up':
+      case 'down':
       case 'nw':
       case 'se':
       case 'sw':
       case 'u':
       case 'd':
+      case 'l':
+      case 'look':
         setOutput(Directions);
         break;
       case 'games':
@@ -112,16 +110,15 @@ export default function Terminal(props) {
       case 'help':
       case '?':
       case 'contact':
+      case 'command':
+      case 'commands':
+      case 'cmd':
         setOutput(Help);
         break;
       case 'hi':
       case 'hello':
       case 'howdy':
         setOutput(Hello);
-        break;
-      case 'l':
-      case 'look':
-        setOutput(Look);
         break;
       case 'login':
         window.location.replace('/login/');
