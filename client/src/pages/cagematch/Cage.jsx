@@ -3,7 +3,7 @@ import './cagematch.css';
 import { TerminalContext } from './../../context/TerminalContext';
 export default function Cagematch() {
   const maxLives = 16;
-  const dealSpeed = 30;
+  const dealSpeed = 300;
   const { updateCommand } = useContext(TerminalContext);
   const [screen, setScreen] = useState('');
   const [hearts, setHearts] = useState(maxLives);
@@ -42,8 +42,6 @@ export default function Cagematch() {
 
   const cardbacksrc = './cagematch_assets/images/cage10.jpg';
   const caged = './cagematch_assets/images/cage6.jpg';
-  const loser = './cagematch_assets/images/cage9.jpg';
-  const winner = './cagematch_assets/images/cage8.jpg';
   const titleScreen = './cagematch_assets/images/title-screen.jpg';
 
   const cardArray = [
@@ -72,6 +70,14 @@ export default function Cagematch() {
       img: './cagematch_assets/images/cage7.jpg',
     },
     {
+      name: 'cage8',
+      img: './cagematch_assets/images/cage8.jpg',
+    },
+    {
+      name: 'cage9',
+      img: './cagematch_assets/images/cage9.jpg',
+    },
+    {
       name: 'cage11',
       img: './cagematch_assets/images/cage11.jpg',
     },
@@ -90,6 +96,14 @@ export default function Cagematch() {
   ];
   let cardArrayCopy = cardArray.map((x) => x);
   let fullArray = cardArray.concat(cardArrayCopy);
+  fullArray.sort(() => 0.5 - Math.random());
+
+  // huge array for the end sequence
+
+  let clone1 = fullArray.map((x) => x);
+  let clone2 = clone1.map((x) => x);
+
+  let finalcopy = clone2.concat(clone2);
   fullArray.sort(() => 0.5 - Math.random());
 
   // =======================  UTIL  ======================= //
@@ -131,6 +145,8 @@ export default function Cagematch() {
    *
    */
   function enableClicking() {
+    //Testing();
+
     updateCommand('cage3');
     let cards = getAllCards();
     for (const card of cards) {
@@ -263,8 +279,11 @@ export default function Cagematch() {
       setHearts((z) => (z === maxLives ? z : z + 1));
       console.log('Matched so far: ', matchedCards);
       if (matchedCards.length === fullArray.length) {
+        // TODO : This command does not update for some reason
+        updateCommand('cage7');
+
         YouWin();
-        //  console.log('YOU ARE A BIG WEEEINER');
+        console.log('YOU ARE A BIG WEEEINER');
       }
     } else {
       card1.setAttribute('src', cardbacksrc);
@@ -369,54 +388,58 @@ export default function Cagematch() {
     // convert NodeList to an array
     let cardsArray = Array.from(cards);
     const centerIndex = Math.floor(cardsArray.length / 2);
-    console.log(cardsArray);
-    let i = 0;
     for (let j = 0; j < cardsArray.length; j++) {
-      console.log('wut dis', cardsArray[i].src);
       let newclass = centerIndex === j ? 'middle-card' : 'fade-it';
       cardsArray[j].setAttribute('class', newclass);
     }
+    let i = 0;
+    let time = 600;
+    let percentage = 0.9;
+    let minTime = 100;
+    function replaceMiddleCard() {
+      cardsArray[centerIndex].src = finalcopy[i].img;
+      time = Math.max(minTime, time * percentage);
+      i++;
+      if (i < finalcopy.length) {
+        setTimeout(replaceMiddleCard, time);
+      }
+    }
 
-    // setInterval(() => {
-    //   cardsArray[centerIndex].src = cardsArray[i].src;
-    //   i++;
-    //   if (i === cardsArray.length) {
-    //     i = 0;
-    //   }
-    // }, 100);
-
-    // setInterval(() => {
-    //   i = (i + 1) % cardsArray.length;
-    //   let newSrc = cardsArray[i].getAttribute("src");
-    //   cardsArray[centerIndex].setAttribute("src", newSrc);
-    // }, 100);
-
-    // function replaceMiddleCard() {
-    //   console.log(
-    //     'replace middle card- what i - wtf',
-    //     cardsArray,
-    //     i,
-    //     cardsArray[i].src
-    //   );
-    //   cardsArray[i].src = cardsArray[i].src;
-    //   i++;
-    //   if (i < cardsArray.length) {
-    //     setTimeout(replaceMiddleCard, 100);
-    //   }
-    // }
-
-    // replaceMiddleCard();
-
-    // setTimeout(() => {
-    //   cardsArray[centerIndex].setAttribute('src', winner);
-    // }, 20000);
-    updateCommand('cage7');
+    replaceMiddleCard();
     cagethanksyou.play();
-    await waitForKey(13);
+    await waitForKey();
     clearBoard();
     setScreen(GameScreen);
     setHearts(maxLives);
     init();
+  };
+
+  const Testing = async () => {
+    updateCommand('cage7');
+
+    let cards = getAllCards();
+    // convert NodeList to an array
+    let cardsArray = Array.from(cards);
+    const centerIndex = Math.floor(cardsArray.length / 2);
+    console.log(fullArray);
+    let i = 0;
+    let time = 600;
+    let percentage = 0.9;
+    let minTime = 100;
+    function replaceMiddleCard() {
+      cardsArray[centerIndex].src = finalcopy[i].img;
+      time = Math.max(minTime, time * percentage);
+      i++;
+      if (i < finalcopy.length) {
+        setTimeout(replaceMiddleCard, time);
+      }
+    }
+
+    replaceMiddleCard();
+
+    updateCommand('cage7');
+
+    await waitForKey(13);
   };
 
   const gameOver = async () => {
