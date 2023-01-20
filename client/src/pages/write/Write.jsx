@@ -118,6 +118,7 @@ export default function Write() {
               image_uploadtab: true,
               images_file_types: 'jpg,svg,webp',
               images_upload_handler: function (blobInfo, success, failure) {
+                // TODO : #23
                 let data = new FormData();
                 data.append('file', blobInfo.blob(), blobInfo.filename());
                 axios
@@ -132,6 +133,8 @@ export default function Write() {
               plugins:
                 'anchor lists advlist emoticons link autolink autoresize code codesample image',
               selector: 'textarea',
+              browser_spellcheck: true,
+              contextmenu: false,
               width: '100%',
               // skin: 'oxide-dark',
               // content_css: 'dark',

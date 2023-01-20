@@ -10,7 +10,7 @@ const CageTips = (props) => {
   const tipsArray = [
     'Game loaded. Press any key to continue.',
     'Dealing cards. . . . ',
-    'Game ends if you run out of ❤. Regain lost points with a correct match.',
+    'You start the game with 10 ❤s and the game ends if you run out. Regain lost ❤ with a correct match. Good luck!',
     'Uh Oh. Only 3 tries left!',
     'Not looking good...',
     'Game over.  Press Enter to play again.',

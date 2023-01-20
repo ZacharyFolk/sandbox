@@ -153,6 +153,8 @@ export default function SinglePost() {
                 plugins:
                   'anchor lists advlist emoticons link autolink autoresize code codesample',
                 selector: 'textarea',
+                browser_spellcheck: true,
+                contextmenu: false,
                 width: '100%',
                 // skin: 'oxide-dark',
                 // content_css: 'dark',

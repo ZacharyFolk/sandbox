@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import './cagematch.css';
 import { TerminalContext } from './../../context/TerminalContext';
 export default function Cagematch() {
-  const maxLives = 16;
+  const maxLives = 10;
   const dealSpeed = 300;
   const { updateCommand } = useContext(TerminalContext);
   const [screen, setScreen] = useState('');
