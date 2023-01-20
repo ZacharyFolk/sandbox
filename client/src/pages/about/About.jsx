@@ -10,7 +10,7 @@ import { useContext, useEffect } from 'react';
 export default function About() {
   const { command, updateCommand } = useContext(TerminalContext);
   useEffect(() => {
-    updateCommand('help');
+    updateCommand('about');
   }, []);
 
   return (

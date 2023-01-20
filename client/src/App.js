@@ -10,6 +10,7 @@ import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
 import Cagematch from './pages/cagematch/Cage';
+import Games from './pages/games/Games';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
@@ -37,6 +38,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
+          <Route path='/games' element={<Games />} />
           <Route path='/cagematch' element={<Cagematch />} />
           <Route path='/login' element={user ? <Home /> : <Login />} />
           <Route path='/write' element={user ? <Write /> : <Home />} />

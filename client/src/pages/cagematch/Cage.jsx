@@ -93,6 +93,18 @@ export default function Cagematch() {
       name: 'cage14',
       img: './cagematch_assets/images/cage14.jpg',
     },
+    {
+      name: 'cage15',
+      img: './cagematch_assets/images/cage15.jpg',
+    },
+    {
+      name: 'cage16',
+      img: './cagematch_assets/images/cage16.jpg',
+    },
+    {
+      name: 'cage17',
+      img: './cagematch_assets/images/cage17.jpg',
+    },
   ];
   let cardArrayCopy = cardArray.map((x) => x);
   let fullArray = cardArray.concat(cardArrayCopy);
@@ -281,7 +293,6 @@ export default function Cagematch() {
       if (matchedCards.length === fullArray.length) {
         // TODO : This command does not update for some reason
         updateCommand('cage7');
-
         YouWin();
         console.log('YOU ARE A BIG WEEEINER');
       }

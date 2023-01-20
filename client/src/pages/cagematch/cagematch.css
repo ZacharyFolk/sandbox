@@ -211,13 +211,7 @@
     transform: scale(2);
   }
 }
-@media only screen and (max-width: 900px) {
-  .grid img {
-    scale: calc(0.9);
-    width: 25%;
-    margin: 0;
-  }
-}
+
 /* .middle-card {
   position: absolute;
   top: 50%;
@@ -333,5 +327,13 @@
   }
   100% {
     opacity: 0;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .grid img {
+    scale: calc(0.9);
+    width: 25%;
+    margin: 0;
+    padding: 0;
   }
 }

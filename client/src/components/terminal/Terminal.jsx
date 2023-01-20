@@ -1,15 +1,14 @@
 import { useContext, useState, useEffect, createRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
-
 import { TerminalContext } from '../../context/TerminalContext';
 import Typist from 'react-typist-component';
-import { CageTips, Directions, Help, Look, NoMatch } from './Commands';
-import Cagematch from '../cagematch/Cagematch';
+import { CageTips, Directions, Help, Games, Look, NoMatch } from './Commands';
 export default function Terminal(props) {
-  const location = useLocation();
-
   const { command, updateCommand } = useContext(TerminalContext);
+
+  const { output, setOutput } = props;
+
   const initialText = () => {
     return (
       <Typist typingDelay={100}>
@@ -50,16 +49,7 @@ export default function Terminal(props) {
     // TODO : Figure out how too get this to work in separate component
     // navigate function is just ignored in Commands.jsx, no errors, nothing
     // maybe could get it to run in a useEffect in there but I had no luck
-    return (
-      <Typist
-        typingDelay={50}
-        cursor={<span className='cursor'>|</span>}
-        onTypingDone={redirectAbout}
-      >
-        <p>Accessing data for more information about Zac</p>
-        <Typist.Delay ms={10} />
-      </Typist>
-    );
+    return <>More about Me</>;
   };
 
   const Hello = () => {
@@ -95,11 +85,14 @@ export default function Terminal(props) {
         window.location.replace('/');
         break;
       case 'about':
-      case 'zac':
-        props.setOutput(About);
+        setOutput(About);
+        break;
+      case 'cage':
+      case 'cagematch':
+        navigate('cagematch');
         break;
       case 'clear':
-        props.setOutput('');
+        setOutput('');
         break;
       case 'n':
       case 'e':
@@ -111,50 +104,53 @@ export default function Terminal(props) {
       case 'sw':
       case 'u':
       case 'd':
-        props.setOutput(Directions);
+        setOutput(Directions);
+        break;
+      case 'games':
+        setOutput(Games);
         break;
       case 'help':
       case '?':
       case 'contact':
-        props.setOutput(Help);
+        setOutput(Help);
         break;
       case 'hi':
       case 'hello':
       case 'howdy':
-        props.setOutput(Hello);
+        setOutput(Hello);
         break;
       case 'l':
       case 'look':
-        props.setOutput(Look);
+        setOutput(Look);
         break;
       case 'login':
         window.location.replace('/login/');
         break;
       case 'cage1':
-        props.setOutput(<CageTips num={0} />);
+        setOutput(<CageTips num={0} />);
         break;
       case 'cage2':
-        props.setOutput(<CageTips num={1} />);
+        setOutput(<CageTips num={1} />);
         break;
       case 'cage3':
-        props.setOutput(<CageTips num={2} />);
+        setOutput(<CageTips num={2} />);
         break;
       case 'cage4':
-        props.setOutput(<CageTips num={3} />);
+        setOutput(<CageTips num={3} />);
         break;
       case 'cage5':
-        props.setOutput(<CageTips num={4} />);
+        setOutput(<CageTips num={4} />);
         break;
       case 'cage6':
-        props.setOutput(<CageTips num={5} />);
+        setOutput(<CageTips num={5} />);
         break;
       case 'cage7':
-        props.setOutput(<CageTips num={6} />);
+        setOutput(<CageTips num={6} />);
         break;
       default:
-        props.setOutput(NoMatch);
+        setOutput(NoMatch);
     }
-    //  console.log('COMMAND CHANGED ', command);
+    console.log('COMMAND CHANGED ', command);
   }, [command]);
 
   return (
@@ -177,6 +173,9 @@ export default function Terminal(props) {
             <Link to='/about'>
               <i className='fa-solid fa-circle-question'></i>
             </Link>
+            <Link to='/games'>
+              <i class='fa-solid fa-dice'></i>
+            </Link>
             {user && (
               <a href='/write'>
                 <i className='fas fa-feather'></i>
@@ -189,7 +188,7 @@ export default function Terminal(props) {
       <div className='terminalWindow'>
         <div id='targetOutput'>
           <div id='textContainer' className='new-scroll'>
-            {props.output}
+            {output}
           </div>
         </div>
       </div>

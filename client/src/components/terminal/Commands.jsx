@@ -72,10 +72,18 @@ const Directions = () => {
     </Typist>
   );
 };
+
+const Games = () => {
+  return (
+    <>
+      A list of games I built for fun and learnings.... ok, a game for now, but
+      more coming soon!
+    </>
+  );
+};
 const Help = () => {
   return (
     <>
-      {' '}
       <p>
         Type <em>commands</em> to see some other things you can try. (Hint:
         There is no bad input, just maybe not the output you expected.)
@@ -142,4 +150,4 @@ const Commands = () => {
   );
 };
 
-export { CageTips, Directions, Help, Look, NoMatch };
+export { CageTips, Directions, Games, Help, Look, NoMatch };
