@@ -126,7 +126,7 @@
 }
 .delayed-display {
   animation: delayit 10s;
-  animation-iteration-count: 1;
+  animation-iteration-count: infinite;
   opacity: 0;
 }
 @keyframes delayit {

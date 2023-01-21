@@ -1,8 +1,9 @@
-import { useContext, useState, useEffect, createRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import { TerminalContext } from '../../context/TerminalContext';
-import Typist from 'react-typist-component';
+import Modal from '../../utils/Modal';
+import curses from 'profane-words';
 import {
   About,
   CageTips,
@@ -46,6 +47,18 @@ export default function Terminal(props) {
   //   );
   // };
 
+  const CurseResponse = () => {
+    const ralphie = './images/ralphie.jpg';
+
+    return (
+      <>
+        <Modal open={true} duration={2000}>
+          <img src={ralphie} alt='Take a break!' />
+          <p>Time out! </p>
+        </Modal>
+      </>
+    );
+  };
   const handleKeys = (e) => {
     // let len = this.keys.length;
     // this.setState({ number: Math.floor(Math.random() * len) });
@@ -70,6 +83,10 @@ export default function Terminal(props) {
   };
 
   useEffect(() => {
+    if (curses.includes(command)) {
+      return setOutput(CurseResponse);
+    }
+
     switch (command) {
       case 'home':
         window.location.replace('/');
@@ -84,6 +101,7 @@ export default function Terminal(props) {
       case 'clear':
         setOutput('');
         break;
+
       case 'n':
       case 'north':
       case 'e':
@@ -171,7 +189,7 @@ export default function Terminal(props) {
               <i className='fa-solid fa-circle-question'></i>
             </Link>
             <Link to='/games'>
-              <i class='fa-solid fa-dice'></i>
+              <i className='fa-solid fa-dice'></i>
             </Link>
             {user && (
               <a href='/write'>
