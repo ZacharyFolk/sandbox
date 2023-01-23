@@ -1,70 +1,126 @@
-import { React, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import Posts from '../../components/posts/Posts';
-import Prism from 'prismjs';
-import axios from 'axios';
-const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+import { TerminalContext } from '../../context/TerminalContext';
 
-export default function Home() {
-  const [posts, setPosts] = useState([]);
-  const { search } = useLocation();
-  // to use search params for categories, see: api/routes/posts // GET ALL POSTS
-  // note it added as dependency for useEffect
+import selfie from './../../images/matrix-me-small.jpg';
+import { SocialIcon } from 'react-social-icons';
+import Typist from 'react-typist-component';
+import Git from './../../components/git/Git';
+import Wordpress from './../../components/wordpress/Wordpress';
+import Discogs from './../../components/discogs/Discogs';
+import { useContext, useEffect } from 'react';
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await axiosInstance.get('/posts' + search);
-      setPosts(res.data);
-    };
-    fetchPosts();
-  }, [search]);
+export default function About() {
+  // const { command, updateCommand } = useContext(TerminalContext);
+  //   useEffect(() => {
+  //     updateCommand('about');
+  //   }, []);
 
-  useEffect(() => {
-    Prism.highlightAll();
-  }, []);
   return (
     <>
-      <div className='container main'>
-        <div className='welcome'>
-          <h2>
-            {/* TODO: Make this a config to store in the db - #4 */}
-            Hello!
-          </h2>
-          <p>
-            Welcome to the coding sandbox for Zachary Folk, a developer and
-            photographer living in Seattle.
-          </p>
-          <p>
-            Here you can find out more about me, read my random musings and
-            tutorials on the blog, or try finding easter eggs by typing random
-            stuff into the terminal!
-          </p>
-          <p>
-            I am always interested in new projcts so feel free to contact me if
-            you are interested in working together. Thanks for visiting!
-          </p>
+      <div className='container'>
+        <div className='row centered'>
+          <div className='col selfie-container'>
+            <img src={selfie} alt='me' />
+            <div className='social-container'>
+              <SocialIcon
+                bgColor='#5bf870'
+                target={'_blank'}
+                url='https://www.linkedin.com/in/zacharyfolk/'
+              />
+              <SocialIcon
+                bgColor='#5bf870'
+                target={'_blank'}
+                url='https://www.instagram.com/zachary_folk/'
+              />
+              <SocialIcon
+                bgColor='#5bf870'
+                target={'_blank'}
+                url='https://github.com/ZacharyFolk'
+              />
+              <SocialIcon
+                title='Folk Photography on Facebook'
+                target={'_blank'}
+                bgColor='#5bf870'
+                url='https://www.facebook.com/zacharyfolkphotography/'
+              />
+              <SocialIcon
+                bgColor='#5bf870'
+                target={'_blank'}
+                url='https://twitter.com/FolkPhotograph1'
+              />
+              <SocialIcon
+                bgColor='#5bf870'
+                target={'_blank'}
+                url='https://stackoverflow.com/users/82330/zac'
+              />
+            </div>
+          </div>
+          <div className='col personal-data'>
+            <Typist typingDelay={30}>
+              <div className='my-info'>
+                <h3>Personal data: </h3>
+                <p>
+                  Name: Zachary Folk
+                  <br />
+                  Location: Seattle, Washington, USA
+                </p>
+              </div>
+              <h3>Experience: </h3>
+              <p>
+                HTML, CSS, javaScript, PHP, mySQL, Analytics, SEO, Node,
+                Wordpress, Magento, React, Git, Jira, SEO, Accessibility,
+                Performance
+              </p>
+              <h3>Hobbies: </h3>
+              <p>
+                photography, biking, guitar, gardening, kayaking, hiking,
+                birding, drawing
+              </p>
+
+              <Typist.Paste>
+                <div>
+                  <a target='_blank' href='/folk_zachary_resume.pdf'>
+                    ⬇ Download Latest Résumé ⬇
+                  </a>
+                </div>
+              </Typist.Paste>
+            </Typist>
+          </div>
         </div>
-        <Posts posts={posts} />
-        {/* <div className='col site-summary'>
-          <p>Hi!</p>
-          <p>
-            Thanks for visiting my website. This is a sandbox for me to
-            experiment with web development and share some of my ramblings and
-            thoughts about technology in my blog.
-          </p>
-          <p>
-            You can try and type commands at the terminal prompt and see what
-            happens! This is a project of love and a place you can find out more
-            about me and my work. If you are interested in working together or
-            just want to say hey then reach out!
-          </p>
-          <p>
-            You can also check out my photography at{' '}
-            <a href='https://folkphotography.com' target='_blank'>
-              Folk Photography
-            </a>
-          </p>
-        </div> */}
+
+        <div className='row'>
+          <div className='col about-container'>
+            <h2>
+              <i className='fab fa-github-alt'></i> Latest Commits from Github
+            </h2>
+            <div className='github-chart'>
+              <img
+                src='https://ghchart.rshah.org/zacharyfolk'
+                alt='Name Your Github chart'
+              />
+            </div>
+            <Git />
+          </div>
+        </div>
+
+        <div className='row'>
+          <div className='col  about-container'>
+            <h2>
+              <i className='fas fa-camera-retro'></i> Latest posts from
+              folkphotography
+            </h2>
+            <Wordpress />
+          </div>
+        </div>
+
+        <div className='row'>
+          <div className='col about-container'>
+            <h2>
+              <i className='fas fa-record-vinyl'></i> My Record Collection from
+              Discogs
+            </h2>
+            <Discogs />
+          </div>
+        </div>
       </div>
     </>
   );

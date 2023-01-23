@@ -37,7 +37,6 @@ function Git() {
 }
 
 function Commits({ commits }) {
-  console.log(commits);
   return (
     <div className='commit-box'>
       {commits.map((c, i) => (

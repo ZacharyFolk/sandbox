@@ -1,11 +1,23 @@
 import Typist from 'react-typist-component';
+import Modal from '../../utils/Modal';
+
 const About = () => {
   // TODO : Figure out how too get this to work in separate component
   // navigate function is just ignored in Commands.jsx, no errors, nothing
   // maybe could get it to run in a useEffect in there but I had no luck
   return <>More about Me</>;
 };
-
+const CurseResponse = () => {
+  const ralphie = './images/ralphie.jpg';
+  return (
+    <>
+      <Modal open={true} duration={2000}>
+        <img src={ralphie} alt='Take a break!' />
+        <p>Time out! </p>
+      </Modal>
+    </>
+  );
+};
 const CageTips = (props) => {
   const tipsArray = [
     'Game loaded. Press any key to continue.',
@@ -153,6 +165,7 @@ const Help = () => {
 export {
   About,
   CageTips,
+  CurseResponse,
   Directions,
   Games,
   Hello,

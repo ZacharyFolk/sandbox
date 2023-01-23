@@ -12,7 +12,7 @@ const path = require('path');
 const middlewares = require('./github/middlewares');
 const githubRoute = require('./github/githubRoutes');
 const discoRoute = require('./discogs/discoRoutes.js');
-
+const wpRoute = require('./wordpress/route.js');
 dotenv.config();
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -44,6 +44,7 @@ app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
 app.use('/api/github_api', githubRoute);
 app.use('/api/disco_api', discoRoute);
+app.use('/api/folkphotography', wpRoute);
 app.use('/images', express.static(path.join(__dirname, '/images')));
 app.listen('9999', () => {
   console.log('Starting API server at localhost:9999');

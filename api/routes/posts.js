@@ -49,6 +49,8 @@ router.post('/', verify, async (req, res) => {
   }
 });
 
+// PUBLISH
+
 // UPDATE POST
 
 router.put('/:id', verify, async (req, res) => {

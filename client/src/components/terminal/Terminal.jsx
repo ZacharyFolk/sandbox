@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import { TerminalContext } from '../../context/TerminalContext';
-import Modal from '../../utils/Modal';
 import curses from 'profane-words';
 import {
   About,
   CageTips,
+  CurseResponse,
   Directions,
   Help,
   Hello,
@@ -47,18 +47,6 @@ export default function Terminal(props) {
   //   );
   // };
 
-  const CurseResponse = () => {
-    const ralphie = './images/ralphie.jpg';
-
-    return (
-      <>
-        <Modal open={true} duration={2000}>
-          <img src={ralphie} alt='Take a break!' />
-          <p>Time out! </p>
-        </Modal>
-      </>
-    );
-  };
   const handleKeys = (e) => {
     // let len = this.keys.length;
     // this.setState({ number: Math.floor(Math.random() * len) });
@@ -101,7 +89,6 @@ export default function Terminal(props) {
       case 'clear':
         setOutput('');
         break;
-
       case 'n':
       case 'north':
       case 'e':
@@ -185,18 +172,20 @@ export default function Terminal(props) {
             <Link to='/'>
               <i className='fa-solid fa-house'></i>
             </Link>
-            <Link to='/about'>
+            {/* <Link to='/about'>
               <i className='fa-solid fa-circle-question'></i>
+            </Link> */}
+            <Link to='/blog'>
+              <i className='fa-solid fa-feather'></i>
             </Link>
             <Link to='/games'>
               <i className='fa-solid fa-dice'></i>
             </Link>
             {user && (
-              <a href='/write'>
-                <i className='fas fa-feather'></i>
-              </a>
+              <Link to='/write'>
+                <i className='fa-solid fa-user-secret'></i>
+              </Link>
             )}
-            {/* <i className='fas fa-terminal'></i> */}
           </div>
         </div>
       </div>

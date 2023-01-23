@@ -6,6 +6,7 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
+import Blog from './pages/blog/Blog';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
@@ -37,7 +38,8 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='/about' element={<About />} />
+          <Route path='/about' element={<About />} />{' '}
+          <Route path='/blog' element={<Blog />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
           <Route path='/games' element={<Games />} />
           <Route path='/cagematch' element={<Cagematch />} />
