@@ -24,12 +24,17 @@ const Modal = ({ open, duration, children }) => {
 
   return (
     <>
-      {!open && <button onClick={() => setShowModal(true)}>Open Modal</button>}
+      {/* {!open && <button onClick={() => setShowModal(true)}>Open Modal</button>} */}
       <div className={`modal ${showModal ? 'open' : 'closed'}`}>
-        <button className='modal-close' onClick={handleClose}>
-          X
-        </button>
-        <div className='modal-content'>{children}</div>
+        <div className='modal-content'>
+          {!duration && (
+            <button className='modal-close' onClick={handleClose}>
+              <i class='fa-regular fa-circle-xmark'></i>
+            </button>
+          )}
+
+          {children}
+        </div>
       </div>
     </>
   );

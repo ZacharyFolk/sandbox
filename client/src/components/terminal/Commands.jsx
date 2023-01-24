@@ -11,7 +11,7 @@ const CurseResponse = () => {
   const ralphie = './images/ralphie.jpg';
   return (
     <>
-      <Modal open={true} duration={2000}>
+      <Modal open={true}>
         <img src={ralphie} alt='Take a break!' />
         <p>Time out! </p>
       </Modal>
