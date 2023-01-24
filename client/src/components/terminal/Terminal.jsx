@@ -10,6 +10,7 @@ import {
   Directions,
   Help,
   Hello,
+  TheInfo,
   Games,
   NoMatch,
 } from './Commands';
@@ -125,6 +126,10 @@ export default function Terminal(props) {
       case 'howdy':
         setOutput(Hello);
         break;
+      case 'gleick':
+      case 'info':
+      case 'information':
+        setOutput(TheInfo);
       case 'login':
         window.location.replace('/login/');
         break;

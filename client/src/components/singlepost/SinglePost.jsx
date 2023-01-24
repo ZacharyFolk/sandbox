@@ -159,11 +159,25 @@ export default function SinglePost() {
                 // skin: 'oxide-dark',
                 // content_css: 'dark',
                 toolbar:
-                  'undo redo | formatselect | ' +
-                  'bold italic backcolor | alignleft aligncenter ' +
+                  'undo redo | formatselect styleselect | ' +
+                  'bold italic backcolor blockquote | alignleft aligncenter ' +
                   'alignright alignjustify | bullist numlist outdent indent | ' +
                   'image link | code codesample removeformat | anchor emoticons restoredraft',
                 codesample_global_prismjs: true,
+                // Register the cite format
+                formats: {
+                  cite: { block: 'cite' },
+                }, // Populate the styleselect menu
+                style_formats: [
+                  { title: 'Paragraph', format: 'p' },
+                  { title: 'Title', format: 'h1' },
+                  { title: 'Heading', format: 'h2' },
+                  { title: 'Subheading', format: 'h3' },
+                  { title: 'Blockquote', format: 'blockquote' },
+                  { title: 'Cite', format: 'cite' },
+                  { title: 'Code', format: 'code' },
+                ], // This removes the WYSIWYG formatting within the styleselect menu
+                preview_styles: false,
               }}
             />
           </div>

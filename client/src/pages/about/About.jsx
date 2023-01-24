@@ -8,105 +8,46 @@ import Discogs from './../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
 
 export default function About() {
-  const { command, updateCommand } = useContext(TerminalContext);
-  useEffect(() => {
-    updateCommand('about');
-  }, []);
+  // const { command, updateCommand } = useContext(TerminalContext);
+  // useEffect(() => {
+  //   updateCommand('about');
+  // }, []);
 
   return (
     <>
       <div className='container'>
         <div className='row centered'>
-          <div className='col selfie-container'>
-            <img src={selfie} alt='me' />
-            <div className='social-container'>
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://www.linkedin.com/in/zacharyfolk/'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://www.instagram.com/zachary_folk/'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://github.com/ZacharyFolk'
-              />
-              <SocialIcon
-                title='Folk Photography on Facebook'
-                target={'_blank'}
-                bgColor='#5bf870'
-                url='https://www.facebook.com/zacharyfolkphotography/'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://twitter.com/FolkPhotograph1'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://stackoverflow.com/users/82330/zac'
-              />
-            </div>
-          </div>
-          <div className='col personal-data'>
-            <Typist typingDelay={30}>
-              <div className='my-info'>
-                <h3>Personal data: </h3>
-                <p>
-                  Name: Zachary Folk
-                  <br />
-                  Location: Seattle, Washington, USA
-                </p>
-              </div>
-              <h3>Experience: </h3>
-              <p>
-                HTML, CSS, javaScript, PHP, mySQL, Analytics, SEO, Node,
-                Wordpress, Magento, React, Git, Jira, SEO, Accessibility,
-                Performance
-              </p>
-              <h3>Hobbies: </h3>
-              <p>
-                photography, biking, guitar, gardening, kayaking, hiking,
-                birding, drawing
-              </p>
+          <div className='col'>
+            <p>
+              Welcome to my website, where you'll find my work as a front-end
+              developer and photographer, Zachary Folk. I built this site using
+              the MERN stack, connecting with various APIs to create dynamic
+              content. On the home page, you'll find my digital business card
+              featuring my recent activity on GitHub, updates from my WordPress
+              photography site, folkphotography.com, and my record collection on
+              Discogs.com. The APIs also connect to a MongoDB instance, serving
+              as the database for this blog and other features on the website.
+            </p>
 
-              <Typist.Paste>
-                <div>
-                  <a target='_blank' href='/folk_zachary_resume.pdf'>
-                    ⬇ Download Latest Résumé ⬇
-                  </a>
-                </div>
-              </Typist.Paste>
-            </Typist>
-          </div>
-        </div>
+            <p>
+              I find learning to be fun, especially in programming, as the
+              limits of your imagination are only constrained by the technology
+              available to us. I am currently having a lot of fun experimenting
+              with APIs and utilizing the state and hooks of building a React
+              app. Games are a great way to learn more about data storage and
+              interactivity, and I've added a tab for my game projects, with
+              more in the works. Alongside my projects, I plan to write
+              tutorials and create short videos to explain how they were built
+              and hopefully help others on their coding journey.
+            </p>
 
-        <div className='row'>
-          <div className='col github-container'>
-            <h2>
-              <i className='fab fa-github-alt'></i> Latest Commits from Github
-            </h2>
-            <div className='github-chart'>
-              <img
-                src='https://ghchart.rshah.org/zacharyfolk'
-                alt='Name Your Github chart'
-              />
-            </div>
-            <Git />
-          </div>
-        </div>
-        <div className='row'>
-          <div className='col discogs-container'>
-            <h2>
-              <i className='fas fa-record-vinyl'></i> My Record Collection from
-              Discogs
-            </h2>
-            <Discogs />
+            <p>
+              The terminal in the header is fully interactive and built to
+              respond to user input. I see it as the simplest form of AI, as
+              it's essentially a complex switch statement. It was a fun
+              experiment, and I hope it's fun for any users that stumble upon
+              this site. Go ahead and type something and see what happens!
+            </p>
           </div>
         </div>
       </div>

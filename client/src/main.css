@@ -19,7 +19,7 @@ body {
 }
 p {
   font-size: 1.1em;
-  line-height: 1.3em;
+  line-height: 1.8em;
 }
 a {
   outline: none;
@@ -47,7 +47,58 @@ body {
   background-color: var(--dark);
   color: var(--primary-color);
 }
+blockquote {
+  font-family: 'Andale Mono', 'Courier New', monospace;
+  font-size: 17px;
+  font-weight: 700;
+  /* text-transform: uppercase; */
+  letter-spacing: 0.1em;
+  position: relative;
+  border: 3px solid #3d3d3d;
+  padding: 2.5em 2.5rem;
+  margin: 0 auto;
+  text-align: left;
+  max-width: 460px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 13px 13px 0 0 #fff inset, 16px 16px 0 0 #a9a556;
+  background-color: #f8f8f2;
+  color: #000;
+}
 
+blockquote::before {
+  content: '“';
+  font-size: 4em;
+  color: #222;
+  position: absolute;
+  top: 0.2em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'georgia';
+  pointer-events: none;
+}
+
+blockquote::after {
+  content: '“';
+  font-size: 4em;
+  color: #222;
+  position: absolute;
+  bottom: -0.4em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'georgia';
+  pointer-events: none;
+}
+
+blockquote > * {
+  margin: 0.75em 0;
+}
+
+blockquote cite {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+}
 /* Old Monitor */
 
 /* http://aleclownes.com/2017/02/01/crt-display.html */
@@ -288,7 +339,7 @@ h2 {
 }
 .about-container {
   width: 95%;
-  margin: 0 auto 0;
+  margin: 20px auto 40px;
   max-width: 1280px;
 }
 .about-col-1 {
@@ -402,6 +453,8 @@ h2 {
 .github-chart {
   margin: 20px 0;
   width: 100%;
+
+  text-align: center;
 }
 .github-chart img {
   min-width: 90%;
