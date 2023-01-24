@@ -16,6 +16,7 @@ import {
 } from './Commands';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
+  const [enter, setEnter] = useState(false);
 
   const { output, setOutput } = props;
 
@@ -65,6 +66,7 @@ export default function Terminal(props) {
         e.target.innerHTML = '';
         props.setOutput('');
         updateCommand(typed);
+        setEnter(true);
         break;
       default:
       // console.log('something else');
@@ -126,10 +128,12 @@ export default function Terminal(props) {
       case 'howdy':
         setOutput(Hello);
         break;
+      case 'i':
       case 'gleick':
       case 'info':
       case 'information':
         setOutput(TheInfo);
+        break;
       case 'login':
         window.location.replace('/login/');
         break;
@@ -157,8 +161,9 @@ export default function Terminal(props) {
       default:
         setOutput(NoMatch);
     }
+    setEnter(false);
     console.log('COMMAND CHANGED ', command);
-  }, [command]);
+  }, [enter]);
 
   return (
     <>

@@ -11,9 +11,9 @@ const CurseResponse = () => {
   const ralphie = './images/ralphie.jpg';
   return (
     <>
-      <Modal open={true}>
+      <Modal open={true} duration={2000}>
         <img src={ralphie} alt='Take a break!' />
-        <p>Time out! </p>
+        <p className='curse'>Time out! </p>
       </Modal>
     </>
   );
@@ -124,7 +124,7 @@ const TheInfo = () => {
   let num = Math.floor(Math.random() * infoQuotes.length);
 
   return (
-    <Modal open={true} duration={2000}>
+    <Modal open={true}>
       <blockquote>
         <p>{infoQuotes[num]}</p>
         <cite>&mdash;James Gleick - The Information</cite>

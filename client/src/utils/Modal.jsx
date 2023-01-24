@@ -3,10 +3,16 @@ import React, { useState, useEffect } from 'react';
 
 const Modal = ({ open, duration, children }) => {
   const [showModal, setShowModal] = useState(open);
-
+  const handleKeydown = (e) => {
+    if (e.keyCode === 27 || e.keyCode === 13 || e.keyCode === 32) {
+      handleClose();
+    }
+  };
   useEffect(() => {
     if (open) {
       setShowModal(true);
+      window.addEventListener('keydown', handleKeydown);
+
       if (duration) {
         console.log('yes duration');
         setTimeout(() => {
@@ -19,6 +25,7 @@ const Modal = ({ open, duration, children }) => {
   const handleClose = () => {
     setTimeout(() => {
       setShowModal(false);
+      window.removeEventListener('keydown', handleKeydown);
     }, 300);
   };
 
