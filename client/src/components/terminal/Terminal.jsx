@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import { TerminalContext } from '../../context/TerminalContext';
@@ -17,7 +17,7 @@ import {
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
-
+  const inputRef = useRef();
   const { output, setOutput } = props;
 
   const { user } = useContext(Context);
@@ -167,9 +167,9 @@ export default function Terminal(props) {
 
   return (
     <>
-      <div className='header'>
+      <div className='header' onClick={() => inputRef.current.focus()}>
         <div className='header-container'>
-          <div className='terminal'>
+          <div className='terminal' ref={inputRef}>
             <span
               className='terminal-input'
               contentEditable='true'
