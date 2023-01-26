@@ -8,7 +8,7 @@ import Wordpress from './../../components/wordpress/Wordpress';
 import Discogs from './../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
 
-export default function About() {
+export default function Home() {
   // const { command, updateCommand } = useContext(TerminalContext);
   //   useEffect(() => {
   //     updateCommand('about');
