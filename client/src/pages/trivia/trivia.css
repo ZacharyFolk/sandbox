@@ -1,0 +1,73 @@
+.trivia-board {
+  display: flex;
+}
+.trivia-board h1 {
+  font-size: 0.9em;
+  text-align: center;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  padding: 0 10px;
+  background-color: var(--dark);
+  text-transform: uppercase;
+}
+.trivia-board > div {
+  width: 20%;
+}
+
+div.value {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  cursor: pointer;
+}
+.trivia-container {
+  width: 95%;
+  margin: 20px auto 40px;
+}
+.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  /* visibility: hidden; */
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms linear;
+}
+
+.active {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms linear;
+}
+
+.qaContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--dark);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  padding: 90px;
+  border: 1px solid var(--primary-color);
+}
+.answer {
+  display: flex;
+  padding: 20px 0;
+  align-items: center;
+  margin-top: 50px;
+}
+.answer > .terminal-input {
+  margin-left: 20px;
+  width: 80%;
+  background-color: var(--secondary-color);
+  display: block;
+  padding: 8px;
+}

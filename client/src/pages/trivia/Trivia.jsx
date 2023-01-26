@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Modal from '../../utils/Modal';
+import './trivia.css';
 export default function Trivia() {
   const [game, setGame] = useState({});
   const [q, setQ] = useState('');
+  const [a, setA] = useState('');
+  const [input, setInput] = useState('');
+  const [isActive, setActive] = useState('false');
   useEffect(() => {
     const processResults = (result) => {
       let categories = {};
@@ -52,41 +55,134 @@ export default function Trivia() {
     };
 
     const fetchBoard = async () => {
-      const res = await axios.get('https://jservice.io/api/clues');
-      const result = await res.data;
-
-      sessionStorage.setItem('game-one', JSON.stringify(result));
-      processResults(result);
+      setActive(false);
+      let localGame = JSON.parse(sessionStorage.getItem('game-one'));
+      if (!localGame) {
+        const res = await axios.get('https://jservice.io/api/clues');
+        const result = await res.data;
+        processResults(result);
+      } else {
+        setGame(localGame);
+      }
     };
     fetchBoard();
   }, []);
 
+  function parseString(str) {
+    let unwantedWords = ['the', 'a', 'an'];
+    let words = str.toLowerCase().split(/[^\w']+/);
+    let filteredWords = words.filter((word) => !unwantedWords.includes(word));
+    return filteredWords.join(' ');
+  }
   const handleClick = (e) => {
     console.log(e.target);
+    setActive(true);
     let q = e.target.getAttribute('data-question');
+    let a = e.target.getAttribute('data-answer');
+    // filter answer to remove some words
+    a = parseString(a);
     setQ(q);
+    setA(a);
     console.log(q);
+    console.log(a);
   };
-  return (
-    <div>
-      {Object.keys(game).map((category, i) => (
-        <div key={category} className={'cat-' + (i + 1)}>
-          <h1>{category}</h1>
 
-          {Object.keys(game[category]).map((value) => (
-            <div
-              key={value}
-              className={'value value-' + value}
-              data-question={game[category][value].question}
-              data-answer={game[category][value].answer}
-              onClick={handleClick}
-            >
-              {value}
-            </div>
-          ))}
+  const handleKeys = (e) => {
+    let code = e.keyCode;
+    switch (code) {
+      case 13:
+        e.preventDefault();
+        let typed = parseString(e.target.textContent);
+        e.target.innerHTML = '';
+        setInput(typed);
+
+        break;
+      default:
+      // console.log('something else');
+    }
+  };
+
+  const checkAnswer = () => {
+    function levenshtein(a, b) {
+      if (a.length === 0) return b.length;
+      if (b.length === 0) return a.length;
+
+      let matrix = [];
+
+      for (let i = 0; i <= b.length; i++) {
+        matrix[i] = [i];
+      }
+
+      for (let j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+      }
+
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1, // substitution
+              Math.min(
+                matrix[i][j - 1] + 1, // insertion
+                matrix[i - 1][j] + 1
+              )
+            ); // deletion
+          }
+        }
+      }
+
+      return matrix[b.length][a.length];
+    }
+
+    console.log('INPUT', input);
+    console.log('ANSWER', a);
+    const distance = levenshtein(input, a);
+    let percentageMatch = 1 - distance / Math.min(input.length, a.length);
+    console.log('Distance: ', distance);
+    console.log(`The strings match at ${percentageMatch * 100}%`);
+  };
+
+  useEffect(() => {
+    checkAnswer(input);
+  }, [input]);
+
+  return (
+    <div className='about-container'>
+      <div className='trivia-board'>
+        {Object.keys(game).map((category, i) => (
+          <div key={category} className={'cat-' + (i + 1)}>
+            <h1>{category}</h1>
+
+            {Object.keys(game[category]).map((value) => (
+              <div
+                key={value}
+                className={'value value-' + value}
+                data-question={game[category][value].question}
+                data-answer={game[category][value].answer}
+                onClick={handleClick}
+              >
+                {value}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>{' '}
+      <div className={isActive ? 'active' : 'inactive'}>
+        <div className='qaContent'>
+          <div className='question'>{q}</div>
+          <div className='answer'>
+            <span>What is </span>
+            <span
+              className='terminal-input'
+              contentEditable='true'
+              suppressContentEditableWarning={true}
+              onKeyDown={(e) => handleKeys(e)}
+            ></span>
+          </div>
         </div>
-      ))}
-      {q}
+      </div>
     </div>
   );
 }
