@@ -12,6 +12,7 @@ import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
 import Cagematch from './pages/cagematch/Cage';
 import Games from './pages/games/Games';
+import Trivia from './pages/trivia/Trivia';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
@@ -42,7 +43,8 @@ export default function App() {
           <Route path='/blog' element={<Blog />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
           <Route path='/games' element={<Games />} />
-          <Route path='/cagematch' element={<Cagematch />} />
+          <Route path='/cagematch' element={<Cagematch />} />{' '}
+          <Route path='/trivia' element={<Trivia />} />
           <Route path='/login' element={user ? <Home /> : <Login />} />
           <Route path='/write' element={user ? <Write /> : <Home />} />
           <Route path='/post/:postId' element={<Single />} />
