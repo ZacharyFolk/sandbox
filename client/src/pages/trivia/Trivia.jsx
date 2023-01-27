@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
+
 import axios from 'axios';
 import './trivia.css';
 export default function Trivia() {
   const [game, setGame] = useState({});
+  const [score, setScore] = useState(0);
   const [q, setQ] = useState('');
   const [a, setA] = useState('');
   const [input, setInput] = useState('');
   const [isActive, setActive] = useState('false');
+  const [correct, setCorrect] = useState(false);
+  const [incorrect, setIncorrect] = useState(false);
+
+  const [currentValue, setCurrentValue] = useState(0);
   const levenshtein = require('fast-levenshtein');
 
   useEffect(() => {
@@ -81,6 +87,8 @@ export default function Trivia() {
     setActive(true);
     let q = e.target.getAttribute('data-question');
     let a = e.target.getAttribute('data-answer');
+    let v = e.target.getAttribute('data-value');
+    setCurrentValue(v);
     // filter answer to remove some words
     a = parseString(a);
     setQ(q);
@@ -108,9 +116,28 @@ export default function Trivia() {
     console.log('INPUT', input);
     console.log('ANSWER', a);
     const distance = levenshtein.get(input, a);
-    let percentageMatch = 1 - distance / Math.min(input.length, a.length);
-    console.log('Distance: ', distance);
-    console.log(`The strings match at ${percentageMatch * 100}%`);
+    let percentageMatch =
+      (1 - distance / Math.min(input.length, a.length)) * 100;
+    percentageMatch = Math.round(percentageMatch);
+    if (percentageMatch > 70) {
+      let newScore = parseInt(score) + parseInt(currentValue);
+      setCorrect(true);
+      setScore(newScore);
+      setActive(false);
+      setTimeout(() => {
+        setCorrect(false);
+      }, 2000);
+      // fade result message after a few seconds
+    } else {
+      let newScore = parseInt(score) - parseInt(currentValue);
+      setScore(newScore);
+      setActive(false);
+      setIncorrect(true);
+      setTimeout(() => {
+        setIncorrect(false);
+      }, 2000);
+    }
+    setActive(false);
   };
 
   useEffect(() => {
@@ -119,6 +146,10 @@ export default function Trivia() {
 
   return (
     <div className='about-container'>
+      <div className='scoreBoard'>
+        SCORE : <span>$</span>
+        {score}
+      </div>
       <div className='trivia-board'>
         {Object.keys(game).map((category, i) => (
           <div key={category} className={'cat-' + (i + 1)}>
@@ -127,7 +158,8 @@ export default function Trivia() {
             {Object.keys(game[category]).map((value) => (
               <div
                 key={value}
-                className={'value value-' + value}
+                className='value'
+                data-value={value}
                 data-question={game[category][value].question}
                 data-answer={game[category][value].answer}
                 onClick={handleClick}
@@ -137,8 +169,16 @@ export default function Trivia() {
             ))}
           </div>
         ))}
-      </div>{' '}
-      <div className={isActive ? 'active' : 'inactive'}>
+      </div>
+      <div className={'correctamundo ' + (correct ? 'active' : 'inactive')}>
+        <p className='alert'>Yes! That is correct for ${currentValue}!</p>
+      </div>
+      <div className={'nope ' + (incorrect ? 'active' : 'inactive')}>
+        <p className='alert'>
+          Sorry, that is incorrect. You lose -${currentValue}!
+        </p>
+      </div>
+      <div className={'qaBox ' + (isActive ? 'active' : 'inactive')}>
         <div className='qaContent'>
           <div className='question'>{q}</div>
           <div className='answer'>
