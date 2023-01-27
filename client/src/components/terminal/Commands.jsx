@@ -11,7 +11,7 @@ const CurseResponse = () => {
   const ralphie = './images/ralphie.jpg';
   return (
     <>
-      <Modal open={true} duration={2000}>
+      <Modal open={true} duration={4000}>
         <img src={ralphie} alt='Take a break!' />
         <p className='curse'>Time out! </p>
       </Modal>
@@ -139,6 +139,14 @@ const InitialText = () => {
     </Typist>
   );
 };
+
+const Jeopardy = () => {
+  return (
+    <Typist typingDelay={100}>
+      <p>Welcome to trivia with over 200,000 questions!</p>
+    </Typist>
+  );
+};
 const NoMatch = () => {
   const nopeArray = [
     "I'm sorry, Dave. I'm, afraid I can't do that.",
@@ -202,5 +210,6 @@ export {
   Help,
   TheInfo,
   InitialText,
+  Jeopardy,
   NoMatch,
 };

@@ -1,8 +1,14 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { TerminalContext } from './../../context/TerminalContext';
-
 import axios from 'axios';
 import './trivia.css';
+
+// TODO :
+// * Remove flash of hidden content
+// * use single modal method for all alerts
+// * Add Final Jeopardy
+// * Add score / leaderboard
+// * Animate scale of q/a window
 export default function Trivia() {
   const { updateCommand } = useContext(TerminalContext);
 
@@ -84,9 +90,8 @@ export default function Trivia() {
     }
   };
   useEffect(() => {
-    // TODO : Commands not working here
-
-    updateCommand('hi');
+    updateCommand('clear');
+    updateCommand('trivia-intro');
     fetchBoard();
   }, []);
 
@@ -98,7 +103,6 @@ export default function Trivia() {
     return filteredWords.join(' ');
   }
   const handleClick = (e) => {
-    console.log(e.target);
     setActive(true);
     let q = e.target.getAttribute('data-question');
     let a = e.target.getAttribute('data-answer');
@@ -110,9 +114,11 @@ export default function Trivia() {
     setQ(q);
     setA(a);
     setCategory(c);
-    console.log(q);
-    console.log(a);
-    console.log(c);
+    setTimeout(() => {
+      answerRef.current.innerHTML = '';
+      answerRef.current.focus();
+    }, 100);
+    console.log(answerRef.current);
     // set this target to deactivated
 
     e.target.className += ' deactivated';
@@ -126,6 +132,8 @@ export default function Trivia() {
       case 13:
         e.preventDefault();
         let typed = parseString(e.target.textContent);
+        // prevent empty input
+        if (typed === '') return;
         e.target.innerHTML = '';
         setInput(typed);
 
@@ -136,8 +144,6 @@ export default function Trivia() {
   };
 
   const checkAnswer = () => {
-    console.log('INPUT', input);
-    console.log('ANSWER', a);
     const distance = levenshtein.get(input, a);
     let percentageMatch =
       (1 - distance / Math.min(input.length, a.length)) * 100;
@@ -159,7 +165,7 @@ export default function Trivia() {
       setIncorrect(true);
       setTimeout(() => {
         setIncorrect(false);
-      }, 4000);
+      }, 3000);
     }
     setActive(false);
   };
@@ -168,7 +174,7 @@ export default function Trivia() {
     setSkipped(true);
     setTimeout(() => {
       setSkipped(false);
-    }, 4000);
+    }, 3000);
   };
   const newGame = () => {
     sessionStorage.setItem('game-one', null);

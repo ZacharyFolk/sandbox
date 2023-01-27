@@ -8,10 +8,11 @@ import {
   CageTips,
   CurseResponse,
   Directions,
+  Games,
   Help,
   Hello,
   TheInfo,
-  Games,
+  Jeopardy,
   NoMatch,
 } from './Commands';
 export default function Terminal(props) {
@@ -141,6 +142,9 @@ export default function Terminal(props) {
       case 'jeopardy':
         navigate('/trivia');
         break;
+      case 'trivia-intro':
+        setOutput(Jeopardy);
+        break;
       case 'cage1':
         setOutput(<CageTips num={0} />);
         break;
@@ -167,7 +171,7 @@ export default function Terminal(props) {
     }
     setEnter(false);
     console.log('COMMAND CHANGED ', command);
-  }, [enter]);
+  }, [command, enter]);
 
   return (
     <>

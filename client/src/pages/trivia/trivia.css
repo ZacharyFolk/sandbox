@@ -44,13 +44,16 @@ div.value {
 .inactive {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s linear 300ms, opacity 300ms linear;
+  transition: visibility 0s linear 300ms, opacity 300ms linear,
+    scale 500ms linear;
+  scale: 0.5;
 }
 
 .active {
   visibility: visible;
   opacity: 1;
-  transition: visibility 0s linear 0s, opacity 300ms linear;
+  transition: visibility 0s linear 0s, opacity 300ms linear, scale 500ms linear;
+  scale: 1;
 }
 
 .qaContent,
@@ -137,6 +140,4 @@ div.value {
 .loading {
   visibility: hidden;
   opacity: 0;
-}
-.loading {
 }
