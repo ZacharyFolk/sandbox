@@ -9,7 +9,6 @@ export default function Games() {
 
   useEffect(() => {
     updateCommand('games');
-    console.log('GAMES PAGE');
   }, []);
 
   return (

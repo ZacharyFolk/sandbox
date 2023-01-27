@@ -90,8 +90,8 @@ const Directions = () => {
 const Games = () => {
   return (
     <>
-      A list of games I built for fun and learnings.... ok, just one game for
-      now, but more coming soon!
+      Here are some of the latest projects that are ready to play with. Read
+      more about how they were built on the blog!
     </>
   );
 };

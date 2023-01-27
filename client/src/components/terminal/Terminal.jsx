@@ -14,6 +14,7 @@ import {
   TheInfo,
   Jeopardy,
   NoMatch,
+  InitialText,
 } from './Commands';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
@@ -134,6 +135,9 @@ export default function Terminal(props) {
       case 'info':
       case 'information':
         setOutput(TheInfo);
+        break;
+      case 'init':
+        setOutput(InitialText);
         break;
       case 'login':
         navigate('/login/');
