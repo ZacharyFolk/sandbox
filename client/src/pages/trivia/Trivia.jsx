@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
 import './trivia.css';
@@ -11,9 +11,9 @@ export default function Trivia() {
   const [isActive, setActive] = useState('false');
   const [correct, setCorrect] = useState(false);
   const [incorrect, setIncorrect] = useState(false);
-
   const [currentValue, setCurrentValue] = useState(0);
   const levenshtein = require('fast-levenshtein');
+  const answerRef = useRef();
 
   useEffect(() => {
     const processResults = (result) => {
@@ -178,7 +178,10 @@ export default function Trivia() {
           Sorry, that is incorrect. You lose -${currentValue}!
         </p>
       </div>
-      <div className={'qaBox ' + (isActive ? 'active' : 'inactive')}>
+      <div
+        className={'qaBox ' + (isActive ? 'active' : 'inactive')}
+        onClick={() => answerRef.current.focus()}
+      >
         <div className='qaContent'>
           <div className='question'>{q}</div>
           <div className='answer'>
@@ -188,6 +191,7 @@ export default function Trivia() {
               contentEditable='true'
               suppressContentEditableWarning={true}
               onKeyDown={(e) => handleKeys(e)}
+              ref={answerRef}
             ></span>
           </div>
         </div>
