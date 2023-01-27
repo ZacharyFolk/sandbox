@@ -80,7 +80,7 @@ export default function Terminal(props) {
 
     switch (command) {
       case 'home':
-        window.location.replace('/');
+        navigate('/');
         break;
       case 'about':
         setOutput(About);
@@ -135,7 +135,11 @@ export default function Terminal(props) {
         setOutput(TheInfo);
         break;
       case 'login':
-        window.location.replace('/login/');
+        navigate('/login/');
+        break;
+      case 'trivia':
+      case 'jeopardy':
+        navigate('/trivia');
         break;
       case 'cage1':
         setOutput(<CageTips num={0} />);

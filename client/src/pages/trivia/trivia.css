@@ -55,7 +55,8 @@ div.value {
 
 .qaContent,
 .correctamundo,
-.nope {
+.nope,
+.skipped {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -63,7 +64,7 @@ div.value {
   background: var(--dark);
   padding: 1rem;
   border-radius: 0.5rem;
-  padding: 90px;
+  padding: 40px 80px 80px;
   border: 1px solid var(--primary-color);
 }
 .question {
@@ -77,8 +78,65 @@ div.value {
 }
 .answer > .terminal-input {
   margin-left: 20px;
-  width: 80%;
+  width: 50%;
   background-color: var(--secondary-color);
   display: block;
   padding: 8px;
+}
+.deactivated {
+  pointer-events: none;
+  background-color: var(--dark);
+  text-decoration: line-through;
+  color: var(--secondary-color);
+}
+.skipButton {
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.skipButton button {
+  margin-left: 10px;
+  cursor: pointer;
+  width: 120px;
+  padding: 10px;
+  text-transform: uppercase;
+  background-color: var(--bg);
+  color: var(--secondary-color);
+}
+.skipButton button:hover {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+.about-container {
+  position: relative;
+}
+.gameHeader {
+  position: absolute;
+  top: -90px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  background-color: var(--dark);
+  z-index: 999;
+}
+.score {
+  margin: 10px auto;
+}
+.gameHeader button {
+  background-color: var(--secondary-color);
+  padding: 10px 0;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.gameHeader button:hover {
+  background-color: var(--primary-color);
+}
+.loading {
+  visibility: hidden;
+  opacity: 0;
+}
+.loading {
 }

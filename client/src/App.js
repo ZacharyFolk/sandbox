@@ -43,7 +43,7 @@ export default function App() {
           <Route path='/blog' element={<Blog />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
           <Route path='/games' element={<Games />} />
-          <Route path='/cagematch' element={<Cagematch />} />{' '}
+          <Route path='/cagematch' element={<Cagematch />} />
           <Route path='/trivia' element={<Trivia />} />
           <Route path='/login' element={user ? <Home /> : <Login />} />
           <Route path='/write' element={user ? <Write /> : <Home />} />
