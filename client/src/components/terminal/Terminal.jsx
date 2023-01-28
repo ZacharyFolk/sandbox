@@ -7,12 +7,15 @@ import {
   About,
   CageTips,
   CurseResponse,
+  Deep,
   Directions,
+  Games,
   Help,
   Hello,
   TheInfo,
-  Games,
+  Jeopardy,
   NoMatch,
+  InitialText,
 } from './Commands';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
@@ -80,7 +83,7 @@ export default function Terminal(props) {
 
     switch (command) {
       case 'home':
-        window.location.replace('/');
+        navigate('/');
         break;
       case 'about':
         setOutput(About);
@@ -112,6 +115,12 @@ export default function Terminal(props) {
       case 'look':
         setOutput(Directions);
         break;
+      case 'deep':
+      case 'deep thoughts':
+      case 'deepthoughts':
+      case 'thoughts':
+        setOutput(Deep);
+        break;
       case 'games':
         setOutput(Games);
         break;
@@ -134,8 +143,18 @@ export default function Terminal(props) {
       case 'information':
         setOutput(TheInfo);
         break;
+      case 'init':
+        setOutput(InitialText);
+        break;
       case 'login':
-        window.location.replace('/login/');
+        navigate('/login/');
+        break;
+      case 'trivia':
+      case 'jeopardy':
+        navigate('/trivia');
+        break;
+      case 'trivia-intro':
+        setOutput(Jeopardy);
         break;
       case 'cage1':
         setOutput(<CageTips num={0} />);
@@ -163,7 +182,7 @@ export default function Terminal(props) {
     }
     setEnter(false);
     console.log('COMMAND CHANGED ', command);
-  }, [enter]);
+  }, [command, enter]);
 
   return (
     <>

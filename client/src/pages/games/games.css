@@ -1,0 +1,26 @@
+.gamegrid {
+  display: flex;
+}
+h1.games {
+  text-align: center;
+  padding: 0 0 20px;
+  border-bottom: 1px dashed;
+}
+.game {
+  display: flex;
+  width: 33%;
+  flex-direction: column;
+  align-items: center;
+}
+.game img {
+  max-width: 70%;
+  margin: 0 auto;
+}
+.title {
+  font-size: 1.4em;
+  border-bottom: 1px dashed;
+  margin-bottom: 10px;
+}
+.game .description {
+  padding: 20px;
+}

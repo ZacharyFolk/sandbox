@@ -1,0 +1,143 @@
+.trivia-board {
+  display: flex;
+}
+.trivia-board h1 {
+  font-size: 0.9em;
+  text-align: center;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  padding: 0 10px;
+  background-color: var(--dark);
+  text-transform: uppercase;
+}
+.trivia-board > div {
+  width: 20%;
+}
+
+div.value {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  cursor: pointer;
+}
+.value:hover {
+  background-color: var(--dark);
+}
+.trivia-container {
+  width: 95%;
+  margin: 20px auto 40px;
+}
+
+.qaBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+}
+.inactive {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms linear,
+    scale 500ms linear;
+  scale: 0.5;
+}
+
+.active {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms linear, scale 500ms linear;
+  scale: 1;
+}
+
+.qaContent,
+.correctamundo,
+.nope,
+.skipped {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--dark);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  padding: 40px 80px 80px;
+  border: 1px solid var(--primary-color);
+}
+.question {
+  line-height: 1.7em;
+}
+.answer {
+  display: flex;
+  padding: 20px 0;
+  align-items: center;
+  margin-top: 50px;
+}
+.answer > .terminal-input {
+  margin-left: 20px;
+  width: 50%;
+  background-color: var(--secondary-color);
+  display: block;
+  padding: 8px;
+}
+.deactivated {
+  pointer-events: none;
+  background-color: var(--dark);
+  text-decoration: line-through;
+  color: var(--secondary-color);
+}
+.skipButton {
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.skipButton button {
+  margin-left: 10px;
+  cursor: pointer;
+  width: 120px;
+  padding: 10px;
+  text-transform: uppercase;
+  background-color: var(--bg);
+  color: var(--secondary-color);
+}
+.skipButton button:hover {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+.about-container {
+  position: relative;
+}
+.gameHeader {
+  position: absolute;
+  top: -90px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  background-color: var(--dark);
+  z-index: 999;
+}
+.score {
+  margin: 10px auto;
+}
+.gameHeader button {
+  background-color: var(--secondary-color);
+  padding: 10px 0;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.gameHeader button:hover {
+  background-color: var(--primary-color);
+}
+.loading {
+  visibility: hidden;
+  opacity: 0;
+}

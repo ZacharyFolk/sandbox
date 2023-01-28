@@ -1,5 +1,3 @@
-import { TerminalContext } from '../../context/TerminalContext';
-
 import selfie from './../../images/matrix-me-small.jpg';
 import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
@@ -7,12 +5,17 @@ import Git from './../../components/git/Git';
 import Wordpress from './../../components/wordpress/Wordpress';
 import Discogs from './../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
+import { TerminalContext } from '../../context/TerminalContext';
 
 export default function Home() {
   // const { command, updateCommand } = useContext(TerminalContext);
   //   useEffect(() => {
   //     updateCommand('about');
   //   }, []);
+  const { updateCommand } = useContext(TerminalContext);
+  useEffect(() => {
+    updateCommand('init');
+  }, []);
 
   return (
     <>

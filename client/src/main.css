@@ -776,29 +776,6 @@ h2 {
   background-color: bisque;
 }
 
-h1.games {
-  text-align: center;
-  padding: 0 0 20px;
-  border-bottom: 1px dashed;
-}
-.game {
-  display: flex;
-  width: 33%;
-  flex-direction: column;
-  align-items: center;
-}
-.game img {
-  max-width: 70%;
-  margin: 0 auto;
-}
-.title {
-  font-size: 1.4em;
-  border-bottom: 1px dashed;
-  margin-bottom: 10px;
-}
-.game .description {
-  padding: 20px;
-}
 /* Animations */
 
 @media only screen and (max-width: 799px) {
@@ -821,5 +798,36 @@ h1.games {
   }
   100% {
     opacity: 1;
+  }
+}
+
+/* MODAL */
+
+.deep {
+  display: flex;
+  min-width: 90%;
+  min-height: 90%;
+}
+.deepBkgd {
+  min-width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+.thought {
+  max-width: 80%;
+  margin: 40px 0 0 100px;
+}
+#targetOutput p.thought {
+  font-family: 'Great Vibes', cursive;
+  color: #000;
+  font-size: 3vw;
+}
+@media only screen and (max-width: 799px) {
+  .thought {
+    margin: 30px 0 0 40px;
+    max-width: 90%;
+  }
+  #targetOutput p.thought {
+    font-size: 6vw;
   }
 }
