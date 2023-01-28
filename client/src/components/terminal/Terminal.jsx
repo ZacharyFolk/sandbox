@@ -7,6 +7,7 @@ import {
   About,
   CageTips,
   CurseResponse,
+  Deep,
   Directions,
   Games,
   Help,
@@ -113,6 +114,12 @@ export default function Terminal(props) {
       case 'l':
       case 'look':
         setOutput(Directions);
+        break;
+      case 'deep':
+      case 'deep thoughts':
+      case 'deepthoughts':
+      case 'thoughts':
+        setOutput(Deep);
         break;
       case 'games':
         setOutput(Games);
