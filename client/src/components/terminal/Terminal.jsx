@@ -201,14 +201,17 @@ export default function Terminal(props) {
             <Link to='/'>
               <i className='fa-solid fa-house'></i>
             </Link>
-            {/* <Link to='/about'>
+            <Link to='/about'>
               <i className='fa-solid fa-circle-question'></i>
-            </Link> */}
+            </Link>
             <Link to='/blog'>
               <i className='fa-solid fa-feather'></i>
             </Link>
             <Link to='/games'>
               <i className='fa-solid fa-dice'></i>
+            </Link>
+            <Link to='/contact'>
+              <i className='fa-solid fa-envelope'></i>
             </Link>
             {user && (
               <Link to='/write'>

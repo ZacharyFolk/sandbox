@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { SocialIcon } from 'react-social-icons';
 import Modal from '../../utils/Modal';
+import Social from '../../components/social/Social';
 import './contact.css';
 function ContactForm() {
   const fp = './images/folkphotography.jpg';
   const arto = './images/arto.jpg';
+  const fp1 = './images/fp1.jpg';
+  const fp2 = './images/fp2.jpg';
+  const fp3 = './images/fp3.jpg';
+  const arto1 = './images/arto1.jpg';
+  const arto2 = './images/arto2.jpg';
+  const arto3 = './images/arto3.jpg';
+
   const [modal, setModal] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [openModal, setOpenModal] = useState(null);
@@ -70,8 +77,18 @@ function ContactForm() {
       <div>
         <h2 className='site-title'>folkphotography.com </h2>
         <p>A website feaeturing my photography from over the decades.</p>
-        <a href='https://folkphotography.com' target='_blank' rel='noreferrer'>
-          Check it out &lt; &lt;
+        <div className='web-thumbs'>
+          <img src={fp1} alt='' />
+          <img src={fp2} alt='' />
+          <img src={fp3} alt='' />
+        </div>
+        <a
+          className='web-link'
+          href='https://folkphotography.com'
+          target='_blank'
+          rel='noreferrer'
+        >
+          Check it out &gt; &gt;
         </a>
       </div>
     );
@@ -81,9 +98,19 @@ function ContactForm() {
     return (
       <div>
         <h2 className='site-title'>artological.com </h2>
-        <p>An ecommerce website selling fine art prints.</p>
-        <a href='https://artological.com' target='_blank' rel='noreferrer'>
-          Check it out &lt; &lt;
+        <p>An ecommerce website selling fine art prints.</p>{' '}
+        <div className='web-thumbs'>
+          <img src={arto1} alt='' />
+          <img src={arto2} alt='' />
+          <img src={arto3} alt='' />
+        </div>
+        <a
+          className='web-link'
+          href='https://artological.com'
+          target='_blank'
+          rel='noreferrer'
+        >
+          Check it out &gt; &gt;
         </a>
       </div>
     );
@@ -97,6 +124,7 @@ function ContactForm() {
             If you are interested in working together, have a suggestion, or
             just want to say hello, you can use this form to send me an email.
           </p>
+
           <p>My other websites:</p>
           <div className='websites'>
             <div>
@@ -109,43 +137,16 @@ function ContactForm() {
               />
             </div>
             <div>
-              <img src={arto} alt='Print shop' />
+              <img
+                src={arto}
+                alt='Print shop'
+                onClick={() => {
+                  handleModalOpen(aboutArto);
+                }}
+              />
             </div>
           </div>
-
-          <div className='social-container'>
-            <SocialIcon
-              bgColor='#5bf870'
-              target={'_blank'}
-              url='https://www.linkedin.com/in/zacharyfolk/'
-            />
-            <SocialIcon
-              bgColor='#5bf870'
-              target={'_blank'}
-              url='https://www.instagram.com/zachary_folk/'
-            />
-            <SocialIcon
-              bgColor='#5bf870'
-              target={'_blank'}
-              url='https://github.com/ZacharyFolk'
-            />
-            <SocialIcon
-              title='Folk Photography on Facebook'
-              target={'_blank'}
-              bgColor='#5bf870'
-              url='https://www.facebook.com/zacharyfolkphotography/'
-            />
-            <SocialIcon
-              bgColor='#5bf870'
-              target={'_blank'}
-              url='https://twitter.com/FolkPhotograph1'
-            />
-            <SocialIcon
-              bgColor='#5bf870'
-              target={'_blank'}
-              url='https://stackoverflow.com/users/82330/zac'
-            />
-          </div>
+          <Social />
         </div>
         <div className='col col-2 flex-centered'>
           <div className='contact-container'>

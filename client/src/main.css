@@ -359,7 +359,7 @@ h2 {
 }
 .social-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   scale: 0.8;
   width: 100%;
 }

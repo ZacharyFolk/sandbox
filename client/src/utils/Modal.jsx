@@ -23,6 +23,7 @@ const Modal = ({ open, onClose, theme, duration, children }) => {
   }, [open]);
 
   const handleClose = () => {
+    onClose();
     setTimeout(() => {
       setShowModal(false);
       window.removeEventListener('keydown', handleKeydown);

@@ -1,11 +1,11 @@
 import selfie from './../../images/matrix-me-small.jpg';
-import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
 import Wordpress from './../../components/wordpress/Wordpress';
 import Discogs from './../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
 import { TerminalContext } from '../../context/TerminalContext';
+import Social from '../../components/social/Social';
 
 export default function Home() {
   // const { command, updateCommand } = useContext(TerminalContext);
@@ -23,39 +23,7 @@ export default function Home() {
         <div className='row centered'>
           <div className='col selfie-container'>
             <img src={selfie} alt='me' />
-            <div className='social-container'>
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://www.linkedin.com/in/zacharyfolk/'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://www.instagram.com/zachary_folk/'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://github.com/ZacharyFolk'
-              />
-              <SocialIcon
-                title='Folk Photography on Facebook'
-                target={'_blank'}
-                bgColor='#5bf870'
-                url='https://www.facebook.com/zacharyfolkphotography/'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://twitter.com/FolkPhotograph1'
-              />
-              <SocialIcon
-                bgColor='#5bf870'
-                target={'_blank'}
-                url='https://stackoverflow.com/users/82330/zac'
-              />
-            </div>
+            <Social />
           </div>
           <div className='col personal-data'>
             <Typist typingDelay={30}>

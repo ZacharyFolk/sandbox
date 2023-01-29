@@ -93,7 +93,19 @@ textarea {
   padding: 10px;
   margin: 20px 0 0;
 }
-
+.web-thumbs {
+  display: flex;
+  min-width: 600px;
+}
+.web-thumbs img {
+  width: 30%;
+  margin-left: 2%;
+}
+.web-link {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
 @media only screen and (max-width: 768px) {
   .col {
     margin: 20px 0;
