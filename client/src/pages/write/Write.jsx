@@ -9,11 +9,15 @@ export default function Write() {
   const [desc, sestDesc] = useState('');
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
+  const [draft, isDraft] = useState(true);
   const editorRef = useRef(null);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
 
+  const handleDraft = () => {
+    isDraft(!draft);
+  };
   const handleSubmit = async (e) => {
     console.log('CLICK SUBMIT');
     e.preventDefault();
@@ -21,6 +25,7 @@ export default function Write() {
       username: user.username,
       title,
       desc,
+      draft,
     };
     if (file) {
       const data = new FormData();
@@ -149,6 +154,8 @@ export default function Write() {
         </div>
 
         <div className='button-container'>
+          <input type='checkbox' checked={draft} onChange={handleDraft} />
+          Draft
           <button onClick={handleSubmit}>Submit</button>
         </div>
       </div>
