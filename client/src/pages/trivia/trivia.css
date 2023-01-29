@@ -1,5 +1,6 @@
 .trivia-board {
   display: flex;
+  margin-top: 50px;
 }
 .trivia-board h1 {
   font-size: 0.9em;
@@ -117,7 +118,7 @@ div.value {
 }
 .gameHeader {
   position: absolute;
-  top: -90px;
+  top: -110px;
   right: 0px;
   display: flex;
   flex-direction: column;

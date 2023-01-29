@@ -23,9 +23,10 @@ const Modal = ({ open, onClose, theme, duration, children }) => {
   }, [open]);
 
   const handleClose = () => {
-    onClose();
     setTimeout(() => {
       setShowModal(false);
+      onClose();
+
       window.removeEventListener('keydown', handleKeydown);
     }, 300);
   };
@@ -36,7 +37,7 @@ const Modal = ({ open, onClose, theme, duration, children }) => {
       <div className={`modal ${showModal ? 'open' : 'closed'}`}>
         <div className={'modal-content ' + theme}>
           {!duration && (
-            <button className='modal-close' onClick={onClose}>
+            <button className='modal-close' onClick={handleClose}>
               <i className='fa-regular fa-circle-xmark'></i>
             </button>
           )}

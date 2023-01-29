@@ -253,7 +253,7 @@ blockquote cite {
 ************* */
 
 .container {
-  margin: 0 auto;
+  margin: 40px auto;
   max-width: 1420px;
   width: 96%;
 }
@@ -314,7 +314,7 @@ h2 {
   z-index: 100;
 }
 #targetOutput {
-  height: 70px;
+  height: 60px;
   padding: 10px;
   margin: 0 auto;
   max-width: 1420px;
@@ -330,14 +330,14 @@ h2 {
 }
 #targetOutput p {
   font-size: 1em;
-  line-height: 1.6em;
+  line-height: 1em;
   padding-right: 40px;
 }
 #textContainer {
   padding: 0 60px;
   margin: 0 auto;
   height: 100%;
-  line-height: 4em;
+  line-height: 2em;
 }
 .about-container {
   width: 95%;
@@ -460,6 +460,7 @@ h2 {
 }
 .github-chart img {
   min-width: 90%;
+  max-width: 100%;
 }
 .github-container {
   display: flex;
