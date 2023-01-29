@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { SocialIcon } from 'react-social-icons';
-import Modal2 from '../../utils/Modal';
+import Modal from '../../utils/Modal';
 import './contact.css';
 function ContactForm() {
   const fp = './images/folkphotography.jpg';
@@ -15,10 +15,20 @@ function ContactForm() {
     message: '',
   });
   const [errors, setErrors] = useState({});
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
+  const displayErrors = (errors) => {
+    return errors.map((error, index) => {
+      return (
+        <span key={index} className='error-message'>
+          {error.msg}
+        </span>
+      );
+    });
+  };
   function handleModalOpen(content) {
-    setModalContent(content);
     setOpenModal(true);
+    setModalContent(content);
   }
 
   function handleModalClose() {
@@ -37,27 +47,20 @@ function ContactForm() {
 
   const resetForm = () => {
     setFormData({ name: '', email: '', message: '' });
+    setErrors({});
   };
   const handleSubmit = async (event) => {
-    console.log(errors);
-
     event.preventDefault();
     try {
       const response = await axios.post(
         'http://localhost:9999/api/email/send/',
         formData
       );
+      setFormSubmitted(true);
       resetForm();
     } catch (err) {
-      console.log(err);
-      console.log(err.response.status);
-      console.log(err.response.data.errors);
       if (err.response.status === 422) {
-        console.log('this should go yea?');
-        console.log(err.response.data.errors);
-
         setErrors(err.response.data.errors);
-        console.log(errors[0].msg);
       }
     }
   };
@@ -86,14 +89,6 @@ function ContactForm() {
     );
   };
 
-  const empty = (z) => {
-    if (z) {
-      let v = document.getElementById(z).value;
-      if (v == '') {
-        return false;
-      }
-    }
-  };
   return (
     <div className='container'>
       <div className='row bump-top'>
@@ -154,57 +149,68 @@ function ContactForm() {
         </div>
         <div className='col col-2 flex-centered'>
           <div className='contact-container'>
-            <form onSubmit={handleSubmit}>
-              <legend>Send me a message!</legend>
-              <fieldset>
-                <input
-                  id='name'
-                  placeholder='Your name'
-                  type='text'
-                  name='name'
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                {errors[0].param === 'email' && (
-                  <span className='error-message'>{errors.name}</span>
+            {formSubmitted ? (
+              <p>Thank you for your message!</p>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <legend>Send me a message!</legend>
+                <fieldset>
+                  <input
+                    id='name'
+                    placeholder='Your name'
+                    type='text'
+                    name='name'
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.name && (
+                    <span className='error-message'>{errors.name}</span>
+                  )}
+                </fieldset>
+                <fieldset>
+                  <input
+                    id='email'
+                    placeholder='Your Email Address'
+                    type='email'
+                    name='email'
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.email && (
+                    <span className='error-message'>{errors.email}</span>
+                  )}
+                </fieldset>
+                <fieldset>
+                  <textarea
+                    id='msg'
+                    placeholder='Type your message here'
+                    name='message'
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.message && (
+                    <span className='error-message'>{errors.message}</span>
+                  )}
+                </fieldset>
+                <button type='submit' disabled={isDisabled}>
+                  Submit
+                </button>
+                {errors.length > 0 && (
+                  <div className='error-container'>{displayErrors(errors)}</div>
                 )}
-              </fieldset>
-              <fieldset>
-                <input
-                  id='email'
-                  placeholder='Your Email Address'
-                  type='email'
-                  name='email'
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                {errors[0].param === 'email' && (
-                  <span className='error-message'>{errors[0].msg}</span>
-                )}
-              </fieldset>
-              <fieldset>
-                <textarea
-                  id='msg'
-                  placeholder='Type your message here'
-                  name='message'
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                />
-                {errors.message && (
-                  <span className='error-message'>{errors.message}</span>
-                )}
-              </fieldset>
-              <button type='submit' disabled={isDisabled}>
-                Submit
-              </button>
-            </form>
+              </form>
+            )}
           </div>
         </div>
       </div>
-      <Modal2 content={modalContent} onClose={handleModalClose} />
+      {openModal && (
+        <Modal open={true} onClose={handleModalClose}>
+          {modalContent}
+        </Modal>
+      )}
     </div>
   );
 }
