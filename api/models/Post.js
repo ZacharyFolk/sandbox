@@ -19,10 +19,7 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    categories: {
-      type: Array,
-      required: false,
-    },
+    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
     draft: {
       type: Boolean,
       required: true,

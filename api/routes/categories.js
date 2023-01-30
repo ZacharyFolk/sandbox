@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Category = require('../models/Category');
-
+const Post = require('../models/Post');
 // CREATE CATEGORY
 router.post('/', async (req, res) => {
   const newCat = new Category(req.body);
@@ -22,4 +22,14 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET ALL POSTS FROM CATEGORY ID
+router.get('/:id', async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    const posts = await Post.find({ categories: req.params.id });
+    res.status(200).json({ category, posts });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 module.exports = router;

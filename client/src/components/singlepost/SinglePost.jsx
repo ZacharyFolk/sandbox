@@ -15,6 +15,9 @@ export default function SinglePost() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
+  const [draft, setDraft] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
@@ -32,7 +35,13 @@ export default function SinglePost() {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    axiosInstance
+      .get('/categories')
+      .then((res) => setAllCategories(res.data))
+      .catch((err) => console.log(err));
+    console.log(allCategories);
+  }, []);
   const handleDelete = async () => {
     try {
       // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
@@ -54,6 +63,8 @@ export default function SinglePost() {
         username: user.username,
         title,
         desc,
+        draft,
+        categories: categories.map((c) => c._id),
       });
       window.location.reload();
       setUpdateMode(false);
@@ -61,7 +72,12 @@ export default function SinglePost() {
       console.log('Problem updating, error: ', error);
     }
   };
-
+  const handleSelectCategory = (e) => {
+    const selectedCategory = allCategories.find(
+      (c) => c._id === e.target.value
+    );
+    setCategories([...categories, selectedCategory]);
+  };
   const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
   axiosJWT.interceptors.request.use(
     async (config) => {
@@ -141,46 +157,69 @@ export default function SinglePost() {
           </span>
         </div>
         {updateMode ? (
-          <div className='tinyContainer'>
-            <Editor
-              apiKey={process.env.REACT_APP_TINY_API}
-              onInit={(evt, editor) => (editorRef.current = editor)}
-              value={desc}
-              onEditorChange={(newValue, editor) => setDesc(newValue)}
-              init={{
-                height: 500,
-                menubar: false,
-                plugins:
-                  'anchor lists advlist emoticons link autolink autoresize code codesample',
-                selector: 'textarea',
-                browser_spellcheck: true,
-                contextmenu: false,
-                width: '100%',
-                // skin: 'oxide-dark',
-                // content_css: 'dark',
-                toolbar:
-                  'undo redo | formatselect styleselect | ' +
-                  'bold italic backcolor blockquote | alignleft aligncenter ' +
-                  'alignright alignjustify | bullist numlist outdent indent | ' +
-                  'image link | code codesample removeformat | anchor emoticons restoredraft',
-                codesample_global_prismjs: true,
-                // Register the cite format
-                formats: {
-                  cite: { block: 'cite' },
-                }, // Populate the styleselect menu
-                style_formats: [
-                  { title: 'Paragraph', format: 'p' },
-                  { title: 'Title', format: 'h1' },
-                  { title: 'Heading', format: 'h2' },
-                  { title: 'Subheading', format: 'h3' },
-                  { title: 'Blockquote', format: 'blockquote' },
-                  { title: 'Cite', format: 'cite' },
-                  { title: 'Code', format: 'code' },
-                ], // This removes the WYSIWYG formatting within the styleselect menu
-                preview_styles: false,
-              }}
-            />
-          </div>
+          <>
+            <div className='tinyContainer'>
+              <Editor
+                apiKey={process.env.REACT_APP_TINY_API}
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                value={desc}
+                onEditorChange={(newValue, editor) => setDesc(newValue)}
+                init={{
+                  height: 500,
+                  menubar: false,
+                  plugins:
+                    'anchor lists advlist emoticons link autolink autoresize code codesample',
+                  selector: 'textarea',
+                  browser_spellcheck: true,
+                  contextmenu: false,
+                  width: '100%',
+                  // skin: 'oxide-dark',
+                  // content_css: 'dark',
+                  toolbar:
+                    'undo redo | formatselect styleselect | ' +
+                    'bold italic backcolor blockquote | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'image link | code codesample removeformat | anchor emoticons restoredraft',
+                  codesample_global_prismjs: true,
+                  // Register the cite format
+                  formats: {
+                    cite: { block: 'cite' },
+                  }, // Populate the styleselect menu
+                  style_formats: [
+                    { title: 'Paragraph', format: 'p' },
+                    { title: 'Title', format: 'h1' },
+                    { title: 'Heading', format: 'h2' },
+                    { title: 'Subheading', format: 'h3' },
+                    { title: 'Blockquote', format: 'blockquote' },
+                    { title: 'Cite', format: 'cite' },
+                    { title: 'Code', format: 'code' },
+                  ], // This removes the WYSIWYG formatting within the styleselect menu
+                  preview_styles: false,
+                }}
+              />
+            </div>
+
+            <div className='button-container'>
+              <div className='draft-container'>
+                <label>Draft</label>
+                <input
+                  type='checkbox'
+                  checked={draft}
+                  onChange={(e) => setDraft(e.target.checked)}
+                />
+              </div>
+              <div className='cat-chooser'>
+                <label>Categories</label>
+                <select multiple onChange={handleSelectCategory}>
+                  {allCategories.map((c) => (
+                    <option key={c._id} value={c._id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </>
         ) : (
           <div
             className='content'

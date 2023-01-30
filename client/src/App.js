@@ -14,6 +14,7 @@ import Settings from './pages/settings/Settings';
 import Cagematch from './pages/cagematch/Cage';
 import Games from './pages/games/Games';
 import Trivia from './pages/trivia/Trivia';
+import Archives from './pages/archives/Archives';
 import { Context } from './context/Context';
 import './main.css';
 import './animation.css';
@@ -40,8 +41,9 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='/about' element={<About />} />{' '}
-          <Route path='/blog' element={<Blog />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/blog' element={<Blog />} />{' '}
+          <Route path='/archives/:archiveId' element={<Archives />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
           <Route path='/games' element={<Games />} />{' '}
           <Route path='/contact' element={<Contact />} />
@@ -77,24 +79,6 @@ function Layout() {
         output={output}
         setOutput={setOutput}
       />
-
-      {/* 
-      <nav>
-        <ul>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-          <li>
-            <Link to='/about'>About</Link>
-          </li>
-
-          <li>
-            <Link to='/nothing-here'>Nothing Here</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <hr /> */}
 
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for

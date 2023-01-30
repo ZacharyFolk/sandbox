@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
@@ -9,35 +9,32 @@ export default function Write() {
   const [desc, sestDesc] = useState('');
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
-  const [draft, isDraft] = useState(true);
+  const [draft, setDraft] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const editorRef = useRef(null);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
 
-  const handleDraft = () => {
-    isDraft(!draft);
-  };
+  useEffect(() => {
+    axiosInstance
+      .get('/categories')
+      .then((res) => setAllCategories(res.data))
+      .catch((err) => console.log(err));
+    console.log(allCategories);
+  }, []);
+
   const handleSubmit = async (e) => {
-    console.log('CLICK SUBMIT');
     e.preventDefault();
     const newPost = {
       username: user.username,
       title,
       desc,
       draft,
+      categories: categories.map((c) => c._id),
     };
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name; // something to prevent images with same name
-      data.append('name', filename);
-      data.append('file', file);
-      newPost.photo = filename;
 
-      try {
-        await axios.post('/upload', data);
-      } catch (error) {}
-    }
     try {
       const res = await axiosJWT.post('/posts', newPost);
       window.location.replace('/post/' + res.data._id);
@@ -45,7 +42,12 @@ export default function Write() {
       console.log('Post failed', error.message);
     }
   };
-
+  const handleSelectCategory = (e) => {
+    const selectedCategory = allCategories.find(
+      (c) => c._id === e.target.value
+    );
+    setCategories([...categories, selectedCategory]);
+  };
   const refreshToken = async () => {
     try {
       const res = await axiosInstance.post('/auth/refresh', {
@@ -154,8 +156,24 @@ export default function Write() {
         </div>
 
         <div className='button-container'>
-          <input type='checkbox' checked={draft} onChange={handleDraft} />
-          Draft
+          <div className='draft-container'>
+            <label>Draft</label>
+            <input
+              type='checkbox'
+              checked={draft}
+              onChange={(e) => setDraft(e.target.checked)}
+            />
+          </div>
+          <div className='cat-chooser'>
+            <label>Categories</label>
+            <select multiple onChange={handleSelectCategory}>
+              {allCategories.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <button onClick={handleSubmit}>Submit</button>
         </div>
       </div>
