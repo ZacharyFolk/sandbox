@@ -73,7 +73,7 @@ blockquote::before {
   font-size: 4em;
   color: #222;
   position: absolute;
-  top: 0.2em;
+  top: 0.6em;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'georgia';
@@ -473,6 +473,16 @@ h2 {
   color: #fff;
   padding: 20px 0;
 }
+
+/* ABOUT */
+
+.about-col {
+  width: 70%;
+}
+
+/* .issue-container {
+  white-space: nowrap;
+} */
 /* GIT */
 
 .github-chart {
@@ -522,6 +532,14 @@ h2 {
   flex: 0 0 140px;
 }
 
+.issue-box {
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* if use nowrap */
+  /* overflow-x: auto; */
+  max-width: 90%;
+}
 .commit-box {
   /* replace with js scrolling */
   max-height: 200px;
@@ -532,28 +550,32 @@ h2 {
 /* width */
 .commit-box::-webkit-scrollbar,
 .disc::-webkit-scrollbar,
-.fp-images::-webkit-scrollbar {
+.fp-images::-webkit-scrollbar,
+.issue-box::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
 .commit-box::-webkit-scrollbar-track,
 .disc::-webkit-scrollbar-track,
-.fp-images::-webkit-scrollbar-track {
+.fp-images::-webkit-scrollbar-track,
+.issue-box::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
 .commit-box::-webkit-scrollbar-thumb,
 .disc::-webkit-scrollbar-thumb,
-.fp-images::-webkit-scrollbar-thumb {
+.fp-images::-webkit-scrollbar-thumb,
+.issue-box::-webkit-scrollbar-thumb {
   background: #888;
 }
 
 /* Handle on hover */
 .commit-box::-webkit-scrollbar-thumb:hover,
 .disc::-webkit-scrollbar-thumb:hover,
-.fp-images::-webkit-scrollbar-thumb:hover {
+.fp-images::-webkit-scrollbar-thumb:hover,
+.issue-box::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 

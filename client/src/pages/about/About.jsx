@@ -6,6 +6,7 @@ import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
 import Discogs from './../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
+import GitIssues from '../../components/git/GitIssues';
 
 export default function About() {
   // const { command, updateCommand } = useContext(TerminalContext);
@@ -15,9 +16,9 @@ export default function About() {
 
   return (
     <>
-      <div className='container'>
-        <div className='row centered'>
-          <div className='col'>
+      <div className='container about-container'>
+        <div className='row'>
+          <div className='col about-col'>
             <p>
               Welcome to my website, where you'll find my work as a front-end
               developer and photographer, Zachary Folk. I built this site using
@@ -48,6 +49,9 @@ export default function About() {
               experiment, and I hope it's fun for any users that stumble upon
               this site. Go ahead and type something and see what happens!
             </p>
+          </div>
+          <div className='about-sidebar'>
+            <GitIssues />
           </div>
         </div>
       </div>
