@@ -217,7 +217,10 @@ export default function SinglePost() {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div>{' '}
+              <button className='singlePostButton' onClick={handleUpdate}>
+                Update
+              </button>
             </div>
           </>
         ) : (
@@ -225,11 +228,6 @@ export default function SinglePost() {
             className='content'
             dangerouslySetInnerHTML={{ __html: desc }} // should use DOMPurify?
           />
-        )}
-        {updateMode && (
-          <button className='singlePostButton' onClick={handleUpdate}>
-            Update
-          </button>
         )}
       </div>
     </div>

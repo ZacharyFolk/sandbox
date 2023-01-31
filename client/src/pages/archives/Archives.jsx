@@ -7,7 +7,6 @@ export default function Archives(props) {
   const [posts, setPosts] = useState([]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState([]);
-
   const location = useLocation();
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -29,7 +28,6 @@ export default function Archives(props) {
     const fetchPosts = async () => {
       try {
         const response = await axiosInstance.get(`/categories/${categoryId}`);
-        console.log(response.data);
         setPosts(response.data.posts);
         setCategory(response.data.category.name);
       } catch (error) {
@@ -37,7 +35,7 @@ export default function Archives(props) {
       }
     };
     fetchPosts();
-  }, []);
+  }, [categoryId]);
 
   return (
     <div className='container main blog'>

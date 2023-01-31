@@ -57,3 +57,15 @@
 .write button {
   margin: 60px auto;
 }
+.newCat {
+  display: flex;
+  height: 40px;
+}
+.catInput {
+  width: 200px;
+}
+.newCat button {
+  margin: 0 0 0 20px;
+  padding: 0;
+  width: 200px;
+}

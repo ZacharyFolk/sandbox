@@ -12,6 +12,7 @@ export default function Write() {
   const [draft, setDraft] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState('');
   const editorRef = useRef(null);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -23,7 +24,7 @@ export default function Write() {
       .then((res) => setAllCategories(res.data))
       .catch((err) => console.log(err));
     console.log(allCategories);
-  }, []);
+  }, [newCategory]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +49,25 @@ export default function Write() {
     );
     setCategories([...categories, selectedCategory]);
   };
+
+  const handleNewCategory = (e) => {
+    console.log(e.target.value);
+    setNewCategory(e.target.value);
+  };
+
+  const addNewCategory = async () => {
+    console.log('new one?', newCategory);
+    const cat = {
+      name: newCategory,
+    };
+    try {
+      const res = await axiosJWT.post('/categories', cat);
+      console.log('res.data =>', res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const refreshToken = async () => {
     try {
       const res = await axiosInstance.post('/auth/refresh', {
@@ -173,6 +193,15 @@ export default function Write() {
                 </option>
               ))}
             </select>
+          </div>
+          <div className='newCat'>
+            <input
+              className='catInput'
+              placeholder='New Category'
+              type='text'
+              onChange={handleNewCategory}
+            />
+            <button onClick={addNewCategory}>Add New Category</button>
           </div>
           <button onClick={handleSubmit}>Submit</button>
         </div>

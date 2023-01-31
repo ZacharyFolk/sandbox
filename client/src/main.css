@@ -464,6 +464,15 @@ h2 {
 .category-list li {
   margin: 10px 0;
 }
+.singlePostButton {
+  cursor: pointer;
+  width: 300px;
+  text-transform: uppercase;
+  text-shadow: #000 1px 0 10px;
+  background-color: var(--secondary-color);
+  color: #fff;
+  padding: 20px 0;
+}
 /* GIT */
 
 .github-chart {
@@ -846,5 +855,11 @@ h2 {
   }
   #targetOutput p.thought {
     font-size: 6vw;
+  }
+  .main {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
   }
 }
