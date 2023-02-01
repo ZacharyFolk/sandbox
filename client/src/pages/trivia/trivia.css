@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'gyparody';
+  src: url('./gyparody.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'digital-7';
+  src: url('./digital-7.ttf') format('truetype');
+}
 .trivia-board {
   display: flex;
   margin-top: 50px;
@@ -60,7 +68,8 @@ div.value {
 .qaContent,
 .correctamundo,
 .nope,
-.skipped {
+.skipped,
+.game-modal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -113,25 +122,47 @@ div.value {
   background-color: var(--secondary-color);
   color: var(--primary-color);
 }
-
+.game-container {
+  position: relative;
+  max-width: 1460px;
+  margin: 120px auto;
+  padding: 0 40px;
+}
 .gameHeader {
   position: absolute;
-  top: -110px;
-  right: 0px;
+  top: -55px;
+  left: 40px;
   display: flex;
-  flex-direction: column;
-  width: 280px;
+  width: calc(100% - 80px);
   background-color: var(--dark);
   z-index: 999;
+  align-items: center;
+  border: 1px solid;
+}
+.gameTitle {
+  width: 250px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: gyparody;
+  font-size: 2em;
+  letter-spacing: 0.1em;
 }
 .score {
   margin: 10px auto;
+  min-width: 260px;
+  text-align: center;
+  font-family: digital-7;
+  font-size: 1.6em;
 }
 .gameHeader button {
   background-color: var(--secondary-color);
-  padding: 10px 0;
+  padding: 4px 0;
   cursor: pointer;
   text-transform: uppercase;
+  margin: 0 25px 0 0px;
+  flex: 0 0 180px;
+  width: 180px;
+  opacity: 0.8;
 }
 .gameHeader button:hover {
   background-color: var(--primary-color);

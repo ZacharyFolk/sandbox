@@ -18,12 +18,12 @@ export default function Trivia() {
   const [a, setA] = useState('');
   // active category for current question
   const [category, setCategory] = useState('');
-  const [input, setInput] = useState('');
-  const [isActive, setActive] = useState('false');
+  const [input, setInput] = useState(null);
+  const [isActive, setActive] = useState(null);
   const [correct, setCorrect] = useState(false);
-  const [incorrect, setIncorrect] = useState(false);
+  const [incorrect, setIncorrect] = useState(null);
   const [skipped, setSkipped] = useState(false);
-
+  const [modalOutput, setModalOutput] = useState('');
   // point value of active question
   const [currentValue, setCurrentValue] = useState(0);
   // keep count of how many questions opened
@@ -152,10 +152,12 @@ export default function Trivia() {
     if (percentageMatch > 70) {
       let newScore = parseInt(score) + parseInt(currentValue);
       setCorrect(true);
+      setModalOutput(Correct);
       setScore(newScore);
       setActive(false);
       setTimeout(() => {
         setCorrect(false);
+        setModalOutput('');
       }, 2000);
       // fade result message after a few seconds
     } else {
@@ -163,6 +165,7 @@ export default function Trivia() {
       setScore(newScore);
       setActive(false);
       setIncorrect(true);
+      setModalOutput(Incorrect);
       setTimeout(() => {
         setIncorrect(false);
       }, 3000);
@@ -172,21 +175,51 @@ export default function Trivia() {
   const skipQ = () => {
     setActive(false);
     setSkipped(true);
+    setModalOutput(Skip);
     setTimeout(() => {
       setSkipped(false);
+      setModalOutput(Skip);
     }, 3000);
   };
+
+  // Modal Messages
+  const Correct = () => {
+    return <p>Yes! That is correct for ${currentValue}!</p>;
+  };
+
+  const Incorrect = () => {
+    return (
+      <p>
+        Sorry, that is incorrect. You lose -${currentValue}! <br />
+        The correct answer was <b>{a.toUpperCase()}</b>
+      </p>
+    );
+  };
+
+  const Skip = () => {
+    return (
+      <>
+        <p>
+          OK, skipping that one. <br />
+          The correct answer was <b>{a.toUpperCase()}</b>
+        </p>
+      </>
+    );
+  };
+
   const newGame = () => {
     sessionStorage.setItem('game-one', null);
     fetchBoard();
   };
   useEffect(() => {
+    if (input == null) return;
     checkAnswer(input);
   }, [input]);
 
   return (
-    <div className='about-container'>
+    <div className='game-container'>
       <div className='gameHeader'>
+        <span className='gameTitle'>Wutuno?</span>
         <span className='score'> SCORE : ${score}</span>
         <button onClick={newGame}>New Game</button>
       </div>
@@ -212,21 +245,16 @@ export default function Trivia() {
           </div>
         ))}
       </div>
-      <div className={'correctamundo ' + (correct ? 'active' : 'inactive')}>
-        <p className='alert'>Yes! That is correct for ${currentValue}!</p>
+      {/* TODO : This could probably be cleaned up since everything uses same generic modal */}
+      <div
+        className={
+          (correct || incorrect || skipped ? 'active ' : 'inactive ') +
+          ' game-modal'
+        }
+      >
+        {modalOutput}
       </div>
-      <div className={'nope ' + (incorrect ? 'active' : 'inactive')}>
-        <p className='alert'>
-          Sorry, that is incorrect. You lose -${currentValue}! <br />
-          The correct answer was <b>{a.toUpperCase()}</b>
-        </p>
-      </div>
-      <div className={'skipped ' + (skipped ? 'active' : 'inactive')}>
-        <p className='alert'>
-          OK, skipping that one. <br />
-          The correct answer was <b>{a.toUpperCase()}</b>
-        </p>
-      </div>
+
       <div
         className={'qaBox ' + (isActive ? 'active' : 'inactive')}
         onClick={() => answerRef.current.focus()}

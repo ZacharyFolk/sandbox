@@ -20,9 +20,10 @@
                                 /###################\
                                 \-------------------/
 
-This is my personal site where I keep a blog and work on random javaScript experiments.
-THe main focus is on learning and by product of maybe some fun stuff to play with.
-Feel free to dig through the code base and check the blog for tutorials and videos on building this.
+This is where I keep a blog and work on random javaScript experiments.
+THe main focus is on learning, experimenting, and building fun stuff to play with.
+Feel free to dig through the code base and check the blog for tutorials and videos on building
+some of the apps you can find on the site.
 
 ---
 
