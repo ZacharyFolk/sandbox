@@ -26,9 +26,7 @@ function Discogs() {
   //console.log(discoresults);
   return (
     <>
-      <div className='container'>
-        <Disco discoresults={discoresults} />
-      </div>
+      <Disco discoresults={discoresults} />
     </>
   );
 }
@@ -40,7 +38,7 @@ function Disco({ discoresults }) {
   // console.log(records);
   if (records) {
     return (
-      <div className='disc'>
+      <div className='disc new-scroll'>
         {records.map((r, i) => (
           <Disc key={i} discinfo={r.basic_information} />
         ))}

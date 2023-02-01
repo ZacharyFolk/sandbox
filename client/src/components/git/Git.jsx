@@ -27,18 +27,12 @@ function Git() {
   useEffect(() => {
     setCommits(JSON.parse(localcommits));
   }, []);
-  return (
-    <>
-      <div className='container'>
-        {commits && <Commits commits={commits} />}
-      </div>
-    </>
-  );
+  return <>{commits && <Commits commits={commits} />}</>;
 }
 
 function Commits({ commits }) {
   return (
-    <div className='commit-box'>
+    <div className='commit-box new-scroll'>
       {commits.map((c, i) => (
         <Commit key={i} commit={c} />
       ))}

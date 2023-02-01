@@ -1,6 +1,7 @@
 import selfie from './../../images/matrix-me-small.jpg';
 import Typist from 'react-typist-component';
 import Git from './../../components/git/Git';
+import GitIssues from './../../components/git/GitIssues';
 import Wordpress from './../../components/wordpress/Wordpress';
 import Discogs from './../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
@@ -60,15 +61,15 @@ export default function Home() {
 
         <div className='row'>
           <div className='col about-container'>
-            <h2>
-              <i className='fab fa-github-alt'></i> Latest Commits from Github
-            </h2>
             <div className='github-chart'>
               <img
                 src='https://ghchart.rshah.org/zacharyfolk'
                 alt='Name Your Github chart'
               />
             </div>
+            <h2>
+              <i className='fab fa-github-alt'></i> Latest Commits from Github
+            </h2>
             <Git />
           </div>
         </div>

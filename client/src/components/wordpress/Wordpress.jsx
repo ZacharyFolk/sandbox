@@ -35,7 +35,6 @@ const ImageFeed = () => {
       setFeed(res.data);
     };
     fetchImages();
-    console.log(parsedFeed);
   }, []);
 
   useEffect(() => {
@@ -45,12 +44,10 @@ const ImageFeed = () => {
     }
   }, [feed]);
   return (
-    <div className='container'>
-      <div className='fp-images'>
-        {parsedFeed.map((item, index) => (
-          <ImageCard key={index} thumbnail={item.thumbnail} link={item.link} />
-        ))}
-      </div>
+    <div className='fp-images new-scroll'>
+      {parsedFeed.map((item, index) => (
+        <ImageCard key={index} thumbnail={item.thumbnail} link={item.link} />
+      ))}
     </div>
   );
 };

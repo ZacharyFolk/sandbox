@@ -21,7 +21,8 @@ body {
 }
 p {
   font-size: 1.1em;
-  line-height: 1.8em;
+  line-height: 1.4em;
+  margin: 20px 0;
 }
 a {
   outline: none;
@@ -60,10 +61,10 @@ blockquote {
   padding: 3.5em 2.5rem;
   margin: 0 auto;
   text-align: left;
-  max-width: 460px;
+  max-width: 80%;
   text-align: center;
   box-sizing: border-box;
-  box-shadow: 13px 13px 0 0 #fff inset, 16px 16px 0 0 #a9a556;
+  box-shadow: 13px 13px 0 0 #fff inset, 16px 16px 0 0 #759079;
   background-color: #f8f8f2;
   color: #000;
 }
@@ -219,6 +220,22 @@ blockquote cite {
   line-height: 1rem;
 }
 
+/* Markdown styles */
+.changelog h3 {
+  margin: 10px 0;
+}
+.changelog h4 {
+  margin: 5px 0;
+}
+.changelog ul {
+  margin-bottom: 30px;
+}
+.changelog li {
+  list-style: square;
+  list-style-type: square;
+  padding: 6px 10px 0;
+  margin-left: 30px;
+}
 /* replace scrollbars */
 
 .new-scroll {
@@ -253,7 +270,7 @@ blockquote cite {
 ************* */
 
 .container {
-  margin: 40px auto;
+  margin: 100px auto;
   max-width: 1420px;
   width: 96%;
 }
@@ -307,10 +324,10 @@ h2 {
   text-align: center;
 }
 .terminalWindow {
-  background: rgb(0, 0, 0, 0.2);
+  background: rgb(0, 0, 0, 0.85);
   border-bottom: 1px solid #000;
   width: 100%;
-  position: relative;
+  position: fixed;
   z-index: 100;
 }
 #targetOutput {
@@ -330,8 +347,9 @@ h2 {
 }
 #targetOutput p {
   font-size: 1em;
-  line-height: 1em;
+  line-height: 1.4em;
   padding-right: 40px;
+  margin: 0;
 }
 #textContainer {
   padding: 0 60px;
@@ -339,24 +357,7 @@ h2 {
   height: 100%;
   line-height: 2em;
 }
-.about-container {
-  width: 95%;
-  margin: 20px auto 40px;
-  max-width: 1280px;
-}
-.about-col-1 {
-  width: 60%;
-  padding: 20px 40px;
-}
-.about-col-2 {
-  width: 40%;
-}
-.about-col-2 img {
-  max-width: 90%;
-  margin: 10px auto;
-  border: 1px solid var(--secondary-color);
-  padding: 2px;
-}
+
 .social-container {
   display: flex;
   justify-content: space-between;
@@ -379,6 +380,7 @@ h2 {
 }
 .row {
   display: flex;
+  margin: 40px 0;
   width: 100%;
 }
 .centered {
@@ -475,18 +477,38 @@ h2 {
 }
 
 /* ABOUT */
-
+.about-container {
+  margin-top: 20px;
+  position: relative;
+}
+.about-page-container {
+  margin-top: 60px;
+  position: relative;
+}
 .about-col {
   width: 70%;
 }
+.about-sidebar {
+  margin: 20px 0 0 20px;
+}
 
+.issue-box div {
+  margin: 10px 0;
+}
+
+.about-sidebar h2 {
+  border-bottom: 1px dashed var(--secondary-color);
+  margin-bottom: 20px;
+  margin-right: 40px;
+}
 /* .issue-container {
   white-space: nowrap;
 } */
+
 /* GIT */
 
 .github-chart {
-  margin: 20px 0;
+  margin: 20px 0 60px;
   width: 100%;
 
   text-align: center;
@@ -532,13 +554,15 @@ h2 {
   flex: 0 0 140px;
 }
 
-.issue-box {
+.issue-box,
+.changelog {
   max-height: 400px;
   overflow-x: hidden;
   overflow-y: auto;
   /* if use nowrap */
   /* overflow-x: auto; */
   max-width: 90%;
+  margin: 0 0 60px;
 }
 .commit-box {
   /* replace with js scrolling */
@@ -546,37 +570,6 @@ h2 {
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
-}
-/* width */
-.commit-box::-webkit-scrollbar,
-.disc::-webkit-scrollbar,
-.fp-images::-webkit-scrollbar,
-.issue-box::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-.commit-box::-webkit-scrollbar-track,
-.disc::-webkit-scrollbar-track,
-.fp-images::-webkit-scrollbar-track,
-.issue-box::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-.commit-box::-webkit-scrollbar-thumb,
-.disc::-webkit-scrollbar-thumb,
-.fp-images::-webkit-scrollbar-thumb,
-.issue-box::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-.commit-box::-webkit-scrollbar-thumb:hover,
-.disc::-webkit-scrollbar-thumb:hover,
-.fp-images::-webkit-scrollbar-thumb:hover,
-.issue-box::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
 
 .commit-sha {
@@ -675,7 +668,7 @@ h2 {
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
-  max-width: 100%;
+  max-width: 90%;
 }
 .record-container {
   width: 150px;
@@ -861,21 +854,32 @@ h2 {
   background-size: cover;
   background-position: center;
 }
-.thought {
+
+#targetOutput .deep p.thought {
+  font-family: 'Great Vibes', cursive;
+  color: #000;
+  font-size: 2.5vw;
   max-width: 80%;
   margin: 40px 0 0 100px;
 }
-#targetOutput p.thought {
-  font-family: 'Great Vibes', cursive;
-  color: #000;
-  font-size: 3vw;
-}
 @media only screen and (max-width: 799px) {
-  .thought {
+  .container {
+    margin: 60px auto;
+  }
+  #textContainer {
+    padding: 0 20px 0;
+    width: 100%;
+  }
+  #targetOutput {
+    width: 100%;
+  }
+  .post-wrapper {
+    width: 100%;
+  }
+
+  #targetOutput p.thought {
     margin: 30px 0 0 40px;
     max-width: 90%;
-  }
-  #targetOutput p.thought {
     font-size: 6vw;
   }
   .main {
@@ -883,5 +887,8 @@ h2 {
   }
   .sidebar {
     width: 100%;
+  }
+  blockquote {
+    max-width: 100%;
   }
 }

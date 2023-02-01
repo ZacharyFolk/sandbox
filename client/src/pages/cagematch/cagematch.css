@@ -146,7 +146,7 @@
 .grid {
   max-width: 1600px;
   width: 90%;
-  margin: 0 auto;
+  margin: 60px auto 0;
 }
 .grid img {
   padding: 10px 10px;
@@ -159,6 +159,7 @@
   text-align: center;
   font-size: 2rem;
   animation: cursor 1s infinite 2s step-end;
+  margin: 60px 0 0;
 }
 .fullscreen {
   background-size: cover;
@@ -168,6 +169,7 @@
   min-height: 100%;
   margin-top: -80px;
   opacity: 0.7;
+  margin-top: 40px;
 }
 
 .cards .grid img.matched {

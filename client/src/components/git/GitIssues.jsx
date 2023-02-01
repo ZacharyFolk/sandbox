@@ -30,7 +30,6 @@ function GitIssues() {
   return (
     <>
       <h2>
-        {' '}
         <i className='fab fa-github-alt'></i> To-Do List:
       </h2>
       {issues && <Issues issues={issues} />}
@@ -40,7 +39,7 @@ function GitIssues() {
 
 function Issues({ issues }) {
   return (
-    <div className='issue-box'>
+    <div className='issue-box new-scroll'>
       {issues.map((z, i) => (
         <Issue key={i} issue={z} />
       ))}
