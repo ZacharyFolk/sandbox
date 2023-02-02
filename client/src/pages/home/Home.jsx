@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <div className='container'>
-        <div className='row centered'>
+        <div className='row '>
           <div className='col selfie-container'>
             <img src={selfie} alt='me' />
             <Social />
@@ -84,7 +84,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='row'>
+        <div className='row pad-bottom'>
           <div className='col about-container'>
             <h2>
               <i className='fas fa-record-vinyl'></i> My Record Collection from

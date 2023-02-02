@@ -22,6 +22,7 @@ import './prism/prism.css';
 import Favicon from 'react-favicon';
 import blinky from './blinky';
 import { InitialText } from './components/terminal/Commands';
+import StoryTime from './pages/storytime/StoryTime';
 export default function App() {
   const { user } = useContext(Context);
   // const [value, parseIt] = setPath();
@@ -48,7 +49,8 @@ export default function App() {
           <Route path='/games' element={<Games />} />{' '}
           <Route path='/contact' element={<Contact />} />
           <Route path='/cagematch' element={<Cagematch />} />
-          <Route path='/trivia' element={<Trivia />} />
+          <Route path='/trivia' element={<Trivia />} />{' '}
+          <Route path='/storytime' element={<StoryTime />} />
           <Route path='/login' element={user ? <Home /> : <Login />} />
           <Route path='/write' element={user ? <Write /> : <Home />} />
           <Route path='/post/:postId' element={<Single />} />
