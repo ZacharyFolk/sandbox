@@ -357,7 +357,10 @@ h2 {
   height: 100%;
   line-height: 2em;
 }
-
+/* For now todo: how to handle not having a footer, otherwise scrolling is not greaat */
+.pad-bottom {
+  padding-bottom: 250px;
+}
 .social-container {
   display: flex;
   justify-content: space-between;
@@ -481,6 +484,9 @@ h2 {
   margin-top: 20px;
   position: relative;
 }
+h2.about-heading {
+  margin: 20px 0 0 20px;
+}
 .about-page-container {
   margin-top: 60px;
   position: relative;
@@ -510,8 +516,6 @@ h2 {
 .github-chart {
   margin: 20px 0 60px;
   width: 100%;
-
-  text-align: center;
 }
 .github-chart img {
   min-width: 90%;
