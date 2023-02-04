@@ -126,6 +126,12 @@ export default function Trivia() {
     // update number of answers clicked - where check that this = 30?
   };
 
+  const handleButton = () => {
+    let typed = parseString(answerRef.current.textContent);
+    if (typed === '') return;
+    answerRef.current.innerHTML = '';
+    setInput(typed);
+  };
   const handleKeys = (e) => {
     let code = e.keyCode;
     switch (code) {
@@ -277,6 +283,7 @@ export default function Trivia() {
               onKeyDown={(e) => handleKeys(e)}
               ref={answerRef}
             ></span>
+            <button onClick={handleButton}>Enter</button>
           </div>
           <div className='skipButton'>
             <span>Type your answer and press ENTER or </span>

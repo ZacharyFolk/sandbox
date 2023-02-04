@@ -6,11 +6,7 @@
   -moz-box-sizing: border-box;
   text-rendering: optimizeLegibility;
 }
-.col {
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-}
+
 .col-2 {
   width: 50%;
 }
@@ -105,10 +101,4 @@ textarea {
   display: flex;
   justify-content: flex-end;
   margin: 20px 0;
-}
-@media only screen and (max-width: 768px) {
-  .col {
-    margin: 20px 0;
-    width: 100%;
-  }
 }

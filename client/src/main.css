@@ -6,6 +6,14 @@
   --dark: #050505;
   --bg: #05321e;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+}
 html,
 body,
 #root {
@@ -30,6 +38,8 @@ a {
 }
 a:link,
 a:visited {
+  border-bottom: 1px dotted;
+  padding-bottom: 2px;
   color: var(--secondary-color);
 }
 a:hover {
@@ -101,6 +111,33 @@ blockquote cite {
   display: block;
   font-style: normal;
   font-size: 12px;
+}
+
+form {
+  width: 100%;
+}
+legend {
+  margin: 20px 0;
+}
+fieldset {
+  border: medium none;
+  margin: 0 0 10px;
+  padding: 0;
+  width: 100%;
+}
+input {
+  width: 100%;
+  border: 1px solid var(--secondary-color);
+  background-color: var(--light);
+
+  padding: 10px 0 10px 20px;
+}
+textarea {
+  height: 100px;
+  background-color: var(--light);
+
+  width: 100%;
+  padding: 10px;
 }
 /* Old Monitor */
 
@@ -186,6 +223,7 @@ blockquote cite {
 }
 .tools a {
   margin: 0 10px;
+  border: none;
 }
 .terminal {
   position: relative;
@@ -372,6 +410,7 @@ h2 {
 .social-container a:visited {
   transition: opacity 0.5s;
   opacity: 0.65;
+  border: none;
 }
 .social-container a:hover {
   transition: opacity 1s;
@@ -396,7 +435,25 @@ h2 {
 .col > img {
   margin: 0 auto;
 }
-
+.col {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+.col-2 {
+  width: 50%;
+}
+.flex-centered {
+  align-items: center;
+}
+.bump-top {
+  margin-top: 40px;
+}
+.contact-container {
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+}
 .selfie-container img {
   max-width: 80%;
   display: block;
@@ -429,6 +486,16 @@ h2 {
   outline: none;
 }
 
+/* Home */
+
+.resume-link a {
+  margin-left: 20px;
+  color: var(--light);
+}
+
+.resume-link a:hover {
+  color: var(--lighter);
+}
 /* Typist */
 .cursor {
   opacity: 1;
@@ -436,7 +503,15 @@ h2 {
   margin: 0 8px;
 }
 /* Post */
-
+.post-heading {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.post-heading b {
+  margin: 10px 0;
+  font-size: 1.3em;
+}
 .post-wrapper > .content > iframe {
   display: inherit;
   margin: 40px auto;
@@ -450,7 +525,11 @@ h2 {
   padding: 20px;
   border-bottom: 1px dashed var(--primary-color);
 }
-
+.post-link {
+  text-align: right;
+  width: 90%;
+  margin-bottom: 20px;
+}
 .post img,
 .singlePost img {
   max-width: 100%;
@@ -468,6 +547,9 @@ h2 {
 
 .category-list li {
   margin: 10px 0;
+}
+.category-list a {
+  border: none;
 }
 .singlePostButton {
   cursor: pointer;
@@ -514,11 +596,11 @@ h2.about-heading {
 /* GIT */
 
 .github-chart {
-  margin: 20px 0 60px;
+  margin: 0 0 30px;
   width: 100%;
 }
 .github-chart img {
-  min-width: 90%;
+  min-width: 100%;
   max-width: 100%;
 }
 .github-container {
@@ -590,10 +672,11 @@ h2.about-heading {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.75);
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s linear 300ms, opacity 300ms linear;
+  z-index: 101;
 }
 
 .modal.open {
@@ -603,13 +686,14 @@ h2.about-heading {
 }
 
 .modal-content {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--dark);
   padding: 1rem;
   border-radius: 0.5rem;
+  max-width: 80%;
 }
 .modal-content p.curse {
   text-align: center;
@@ -619,7 +703,7 @@ h2.about-heading {
 .modal-close {
   position: absolute;
   top: -1rem;
-  right: -1rem;
+  right: 0rem;
   background: none;
   border: none;
   color: white;
@@ -627,6 +711,7 @@ h2.about-heading {
   font-size: 2em;
   cursor: pointer;
   opacity: 0.7;
+  width: auto;
 }
 .modal-close:hover {
   opacity: 1;
@@ -672,7 +757,7 @@ h2.about-heading {
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
-  max-width: 90%;
+  max-width: 100%;
 }
 .record-container {
   width: 150px;
@@ -821,19 +906,6 @@ h2.about-heading {
   background-color: bisque;
 }
 
-/* Animations */
-
-@media only screen and (max-width: 799px) {
-  .row {
-    flex-direction: column;
-    margin: 0 auto;
-    width: 90%;
-  }
-
-  .col {
-    width: 100%;
-  }
-}
 @keyframes blink {
   0% {
     opacity: 1;
@@ -866,7 +938,23 @@ h2.about-heading {
   max-width: 80%;
   margin: 40px 0 0 100px;
 }
+
 @media only screen and (max-width: 799px) {
+  .row {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .col {
+    width: 100%;
+    padding: 0 5px;
+  }
+  * {
+    font-size: 1em;
+  }
+  p {
+    font-size: 0.9em;
+  }
   .container {
     margin: 60px auto;
   }
@@ -881,7 +969,7 @@ h2.about-heading {
     width: 100%;
   }
 
-  #targetOutput p.thought {
+  #targetOutput .deep p.thought {
     margin: 30px 0 0 40px;
     max-width: 90%;
     font-size: 6vw;
@@ -894,5 +982,18 @@ h2.about-heading {
   }
   blockquote {
     max-width: 100%;
+  }
+  #targetOutput h1 {
+    font-size: 0.9em;
+  }
+  .game {
+    width: 90%;
+  }
+  blockquote {
+    padding: 100px 20px;
+  }
+  blockquote p {
+    font-size: 0.8em;
+    padding: 0;
   }
 }

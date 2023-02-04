@@ -63,6 +63,7 @@ div.value {
   opacity: 1;
   transition: visibility 0s linear 0s, opacity 300ms linear, scale 500ms linear;
   scale: 1;
+  z-index: 9999;
 }
 
 .qaContent,
@@ -170,4 +171,57 @@ div.value {
 .loading {
   visibility: hidden;
   opacity: 0;
+}
+@media only screen and (max-width: 799px) {
+  .gameHeader {
+    top: -145px;
+    width: 100%;
+    flex-direction: column;
+  }
+  .trivia-board {
+    margin-top: 160px;
+  }
+  .gameHeader button {
+    margin: 0 0 20px;
+    flex: auto;
+  }
+  .trivia-board > div {
+    width: 30%;
+  }
+  .qaContent {
+    top: 37%;
+    left: 48%;
+    padding: 20px 30px;
+  }
+  .game-modal {
+    top: 30%;
+    left: 61%;
+  }
+  .game-modal {
+    padding: 30px;
+  }
+  .game-modal p {
+    min-width: 180px;
+  }
+  .qaContent .heading {
+    display: none;
+  }
+  .answer {
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 0;
+    align-items: baseline;
+  }
+  .answer > .terminal-input {
+    margin: 20px 0;
+    width: 100%;
+  }
+}
+button {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-transform: uppercase;
+  width: 100%;
+  background-color: var(--secondary-color);
+  padding: 10px 0;
 }
