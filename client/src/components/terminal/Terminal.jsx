@@ -4,7 +4,6 @@ import { Context } from '../../context/Context';
 import { TerminalContext } from '../../context/TerminalContext';
 import curses from 'profane-words';
 import {
-  About,
   CageTips,
   CurseResponse,
   Deep,
@@ -28,9 +27,9 @@ export default function Terminal(props) {
   // const [output, setOutput] = useState(initialText);
 
   const navigate = useNavigate();
-  // function redirectAbout() {
-  //   navigate('about');
-  // }
+  function redirectAbout() {
+    navigate('about');
+  }
 
   // useEffect(() => {
   //   console.log('LOCATION CHANGED!');
@@ -86,7 +85,7 @@ export default function Terminal(props) {
         navigate('/');
         break;
       case 'about':
-        setOutput(About);
+        redirectAbout();
         break;
       case 'cage':
       case 'cagematch':
