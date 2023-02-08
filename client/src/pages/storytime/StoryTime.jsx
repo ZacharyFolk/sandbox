@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './story.css';
 const stories = [
+  {
+    title: 'Select the Title',
+    inputs: [],
+    template: null,
+  },
   {
     title: 'Story 1',
     inputs: ['adjective', 'noun', 'verb', 'verb', 'adjective', 'noun'],
@@ -14,6 +19,7 @@ const stories = [
 ];
 function MadLibs() {
   const [selectedStory, setSelectedStory] = useState(stories[0]);
+  const [storyTitle, setStoryTitle] = useState('');
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [inputValue, setInputValue] = useState('');
@@ -22,13 +28,12 @@ function MadLibs() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setUserInput((userInputs) => [...userInputs, inputValue]);
-    setInputValue('');
-    setCurrentIndex(currentIndex + 1);
 
     if (currentIndex === selectedStory.inputs.length) {
       createStory();
     } else {
+      setUserInput((userInputs) => [...userInputs, inputValue]);
+      setInputValue('');
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -44,34 +49,74 @@ function MadLibs() {
       parsedStory = parsedStory.replace(`{{${key}}}`, inputObject[key]);
     }
 
+    console.log(userInputs);
     console.log(parsedStory);
     setFinalStory(parsedStory);
   };
+
+  const WordConveyor = ({ userInputs, storyTitle }) => {
+    return (
+      <>
+        {userInputs.map((word, i) => (
+          <span key={i}>{word}</span>
+        ))}
+        <span className='storyTitle'>{storyTitle}</span>
+      </>
+    );
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    console.log('from useEffect ', finalStory);
+  }, [finalStory]);
+
   return (
     <div className='madlib'>
-      <select
-        onChange={(e) =>
-          setSelectedStory(
-            stories.find((story) => story.title === e.target.value)
-          )
-        }
-      >
-        {stories.map((story) => (
-          <option key={story.title}>{story.title}</option>
-        ))}
-      </select>
+      <WordConveyor userInputs={userInputs} storyTitle={storyTitle} />
+
+      {selectedStory && (
+        <div className='custom-select'>
+          <select
+            onChange={(e) => {
+              setSelectedStory(
+                stories.find((story) => story.title === e.target.value)
+              );
+              setStoryTitle(e.target.value);
+            }}
+          >
+            {stories.map((story) => (
+              <option key={story.title}>{story.title}</option>
+            ))}
+          </select>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Enter a {selectedStory.inputs[currentIndex]}</label>
-          <input
-            type='text'
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-
-          <button type='submit'>Submit</button>
+          {currentIndex < selectedStory.inputs.length && (
+            <>
+              <label>Enter a {selectedStory.inputs[currentIndex]}</label>
+              <input
+                type='text'
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+              <button type='submit'>Submit</button>
+            </>
+          )}
+          {currentIndex !== 0 &&
+            currentIndex === selectedStory.inputs.length && (
+              <>
+                {console.log(currentIndex)}
+                <button>Create the Story</button>
+              </>
+            )}
         </div>
       </form>
+
       <>{finalStory}</>
     </div>
   );
