@@ -15,6 +15,8 @@
 
 ### Added
 
+- Deep thoughts to terminal
+- Gleick info quotes to terminal
 - connect to GitHub issues API
 - Jeopardy style game
 - matching game "Cagematch"

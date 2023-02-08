@@ -13,6 +13,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   text-rendering: optimizeLegibility;
+  line-height: 1.6em;
 }
 html,
 body,

@@ -283,7 +283,9 @@ export default function Trivia() {
               onKeyDown={(e) => handleKeys(e)}
               ref={answerRef}
             ></span>
-            <button onClick={handleButton}>Enter</button>
+            <button onClick={handleButton}>
+              <i class='fa-solid fa-right-to-bracket'></i>
+            </button>
           </div>
           <div className='skipButton'>
             <span>Type your answer and press ENTER or </span>
