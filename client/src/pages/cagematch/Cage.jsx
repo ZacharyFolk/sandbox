@@ -120,6 +120,9 @@ export default function Cagematch() {
 
   // =======================  UTIL  ======================= //
 
+  /* TODO: For now skipping intro on phones because can not get touch to work */
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   /**
    *
    * @returns NodeList of images
@@ -141,11 +144,15 @@ export default function Cagematch() {
         if (!code || event.keyCode === code) {
           document.removeEventListener('keyup', handle);
           document.removeEventListener('click', handle);
+          // TODO : trying to get this to work for phones
+          document.removeEventListener('touchstart', handle);
+
           resolve();
         }
       };
       document.addEventListener('keyup', handle);
       document.addEventListener('click', handle);
+      document.addEventListener('touchstart', handle);
     });
   };
   /**
@@ -208,13 +215,15 @@ export default function Cagematch() {
 
   const init = async () => {
     updateCommand('cage1'); // send for initial message in terminal
-    await waitForKey();
-    updateCommand('clear');
+    if (!isMobile) {
+      await waitForKey();
+      updateCommand('clear');
 
-    setScreen(TitleScreen);
-    themesong.play();
-    await waitForKey(13);
-    themesong.pause();
+      setScreen(TitleScreen);
+      themesong.play();
+      await waitForKey(13);
+      themesong.pause();
+    }
     setScreen(GameScreen);
     const grid = main.current;
     updateCommand('cage2');

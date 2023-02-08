@@ -19,35 +19,28 @@ export default function About() {
       <div className='container about-page-container'>
         <div className='row'>
           <div className='col about-col'>
+            <h2 className='about-heading'>About this website</h2>
             <p>
-              Welcome to my website, where you'll find my work as a front-end
-              developer and photographer, Zachary Folk. I built this site using
-              the MERN stack, connecting with various APIs to create dynamic
-              content. On the home page, you'll find my digital business card
-              featuring my recent activity on GitHub, updates from my WordPress
-              photography site, folkphotography.com, and my record collection on
+              Welcome to my website, you can find out more about my work as a
+              front-end developer and photographer, and explore some of my
+              experiments and projects. The terminal in the header is fully
+              interactive and is accepting more kinds of input all the time.
+            </p>
+            <p>
+              I built this site using the MERN stack and connecting with
+              numerous APIs to create the content. On the home page, you'll find
+              my digital business card featuring and recent activity on GitHub,
+              updates from my photography site, and my record collection on
               Discogs.com. The APIs also connect to a MongoDB instance, serving
               as the database for this blog and other features on the website.
             </p>
-
             <p>
-              I find learning to be fun, especially in programming, as the
-              limits of your imagination are only constrained by the technology
-              available to us. I am currently having a lot of fun experimenting
-              with APIs and utilizing the state and hooks of building a React
-              app. Games are a great way to learn more about data storage and
-              interactivity, and I've added a tab for my game projects, with
-              more in the works. Alongside my projects, I plan to write
-              tutorials and create short videos to explain how they were built
-              and hopefully help others on their coding journey.
-            </p>
-
-            <p>
-              The terminal in the header is fully interactive and built to
-              respond to user input. I see it as the simplest form of AI, as
-              it's essentially a complex switch statement. It was a fun
-              experiment, and I hope it's fun for any users that stumble upon
-              this site. Go ahead and type something and see what happens!
+              I love programming, and I am having a lot of fun experimenting
+              with APIs and React. Games are a great way to learn more about
+              data storage and interactivity, and I've added a tab for my game
+              projects, with a lot more in the works. Alongside my projects, I
+              plan to write tutorials and create short videos to explain how
+              they were built and hopefully help others on their coding journey!
             </p>
           </div>
           <div className='about-sidebar'>

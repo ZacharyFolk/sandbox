@@ -76,7 +76,7 @@ function ContactForm() {
     return (
       <div>
         <h2 className='site-title'>folkphotography.com </h2>
-        <p>A website feaeturing my photography from over the decades.</p>
+        <p>A website featuring my photography from over the decades.</p>
         <div className='web-thumbs'>
           <img src={fp1} alt='' />
           <img src={fp2} alt='' />
@@ -98,7 +98,7 @@ function ContactForm() {
     return (
       <div>
         <h2 className='site-title'>artological.com </h2>
-        <p>An ecommerce website selling fine art prints.</p>{' '}
+        <p>An ecommerce website selling fine art prints.</p>
         <div className='web-thumbs'>
           <img src={arto1} alt='' />
           <img src={arto2} alt='' />

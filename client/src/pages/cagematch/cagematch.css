@@ -339,3 +339,14 @@
     padding: 0;
   }
 }
+@media only screen and (max-width: 799px) {
+  .scoreBoard {
+    margin-left: -175px;
+    top: 68px;
+    left: 0;
+    margin-left: 0;
+    height: 50px;
+    background: #000;
+    width: 100%;
+  }
+}

@@ -1,3 +1,16 @@
+### [1.0.1] - 2023-02-07
+
+#### Fixed
+
+- a lot of styles for mobile (games still look horrible but kind of work)
+- some bugs with the modal
+- random desktop styles
+
+#### Added
+
+- updated resume
+- modals to game page
+
 ### [1.0.0] - 2023-01-31
 
 ### Added

@@ -27,7 +27,7 @@ export default function Home() {
             <Social />
           </div>
           <div className='col personal-data'>
-            <Typist typingDelay={30}>
+            <Typist typingDelay={20}>
               <div className='my-info'>
                 <h3>Personal data: </h3>
                 <p>
@@ -49,8 +49,8 @@ export default function Home() {
               </p>
 
               <Typist.Paste>
-                <div>
-                  <a target='_blank' href='/folk_zachary_resume.pdf'>
+                <div className='resume-link'>
+                  <a target='_blank' href='resumes/2023-resume-compressed.pdf'>
                     ⬇ Download Latest Résumé ⬇
                   </a>
                 </div>
@@ -59,7 +59,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='row'>
+        <div className='row centered'>
           <div className='col about-container'>
             <div className='github-chart'>
               <img

@@ -31,15 +31,17 @@ export default function Post({ post }) {
       </div> */}
 
           <span className='post-heading'>
-            -rw-r--r-- root {time} <b>{post.title}</b>
+            <b>{post.title}</b> -rw-r--r-- root {time}
           </span>
         </div>
         <p
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(excerpt) }}
         ></p>
-        <Link to={`/post/${post._id}`} className='full-post'>
-          Read the full post &gt;
-        </Link>
+        <div className='post-link'>
+          <Link to={`/post/${post._id}`} className='full-post'>
+            Read the full post &gt;
+          </Link>
+        </div>
       </div>
     )
   );

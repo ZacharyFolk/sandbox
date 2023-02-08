@@ -21,7 +21,7 @@
                                 \-------------------/
 
 This is where I keep a blog and work on random javaScript experiments.
-THe main focus is on learning, experimenting, and building fun stuff to play with.
+The main focus is on learning, experimenting, and building fun stuff to play with.
 Feel free to dig through the code base and check the blog for tutorials and videos on building
 some of the apps you can find on the site.
 
@@ -34,6 +34,19 @@ You can check it out on [zacs.website](https://www.zacs.website).
 ---
 
     Changelog
+
+### [1.0.1] - 2023-02-07
+
+#### Fixed
+
+- a lot of styles for mobile (games still look horrible but kind of work)
+- some bugs with the modal
+- random desktop styles
+
+#### Added
+
+- updated resume
+- modals to game page
 
 ### [1.0.0] - 2023-01-31
 
