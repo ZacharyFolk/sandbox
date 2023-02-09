@@ -189,6 +189,9 @@
   cursor: pointer;
 }
 
+#oscilloscope {
+  background-color: #181818;
+}
 .gears-container {
   display: none !important;
 }

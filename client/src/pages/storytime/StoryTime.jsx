@@ -26,6 +26,96 @@ const stories = [
   },
 ];
 
+// const Visualization = ({ text, pitch, rate, volume, voice }) => {
+//   const [analyser, setAnalyser] = useState(null);
+//   const canvasRef = useRef(null);
+//   // useEffect(() => {
+//   //   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+//   //   const source = audioCtx.createMediaElementSource(new Audio());
+//   //   const analyser = audioCtx.createAnalyser();
+//   //   setAnalyser(analyser);
+//   //   source.connect(analyser);
+//   //   analyser.connect(audioCtx.destination);
+//   //   let lang = say(text, pitch, rate, volume, voice);
+//   // }, [text, pitch, rate, volume, voice]);
+//   useEffect(() => {
+//     if (!analyser) return;
+//     const canvas = canvasRef.current;
+//     const canvasCtx = canvas.getContext('2d');
+//     const WIDTH = canvas.width;
+//     const HEIGHT = canvas.height;
+//     const bufferLength = analyser.frequencyBinCount;
+//     const dataArray = new Uint8Array(bufferLength);
+//     const draw = () => {
+//       requestAnimationFrame(draw);
+//       analyser.getByteFrequencyData(dataArray);
+//       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+//       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+//       const barWidth = (WIDTH / bufferLength) * 2.5;
+//       let barHeight;
+//       let x = 0;
+//       for (let i = 0; i < bufferLength; i++) {
+//         barHeight = dataArray[i];
+//         canvasCtx.fillStyle = `rgb(${barHeight + 100},50,50)`;
+//         canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight / 2);
+//         x += barWidth + 1;
+//       }
+//     };
+//     draw();
+//   }, [analyser]);
+//   return <canvas ref={canvasRef} width={500} height={100} />;
+// };
+
+const CircleVisualization = () => {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let radius = 100;
+    let minRadius = 10;
+    let maxRadius = 100;
+    let maxTimeout = 100;
+    let x = canvas.width / 2;
+    let y = canvas.height / 2;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.fillStyle = '#181818';
+      ctx.strokeStyle = '#33ee55';
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
+      let rando = Math.floor(Math.random() * maxRadius);
+
+      radius = rando;
+
+      let randoTime = Math.floor(Math.random() * maxTimeout);
+
+      // if (radius > maxRadius) {
+      //   radius = maxRadius;
+      // }
+      // if (radius < minRadius) {
+      //   radius = minRadius;
+      // }
+
+      setTimeout(() => {
+        requestAnimationFrame(animate);
+      }, randoTime);
+    };
+    animate();
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={300}
+      height={300}
+      style={{ border: '1px solid black' }}
+    />
+  );
+};
 function StoryBot() {
   const [selectedStory, setSelectedStory] = useState(stories[0]);
   const [storyTitle, setStoryTitle] = useState('');
@@ -41,8 +131,33 @@ function StoryBot() {
   const [rate, setRate] = useState(1);
   const [decimalRate, setDecimalRate] = useState(1);
   const [voice, setVoice] = useState(0);
+  const [locale, setLocale] = useState('');
+  const [showViz, setShowViz] = useState(false);
   const inputRef = createRef();
-
+  const osciRef = createRef();
+  const tongueTwisters = [
+    'She sells sea shells by the sea shore',
+    'How can a clam cram in a clean cream can?',
+    'Peter Piper picked a peck of pickled peppers',
+    'Red lorry, yellow lorry',
+    'How much wood would a woodchuck chuck, if a woodchuck could chuck wood?',
+    'Fuzzy Wuzzy was a bear, Fuzzy Wuzzy had no hair',
+    'The seething sea ceaseth and thus the seething sea sufficeth us',
+    'I saw Susie sitting in a shoe shine shop',
+    'A proper copper coffee pot',
+    'I scream, you scream, we all scream for ice cream!',
+    'Round the rugged rocks the ragged rascal ran',
+    "The sixth sick sheik's sixth sheep is sick",
+    'A proper copper coffee pot',
+    "I wish to wish the wish you wish to wish, but if you wish the wish the witch wishes, I won't wish the wish you wish to wish",
+    'How can a clam cram in a clean cream can?',
+    'If Stu chews shoes, should Stu choose the shoes he chews?',
+    'I scream, you scream, we all scream for ice cream!',
+    'Black bug bit a big black bear. But where is the big black bear that the black bug bit?',
+    'The knickers I have got have got no buttons. But buttons I have got, to put on knickers I have not got',
+    'How much pot, could a pot roast roast, if a pot roast could roast pot?',
+  ];
+  let twistIndex = Math.floor(Math.random() * tongueTwisters.length);
   const handleSubmit = (event) => {
     event.preventDefault();
     inputRef.current.classList.add('teleport');
@@ -98,39 +213,26 @@ function StoryBot() {
   };
 
   // Test sound settings
-  const playTest = () => {
-    const tongueTwisters = [
-      'She sells sea shells by the sea shore',
-      'How can a clam cram in a clean cream can?',
-      'Peter Piper picked a peck of pickled peppers',
-      'Red lorry, yellow lorry',
-      'How much wood would a woodchuck chuck, if a woodchuck could chuck wood?',
-      'Fuzzy Wuzzy was a bear, Fuzzy Wuzzy had no hair',
-      'The seething sea ceaseth and thus the seething sea sufficeth us',
-      'I saw Susie sitting in a shoe shine shop',
-      'A proper copper coffee pot',
-      'I scream, you scream, we all scream for ice cream!',
-      'Round the rugged rocks the ragged rascal ran',
-      "The sixth sick sheik's sixth sheep is sick",
-      'A proper copper coffee pot',
-      "I wish to wish the wish you wish to wish, but if you wish the wish the witch wishes, I won't wish the wish you wish to wish",
-      'How can a clam cram in a clean cream can?',
-      'If Stu chews shoes, should Stu choose the shoes he chews?',
-      'I scream, you scream, we all scream for ice cream!',
-      'Black bug bit a big black bear. But where is the big black bear that the black bug bit?',
-      'The knickers I have got have got no buttons. But buttons I have got, to put on knickers I have not got',
-      'How much pot, could a pot roast roast, if a pot roast could roast pot?',
-    ];
-    let num = Math.floor(Math.random() * tongueTwisters.length);
-
-    let lang = say(
-      tongueTwisters[num],
+  const playTest = async () => {
+    setShowViz(true);
+    let speech = say(
+      tongueTwisters[twistIndex],
       decimalPitch,
       decimalRate,
       decimalVolume,
       voice
     );
-    console.log(lang.lang);
+    speech.addEventListener('end', (event) => {
+      setShowViz(false);
+      console.log(
+        `Utterance has finished being spoken after ${event.elapsedTime} seconds.`
+      );
+    });
+    setLocale(speech.voice);
+
+    // setShowViz(true);
+
+    // console.log(lang.lang);
   };
 
   const WordConveyor = ({ userInputs, storyTitle }) => {
@@ -297,6 +399,7 @@ function StoryBot() {
       <div className='row'>
         <button onClick={playTest}>Test Voice</button>
       </div>
+      {showViz && <CircleVisualization />}
     </>
   );
 }

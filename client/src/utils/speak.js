@@ -1,6 +1,5 @@
 var synth = window.speechSynthesis;
 var voices = synth.getVoices();
-let volume = 0;
 
 /**
  * Speaks whatever text is passed with optional parameters to control pitch,
@@ -31,7 +30,7 @@ function say(text, pitch = 1, rate = 1, volume = 0, voice = 0) {
   speech.lang = 'en-US';
   synth.speak(speech);
 
-  return speech.voice;
+  return speech;
 }
 
 function stopSpeaking() {
@@ -42,9 +41,5 @@ function stopSpeaking() {
     synth.cancel();
   }
 }
-
-function setVolume(value) {
-  volume = value;
-}
-export { stopSpeaking, setVolume };
+export { stopSpeaking };
 export default say;
