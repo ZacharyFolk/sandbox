@@ -3,6 +3,10 @@
   --select-focus: rgb(40, 126, 47);
   --select-arrow: var(--select-border);
   --select-color: #1ec263;
+  --main-color: rgb(104, 117, 217);
+  --main-color-hover: rgb(104, 117, 217, 0.2);
+  --track-color: #ddd;
+  --mark-color: #aaaaaa;
 }
 @font-face {
   font-family: 'vt220';
@@ -83,6 +87,108 @@
     left: -200px;
   }
 }
+
+.voice-controls {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+}
+.volume-slide {
+  height: 100px;
+  margin: 20px 0;
+}
+.pitch-slide {
+  height: 100px;
+  margin: 20px 0;
+}
+.rate-slide {
+  height: 100px;
+  margin: 20px 0;
+}
+.voice-slide {
+  height: 100px;
+  margin: 20px 0;
+}
+.customSlider {
+  max-width: 300px;
+  margin: auto;
+}
+
+.customSlider-track {
+  /* Top value to align your track to the center of your thumb */
+  top: 8px;
+  /* thickness of the track */
+  height: 4px;
+  /* default color of your track */
+  background: var(--track-color);
+}
+
+.customSlider-track.customSlider-track-0 {
+  /* color of the track before the thumb */
+  background: var(--main-color);
+}
+.customSlider-thumb {
+  cursor: pointer;
+  /*color for the thumb */
+  background: var(--main-color);
+  /* shape of the thumb: circle */
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  /* remove default outline when selected */
+  outline: none;
+}
+
+.customSlider-thumb:hover {
+  box-shadow: 0 0 0 8px var(--main-color-hover);
+}
+.customSlider-mark {
+  cursor: pointer;
+  top: 6px;
+  width: 2.5px;
+  height: 8px;
+  background-color: var(--mark-color);
+}
+
+.dial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+  border: 2px solid #333;
+}
+
+.dial__slider {
+  -webkit-appearance: none;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  border-radius: 100%;
+  background: #fff;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.dial__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #333;
+  cursor: pointer;
+  border: 0;
+}
+
+.dial__slider::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #333;
+  cursor: pointer;
+}
+
 .gears-container {
   display: none !important;
 }
