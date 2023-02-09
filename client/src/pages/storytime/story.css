@@ -4,12 +4,16 @@
   --select-arrow: var(--select-border);
   --select-color: #1ec263;
 }
-.madlib {
-  margin: 400px 0 0;
+@font-face {
+  font-family: 'vt220';
+  src: url('./Glass_TTY_VT220.ttf') format('truetype');
 }
 .madlib {
-  margin: 400px 0 0;
+  margin: 100px auto;
+  width: 98%;
+  border: 5px solid;
 }
+
 .madlib select {
   appearance: none;
   background-color: transparent;
@@ -35,4 +39,228 @@
   line-height: 1.1;
   background-color: #1441da;
   background-image: linear-gradient(to top, #1f4eea, #b4c4f8 93%);
+}
+.conveyor {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  border: 1px solid yellow;
+  width: 100%;
+  padding: 10px;
+}
+
+.machine-name {
+}
+.story-controls {
+  width: 30%;
+}
+
+.helper-container {
+  display: block;
+  overflow: hidden;
+  width: 350px;
+}
+.helper-wrap {
+  background: #050321;
+  width: 770px;
+  height: 130px;
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.helper-wrap > label {
+  font-family: 'vt220', monospace;
+  font-size: 1.2em;
+  position: relative;
+  display: inline-block;
+  animation: move 5s infinite linear;
+  color: #ebb55f;
+}
+@keyframes move {
+  from {
+    left: 400px;
+  }
+  to {
+    left: -200px;
+  }
+}
+.gears-container {
+  display: none !important;
+}
+/* .conveyor:after {
+  content: '********************';
+} */
+x
+/* https://codepen.io/LindsayMac/pen/MwrONL */
+.gears {
+  width: 48%;
+  display: inline-block;
+}
+.gears:first-child {
+  margin-right: 3%;
+}
+.gears-container {
+  display: flex;
+  font-size: 8px;
+}
+.gear-rotate {
+  width: 2em;
+  height: 2em;
+  top: 50%;
+  left: 50%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #e9e581;
+
+  border-radius: 1em;
+  -webkit-animation: 1s gear-rotate linear infinite;
+  -moz-animation: 1s gear-rotate linear infinite;
+  animation: 1s gear-rotate linear infinite;
+}
+.gear-rotate-left {
+  margin-top: -2.2em;
+  top: 50%;
+  width: 2em;
+  height: 2em;
+  background: #e9e581;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 1s gear-rotate-left linear infinite;
+  -moz-animation: 1s gear-rotate-left linear infinite;
+  animation: 1s gear-rotate-left linear infinite;
+}
+
+.gear-rotate::before,
+.gear-rotate-left::before {
+  width: 2.8em;
+  height: 2.8em;
+  background: -webkit-linear-gradient(
+      0deg,
+      transparent 39%,
+      #e9e581 39%,
+      #e9e581 61%,
+      transparent 61%
+    ),
+    -webkit-linear-gradient(60deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%),
+    -webkit-linear-gradient(120deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%);
+  background: -moz-linear-gradient(
+      0deg,
+      transparent 39%,
+      #e9e581 39%,
+      #47ec19 61%,
+      transparent 61%
+    ),
+    -moz-linear-gradient(60deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%),
+    -moz-linear-gradient(120deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%);
+  background: -o-linear-gradient(
+      0deg,
+      transparent 39%,
+      #e9e581 39%,
+      #e9e581 61%,
+      transparent 61%
+    ),
+    -o-linear-gradient(60deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%),
+    -o-linear-gradient(120deg, transparent 42%, #47ec19 42%, #e9e581 58%, transparent
+          58%);
+  background: -ms-linear-gradient(
+      0deg,
+      transparent 39%,
+      #e9e581 39%,
+      #e9e581 61%,
+      transparent 61%
+    ),
+    -ms-linear-gradient(60deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%),
+    -ms-linear-gradient(120deg, transparent 42%, #e9e581 42%, #e9e581 58%, transparent
+          58%);
+  background: linear-gradient(
+      0deg,
+      transparent 39%,
+      #e9e581 39%,
+      #e9e581 61%,
+      transparent 61%
+    ),
+    linear-gradient(
+      60deg,
+      transparent 42%,
+      #e9e581 42%,
+      #e9e581 58%,
+      transparent 58%
+    ),
+    linear-gradient(
+      120deg,
+      transparent 42%,
+      #e9e581 42%,
+      #e9e581 58%,
+      transparent 58%
+    );
+  position: absolute;
+  content: '';
+  top: -0.4em;
+  left: -0.4em;
+  border-radius: 1.4em;
+}
+.gear-rotate::after,
+.gear-rotate-left::after {
+  width: 1em;
+  height: 1em;
+  background: #2b2b2b;
+  position: absolute;
+  content: '';
+  top: 0.5em;
+  left: 0.5em;
+  border-radius: 0.5em;
+}
+
+/*
+ * Keyframe Animations 
+ */
+
+@-webkit-keyframes gear-rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-180deg);
+  }
+}
+
+@-moz-keyframes gear-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes gear-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+@-webkit-keyframes gear-rotate-left {
+  0% {
+    -webkit-transform: rotate(30deg);
+  }
+  100% {
+    -webkit-transform: rotate(210deg);
+  }
+}
+
+@keyframes gear-rotate-left {
+  0% {
+    -webkit-transform: rotate(30deg);
+  }
+  100% {
+    -webkit-transform: rotate(210deg);
+  }
 }
