@@ -11,7 +11,7 @@ let volume = 0;
  * @param { number } rate - Value from 0.1-10: default=1
  * @param {number} volume - Value from 0-1: default=0
  * @param {number} voice - Value for index SpeechSynthesisVoice array from 0-21 : default=0
- * @returns undefined
+ * @returns {object} speech.voice - Object contains name and language data
  */
 function say(text, pitch = 1, rate = 1, volume = 0, voice = 0) {
   if (volume === 0) return;
@@ -25,13 +25,13 @@ function say(text, pitch = 1, rate = 1, volume = 0, voice = 0) {
   }
   let speech = new SpeechSynthesisUtterance(spokenText);
   speech.voice = voices[voice];
-  console.log(voices);
-  //   console.log(speech);
   speech.pitch = pitch;
   speech.rate = rate;
   speech.volume = volume;
   speech.lang = 'en-US';
   synth.speak(speech);
+
+  return speech.voice;
 }
 
 function stopSpeaking() {
