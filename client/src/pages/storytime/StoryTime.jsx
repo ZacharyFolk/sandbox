@@ -117,6 +117,7 @@ const CircleVisualization = () => {
   );
 };
 function StoryBot() {
+  const [isActivated, setActivated] = useState(false);
   const [selectedStory, setSelectedStory] = useState(stories[0]);
   const [storyTitle, setStoryTitle] = useState('');
   const [inputLabel, setInputLabel] = useState('');
@@ -126,15 +127,15 @@ function StoryBot() {
   const [finalStory, setFinalStory] = useState('');
   const [volume, setVolume] = useState(0);
   const [decimalVolume, setDecimalVolume] = useState(0);
-  const [pitch, setPitch] = useState(1);
+  const [pitch, setPitch] = useState(50);
   const [decimalPitch, setDecimalPitch] = useState(1);
-  const [rate, setRate] = useState(1);
+  const [rate, setRate] = useState(100);
   const [decimalRate, setDecimalRate] = useState(1);
   const [voice, setVoice] = useState(0);
   const [locale, setLocale] = useState('');
   const [showViz, setShowViz] = useState(false);
   const inputRef = createRef();
-  const osciRef = createRef();
+  const botRef = createRef();
   const tongueTwisters = [
     'She sells sea shells by the sea shore',
     'How can a clam cram in a clean cream can?',
@@ -205,7 +206,8 @@ function StoryBot() {
   // Change Rate set it for UX and decimal value for say()
   const changeRate = (value) => {
     setRate(value);
-    setDecimalRate((value * 10) / 100);
+    setDecimalRate(value / 100);
+    console.log(decimalRate);
   };
   // Change Voice and fetch voice title and set that
   const changeVoice = (value) => {
@@ -213,28 +215,38 @@ function StoryBot() {
   };
 
   // Test sound settings
-  const playTest = async () => {
+  const playTest = async ({ words }) => {
     setShowViz(true);
-    let speech = say(
-      tongueTwisters[twistIndex],
-      decimalPitch,
-      decimalRate,
-      decimalVolume,
-      voice
-    );
-    speech.addEventListener('end', (event) => {
-      setShowViz(false);
-      console.log(
-        `Utterance has finished being spoken after ${event.elapsedTime} seconds.`
-      );
-    });
-    setLocale(speech.voice);
+    if (!words) words = tongueTwisters[twistIndex];
+    console.log('WORDS ===========>', words);
+    let speech = say(words, decimalPitch, decimalRate, decimalVolume, voice);
 
-    // setShowViz(true);
-
-    // console.log(lang.lang);
+    if (speech) {
+      speech.addEventListener('end', (event) => {
+        setShowViz(false);
+        console.log(
+          `Utterance has finished being spoken after ${event.elapsedTime} seconds.`
+        );
+      });
+      setLocale(speech.voice);
+    }
   };
 
+  const playThis = (string) => {
+    let speech = say(string, decimalPitch, decimalRate, decimalVolume, voice);
+
+    if (speech) {
+      setActivated(true);
+      setShowViz(true);
+      speech.addEventListener('end', (event) => {
+        setShowViz(false);
+        console.log(
+          `Utterance has finished being spoken after ${event.elapsedTime} seconds.`
+        );
+      });
+      setLocale(speech.voice);
+    }
+  };
   const WordConveyor = ({ userInputs, storyTitle }) => {
     return (
       <div className='conveyor'>
@@ -242,13 +254,6 @@ function StoryBot() {
           {userInputs.map((word, i) => (
             <span key={i}>{word}</span>
           ))}
-          <span className='storyTitle'>{storyTitle}</span>
-        </div>
-        <div className='gears-container'>
-          <div className='gear-rotate'></div>
-          <div className='gear-rotate'></div>
-          <div className='gear-rotate'></div>
-          <div className='gear-rotate'></div>
         </div>
       </div>
     );
@@ -258,6 +263,7 @@ function StoryBot() {
   useEffect(() => {
     console.log('from useEffect ', finalStory);
     // say(finalStory, 0.1, 1, 0.3, 20);
+    playThis(finalStory);
   }, [finalStory]);
 
   // ON LOAD
@@ -275,11 +281,24 @@ function StoryBot() {
     <>
       <div className='madlib'>
         <WordConveyor userInputs={userInputs} storyTitle={storyTitle} />
-        <div className='machine-name'>Story Bot 3000</div>
+        <div className='machine-name'>
+          <i
+            className={`fa-solid fa-robot ${
+              isActivated ? 'activated-bot' : ''
+            }`}
+            ref={botRef}
+          ></i>
+          <span>StoryBot-3000</span>
+          <div className='gears-container'>
+            <div className='gear-rotate-left gear-stop'></div>
+          </div>
+        </div>
+
         <div className='story-controls'>
-          {selectedStory && (
-            <div className='custom-select'>
+          <div className='control-panel'>
+            {selectedStory && (
               <select
+                className='button-select'
                 onChange={(e) => {
                   setSelectedStory(
                     stories.find((story) => story.title === e.target.value)
@@ -291,42 +310,50 @@ function StoryBot() {
                   <option key={story.title}>{story.title}</option>
                 ))}
               </select>
-            </div>
-          )}
-          {currentIndex < selectedStory.inputs.length && (
-            <form onSubmit={handleSubmit}>
-              <div>
-                <>
-                  <span className='helper-container'>
-                    <span className='helper-wrap'>
-                      <label>
-                        Enter a {selectedStory.inputs[currentIndex]}
-                        {inputLabel}
-                      </label>
-                    </span>
-                  </span>
-                  <input
-                    ref={inputRef}
-                    type='text'
-                    className=''
-                    value={inputValue}
-                    required
-                    placeholder={selectedStory.inputs[currentIndex]}
-                    onChange={(e) => setInputValue(e.target.value)}
-                  />
-                  <button type='submit'>Add Word</button>
-                </>
-              </div>
-            </form>
-          )}
-
-          {currentIndex !== 0 &&
-            currentIndex === selectedStory.inputs.length && (
-              <>
-                {console.log(currentIndex)}
-                <button onClick={createStory}>Create the Story</button>
-              </>
             )}
+            <span className='storyTitle'>{storyTitle}</span>
+            <button
+              onClick={() => {
+                setSelectedStory(stories[0]);
+                setStoryTitle('');
+              }}
+            >
+              RESET
+            </button>
+            {currentIndex < selectedStory.inputs.length && (
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <>
+                    <span className='helper-container'>
+                      <span className='helper-wrap'>
+                        <label>
+                          Enter a {selectedStory.inputs[currentIndex]}
+                          {inputLabel}
+                        </label>
+                      </span>
+                    </span>
+                    <input
+                      ref={inputRef}
+                      type='text'
+                      className=''
+                      value={inputValue}
+                      required
+                      placeholder={selectedStory.inputs[currentIndex]}
+                      onChange={(e) => setInputValue(e.target.value)}
+                    />
+                    <button type='submit'>Add Word</button>
+                  </>
+                </div>
+              </form>
+            )}
+            {currentIndex !== 0 &&
+              currentIndex === selectedStory.inputs.length && (
+                <>
+                  {console.log(currentIndex)}
+                  <button onClick={createStory}>Create the Story</button>
+                </>
+              )}
+          </div>
         </div>
         <>{finalStory}</>
       </div>
@@ -351,9 +378,9 @@ function StoryBot() {
             trackClassName='customSlider-track'
             thumbClassName='customSlider-thumb'
             markClassName='customSlider-mark'
-            marks={20} // or array of values or single number for increments
+            marks={100} // or array of values or single number for increments
             min={0}
-            max={100}
+            max={200}
             value={rate}
             onChange={changeRate}
           />
@@ -397,7 +424,9 @@ function StoryBot() {
       </div>
 
       <div className='row'>
-        <button onClick={playTest}>Test Voice</button>
+        <button onClick={() => playThis(tongueTwisters[twistIndex])}>
+          Test Voice
+        </button>
       </div>
       {showViz && <CircleVisualization />}
     </>

@@ -8,6 +8,8 @@
   --track-color: #ddd;
   --mark-color: #aaaaaa;
 }
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
 @font-face {
   font-family: 'vt220';
   src: url('./Glass_TTY_VT220.ttf') format('truetype');
@@ -17,7 +19,7 @@
   width: 98%;
   border: 5px solid;
 }
-
+/* 
 .madlib select {
   appearance: none;
   background-color: transparent;
@@ -30,7 +32,7 @@
   cursor: inherit;
   line-height: inherit;
   outline: none;
-}
+} */
 .custom-select {
   width: 100%;
   min-width: 15ch;
@@ -44,6 +46,88 @@
   background-color: #1441da;
   background-image: linear-gradient(to top, #1f4eea, #b4c4f8 93%);
 }
+.custom-select:hover,
+.custom-select:active {
+  background-color: yellowgreen;
+  background-image: none;
+}
+
+.control-panel {
+  background: #d4cfc5;
+  padding: 50px;
+  border: 10px solid rgb(63, 163, 224);
+}
+
+.button-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -khtml-appearance: none;
+  box-sizing: initial;
+
+  border: none;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px 17px;
+  border-radius: 10px;
+  overflow: hidden;
+  /* TEXT */
+  text-align: center;
+  text-transform: uppercase;
+  font: bold 20px arial, sans-serif;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0px #504d47;
+
+  color: #968f84;
+  box-shadow: inset 0px 0px 6px 0px #44413c, 0px 0px 0px 1.5px #44413c,
+    0px 16px 12px 0px #504d471f;
+}
+
+.button-select:active {
+  box-shadow: inset 0px -2px 5px 4px #44413c, 0px 0px 0px 1.5px #44413c,
+    0px 10px 12px 0px #504d471f;
+  text-shadow: 1px -1px 0px #504d47;
+}
+.button-select:active::before {
+  background: linear-gradient(0deg, #dddad3, #b6b0a2);
+  transition: transform 0.1s cubic-bezier(0, 0, 0, 1),
+    background 0.1s cubic-bezier(0, 0, 0, 1);
+}
+.button-select::before {
+  left: 10px;
+  top: 12px;
+  border-radius: 7px;
+  box-shadow: 0px -1px 0px 0px #dedcdc, 0px 2px 0px 0px #9a948c;
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 60px;
+  height: 60px;
+  transition: transform 0.01s cubic-bezier(0.79, 0.03, 0.43, 1),
+    background 0.02s cubic-bezier(0.79, 0.03, 0.43, 1);
+  background: linear-gradient(0deg, #e3e0d9, #c4bfb4);
+}
+.button-select::after {
+  left: 0;
+  top: 0;
+  z-index: -2;
+  position: absolute;
+  content: '';
+  filter: blur(1px);
+  border-top: 40px solid #e9e6e0;
+  border-bottom: 42px solid #999286;
+  border-left: 40px solid #cdc8be;
+  border-right: 40px solid #cdc8be;
+}
+
 .conveyor {
   display: flex;
   flex-direction: column;
@@ -52,11 +136,27 @@
   width: 100%;
   padding: 10px;
 }
-
 .machine-name {
+  display: flex;
+  font-family: 'Play', sans-serif;
+  text-transform: uppercase;
+  font-size: 2em;
+  width: 430px;
+  justify-content: space-between;
+}
+.machine-name i {
+  color: silver;
+  padding: 0 20px;
+}
+.activated-bot {
+  background-image: radial-gradient(
+    transparent 0%,
+    firebrick 10%,
+    transparent 40%
+  );
 }
 .story-controls {
-  width: 30%;
+  width: 430px;
 }
 
 .helper-container {
@@ -192,9 +292,9 @@
 #oscilloscope {
   background-color: #181818;
 }
-.gears-container {
+/* .gears-container {
   display: none !important;
-}
+} */
 /* .conveyor:after {
   content: '********************';
 } */
@@ -209,7 +309,7 @@ x
 }
 .gears-container {
   display: flex;
-  font-size: 8px;
+  font-size: 18px;
 }
 .gear-rotate {
   width: 2em;
@@ -225,17 +325,23 @@ x
   -moz-animation: 1s gear-rotate linear infinite;
   animation: 1s gear-rotate linear infinite;
 }
+
 .gear-rotate-left {
-  margin-top: -2.2em;
   top: 50%;
   width: 2em;
   height: 2em;
   background: #e9e581;
-  position: absolute;
+
   border-radius: 1em;
   -webkit-animation: 1s gear-rotate-left linear infinite;
   -moz-animation: 1s gear-rotate-left linear infinite;
   animation: 1s gear-rotate-left linear infinite;
+}
+
+.gear-stop {
+  -webkit-animation: 1000s gear-rotate linear infinite;
+  -moz-animation: 1000s gear-rotate linear infinite;
+  animation: 1000s gear-rotate linear infinite;
 }
 
 .gear-rotate::before,
