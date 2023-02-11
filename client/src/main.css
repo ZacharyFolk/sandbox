@@ -167,7 +167,6 @@ textarea {
   background-size: 100% 8px;
   z-index: 2;
   pointer-events: none;
-  animation: fadeIn 2s;
 }
 #crt:after {
   content: ' ';
@@ -456,9 +455,9 @@ h2 {
   display: flex;
 }
 .selfie-container img {
-  max-width: 80%;
+  max-width: 70%;
   display: block;
-  margin: 20px auto 2px;
+  margin: 20px auto 30px;
   border: 1px solid var(--secondary-color);
   padding: 6px;
 }
@@ -566,6 +565,7 @@ h2 {
 .about-container {
   margin-top: 20px;
   position: relative;
+  width: 100%;
 }
 h2.about-heading {
   margin: 20px 0 0 20px;
