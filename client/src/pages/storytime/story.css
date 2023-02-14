@@ -28,6 +28,7 @@
   width: 98%;
   max-width: 1420px;
   padding-bottom: 100px;
+  overflow: hidden;
 }
 /* 
 .madlib select {
@@ -179,7 +180,7 @@
   font-size: 1.6em;
   display: flex;
   flex-direction: column;
-  padding: 30px 30px 10px 30px;
+  padding: 10px 30px 10px 30px;
 }
 .monitor h2 {
   font-size: 1.3em;
@@ -203,12 +204,13 @@
   padding: 30px 40px;
 }
 .monitor-right ul {
+  margin-top: 20px;
   font-size: 0.8em;
   height: 80%;
   overflow: auto;
   /* border: 1px solid silver; */
   border-radius: 10px;
-  box-shadow: 0px 0px 6px rgb(163 248 136);
+  /* box-shadow: 0px 0px 6px rgb(163 248 136); */
   padding: 0 20px;
 }
 .monitor-right li {
@@ -453,14 +455,14 @@
   filter: drop-shadow(1px 0px 4px rgb(255, 235, 235, 0.5));
 }
 .panel-container {
-  padding: 20px 0;
-  margin: 30px auto;
+  padding: 20px 9px;
+  margin: 10px auto;
   background: rgb(0, 0, 0, 0.2);
 }
 .control-panel {
   position: relative;
   width: 90%;
-  margin: 60px auto 0;
+  margin: 0 auto;
   overflow: hidden;
   padding-bottom: 5px;
 }
@@ -479,7 +481,7 @@
   color: rgb(255, 255, 255, 0.4);
   font-size: 1.6em;
   text-shadow: 1px 4px 3px #000;
-  border: 2px solid #000;
+  border: 2px solid #36332c;
   top: 0;
 }
 .metal-open {
@@ -507,7 +509,7 @@
 }
 button.addWord {
   width: 20%;
-  background-color: rgb(59 80 75);
+  background-color: rgb(58 93 133);
   border: 0;
   font-size: 1.3em;
   color: #cfcfcf;
@@ -552,7 +554,7 @@ button.addWord {
 }
 .voiceOptions li {
   display: flex;
-  margin: 20px 0;
+  margin: 10px 0;
   align-items: center;
   justify-content: space-between;
 }
@@ -650,7 +652,7 @@ button.addWord {
   flex-direction: column;
   align-items: center;
   text-transform: uppercase;
-  text-shadow: 0px 0px 3px #a5a3a3;
+  text-shadow: 0px 0px 8px #a5a3a3;
   color: #1a1818;
   font-family: 'League Gothic', sans-serif;
   font-size: 1.4em;
@@ -661,6 +663,7 @@ button.addWord {
   text-align: center;
   margin-top: 20px;
   border-bottom: 0;
+  background: rgb(0, 0, 0, 0.3);
 }
 .someNumb {
   font-family: 'led', sans-serif;
@@ -694,7 +697,7 @@ button.addWord {
   margin: 0 10px;
   background: #000;
   color: #7294bf;
-  box-shadow: 0px 0px 7px #000;
+  box-shadow: 0px 0px 7px #050321;
 }
 .voice-chooser .off {
   color: #000;
@@ -734,7 +737,7 @@ button.addWord {
   width: 90%;
   margin: 0px auto;
   padding: 20px;
-  background-color: rgb(0, 0, 0, 0.2);
+  background-color: rgb(0, 0, 0, 0.8);
 }
 
 .voice-slide {
@@ -747,12 +750,13 @@ button.addWord {
 }
 .bar-container {
   display: inline-block;
-  width: 190px;
-  height: 33px;
+  width: 120px;
+  height: 29px;
   overflow: hidden;
   position: relative;
   margin-left: 10px;
   border: 1px solid;
+  font-size: 0.71em;
 }
 
 .bar {
@@ -763,10 +767,12 @@ button.addWord {
 .bar-text {
   position: absolute;
   top: 4px;
-  left: 33%;
+  left: 0;
   text-transform: uppercase;
   text-shadow: 2px 1px 2px black;
-  font-weight: 700;
+  color: #edffa6;
+  width: 100%;
+  text-align: center;
 }
 .voiceOptions li label {
   font-size: 0.8em;

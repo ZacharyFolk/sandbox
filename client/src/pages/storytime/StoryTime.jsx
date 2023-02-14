@@ -120,8 +120,8 @@ const CircleVisualization = () => {
   return (
     <canvas
       ref={canvasRef}
-      width={150}
-      height={150}
+      width={120}
+      height={120}
       style={{ border: '1px solid black' }}
     />
   );
@@ -170,8 +170,8 @@ const CircleStopped = () => {
   return (
     <canvas
       ref={canvasRef}
-      width={150}
-      height={150}
+      width={120}
+      height={120}
       style={{ border: '1px solid black' }}
     />
   );
@@ -444,7 +444,7 @@ function StoryBot() {
                         onChange={(e) => setInputValue(e.target.value)}
                       />
                       <button className='addWord' type='submit'>
-                        <i class='fa-solid fa-right-to-bracket'></i>
+                        <i className='fa-solid fa-right-to-bracket'></i>
                       </button>
                     </div>
                   </form>
@@ -554,8 +554,6 @@ function StoryBot() {
                           <span className='bar-text'> {rateDesc}</span>
                         </span>
                       </li>
-                      <li>Location: </li>
-                      <li>Voice: {voice}</li>
                     </ul>
                     <div className='voiceContainer'>
                       <div className='circletalk'>
@@ -595,12 +593,12 @@ function StoryBot() {
                     style={{ maxWidth: 800, width: `${10 * volume}px` }}
                   >
                     {Array.from({ length: volume / 2 }).map((_, i) => (
-                      <div key={i} class='volume-bar'></div>
+                      <div key={i} className='volume-bar'></div>
                     ))}
                   </div>
                 </div>
 
-                <div className='speechOutput'> TESTING 123 {speech}</div>
+                <div className='speechOutput'>{speech}</div>
               </div>
             </div>
             <div className='machine-name'>
@@ -629,7 +627,7 @@ function StoryBot() {
 
                 <div className='power-switch'>
                   <input type='checkbox' id='switch' name='switch' />
-                  <label for='switch' class='switch'></label>
+                  <label htmlFor='switch' className='switch'></label>
                 </div>
               </div>
               {/* <div className='gears-container'>
