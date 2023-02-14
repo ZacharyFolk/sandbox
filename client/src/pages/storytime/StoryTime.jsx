@@ -411,123 +411,124 @@ function StoryBot() {
         {/* <WordConveyor userInputs={userInputs} storyTitle={storyTitle} /> */}
         <div className='main-contain'>
           <div className='left-panel'>
-            <div className='story-controls'>
-              <div className='control-panel'>
-                <div
-                  className={`metal-closed  ${
-                    currentIndex < selectedStory.inputs.length
-                      ? 'metal-open'
-                      : ''
-                  }`}
-                >
-                  WORDS
+            <div className='panel-container'>
+              <div className='story-controls'>
+                <div className='control-panel'>
+                  <div
+                    className={`metal-closed  ${
+                      currentIndex < selectedStory.inputs.length
+                        ? 'metal-open'
+                        : ''
+                    }`}
+                  >
+                    WORDS
+                  </div>
+
+                  <form onSubmit={handleSubmit}>
+                    <div className='add-word-button'>
+                      <span className='helper-container'>
+                        <span className='helper-wrap'>
+                          <label>
+                            Enter a {selectedStory.inputs[currentIndex]}
+                            {inputLabel}
+                          </label>
+                        </span>
+                      </span>
+                      <input
+                        ref={inputRef}
+                        type='text'
+                        className=''
+                        value={inputValue}
+                        required
+                        placeholder={selectedStory.inputs[currentIndex]}
+                        onChange={(e) => setInputValue(e.target.value)}
+                      />
+                      <button className='addWord' type='submit'>
+                        <i class='fa-solid fa-right-to-bracket'></i>
+                      </button>
+                    </div>
+                  </form>
+                  {currentIndex !== 0 &&
+                    currentIndex === selectedStory.inputs.length && (
+                      <>
+                        {console.log(currentIndex)}
+                        <button onClick={createStory}>Create the Story</button>
+                      </>
+                    )}
+                </div>
+              </div>
+              <>{finalStory}</>
+              <div className='voice-controls'>
+                <div className='slide-container'>
+                  <label>Tone </label>
+                  <div className='pitch-slide'>
+                    <ReactSlider
+                      className='customSlider'
+                      trackClassName='customSlider-track'
+                      thumbClassName='customSlider-thumb'
+                      markClassName='customSlider-mark'
+                      marks={10} // or array of values or single number for increments
+                      min={0}
+                      max={100}
+                      value={pitch}
+                      onChange={changePitch}
+                    />
+                  </div>
+                </div>
+                <div className='slide-container'>
+                  <label>Energy </label>
+                  <div className='rate-slide'>
+                    <ReactSlider
+                      className='customSlider'
+                      trackClassName='customSlider-track'
+                      thumbClassName='customSlider-thumb'
+                      markClassName='customSlider-mark'
+                      marks={10} // or array of values or single number for increments
+                      min={0}
+                      max={100}
+                      value={rate}
+                      onChange={changeRate}
+                    />
+                  </div>
                 </div>
 
-                <form onSubmit={handleSubmit}>
-                  <div className='add-word-button'>
-                    <span className='helper-container'>
-                      <span className='helper-wrap'>
-                        <label>
-                          Enter a {selectedStory.inputs[currentIndex]}
-                          {inputLabel}
-                        </label>
-                      </span>
-                    </span>
+                <div className='slide-container'>
+                  <label>Voice </label>
+                  <div className='voice-chooser'>
+                    <button
+                      onClick={() => {
+                        changeVoice(voice - 1);
+                      }}
+                    >
+                      &#5130;
+                    </button>
                     <input
-                      ref={inputRef}
-                      type='text'
-                      className=''
-                      value={inputValue}
-                      required
-                      placeholder={selectedStory.inputs[currentIndex]}
-                      onChange={(e) => setInputValue(e.target.value)}
+                      type='number'
+                      value={voice}
+                      onChange={changeVoice}
+                      min={0}
+                      max={21}
                     />
-                    <button className='addWord' type='submit'>
-                      <i class='fa-solid fa-right-to-bracket'></i>
+                    <button
+                      className='testVoice'
+                      onClick={() => changeVoice(voice + 1)}
+                    >
+                      &#5125;
                     </button>
                   </div>
-                </form>
-                {currentIndex !== 0 &&
-                  currentIndex === selectedStory.inputs.length && (
-                    <>
-                      {console.log(currentIndex)}
-                      <button onClick={createStory}>Create the Story</button>
-                    </>
-                  )}
-              </div>
-            </div>
-            <>{finalStory}</>
-            <div className='voice-controls'>
-              <div className='slide-container'>
-                <label>Tone </label>
-                <div className='pitch-slide'>
-                  <ReactSlider
-                    className='customSlider'
-                    trackClassName='customSlider-track'
-                    thumbClassName='customSlider-thumb'
-                    markClassName='customSlider-mark'
-                    marks={10} // or array of values or single number for increments
-                    min={0}
-                    max={100}
-                    value={pitch}
-                    onChange={changePitch}
-                  />
                 </div>
-              </div>
-              <div className='slide-container'>
-                <label>Energy </label>
-                <div className='rate-slide'>
-                  <ReactSlider
-                    className='customSlider'
-                    trackClassName='customSlider-track'
-                    thumbClassName='customSlider-thumb'
-                    markClassName='customSlider-mark'
-                    marks={10} // or array of values or single number for increments
-                    min={0}
-                    max={100}
-                    value={rate}
-                    onChange={changeRate}
-                  />
-                </div>
-              </div>
 
-              <div className='slide-container'>
-                <label>Voice </label>
-                <div className='voice-chooser'>
+                <div className='row'>
                   <button
-                    onClick={() => {
-                      changeVoice(voice - 1);
-                    }}
+                    className='test-button'
+                    onClick={() => playThis(tongueTwisters[twistIndex])}
                   >
-                    &#5130;
-                  </button>
-                  <input
-                    type='number'
-                    value={voice}
-                    onChange={changeVoice}
-                    min={0}
-                    max={21}
-                  />
-                  <button
-                    className='testVoice'
-                    onClick={() => changeVoice(voice + 1)}
-                  >
-                    &#5125;
+                    <span>Test</span> <i className='fa-solid fa-bullhorn'></i>
                   </button>
                 </div>
-              </div>
-
-              <div className='row'>
-                <button
-                  className='test-button'
-                  onClick={() => playThis(tongueTwisters[twistIndex])}
-                >
-                  <span>Test</span> <i className='fa-solid fa-bullhorn'></i>
-                </button>
               </div>
             </div>
           </div>
-
           <div className='monitor-wrapper'>
             <div className='monitor'>
               <div className='monitor-main'>

@@ -20,8 +20,11 @@
   font-family: 'led';
   src: url('./LED.ttf') format('truetype');
 }
+.storytime .terminalWindow {
+  display: none;
+}
 .madlib {
-  margin: 80px auto;
+  margin: 10px auto;
   width: 98%;
   max-width: 1420px;
   padding-bottom: 100px;
@@ -142,8 +145,8 @@
   display: flex;
 }
 .left-panel {
-  background-color: #67432b;
-  background-image: url('https://www.transparenttextures.com/patterns/purty-wood.png');
+  background-color: #3c2617;
+  background-image: url('./purty-wood.png');
   /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
   width: 33.3%;
   padding: 0 20px;
@@ -429,7 +432,7 @@
   margin: 0px 100px;
   justify-content: space-between;
   align-items: center;
-  margin-top: -8px;
+  margin-top: -42px;
 }
 .storybot-logo {
   display: flex;
@@ -449,6 +452,11 @@
   margin-top: -6px;
   filter: drop-shadow(1px 0px 4px rgb(255, 235, 235, 0.5));
 }
+.panel-container {
+  padding: 20px 0;
+  margin: 30px auto;
+  background: rgb(0, 0, 0, 0.2);
+}
 .control-panel {
   position: relative;
   width: 90%;
@@ -459,8 +467,8 @@
 .metal-closed {
   font-family: 'Black Ops One', cursive;
   background-color: #181d24;
-  background-image: url(https://www.transparenttextures.com/patterns/gun-metal.png);
-  height: 70px;
+  background-image: url(./gun-metal.png);
+  height: 82px;
   position: absolute;
   z-index: 200;
   width: 100%;
@@ -642,10 +650,11 @@ button.addWord {
   flex-direction: column;
   align-items: center;
   text-transform: uppercase;
-  text-shadow: 0px 1px 1px #4d4d4d;
-  color: #222;
+  text-shadow: 0px 0px 3px #a5a3a3;
+  color: #1a1818;
   font-family: 'League Gothic', sans-serif;
   font-size: 1.4em;
+  font-weight: 700;
 }
 .slide-container label {
   width: 90%;
@@ -668,11 +677,10 @@ button.addWord {
   width: 90%;
   padding: 10px;
   margin: 0 auto;
-
   background-color: #0c0f17;
-  background-image: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
-  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
-  border: 2px solid #342626;
+  background-image: url(./brushed-alum.png);
+  border: 1px solid #404040;
+  box-shadow: inset 0 0 9px #070606;
 }
 .voice-chooser input {
   appearance: none;
@@ -1044,7 +1052,7 @@ x
   align-items: center;
   font-size: 30px;
   margin-right: 8px;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
   opacity: 0;
   position: absolute;
   bottom: 10%;

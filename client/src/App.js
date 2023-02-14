@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
+import { Routes, Route, Outlet, Link, useLocation } from 'react-router-dom';
 import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
@@ -31,36 +31,39 @@ export default function App() {
   //   console.log('run setPath');
   //   navigate('about');
   // }
+  const location = useLocation();
 
   return (
-    <div id='crt'>
-      <div className='scanline'></div>
+    <div id='main' className={`main ${location.pathname.substring(1)}`}>
+      <div id='crt'>
+        <div className='scanline'></div>
 
-      {/* Routes nest inside one another. Nested route paths build upon
+        {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/blog' element={<Blog />} />{' '}
-          <Route path='/archives/:archiveId' element={<Archives />} />
-          {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
-          <Route path='/games' element={<Games />} />{' '}
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/cagematch' element={<Cagematch />} />
-          <Route path='/trivia' element={<Trivia />} />{' '}
-          <Route path='/storytime' element={<StoryTime />} />
-          <Route path='/login' element={user ? <Home /> : <Login />} />
-          <Route path='/write' element={user ? <Write /> : <Home />} />
-          <Route path='/post/:postId' element={<Single />} />
-          <Route path='/settings' element={user ? <Settings /> : <Home />} />
-          {/* Using path="*"" means "match anything", so this route
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/blog' element={<Blog />} />{' '}
+            <Route path='/archives/:archiveId' element={<Archives />} />
+            {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
+            <Route path='/games' element={<Games />} />{' '}
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/cagematch' element={<Cagematch />} />
+            <Route path='/trivia' element={<Trivia />} />{' '}
+            <Route path='/storytime' element={<StoryTime />} />
+            <Route path='/login' element={user ? <Home /> : <Login />} />
+            <Route path='/write' element={user ? <Write /> : <Home />} />
+            <Route path='/post/:postId' element={<Single />} />
+            <Route path='/settings' element={user ? <Settings /> : <Home />} />
+            {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
-          <Route path='*' element={<NoMatch />} />
-        </Route>
-      </Routes>
+            <Route path='*' element={<NoMatch />} />
+          </Route>
+        </Routes>
+      </div>
     </div>
   );
 }
