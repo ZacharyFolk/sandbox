@@ -5,10 +5,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import axios from 'axios';
 import ReactSlider from 'react-slider';
 import './story.css';
-import say from '../../utils/speak';
+import say, { getVoice } from '../../utils/speak';
 import Knob from '../../utils/UI';
+import Modal from '../../utils/Modal';
+
 const stories = [
   {
     title: '',
@@ -16,20 +19,77 @@ const stories = [
     template: null,
   },
   {
-    title: 'A real title that is this long.',
-    inputs: ['s1', 'noun', 'verb', 'verb', 'adjective', 'noun'],
-    template: `The {{1}} {{2}} was {{3}} the {{4}} {{5}}. Suddenly, they {{6}}.`,
+    title: 'Dating Advice.',
+    inputs: [
+      'plural noun',
+      'adverb',
+      'verb',
+      'article of clothing',
+      'body part',
+      'adjective',
+      'noun',
+      'plural noun',
+      'another body part',
+      'plural noun',
+      'another body part',
+      'noun',
+      'noun',
+      'verb ending in ing',
+      'adjective',
+      'adjective',
+      'verb',
+    ],
+    template: `It's simple.  Turn the {{1}}.  Make them want {{2}} to date you.   Make sure you are always dressed to {{3}}.  Each and every day, wear a {{4}} that you know shows off your {{5}} to {{6}} advantage and make your {{7}} look like a million {{8}}.  Even if the two of you make meaningful {{9}} contact, don't admit it.  No hugs or  {{10}}.  Just shake their {{11}} firmly.  And remember when they ask you out, even though a chill may run down your {{12}} and you can't stop your {{13}} from {{14}}, just play it {{15}}.  Take a long pause before answering in a very {{16}} voice, "I'll have to {{17}} it over."`,
   },
 
   {
-    title: 'A real title that is actually  quite a bit longer.',
-    inputs: ['s2', 'noun', 'verb', 'verb', 'adjective', 'noun'],
-    template: `The {{adjective1}} {{noun1}} {{verb1}} the {{noun2}}. Then they {{verb2}}.`,
+    title: 'The solar system.',
+    inputs: [
+      'adjective',
+      'noun',
+      'adjective',
+      'plural noun',
+      'adverb',
+      'verb ending in ing',
+      'silly word (plural)',
+      'adjective',
+      'plural noun',
+      'first name',
+      'adjective',
+      'number',
+      'another first name',
+      'another first name',
+      'another first name',
+      'another first name',
+      'another first name',
+      'another first name',
+      'plural noun',
+    ],
+    template: `When we look up into the sky on a {{1}} summer night, we see millions of tiny spots of light. Each one represents a {{2}} which is the center of a {{3}} solar system with dozens of {{4}} revolving {{5}} around a distant sun.  Sometimes these suns expand and begin {{6}} their neighbors.  Soon they will become so big, they will turn into {{7}}. Eventually they subside and become {{8}} giants or perhaps black {{9}}.  Our own planet, which we call {{10}}, circles around our {{11}} sun {{12}} times every year. There are eight other planets in our solar system.  They are named {{13}}, {{14}}, {{15}}, {{16}}, {{17}}, {{18}}, Jupiter and Mars.  Scientists who study these planets are called {{19}}. `,
   },
   {
-    title: 'A real title that.',
-    inputs: ['s1', 'noun', 'verb', 'verb', 'adjective', 'noun'],
-    template: `The {{1}} {{2}} was {{3}} the {{4}} {{5}}. Suddenly, they {{6}}.`,
+    title: 'About Alice.',
+    inputs: [
+      'adjective',
+      'noun',
+      'plural noun',
+      'number',
+      'adjective',
+      'verb ending in s',
+      'adjective',
+      'noun',
+      'noun',
+      'noun',
+      'noun',
+      'verb ending in s',
+      'noun',
+      'adjective',
+      'noun',
+      'plural noun',
+      'adjective',
+      'noun',
+    ],
+    template: `The Lewis Carroll classic, Alice's Adventure in Wonderland, as well as its  {{1}} sequel, Through the Looking  {{2}}, have enchanted both the young and the old  {{3}} for the last  {{4}} years.  Alice's  {{5}} adventuresd begin when she  {{6}} down a  {{7}} hole and lands in a strange and topsy-turvy  {{8}}.  There she discovers she can become a tall  {{9}} or a small  {{10}} simply by nibbling on alternate sides of a magic  {{11}}.  In her travels through Wonderland, Alice  {{12}} such remarkable characters as the White  {{13}}, the  {{14}} Hatter, the Cheshire  {{15}}, and even the Queen of   {{16}}.  Unfortunately, ALice's adventures come to a  {{17}} end when Alice awakens from her  {{18}}`,
   },
   {
     title: 'A real title that is actually.',
@@ -37,46 +97,6 @@ const stories = [
     template: `The {{adjective1}} {{noun1}} {{verb1}} the {{noun2}}. Then they {{verb2}}.`,
   },
 ];
-
-// const Visualization = ({ text, pitch, rate, volume, voice }) => {
-//   const [analyser, setAnalyser] = useState(null);
-//   const canvasRef = useRef(null);
-//   // useEffect(() => {
-//   //   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-//   //   const source = audioCtx.createMediaElementSource(new Audio());
-//   //   const analyser = audioCtx.createAnalyser();
-//   //   setAnalyser(analyser);
-//   //   source.connect(analyser);
-//   //   analyser.connect(audioCtx.destination);
-//   //   let lang = say(text, pitch, rate, volume, voice);
-//   // }, [text, pitch, rate, volume, voice]);
-//   useEffect(() => {
-//     if (!analyser) return;
-//     const canvas = canvasRef.current;
-//     const canvasCtx = canvas.getContext('2d');
-//     const WIDTH = canvas.width;
-//     const HEIGHT = canvas.height;
-//     const bufferLength = analyser.frequencyBinCount;
-//     const dataArray = new Uint8Array(bufferLength);
-//     const draw = () => {
-//       requestAnimationFrame(draw);
-//       analyser.getByteFrequencyData(dataArray);
-//       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
-//       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-//       const barWidth = (WIDTH / bufferLength) * 2.5;
-//       let barHeight;
-//       let x = 0;
-//       for (let i = 0; i < bufferLength; i++) {
-//         barHeight = dataArray[i];
-//         canvasCtx.fillStyle = `rgb(${barHeight + 100},50,50)`;
-//         canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight / 2);
-//         x += barWidth + 1;
-//       }
-//     };
-//     draw();
-//   }, [analyser]);
-//   return <canvas ref={canvasRef} width={500} height={100} />;
-// };
 
 const CircleVisualization = () => {
   const canvasRef = useRef(null);
@@ -115,13 +135,15 @@ const CircleVisualization = () => {
       }, randoTime);
     };
     animate();
+
+    // get voices set from initial value
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      width={120}
-      height={120}
+      width={140}
+      height={140}
       style={{ border: '1px solid black' }}
     />
   );
@@ -170,14 +192,15 @@ const CircleStopped = () => {
   return (
     <canvas
       ref={canvasRef}
-      width={120}
-      height={120}
+      width={140}
+      height={140}
       style={{ border: '1px solid black' }}
     />
   );
 };
 
 function StoryBot() {
+  const [power, setPower] = useState(false);
   const [isActivated, setActivated] = useState(false);
   const [selectedStory, setSelectedStory] = useState(stories[0]);
   const [storyTitle, setStoryTitle] = useState('');
@@ -189,19 +212,23 @@ function StoryBot() {
   const [volume, setVolume] = useState(0);
   const [decimalVolume, setDecimalVolume] = useState(0);
   const [showVolume, setShowVolume] = useState(false);
-
+  const [tip, setTip] = useState('');
   const [pitch, setPitch] = useState(50);
   const [decimalPitch, setDecimalPitch] = useState(1);
   const [pitchDesc, setPitchDesc] = useState('');
-  const [rate, setRate] = useState(100);
+  const [rate, setRate] = useState(50);
   const [decimalRate, setDecimalRate] = useState(1);
   const [rateDesc, setRateDesc] = useState('');
   const [voice, setVoice] = useState(0);
   const [locale, setLocale] = useState('');
+  const [flag, setFlag] = useState('');
+  const [langname, setLangname] = useState('');
   const [showViz, setShowViz] = useState(false);
   const [speech, setSpeech] = useState('');
   const inputRef = createRef();
   const botRef = createRef();
+  const switchclick = new Audio('./sounds/sound_click.mp3');
+
   const tongueTwisters = [
     'She sells sea shells by the sea shore',
     'How can a clam cram in a clean cream can?',
@@ -284,7 +311,7 @@ function StoryBot() {
     } else if (pitch > 80 && pitch <= 90) {
       setPitchDesc('falsetto');
     } else if (pitch > 90 && pitch <= 100) {
-      setPitchDesc('ouch');
+      setPitchDesc('piercing');
     }
   }, [pitch]);
 
@@ -303,7 +330,7 @@ function StoryBot() {
 
   useEffect(() => {
     if (rate >= 0 && rate <= 10) {
-      setRateDesc('comatose');
+      setRateDesc('sleeptalking');
     } else if (rate > 10 && rate <= 20) {
       setRateDesc('drowsy');
     } else if (rate > 20 && rate <= 30) {
@@ -321,16 +348,45 @@ function StoryBot() {
     } else if (rate > 80 && rate <= 90) {
       setRateDesc('hyper');
     } else if (rate > 90 && rate <= 100) {
-      setRateDesc('spazzed');
+      setRateDesc('spaz');
     }
   }, [rate]);
 
-  // Change Voice and fetch voice title and set that
+  // Change Voice
   const changeVoice = (value) => {
-    console.log('wtf', value);
     setVoice(value);
+    let voice = getVoice(value);
+    if (voice) {
+      let z = voice.lang.split('-');
+      let loc = z[1];
+      let x = voice.name;
+      const regex = /^(Google|Microsoft)\s+/;
+      let voicename = x.replace(regex, '');
+      setLangname(voicename);
+
+      setLocale(loc);
+    }
   };
 
+  const getFlag = async (loc) => {
+    let url = 'https://restcountries.com/v2/alpha?codes=' + loc;
+
+    const res = await axios.get(url);
+    const result = await res.data;
+
+    setFlag(result[0].flags.svg);
+  };
+  // update flag when location changes
+  useEffect(() => {
+    getFlag(locale);
+    console.log(locale);
+  }, [locale]);
+
+  // set default flag for on load,  0 = US
+  useEffect(() => {
+    switchclick.load();
+    getFlag('US');
+  }, []);
   // Test sound settings
   const playTest = async ({ words }) => {
     setShowViz(true);
@@ -345,13 +401,18 @@ function StoryBot() {
           `Utterance has finished being spoken after ${event.elapsedTime} seconds.`
         );
       });
-      setLocale(speech.voice);
     }
   };
 
   const playThis = (string) => {
     let speech = say(string, decimalPitch, decimalRate, decimalVolume, voice);
 
+    if (volume === 0) {
+      setSpeech('You need to turn up the volume first!');
+      setTimeout(() => {
+        setSpeech('');
+      }, 3000);
+    }
     if (speech) {
       setActivated(true);
       setShowViz(true);
@@ -362,9 +423,9 @@ function StoryBot() {
           `Utterance has finished being spoken after ${event.elapsedTime} seconds.`
         );
       });
-      setLocale(speech.voice);
     }
   };
+
   const WordConveyor = ({ userInputs, storyTitle }) => {
     return (
       <div className='conveyor'>
@@ -392,7 +453,7 @@ function StoryBot() {
   // FOR DYNAMIC PREFIX TO WORD TYPE
   useEffect(() => {
     let wordType = selectedStory.inputs[currentIndex];
-    let prefix = wordType === 'adjective' ? 'An ' : 'A ';
+    let prefix = wordType === 'adjective' ? 'an ' : 'a ';
 
     setInputLabel(prefix + wordType);
   }, [selectedStory, currentIndex]);
@@ -428,10 +489,7 @@ function StoryBot() {
                     <div className='add-word-button'>
                       <span className='helper-container'>
                         <span className='helper-wrap'>
-                          <label>
-                            Enter a {selectedStory.inputs[currentIndex]}
-                            {inputLabel}
-                          </label>
+                          <label>Enter {inputLabel}</label>
                         </span>
                       </span>
                       <input
@@ -502,13 +560,16 @@ function StoryBot() {
                     >
                       &#5130;
                     </button>
+
                     <input
+                      className={power ? '' : 'off'}
                       type='number'
                       value={voice}
                       onChange={changeVoice}
                       min={0}
                       max={21}
                     />
+
                     <button
                       className='testVoice'
                       onClick={() => changeVoice(voice + 1)}
@@ -531,6 +592,7 @@ function StoryBot() {
           </div>
           <div className='monitor-wrapper'>
             <div className='monitor'>
+              <div className={power ? 'monitor-on' : 'monitor-off'}></div>
               <div className='monitor-main'>
                 <div className='monitor-left'>
                   <div className='voiceOptions'>
@@ -554,6 +616,16 @@ function StoryBot() {
                           <span className='bar-text'> {rateDesc}</span>
                         </span>
                       </li>
+
+                      <li>
+                        <label>Voice: </label>
+                        <span className='someNumb'>
+                          <div className='flag'>
+                            <img src={flag} alt='' />
+                          </div>
+                        </span>
+                        <span className='voice-text'>{langname}</span>
+                      </li>
                     </ul>
                     <div className='voiceContainer'>
                       <div className='circletalk'>
@@ -564,6 +636,7 @@ function StoryBot() {
                 </div>
                 {/* Terminal Right */}
                 <div className='monitor-right'>
+                  <h3>Choose your story:</h3>
                   {selectedStory && (
                     <ul className='button-list new-scroll'>
                       {stories.map((story) => (
@@ -626,7 +699,18 @@ function StoryBot() {
                 </div>
 
                 <div className='power-switch'>
-                  <input type='checkbox' id='switch' name='switch' />
+                  <input
+                    type='checkbox'
+                    id='switch'
+                    name='switch'
+                    checked={power}
+                    onChange={() => {
+                      setPower(!power);
+                    }}
+                    onClick={() => {
+                      switchclick.play();
+                    }}
+                  />
                   <label htmlFor='switch' className='switch'></label>
                 </div>
               </div>

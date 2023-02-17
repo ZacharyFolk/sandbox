@@ -18,6 +18,8 @@ synth.onvoiceschanged = function () {
  * @param {number} voice - Value for index SpeechSynthesisVoice array from 0-21 : default=0
  * @returns {object} speech.voice - Object contains name and language data
  */
+
+// A hacky weird fix that works for the random pausing : https://stackoverflow.com/questions/57667357/speech-synthesis-problem-with-long-texts-pause-mid-speaking
 function say(text, pitch = 1, rate = 1, volume = 0, voice = 0) {
   if (volume === 0) return;
   if (synth.speaking) {
@@ -36,10 +38,23 @@ function say(text, pitch = 1, rate = 1, volume = 0, voice = 0) {
   speech.lang = 'en-US';
   synth.speak(speech);
 
+  let r = setInterval(() => {
+    console.log(speechSynthesis.speaking);
+    if (!speechSynthesis.speaking) {
+      clearInterval(r);
+    } else {
+      speechSynthesis.pause();
+      speechSynthesis.resume();
+    }
+  }, 14000);
   console.log('say function, voice:', voice);
   return speech;
 }
 
+function getVoice(num) {
+  console.log(voices[num]);
+  return voices[num];
+}
 function stopSpeaking() {
   console.log('stop talking');
   if (synth) {
@@ -49,5 +64,5 @@ function stopSpeaking() {
   }
 }
 
-export { stopSpeaking };
+export { getVoice, stopSpeaking };
 export default say;

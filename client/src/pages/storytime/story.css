@@ -146,9 +146,25 @@
   display: flex;
 }
 .left-panel {
-  background-color: #3c2617;
+  background-color: #6c3815;
   background-image: url('./purty-wood.png');
-  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+
+  /* background-image: linear-gradient(
+    to right,
+    #341c0c,
+    #4b3122,
+    #624838,
+    #7a5f4f,
+    #937868,
+    #937868,
+    #937868,
+    #937868,
+    #7a5f4f,
+    #624838,
+    #4b3122,
+    #341c0c
+  ); */
+
   width: 33.3%;
   padding: 0 20px;
 
@@ -165,6 +181,13 @@
   box-shadow: -1px 0px 21px #000;
 }
 
+.monitor-off {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: #000;
+  z-index: 999;
+}
 /* https://dev.to/ekeijl/retro-crt-terminal-screen-in-css-js-4afh */
 .monitor {
   position: relative;
@@ -198,6 +221,10 @@
 }
 .monitor-right {
   width: 50%;
+}
+.monitor-right h3 {
+  font-size: 1em;
+  margin-left: 22px;
 }
 .monitor-footer {
   border: 1px solid;
@@ -453,6 +480,8 @@
   );
   margin-top: -6px;
   filter: drop-shadow(1px 0px 4px rgb(255, 235, 235, 0.5));
+  /* animation: eyeblink 3s infinite linear; */
+  opacity: 1;
 }
 .panel-container {
   padding: 20px 9px;
@@ -673,6 +702,7 @@ button.addWord {
   /* font-weight: 700; */
   margin-top: 2px;
   color: #000000;
+  flex: initial;
 }
 .voice-chooser {
   display: flex;
@@ -699,6 +729,7 @@ button.addWord {
   color: #7294bf;
   box-shadow: 0px 0px 7px #050321;
 }
+
 .voice-chooser .off {
   color: #000;
 }
@@ -757,8 +788,33 @@ button.addWord {
   margin-left: 10px;
   border: 1px solid;
   font-size: 0.71em;
+  flex: auto;
 }
-
+.voiceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+.voice-text {
+  font-size: 0.6em;
+  width: 200px;
+  text-align: center;
+}
+.flag {
+}
+.flag img {
+  max-width: 60px;
+}
+.speechOutput {
+  padding-top: 18px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  max-height: 80px;
+  padding: 20px;
+  overflow: auto;
+}
 .bar {
   display: inline-block;
   height: 100%;
@@ -777,6 +833,7 @@ button.addWord {
 .voiceOptions li label {
   font-size: 0.8em;
   width: 90px;
+  flex: initial;
 }
 .customSlider-track {
   /* Top value to align your track to the center of your thumb */
@@ -799,13 +856,12 @@ button.addWord {
   width: 20px;
   border: 1px solid #000;
   height: 20px;
-  filter: drop-shadow(0px 0px 15px #e0e0e0);
   outline: none;
 }
 
 .customSlider-thumb:hover {
   background: rgb(78, 83, 126);
-  box-shadow: 0 0 0 8px var(--main-color-hover);
+  filter: drop-shadow(0px 0px 15px #e0e0e0);
 }
 .customSlider-mark {
   cursor: pointer;
