@@ -6,12 +6,18 @@
   font-family: 'digital-7';
   src: url('./digital-7.ttf') format('truetype');
 }
+
+#main.trivia .terminalWindow {
+  display: none;
+}
 .trivia-board {
   display: flex;
   margin-top: 50px;
+  background: #0f0d8f;
+  color: #fff;
 }
 .trivia-board h1 {
-  font-size: 0.9em;
+  font-size: 1.2em;
   text-align: center;
   height: 80px;
   display: flex;
@@ -19,7 +25,7 @@
   justify-content: center;
   border: 1px solid;
   padding: 0 10px;
-  background-color: var(--dark);
+  background-color: #0e0c66;
   text-transform: uppercase;
 }
 .trivia-board > div {
@@ -31,11 +37,15 @@ div.value {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
+  border: 1px solid #fff;
   cursor: pointer;
+  color: #ecec44;
+  font-size: 3em;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 700;
 }
 .value:hover {
-  background-color: var(--dark);
+  background-color: #1a17e1;
 }
 .trivia-container {
   width: 95%;
@@ -65,7 +75,16 @@ div.value {
   scale: 1;
   z-index: 9999;
 }
-
+button.submitAnswer {
+  width: 80px;
+  background-color: #195654;
+  border: 0;
+  color: #c5c2c2;
+}
+button.submitAnswer:hover {
+  background-color: #338784;
+  color: #e3e3e3;
+}
 .qaContent,
 .correctamundo,
 .nope,
@@ -75,11 +94,12 @@ div.value {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--dark);
+  background: #0e156a;
   padding: 1rem;
   border-radius: 0.5rem;
   padding: 40px 80px 80px;
-  border: 1px solid var(--primary-color);
+  color: #fff;
+  border: 2px solid #fff;
 }
 .question {
   line-height: 1.7em;
@@ -93,18 +113,18 @@ div.value {
 .answer > .terminal-input {
   margin-left: 20px;
   width: 50%;
-  background-color: var(--secondary-color);
+  background-color: #383838;
   display: block;
   padding: 8px;
 }
 .deactivated {
   pointer-events: none;
-  background-color: var(--dark);
+  background-color: #090646;
   text-decoration: line-through;
   color: var(--secondary-color);
 }
 .skipButton {
-  color: var(--secondary-color);
+  color: #a1a1a1;
   display: flex;
   align-items: center;
   margin-top: 60px;
@@ -116,12 +136,12 @@ div.value {
   width: 120px;
   padding: 10px;
   text-transform: uppercase;
-  background-color: var(--bg);
-  color: var(--secondary-color);
+  background-color: #195654;
+  color: #c5c2c2;
 }
 .skipButton button:hover {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
+  background-color: #338784;
+  color: #e3e3e3;
 }
 .game-container {
   position: relative;
@@ -135,10 +155,11 @@ div.value {
   left: 40px;
   display: flex;
   width: calc(100% - 80px);
-  background-color: var(--dark);
+  background-color: #12113a;
   z-index: 999;
   align-items: center;
   border: 1px solid;
+  color: #fff;
 }
 .gameTitle {
   width: 250px;
@@ -156,7 +177,7 @@ div.value {
   font-size: 1.6em;
 }
 .gameHeader button {
-  background-color: var(--secondary-color);
+  background-color: #070414;
   padding: 4px 0;
   cursor: pointer;
   text-transform: uppercase;
@@ -164,34 +185,52 @@ div.value {
   flex: 0 0 180px;
   width: 180px;
   opacity: 0.8;
+  color: #b5b5b5;
 }
 .gameHeader button:hover {
-  background-color: var(--primary-color);
+  background-color: #1e1ca8;
+  color: #fff;
 }
 .loading {
   visibility: hidden;
   opacity: 0;
 }
 @media only screen and (max-width: 799px) {
+  .game-container {
+    padding: 0;
+  }
+  div.value {
+    font-size: 1.6em;
+  }
   .gameHeader {
-    top: -145px;
+    top: -95px;
     width: 100%;
-    flex-direction: column;
+    left: 0;
+  }
+  .gameTitle {
+    display: none;
   }
   .trivia-board {
     margin-top: 160px;
+    overflow: auto;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .score {
+    min-width: 220px;
   }
   .gameHeader button {
-    margin: 0 0 20px;
+    margin: 0 15px;
     flex: auto;
   }
   .trivia-board > div {
-    width: 30%;
+    min-width: 40%;
   }
   .qaContent {
     top: 37%;
-    left: 48%;
+    left: 50%;
     padding: 20px 30px;
+    width: 100%;
   }
   .game-modal {
     top: 30%;
@@ -216,12 +255,4 @@ div.value {
     margin: 20px 0;
     width: 100%;
   }
-}
-button {
-  color: var(--primary-color);
-  cursor: pointer;
-  text-transform: uppercase;
-  width: 100%;
-  background-color: var(--secondary-color);
-  padding: 10px 0;
 }

@@ -232,7 +232,7 @@ export default function Trivia() {
 
       <div className='trivia-board'>
         {Object.keys(game).map((category, i) => (
-          <div key={category} className={'cat-' + (i + 1)}>
+          <div key={category} className={'category cat-' + (i + 1)}>
             <h1>{category}</h1>
 
             {Object.keys(game[category]).map((value) => (
@@ -245,7 +245,7 @@ export default function Trivia() {
                 data-answer={game[category][value].answer}
                 onClick={handleClick}
               >
-                {value}
+                ${value}
               </div>
             ))}
           </div>
@@ -283,7 +283,7 @@ export default function Trivia() {
               onKeyDown={(e) => handleKeys(e)}
               ref={answerRef}
             ></span>
-            <button onClick={handleButton}>
+            <button className='submitAnswer' onClick={handleButton}>
               <i class='fa-solid fa-right-to-bracket'></i>
             </button>
           </div>
