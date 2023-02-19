@@ -145,6 +145,81 @@
 .main-contain {
   display: flex;
 }
+.completed-story-buttons button {
+  font-family: 'League Gothic', sans-serif;
+  font-size: 1.4em;
+}
+.completed-story-buttons button:nth-child(1) {
+  margin: 10px 0 10px 0;
+  background-image: linear-gradient(
+    to right,
+    #4f7e8b,
+    #4c8c98,
+    #499aa5,
+    #45a8af,
+    #42b7b8,
+    #42b7b8,
+    #42b7b8,
+    #42b7b8,
+    #45a8af,
+    #499aa5,
+    #4c8c98,
+    #4f7e8b
+  );
+}
+.completed-story-buttons button:nth-child(1):hover {
+  background-image: linear-gradient(
+    to right,
+    #4f7e8b,
+    #5194a2,
+    #52abb7,
+    #53c3ca,
+    #56dbdc,
+    #56dbdc,
+    #56dbdc,
+    #56dbdc,
+    #53c3ca,
+    #52abb7,
+    #5194a2,
+    #4f7e8b
+  );
+}
+
+.completed-story-buttons button:nth-child(2) {
+  background-image: linear-gradient(
+    to right,
+    #3d6c4a,
+    #41724e,
+    #457852,
+    #497e56,
+    #4d845a,
+    #4d845a,
+    #4d845a,
+    #4d845a,
+    #497e56,
+    #457852,
+    #41724e,
+    #3d6c4a
+  );
+}
+.completed-story-buttons button:nth-child(2):hover {
+  background-image: linear-gradient(
+    to right,
+    #4f8b60,
+    #549566,
+    #599e6b,
+    #5fa871,
+    #64b277,
+    #64b277,
+    #64b277,
+    #64b277,
+    #5fa871,
+    #599e6b,
+    #549566,
+    #4f8b60
+  );
+}
+
 .left-panel {
   background-color: #6c3815;
   background-image: url('./purty-wood.png');
@@ -182,6 +257,8 @@
 }
 
 .monitor-off {
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -211,7 +288,7 @@
 .monitor-main {
   width: 100%;
   display: flex;
-  height: 80%;
+  height: 60%;
 }
 .monitor-left {
   width: 50%;
@@ -233,7 +310,7 @@
 .monitor-right ul {
   margin-top: 20px;
   font-size: 0.8em;
-  height: 80%;
+  height: 160px;
   overflow: auto;
   /* border: 1px solid silver; */
   border-radius: 10px;
@@ -529,6 +606,12 @@
   height: 52px;
   outline: none;
   font-size: 1.2em;
+  top: -3px;
+  position: relative;
+}
+.add-word-button input::placeholder {
+  color: #343434;
+  font-size: 70%;
 }
 .storyTitle {
   font-family: 'Sacramento', cursive;
@@ -552,7 +635,7 @@ button.addWord {
 }
 .helper-wrap {
   background: #050321;
-  width: 100%;
+  width: 200%;
   display: block;
   height: 30px;
   display: flex;
@@ -569,10 +652,10 @@ button.addWord {
 }
 @keyframes move {
   from {
-    left: 280px;
+    left: 380px;
   }
   to {
-    left: -150px;
+    left: -350px;
   }
 }
 .voiceOptions {
@@ -801,6 +884,7 @@ button.addWord {
   font-size: 0.6em;
   width: 200px;
   text-align: center;
+  padding: 0 0px 0 20px;
 }
 .flag {
 }
@@ -812,9 +896,17 @@ button.addWord {
   width: 100%;
   margin: 0 auto;
   display: flex;
-  max-height: 80px;
-  padding: 20px;
-  overflow: auto;
+  max-height: 130px;
+  overflow: hidden;
+  align-items: center;
+}
+.fullstory {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000;
+  min-height: 54.5vmin;
+  padding: 20px 50px 40px;
 }
 .bar {
   display: inline-block;
@@ -823,7 +915,7 @@ button.addWord {
 }
 .bar-text {
   position: absolute;
-  top: 4px;
+  top: 0;
   left: 0;
   text-transform: uppercase;
   text-shadow: 2px 1px 2px black;

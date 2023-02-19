@@ -11,7 +11,7 @@ import './story.css';
 import say, { getVoice } from '../../utils/speak';
 import Knob from '../../utils/UI';
 import Modal from '../../utils/Modal';
-
+import Typist from 'react-typist-component';
 const stories = [
   {
     title: '',
@@ -92,9 +92,31 @@ const stories = [
     template: `The Lewis Carroll classic, Alice's Adventure in Wonderland, as well as its  {{1}} sequel, Through the Looking  {{2}}, have enchanted both the young and the old  {{3}} for the last  {{4}} years.  Alice's  {{5}} adventuresd begin when she  {{6}} down a  {{7}} hole and lands in a strange and topsy-turvy  {{8}}.  There she discovers she can become a tall  {{9}} or a small  {{10}} simply by nibbling on alternate sides of a magic  {{11}}.  In her travels through Wonderland, Alice  {{12}} such remarkable characters as the White  {{13}}, the  {{14}} Hatter, the Cheshire  {{15}}, and even the Queen of   {{16}}.  Unfortunately, ALice's adventures come to a  {{17}} end when Alice awakens from her  {{18}}`,
   },
   {
-    title: 'A real title that is actually.',
-    inputs: ['s2', 'noun', 'verb', 'verb', 'adjective', 'noun'],
-    template: `The {{adjective1}} {{noun1}} {{verb1}} the {{noun2}}. Then they {{verb2}}.`,
+    title: 'Father Goose',
+    inputs: [
+      'noun',
+      'animal',
+      'noun rhymes with moon',
+      'noun rhymes with moon',
+      'noun',
+      'noun rhymes with day',
+      'animal',
+      'musical instrument',
+      'place',
+      'type of vegetable',
+      'adjective',
+      'noun',
+      'animal',
+      'noun',
+      'same animal',
+      'verb rhymes with snow',
+    ],
+    template: `Hi, diddle, diddle, the {{1}} and the fiddle. The {{2}} jumped over the {{3}}.  The little dog laughed to see such sport, And the dish ran away with the {{4}}.  Little Miss Muffet sat on a {{5}}, Eating her curds and {{6}}.  Along came a {{7}} and sat down beside her And frightened Miss Muffet away.  Little Boy Blue come blow your {{8}}, The sheep's in the {{9}}, the cow's in the {{10}}.  Where is the {{11}} boy who looks after the sheep?  He's under the {{12}}, fast asleep.  Mary had a little {{13}}, It's {{14}} was white as snow.  And everywhere that Mary went, Her {{15}} was sure to {{16}}`,
+  },
+  {
+    title: 'test',
+    inputs: ['noun', 'animal'],
+    template: `Hi, diddle, diddle, the {{1}} and the fiddle. The {{2}} jumped over the {{3}}. `,
   },
 ];
 
@@ -209,6 +231,7 @@ function StoryBot() {
   const [inputValue, setInputValue] = useState('');
   const [userInputs, setUserInput] = useState([]);
   const [finalStory, setFinalStory] = useState('');
+  const [storyCreated, setStoryCreated] = useState(false);
   const [volume, setVolume] = useState(0);
   const [decimalVolume, setDecimalVolume] = useState(0);
   const [showVolume, setShowVolume] = useState(false);
@@ -272,6 +295,7 @@ function StoryBot() {
     }, 3000);
   };
   const createStory = () => {
+    setStoryCreated(true);
     const inputObject = userInputs.reduce((acc, value, index) => {
       acc[index + 1] = value;
       return acc;
@@ -406,7 +430,6 @@ function StoryBot() {
 
   const playThis = (string) => {
     let speech = say(string, decimalPitch, decimalRate, decimalVolume, voice);
-
     if (volume === 0) {
       setSpeech('You need to turn up the volume first!');
       setTimeout(() => {
@@ -426,6 +449,16 @@ function StoryBot() {
     }
   };
 
+  const newStory = () => {
+    setFinalStory('');
+    setStoryCreated(false);
+    setCurrentIndex(0);
+    setSelectedStory(stories[0]);
+  };
+
+  const playAgain = () => {
+    console.log('derp');
+  };
   const WordConveyor = ({ userInputs, storyTitle }) => {
     return (
       <div className='conveyor'>
@@ -510,12 +543,27 @@ function StoryBot() {
                     currentIndex === selectedStory.inputs.length && (
                       <>
                         {console.log(currentIndex)}
-                        <button onClick={createStory}>Create the Story</button>
+                        {storyCreated && volume !== 0 ? (
+                          <div className='completed-story-buttons'>
+                            <button
+                              onClick={() => {
+                                playThis(finalStory);
+                              }}
+                            >
+                              Play Again
+                            </button>
+                            <button onClick={newStory}>New Story</button>
+                          </div>
+                        ) : (
+                          <button onClick={createStory}>
+                            Create the Story
+                          </button>
+                        )}
                       </>
                     )}
                 </div>
               </div>
-              <>{finalStory}</>
+              {/* <>{finalStory}</> */}
               <div className='voice-controls'>
                 <div className='slide-container'>
                   <label>Tone </label>
@@ -627,11 +675,6 @@ function StoryBot() {
                         <span className='voice-text'>{langname}</span>
                       </li>
                     </ul>
-                    <div className='voiceContainer'>
-                      <div className='circletalk'>
-                        {showViz ? <CircleVisualization /> : <CircleStopped />}
-                      </div>
-                    </div>
                   </div>
                 </div>
                 {/* Terminal Right */}
@@ -671,7 +714,21 @@ function StoryBot() {
                   </div>
                 </div>
 
-                <div className='speechOutput'>{speech}</div>
+                <div
+                  className={`speechOutput ${
+                    storyCreated && volume !== 0 ? 'fullstory' : ''
+                  }`}
+                >
+                  {' '}
+                  <div className='voiceContainer'>
+                    <div className='circletalk'>
+                      {showViz ? <CircleVisualization /> : <CircleStopped />}
+                    </div>
+                  </div>
+                  <div className='new-scroll storyOutput'> {speech}</div>
+                  {/* TODO : Why won't typist work here? */}
+                  {/* <Typist typingDelay={50}> {speech} </Typist> */}
+                </div>
               </div>
             </div>
             <div className='machine-name'>

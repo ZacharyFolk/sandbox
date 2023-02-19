@@ -30,7 +30,7 @@ body {
 }
 p {
   font-size: 1.1em;
-  line-height: 1.4em;
+  line-height: 1.8em;
   margin: 20px 0;
 }
 a {
@@ -592,7 +592,7 @@ h2 {
   width: 100%;
 }
 h2.about-heading {
-  margin: 20px 0 0 20px;
+  margin: 20px 0 0;
 }
 .about-page-container {
   margin-top: 60px;
