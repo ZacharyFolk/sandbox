@@ -155,6 +155,12 @@ export default function Terminal(props) {
       case 'trivia-intro':
         setOutput(Jeopardy);
         break;
+      case 'madlibs':
+      case 'story':
+      case 'storytime':
+      case 'storybot':
+        navigate('/storytime');
+        break;
       case 'cage1':
         setOutput(<CageTips num={0} />);
         break;

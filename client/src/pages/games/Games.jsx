@@ -8,6 +8,7 @@ export default function Games() {
   const { updateCommand } = useContext(TerminalContext);
   const cagematch = './cagematch_assets/images/cage-preview.jpg';
   const triva = './images/trivia-preview.jpg';
+  const storybot = './images/storybot-preview.jpg';
   const [modalContent, setModalContent] = useState(null);
   const [openModal, setOpenModal] = useState(null);
   // useEffect(() => {
@@ -59,7 +60,21 @@ export default function Games() {
       </div>
     );
   };
-
+  const aboutStorybot = () => {
+    return (
+      <div className='description'>
+        <p>
+          This was a fun and challenging one, I wanted to play around with the
+          voice synthesizer built into our computers. There are 21 different
+          voices and controls to change the speed and pitch. You can make some
+          pretty funny combos to read a MadLibs style story that you create.
+        </p>
+        <p className='game-link'>
+          <Link to='/storytime'>Play the game!</Link>
+        </p>
+      </div>
+    );
+  };
   function handleModalOpen(content) {
     setOpenModal(true);
     setModalContent(content);
@@ -74,10 +89,10 @@ export default function Games() {
       <div className='container'>
         <h1 className='games'>GAMES</h1>
         <p>
-          Here are some things I built for fun and learnings. They are a little
-          rough, and not good on phones, but I am still updating as well as
-          plans to make one a month for 2023. Check on the blog for information
-          about how they were built. Enjoy!
+          Here are some projects I built for learning and practice. They are a
+          little rough, and not great on phones, but hopefully provide a little
+          fun. My goal is to make at least one a month for 2023. Check on the
+          blog for more information about how they were built. Enjoy!
         </p>
         <div className='gamegrid'>
           <div className='game'>
@@ -91,7 +106,6 @@ export default function Games() {
               alt='Title screen for cagematch'
             />
           </div>
-
           <div className='game'>
             {/* <div className='title'>Trivia Game</div> */}
 
@@ -101,6 +115,15 @@ export default function Games() {
               }}
               src={triva}
               alt='Title screen for trivia game'
+            />
+          </div>{' '}
+          <div className='game'>
+            <img
+              onClick={() => {
+                handleModalOpen(aboutStorybot);
+              }}
+              src={storybot}
+              alt='Title screen for storybot'
             />
           </div>
         </div>

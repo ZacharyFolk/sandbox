@@ -1,3 +1,14 @@
+### [1.1.1] - 2023-02-19
+
+#### Updated
+
+- new theme for Jeopardy game
+- games page for storybot and terminal
+
+#### Added
+
+- StoryBot
+
 ### [1.0.1] - 2023-02-07
 
 #### Fixed

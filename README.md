@@ -35,6 +35,16 @@ You can check it out on [zacs.website](https://www.zacs.website).
 
     Changelog
 
+### [1.1.1] - 2023-02-19
+
+#### Updated
+
+- new theme for Jeopardy game
+
+#### Added
+
+- StoryBot
+
 ### [1.0.1] - 2023-02-07
 
 #### Fixed
