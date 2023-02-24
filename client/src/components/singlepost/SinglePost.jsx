@@ -3,7 +3,7 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
-import { Editor } from '@tinymce/tinymce-react';
+import Tiny from '../tiny/Tiny';
 import Prism from 'prismjs';
 export default function SinglePost() {
   const location = useLocation();
@@ -21,7 +21,6 @@ export default function SinglePost() {
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
-  const editorRef = useRef(null);
   const refreshToken = async () => {
     try {
       const res = await axiosInstance.post('/auth/refresh', {
@@ -99,6 +98,7 @@ export default function SinglePost() {
       return Promise.reject(error);
     }
   );
+
   useEffect(() => {
     const getPost = async () => {
       const res = await axiosInstance.get('/posts/' + postid);
@@ -158,46 +158,7 @@ export default function SinglePost() {
         </div>
         {updateMode ? (
           <>
-            <div className='tinyContainer'>
-              <Editor
-                apiKey={process.env.REACT_APP_TINY_API}
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                value={desc}
-                onEditorChange={(newValue, editor) => setDesc(newValue)}
-                init={{
-                  height: 500,
-                  menubar: false,
-                  plugins:
-                    'anchor lists advlist emoticons link autolink autoresize code codesample',
-                  selector: 'textarea',
-                  browser_spellcheck: true,
-                  contextmenu: false,
-                  width: '100%',
-                  // skin: 'oxide-dark',
-                  // content_css: 'dark',
-                  toolbar:
-                    'undo redo | formatselect styleselect | ' +
-                    'bold italic backcolor blockquote | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'image link | code codesample removeformat | anchor emoticons restoredraft',
-                  codesample_global_prismjs: true,
-                  // Register the cite format
-                  formats: {
-                    cite: { block: 'cite' },
-                  }, // Populate the styleselect menu
-                  style_formats: [
-                    { title: 'Paragraph', format: 'p' },
-                    { title: 'Title', format: 'h1' },
-                    { title: 'Heading', format: 'h2' },
-                    { title: 'Subheading', format: 'h3' },
-                    { title: 'Blockquote', format: 'blockquote' },
-                    { title: 'Cite', format: 'cite' },
-                    { title: 'Code', format: 'code' },
-                  ], // This removes the WYSIWYG formatting within the styleselect menu
-                  preview_styles: false,
-                }}
-              />
-            </div>
+            <Tiny setDesc={setDesc} desc={desc} />
 
             <div className='button-container'>
               <div className='draft-container'>

@@ -2,18 +2,17 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
 import jwt_decode from 'jwt-decode';
-import { Editor } from '@tinymce/tinymce-react';
 import './write.css';
+import Tiny from '../../components/tiny/Tiny';
 export default function Write() {
   const [title, setTitle] = useState('');
-  const [desc, sestDesc] = useState('');
+  const [desc, setDesc] = useState('');
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
   const [draft, setDraft] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
-  const editorRef = useRef(null);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
@@ -64,22 +63,6 @@ export default function Write() {
       const res = await axiosJWT.post('/categories', cat);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const my_upload_handler = async (blobInfo, progress) => {
-    let data = new FormData();
-    data.append('file', blobInfo.blob(), blobInfo.filename());
-
-    try {
-      const res = await axiosJWT.post(
-        'http://localhost:9999/upload/image',
-        data
-      );
-      console.log('res.data =>', res.data);
-      return res.data.location;
-    } catch (error) {
-      console.log('upload handler error : ', error);
     }
   };
 
@@ -145,54 +128,7 @@ export default function Write() {
           />
         </div>
 
-        <div className='tinyContainer'>
-          <Editor
-            apiKey={process.env.REACT_APP_TINY_API}
-            onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue='<p>Write something amazing.</p>'
-            value={desc}
-            onEditorChange={(newValue, editor) => sestDesc(newValue)}
-            init={{
-              height: 500,
-              menubar: 'insert',
-              file_picker_types: 'file image media',
-              image_uploadtab: true,
-              images_file_types: 'jpg,jpeg,gif,png,svg,webp',
-              // images_upload_url: 'http://localhost:9999/upload/image',
-              //    images_upload_base_path: 'http://localhost:9999/',
-              images_upload_handler: my_upload_handler,
-              // images_upload_handler: function (blobInfo, success, failure) {
-              //   // TODO : #23
-              //   // axiosInstance
-              //   //   .post('/upload/image', data)
-              //   //   .then(function (res) {
-              //   //     console.log(res.data);
-              //   //     success(res.data.location);
-              //   //   })
-              //   //   .catch(function (err) {
-              //   //     console.log('error', err.message);
-              //   //     failure('HTTP Error: ' + err.message);
-              //   //   });
-              // },
-
-              plugins:
-                'anchor lists advlist emoticons link autolink autoresize code codesample image',
-              selector: 'textarea',
-              browser_spellcheck: true,
-              contextmenu: false,
-              width: '100%',
-              // skin: 'oxide-dark',
-              // content_css: 'dark',
-              toolbar:
-                'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'image link | code codesample removeformat | anchor emoticons restoredraft',
-              codesample_global_prismjs: true,
-            }}
-          />
-        </div>
-
+        <Tiny setDesc={setDesc} desc={desc} />
         <div className='button-container'>
           <div className='draft-container'>
             <label>Draft</label>
