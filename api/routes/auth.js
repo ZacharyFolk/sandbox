@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_EXPIRY = '30s';
+const JWT_EXPIRY = '120s';
 // REFRESH TOKEN
 let refreshTokens = [];
 
@@ -17,8 +17,6 @@ router.post('/refresh', (req, res) => {
   const refreshToken = req.body.token;
   // send error if no token / not valid
 
-  console.log('REFRESH TOKEN: ', refreshToken);
-  console.log('REFRESH TOKENS', refreshTokens);
   if (!refreshToken) return res.status(401).json('You are not authenticated!');
   if (!refreshTokens.includes(refreshToken)) {
     return res.status(403).json('Refresh token is not valid!');

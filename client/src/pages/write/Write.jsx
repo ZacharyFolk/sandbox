@@ -62,9 +62,24 @@ export default function Write() {
     };
     try {
       const res = await axiosJWT.post('/categories', cat);
-      console.log('res.data =>', res.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const my_upload_handler = async (blobInfo, progress) => {
+    let data = new FormData();
+    data.append('file', blobInfo.blob(), blobInfo.filename());
+
+    try {
+      const res = await axiosJWT.post(
+        'http://localhost:9999/upload/image',
+        data
+      );
+      console.log('res.data =>', res.data);
+      return res.data.location;
+    } catch (error) {
+      console.log('upload handler error : ', error);
     }
   };
 
@@ -83,14 +98,13 @@ export default function Write() {
   };
 
   const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
-
   // 🐛 this seems to only work after the initial expiry?
-
   axiosJWT.interceptors.request.use(
     async (config) => {
       let currentDate = new Date();
       const decodedToken = jwt_decode(user.accessToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
+        console.log('TOKEN HAS EXPIRED, STARTING REFRESH FUNCTION');
         let data = await refreshToken();
         config.headers['Authorization'] = 'Bearer ' + data.accessToken;
       }
@@ -144,28 +158,11 @@ export default function Write() {
               file_picker_types: 'file image media',
               image_uploadtab: true,
               images_file_types: 'jpg,jpeg,gif,png,svg,webp',
-              images_upload_url: 'http://localhost:9999/upload/image',
-              images_upload_base_path: 'http://localhost:9999/',
+              // images_upload_url: 'http://localhost:9999/upload/image',
+              //    images_upload_base_path: 'http://localhost:9999/',
+              images_upload_handler: my_upload_handler,
               // images_upload_handler: function (blobInfo, success, failure) {
               //   // TODO : #23
-              //   let data = new FormData();
-              //   data.append('file', blobInfo.blob(), blobInfo.filename());
-              //   let imgName = blobInfo.filename();
-
-              //   console.log(
-              //     '================ image_upload_handler ================'
-              //   );
-              //   console.log(imgName);
-              //   console.log(data);
-              //   axios
-              //     .post('http://localhost:9999/upload/image', data)
-              //     .then(function (res) {
-              //       success(res.data);
-              //     })
-              //     .catch(function (err) {
-              //       failure('HTTP Error: ' + err.message);
-              //     });
-
               //   // axiosInstance
               //   //   .post('/upload/image', data)
               //   //   .then(function (res) {

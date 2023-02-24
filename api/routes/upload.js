@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { readSync } = require('fs');
 const multer = require('multer');
 const path = require('path');
+const verify = require('../utils');
 
 const imageStorage = multer.diskStorage({
   // Destination to store image
@@ -33,9 +34,12 @@ const imageUpload = multer({
 // For Single image upload
 router.post(
   '/image',
+  verify,
   imageUpload.single('file'),
   (req, res) => {
-    res.status(200).send({ location: req.file.path });
+    res
+      .status(200)
+      .send({ location: 'http://localhost:9999/' + req.file.path });
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });

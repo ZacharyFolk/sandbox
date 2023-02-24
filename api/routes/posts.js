@@ -3,31 +3,9 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const { response } = require('express');
 const jwt = require('jsonwebtoken');
+const verify = require('../utils');
 // Refresh token
 let refreshTokens = [];
-// VERIFY
-const verify = (req, res, next) => {
-  console.log('<===================== VERIFY =====================>');
-  const authHeader = req.headers.authorization;
-  console.log('authHeader: ', authHeader);
-
-  if (authHeader) {
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.JWT_KEY, (err, payload) => {
-      if (err) {
-        console.log('TOKEN NOT VALID');
-        return res.status(403).json('Token is not valid!');
-      }
-      console.log('Success! Token is validated.');
-
-      req.payload = payload;
-      // console.log(res);
-      next();
-    });
-  } else {
-    res.status(401).json('You are not authenticated!');
-  }
-};
 
 // CREATE NEW POST
 router.post('/', verify, async (req, res) => {
