@@ -6,13 +6,14 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
-const multer = require('multer');
+
 const cors = require('cors');
 const path = require('path');
 const middlewares = require('./github/middlewares');
 const githubRoute = require('./github/githubRoutes');
 const discoRoute = require('./discogs/discoRoutes.js');
 const emailRoute = require('./email/emailRoute');
+const uploadRoute = require('./routes/upload');
 dotenv.config();
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -22,21 +23,23 @@ mongoose
   .then(console.log('Connected to MongoDB'))
   .catch((err) => console.log(err));
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'images');
-  },
-  filename: (req, file, cb) => {
-    cb(null, req.body.name);
-  },
-});
-app.use(cors());
-const upload = multer({ storage: storage });
-app.post('/api/upload', upload.single('file'), (req, res) => {
-  res.status(200).json('File has been uploaded');
-});
-app.use(express.json());
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'images');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, req.body.name);
+//   },
+// });
+// const upload = multer({ storage: storage });
 
+app.use(cors());
+// app.post('/api/upload', upload.single('file'), (req, res) => {
+//   res.status(200).json('File has been uploaded');
+//   console.log('file uploaded');
+// });
+app.use(express.json());
+app.use('/upload/', uploadRoute);
 app.use(middlewares.setHeaders);
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);

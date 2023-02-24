@@ -143,20 +143,41 @@ export default function Write() {
               menubar: 'insert',
               file_picker_types: 'file image media',
               image_uploadtab: true,
-              images_file_types: 'jpg,svg,webp',
-              images_upload_handler: function (blobInfo, success, failure) {
-                // TODO : #23
-                let data = new FormData();
-                data.append('file', blobInfo.blob(), blobInfo.filename());
-                axios
-                  .post('/upload', data)
-                  .then(function (res) {
-                    success(res.data.location);
-                  })
-                  .catch(function (err) {
-                    failure('HTTP Error: ' + err.message);
-                  });
-              },
+              images_file_types: 'jpg,jpeg,gif,png,svg,webp',
+              images_upload_url: 'http://localhost:9999/upload/image',
+              images_upload_base_path: 'http://localhost:9999/',
+              // images_upload_handler: function (blobInfo, success, failure) {
+              //   // TODO : #23
+              //   let data = new FormData();
+              //   data.append('file', blobInfo.blob(), blobInfo.filename());
+              //   let imgName = blobInfo.filename();
+
+              //   console.log(
+              //     '================ image_upload_handler ================'
+              //   );
+              //   console.log(imgName);
+              //   console.log(data);
+              //   axios
+              //     .post('http://localhost:9999/upload/image', data)
+              //     .then(function (res) {
+              //       success(res.data);
+              //     })
+              //     .catch(function (err) {
+              //       failure('HTTP Error: ' + err.message);
+              //     });
+
+              //   // axiosInstance
+              //   //   .post('/upload/image', data)
+              //   //   .then(function (res) {
+              //   //     console.log(res.data);
+              //   //     success(res.data.location);
+              //   //   })
+              //   //   .catch(function (err) {
+              //   //     console.log('error', err.message);
+              //   //     failure('HTTP Error: ' + err.message);
+              //   //   });
+              // },
+
               plugins:
                 'anchor lists advlist emoticons link autolink autoresize code codesample image',
               selector: 'textarea',

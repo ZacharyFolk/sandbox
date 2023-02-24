@@ -454,6 +454,7 @@ function StoryBot() {
     setStoryCreated(false);
     setCurrentIndex(0);
     setSelectedStory(stories[0]);
+    setUserInput([]);
   };
 
   const playAgain = () => {
