@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { useContext, useEffect, useState, useRef } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Context } from '../../context/Context';
-import jwt_decode from 'jwt-decode';
+import useAxiosJWT from '../../utils/tokens';
 import Tiny from '../tiny/Tiny';
 import Prism from 'prismjs';
 export default function SinglePost() {
@@ -21,19 +21,8 @@ export default function SinglePost() {
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
-  const refreshToken = async () => {
-    try {
-      const res = await axiosInstance.post('/auth/refresh', {
-        token: user.refreshToken,
-      });
-      user.refreshToken = res.data.refreshToken;
-      localStorage.setItem('user', JSON.stringify(user));
-      user.accessToken = res.data.accessToken;
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const axiosJWT = useAxiosJWT();
+
   useEffect(() => {
     axiosInstance
       .get('/categories')
@@ -77,27 +66,6 @@ export default function SinglePost() {
     );
     setCategories([...categories, selectedCategory]);
   };
-  const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
-  axiosJWT.interceptors.request.use(
-    async (config) => {
-      console.log('INTERCEPTED');
-      let currentDate = new Date();
-      const decodedToken = jwt_decode(user.accessToken);
-      console.log('decodedToken', decodedToken);
-
-      if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        let data = await refreshToken();
-
-        console.log('Returning from Refresh : ', data);
-        console.log('What user here?', user);
-        config.headers['Authorization'] = 'Bearer ' + data.accessToken;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
 
   useEffect(() => {
     const getPost = async () => {
