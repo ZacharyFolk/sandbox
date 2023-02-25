@@ -81,7 +81,7 @@ export default function Write() {
   };
 
   const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
-  // 🐛 this seems to only work after the initial expiry?
+
   axiosJWT.interceptors.request.use(
     async (config) => {
       let currentDate = new Date();
@@ -90,6 +90,8 @@ export default function Write() {
         console.log('TOKEN HAS EXPIRED, STARTING REFRESH FUNCTION');
         let data = await refreshToken();
         config.headers['Authorization'] = 'Bearer ' + data.accessToken;
+      } else {
+        config.headers['Authorization'] = 'Bearer ' + user.accessToken;
       }
       return config;
     },
