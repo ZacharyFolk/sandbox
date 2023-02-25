@@ -16,7 +16,6 @@ const Tiny = (props) => {
         'http://localhost:9999/upload/image',
         data
       );
-      console.log('res.data =>', res.data);
       return res.data.location;
     } catch (error) {
       console.log('upload handler error : ', error);

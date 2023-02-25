@@ -1369,8 +1369,7 @@ x
     #e1e9ec 74%,
     #b7bfc2 100%
   );
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ced8da', endColorstr='#b7bfc2',GradientType=1 );
+
   /* IE6-9 */
   transition: all 0.2s ease-out;
   cursor: pointer;
@@ -1485,9 +1484,6 @@ x
     #d8e0e3 71%,
     #ced8da 100%
   );
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7bfc2', endColorstr='#ced8da',GradientType=1 );
-  /* IE6-9 */
 }
 
 #switch:checked ~ .switch:after {

@@ -28,7 +28,6 @@ export default function SinglePost() {
       .get('/categories')
       .then((res) => setAllCategories(res.data))
       .catch((err) => console.log(err));
-    console.log(allCategories);
   }, []);
   const handleDelete = async () => {
     try {
@@ -114,12 +113,6 @@ export default function SinglePost() {
           </h1>
         )}
         <div className='singlePostInfo'>
-          {/* <span className='singlePostAuthor'>
-            Author:
-            <Link to={`/?user=${post.username}`}>
-              <b>{post.username}</b>
-            </Link>
-          </span> */}
           <span className='singlePostDate'>
             {new Date(post.createdAt).toDateString()}
           </span>
@@ -153,16 +146,9 @@ export default function SinglePost() {
             </div>
           </>
         ) : (
-          <div
-            className='content'
-            dangerouslySetInnerHTML={{ __html: desc }} // should use DOMPurify?
-          />
+          <div className='content' dangerouslySetInnerHTML={{ __html: desc }} />
         )}
       </div>
     </div>
   );
 }
-
-// dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.desc) }}
-// DOMPurify removes too much, if use want to configure
-// https://github.com/cure53/DOMPurify/tree/main/demos#what-is-this

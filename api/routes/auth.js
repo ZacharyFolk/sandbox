@@ -11,8 +11,6 @@ router.post('/refresh', (req, res) => {
   // Would cookie be better to keep the refresdhToken?  accessToken will alway just be stored in memory of user object?
   // Will this work ok with Context and how it is using localStorage?
 
-  console.log('<===================== REFRESH =====================>');
-
   // take the refresh token from the user
   const refreshToken = req.body.token;
   // send error if no token / not valid
@@ -27,12 +25,10 @@ router.post('/refresh', (req, res) => {
 
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
-    console.log('REFRESH TOKENS-post filter', refreshTokens);
     const newAccessToken = generateAccessToken(user);
     const newRefreshToken = generateRefreshToken(user);
 
     refreshTokens.push(newRefreshToken);
-    console.log('REFRESH TOKENS : ', refreshTokens);
 
     res.status(200).json({
       accessToken: newAccessToken,
@@ -43,27 +39,16 @@ router.post('/refresh', (req, res) => {
 });
 
 const generateAccessToken = (user) => {
-  console.log(
-    '<===================== GENERATE ACCESS TOKEN =====================>'
-  );
-  console.log('user', user);
-
   return jwt.sign({ id: user.id }, process.env.JWT_KEY, {
     expiresIn: JWT_EXPIRY,
   });
 };
 const generateRefreshToken = (user) => {
-  console.log(
-    '<===================== REFRESH ACCESS TOKEN =====================>'
-  );
-  console.log('user', user);
-
   return jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY);
 };
 
 // REGISTER
 router.post('/register', async (req, res) => {
-  console.log('<===================== REGISTER =====================>');
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -84,20 +69,14 @@ router.post('/register', async (req, res) => {
 
 // LOGIN
 router.post('/login', async (req, res) => {
-  console.log('<===================== LOGIN API =====================>');
   try {
     const user = await User.findOne({ username: req.body.username });
 
-    console.log('user: ', user);
     !user && res.status(400).json('Wrong credentials!');
 
     if (user) {
-      console.log('is user');
       const validated = await bcrypt.compare(req.body.password, user.password);
       if (validated) {
-        console.log('Success, logged in');
-        // console.log(user);
-        // Generate an access token
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
 
@@ -117,7 +96,6 @@ router.post('/login', async (req, res) => {
         others.accessToken = accessToken;
         others.refreshToken = refreshToken;
 
-        console.log('LOGIN RESPONSE : ', others);
         res.status(200).json(others);
       } else {
         res.status(400).json('Nope.');

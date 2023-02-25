@@ -24,7 +24,6 @@ export default function Write() {
       .get('/categories')
       .then((res) => setAllCategories(res.data))
       .catch((err) => console.log(err));
-    console.log(allCategories);
   }, [newCategory]);
 
   const handleSubmit = async (e) => {
@@ -53,12 +52,10 @@ export default function Write() {
   };
 
   const handleNewCategory = (e) => {
-    console.log(e.target.value);
     setNewCategory(e.target.value);
   };
 
   const addNewCategory = async () => {
-    console.log('new one?', newCategory);
     const cat = {
       name: newCategory,
     };
