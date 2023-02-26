@@ -26,10 +26,10 @@ const CageTips = (props) => {
 };
 const Deep = () => {
   const bkgdImages = [
-    './images/deep/deep1.jpg',
-    './images/deep/deep2.jpg',
-    './images/deep/deep3.jpg',
-    './images/deep/deep4.jpg',
+    '/images/deep/deep1.jpg',
+    '/images/deep/deep2.jpg',
+    '/images/deep/deep3.jpg',
+    '/images/deep/deep4.jpg',
   ];
   const deepArray = [
     "If you ever crawl inside an old hollow log and go to sleep, and while you're in there some guys come and seal up both ends and then put it on a truck and take it to another city, boy, I don't know what to tell you.",

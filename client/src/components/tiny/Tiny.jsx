@@ -1,10 +1,11 @@
 import { useRef } from 'react';
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
+import useAxiosJWT from '../../utils/tokens';
 
 const Tiny = (props) => {
   const editorRef = useRef(null);
-  const axiosJWT = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+  const axiosJWT = useAxiosJWT();
   const { desc, setDesc } = props;
 
   const my_upload_handler = async (blobInfo, progress) => {

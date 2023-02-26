@@ -355,6 +355,9 @@ h2 {
 .content p {
   line-height: 1.8em;
 }
+.content p img {
+  margin: 10px 40px;
+}
 .posts {
   flex: 0 0 70%;
 }
