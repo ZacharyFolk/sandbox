@@ -720,13 +720,14 @@ function StoryBot() {
                     storyCreated && volume !== 0 ? 'fullstory' : ''
                   }`}
                 >
-                  {' '}
                   <div className='voiceContainer'>
                     <div className='circletalk'>
                       {showViz ? <CircleVisualization /> : <CircleStopped />}
                     </div>
                   </div>
-                  <div className='new-scroll storyOutput'> {speech}</div>
+                  <div className='fullstory-wrap'>
+                    <div className='new-scroll storyOutput'> {speech}</div>
+                  </div>
                   {/* TODO : Why won't typist work here? */}
                   {/* <Typist typingDelay={50}> {speech} </Typist> */}
                 </div>

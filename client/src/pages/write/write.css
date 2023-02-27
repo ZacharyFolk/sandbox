@@ -44,9 +44,16 @@
 }
 .cat-chooser {
   display: flex;
+  width: 100%;
+  margin: 40px 0;
+  padding: 20px;
+  background: rgb(143 204 233 / 35%);
+  justify-content: space-between;
   align-items: center;
-  width: 330px;
-  margin: 20px 0;
+}
+.cat-chooser div {
+  display: flex;
+  flex-direction: column;
 }
 .cat-chooser select {
   width: 200px;

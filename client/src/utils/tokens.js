@@ -11,12 +11,14 @@ const useAxiosJWT = () => {
 
   const refreshToken = async () => {
     try {
+      console.log('REFRESH TOKEN - user : ', user.refreshToken);
       const res = await axiosInstance.post('/auth/refresh', {
         token: user.refreshToken,
       });
       user.refreshToken = res.data.refreshToken;
       localStorage.setItem('user', JSON.stringify(user));
       user.accessToken = res.data.accessToken;
+
       return res.data;
     } catch (error) {
       console.log(error);
@@ -32,6 +34,7 @@ const useAxiosJWT = () => {
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
         console.log('TOKEN HAS EXPIRED, STARTING REFRESH FUNCTION');
         let data = await refreshToken();
+        console.log('DATA : ', data);
         config.headers['Authorization'] = 'Bearer ' + data.accessToken;
       } else {
         config.headers['Authorization'] = 'Bearer ' + user.accessToken;

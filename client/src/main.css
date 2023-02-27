@@ -568,7 +568,9 @@ h2 {
 .sidebar {
   width: 20%;
 }
-
+.cat-chooser select option::selected {
+  background-color: red;
+}
 .category-list {
   display: flex;
   flex-direction: column;

@@ -82,6 +82,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// GET A POSTS SELECTED CATS
+router.get('/cats/:id', async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).populate(
+      'categories',
+      '_id'
+    );
+    res.status(200).json(post.categories);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // GET ALL POSTS
 
 router.get('/', async (req, res) => {

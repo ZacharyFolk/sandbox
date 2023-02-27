@@ -16,7 +16,7 @@ export default function SinglePost() {
   const [desc, setDesc] = useState('');
   const [updateMode, setUpdateMode] = useState(false);
   const [draft, setDraft] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(new Set());
   const [allCategories, setAllCategories] = useState([]);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -29,6 +29,7 @@ export default function SinglePost() {
       .then((res) => setAllCategories(res.data))
       .catch((err) => console.log(err));
   }, []);
+
   const handleDelete = async () => {
     try {
       // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
@@ -51,7 +52,7 @@ export default function SinglePost() {
         title,
         desc,
         draft,
-        categories: categories.map((c) => c._id),
+        categories: [...categories],
       });
       window.location.reload();
       setUpdateMode(false);
@@ -59,25 +60,55 @@ export default function SinglePost() {
       console.log('Problem updating, error: ', error);
     }
   };
-  const handleSelectCategory = (e) => {
-    const selectedCategory = allCategories.find(
-      (c) => c._id === e.target.value
-    );
-    setCategories([...categories, selectedCategory]);
-  };
 
+  // const handleSelectCategory = (e) => {
+  //   const selectedCategory = allCategories.find(
+  //     (c) => c._id === e.target.value
+  //   );
+  //   setCategories([...categories, selectedCategory]);
+  // };
+
+  const handleSelectCategory = (e) => {
+    const selectedCategoryId = e.target.value;
+    setCategories((prevCategories) => {
+      const newCategories = new Set(prevCategories);
+      newCategories.add(selectedCategoryId);
+      return newCategories;
+    });
+  };
   useEffect(() => {
     const getPost = async () => {
       const res = await axiosInstance.get('/posts/' + postid);
       setPost(res.data);
       setTitle(res.data.title);
       setDesc(res.data.desc);
+      setDraft(res.data.draft);
+      let postCatsArray = res.data.categories;
+      postCatsArray.forEach((element) => {
+        categories.add(element);
+      });
     };
     getPost();
-  }, [postid]);
+  }, []);
+
+  // useEffect(() => {
+  //   console.log('categories', categories);
+  // }, [categories]);
+
   useEffect(() => {
     Prism.highlightAll();
   }, [desc]);
+
+  // useEffect(() => {
+  //   const getPostsCats = async () => {
+  //     const res = await axiosInstance.get('/posts/cats/' + postid);
+  //     console.log('Selected Categories : ', res.data);
+
+  //     console.log(typeof res.data);
+  //   };
+
+  //   getPostsCats();
+  // }, [categories]);
 
   if (!post) {
     return <div>Nothing here</div>;
@@ -132,14 +163,19 @@ export default function SinglePost() {
               </div>
               <div className='cat-chooser'>
                 <label>Categories</label>
-                <select multiple onChange={handleSelectCategory}>
-                  {allCategories.map((c) => (
-                    <option key={c._id} value={c._id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>{' '}
+                {allCategories.map((category) => (
+                  <div key={category._id}>
+                    <input
+                      type='checkbox'
+                      id={category._id}
+                      value={category._id}
+                      checked={categories.has(category._id)}
+                      onChange={handleSelectCategory}
+                    />
+                    <label htmlFor={category._id}>{category.name}</label>
+                  </div>
+                ))}
+              </div>
               <button className='singlePostButton' onClick={handleUpdate}>
                 Update
               </button>
