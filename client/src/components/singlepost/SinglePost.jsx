@@ -54,19 +54,12 @@ export default function SinglePost() {
         draft,
         categories: [...categories],
       });
-      window.location.reload();
+      //     window.location.reload();
       setUpdateMode(false);
     } catch (error) {
       console.log('Problem updating, error: ', error);
     }
   };
-
-  // const handleSelectCategory = (e) => {
-  //   const selectedCategory = allCategories.find(
-  //     (c) => c._id === e.target.value
-  //   );
-  //   setCategories([...categories, selectedCategory]);
-  // };
 
   const handleSelectCategory = (e) => {
     const selectedCategoryId = e.target.value;
@@ -91,14 +84,11 @@ export default function SinglePost() {
     getPost();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('categories', categories);
-  // }, [categories]);
-
   useEffect(() => {
     Prism.highlightAll();
   }, [desc]);
 
+  // This is prob unnecessary as post object fixed to only included selected cats
   // useEffect(() => {
   //   const getPostsCats = async () => {
   //     const res = await axiosInstance.get('/posts/cats/' + postid);
