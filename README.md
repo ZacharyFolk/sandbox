@@ -35,7 +35,7 @@ You can check it out on [zacs.website](https://www.zacs.website).
 
     Changelog
 
-### [1.2.0] - 2023-02-19
+### [1.2.0] - 2023-02-28
 
 #### Added
 
