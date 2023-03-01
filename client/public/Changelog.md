@@ -1,3 +1,19 @@
+### [1.2.0] - 2023-02-19
+
+#### Added
+
+- Testing out Google Analytics
+
+#### Updated
+
+- image uploads to posts
+- DRY the token methods
+
+#### Fixed
+
+- Initial access token
+- Default draft and category selections
+
 ### [1.1.1] - 2023-02-19
 
 #### Updated
