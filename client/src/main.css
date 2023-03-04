@@ -726,12 +726,15 @@ h2.about-heading {
   background: var(--dark);
   padding: 1rem;
   border-radius: 0.5rem;
-  max-width: 80%;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
 }
-.modal-content p.curse {
+#targetOutput p.curse {
   text-align: center;
-  padding: 0;
+  padding: 20px 0 0;
   margin: 0;
+  font-size: 2em;
 }
 .modal-close {
   position: absolute;

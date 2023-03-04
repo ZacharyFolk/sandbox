@@ -1,8 +1,5 @@
 # Zacs Website
 
-    ============================== [o] SANDBOX [o] ===================================
-
-
                                  _________________
                                 |  _____________  |
                                 | |             | |
@@ -12,7 +9,7 @@
                                 | |_____________| |
                                 |_________________|
                                     _[_______]_
-                                ___[___________]____
+                                 __[___________]____
                                 |        [_____] [*]|
                                 |        [_____] [ ]|
                                 |___________________|
@@ -21,7 +18,7 @@
                                 \-------------------/
 
 This is where I keep a blog and work on random javaScript experiments.
-The main focus is on learning, experimenting, and building fun stuff to play with.
+The main focus is on learning by experimenting and building random stuff to play with.
 Feel free to dig through the code base and check the blog for tutorials and videos on building
 some of the apps you can find on the site.
 

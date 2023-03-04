@@ -39,7 +39,7 @@ app.use(cors());
 //   console.log('file uploaded');
 // });
 app.use(express.json());
-app.use('/upload/', uploadRoute);
+app.use('/api/upload/', uploadRoute);
 app.use(middlewares.setHeaders);
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);

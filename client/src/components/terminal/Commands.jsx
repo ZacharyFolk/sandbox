@@ -2,7 +2,7 @@ import Typist from 'react-typist-component';
 import Modal from '../../utils/Modal';
 
 const CurseResponse = () => {
-  const ralphie = './images/ralphie.jpg';
+  const ralphie = '/images/ralphie.jpg';
   return (
     <>
       <Modal open={true} duration={4000}>
@@ -215,7 +215,7 @@ const TheInfo = () => {
 const InitialText = () => {
   return (
     <Typist typingDelay={100}>
-      <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 1.1.1 ****</h1>
+      <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 1.2.1 ****</h1>
     </Typist>
   );
 };

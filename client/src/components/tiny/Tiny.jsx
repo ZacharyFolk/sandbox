@@ -14,7 +14,7 @@ const Tiny = (props) => {
 
     try {
       const res = await axiosJWT.post(
-        'http://localhost:9999/upload/image',
+        process.env.REACT_APP_API_URL + 'upload/image',
         data
       );
       return res.data.location;
