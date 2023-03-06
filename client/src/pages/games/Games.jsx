@@ -64,10 +64,13 @@ export default function Games() {
     return (
       <div className='description'>
         <p>
-          This was a fun and challenging one, I wanted to play around with the
-          voice synthesizer built into our computers. There are 21 different
-          voices and controls to change the speed and pitch. You can make some
-          pretty funny combos to read a MadLibs style story that you create.
+          This was a challenging one, I wanted to play around with the voice
+          synthesizer built into our computers and have it read a story Mad Libs
+          style. There are 21 different voices and controls to change the speed
+          and pitch. You can make experiment with the settings and get some fun
+          voices. To test it out it reads random tounge twisters. This does not
+          work on phones at all, I got a little carried away with the UI.
+          Simpler version for phones coming soon.
         </p>
         <p className='game-link'>
           <Link to='/storytime'>Play the game!</Link>

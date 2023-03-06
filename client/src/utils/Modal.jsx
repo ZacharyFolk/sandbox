@@ -35,13 +35,16 @@ const Modal = ({ open, onClose, theme, duration, children }) => {
     <>
       {/* {!open && <button onClick={() => setShowModal(true)}>Open Modal</button>} */}
       <div className={`modal ${showModal ? 'open' : 'closed'}`}>
-        <div className={'modal-content ' + theme}>
+        <div className='modal-container'>
           {!duration && (
             <button className='modal-close' onClick={handleClose}>
               <i className='fa-regular fa-circle-xmark'></i>
             </button>
           )}
-          {children}
+          {/* Doing this to prevent 'undefined' being set as a class here  */}
+          <div className={`modal-content new-scroll ${theme ? theme : ''}`}>
+            {children}
+          </div>
         </div>
       </div>
     </>
