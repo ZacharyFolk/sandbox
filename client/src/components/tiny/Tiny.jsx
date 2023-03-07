@@ -37,7 +37,7 @@ const Tiny = (props) => {
           images_file_types: 'jpg,jpeg,gif,png,svg,webp',
           images_upload_handler: my_upload_handler,
           plugins:
-            'anchor lists advlist emoticons link autolink autoresize code codesample image',
+            'advlist anchor autolink autoresize autosave emoticons link lists code codesample image',
           selector: 'textarea',
           browser_spellcheck: true,
           contextmenu: false,
