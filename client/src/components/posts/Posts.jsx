@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import fetchCategories from './../../utils/Category';
 import Post from '../post/Post';
 
 export default function Posts({ posts }) {
   const [categories, setCategories] = useState([]);
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  });
+
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axiosInstance.get('/categories');
-        setCategories(data);
-      } catch (error) {
-        console.log(error.message);
-      }
+    const getCats = async () => {
+      let cats = await fetchCategories();
+      setCategories(cats);
     };
-    fetchCategories();
+    getCats();
   }, []);
   return (
     <>

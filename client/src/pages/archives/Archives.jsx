@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, Link } from 'react-router-dom';
 import Post from '../../components/post/Post';
+import fetchCategories from './../../utils/Category';
 
 export default function Archives(props) {
   const [posts, setPosts] = useState([]);
@@ -14,15 +15,11 @@ export default function Archives(props) {
   const categoryId = location.pathname.split('/')[2];
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axiosInstance.get('/categories');
-        setCategories(data);
-      } catch (error) {
-        console.log(error.message);
-      }
+    const getCats = async () => {
+      let cats = await fetchCategories();
+      setCategories(cats);
     };
-    fetchCategories();
+    getCats();
   }, []);
   useEffect(() => {
     const fetchPosts = async () => {

@@ -63,9 +63,14 @@ export default function SinglePost() {
 
   const handleSelectCategory = (e) => {
     const selectedCategoryId = e.target.value;
+    const isChecked = e.target.checked;
     setCategories((prevCategories) => {
       const newCategories = new Set(prevCategories);
-      newCategories.add(selectedCategoryId);
+      if (isChecked) {
+        newCategories.add(selectedCategoryId);
+      } else {
+        newCategories.delete(selectedCategoryId);
+      }
       return newCategories;
     });
   };
