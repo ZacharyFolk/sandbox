@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 
 let transporter = nodemailer.createTransport({
-  host: 'az1-ts9.a2hosting.com',
+  host: process.env.MAIL_ROUTE,
   port: 465,
   auth: {
     user: process.env.MAIL_USERNAME,
