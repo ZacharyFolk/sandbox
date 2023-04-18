@@ -39,7 +39,7 @@ router.post(
   (req, res) => {
     res
       .status(200)
-      .send({ location: 'https://api.zacs.website/api/' + req.file.path });
+      .send({ location: 'https://api.zacs.website/' + req.file.path });
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });
