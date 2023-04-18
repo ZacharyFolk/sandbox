@@ -33,11 +33,7 @@ mongoose
 // });
 // const upload = multer({ storage: storage });
 
-app.use(
-  cors({
-    origin: 'https://zacs.website',
-  })
-);
+app.use(cors());
 // app.post('/api/upload', upload.single('file'), (req, res) => {
 //   res.status(200).json('File has been uploaded');
 //   console.log('file uploaded');

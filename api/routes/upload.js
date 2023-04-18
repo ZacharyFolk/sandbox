@@ -37,7 +37,9 @@ router.post(
   verify,
   imageUpload.single('file'),
   (req, res) => {
-    res.status(200).send({ location: 'https://zacs.website/' + req.file.path });
+    res
+      .status(200)
+      .send({ location: 'https://api.zacs.website/api/' + req.file.path });
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });
