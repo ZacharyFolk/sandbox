@@ -1,3 +1,14 @@
+### [1.2.2] - 2023-03-06
+
+#### Fixed
+
+- More Modal bugs
+- Broken image paths in blog
+
+#### Added
+
+- This months project
+
 ### [1.2.1] - 2023-03-06
 
 #### Fixed

@@ -759,6 +759,39 @@ h2.about-heading {
   animation: fadein 0.5s;
 }
 
+/* Fixing for games / TODO : Make this default? */
+
+.games .modal-container {
+  top: 120px;
+  position: absolute;
+  width: 50%;
+  padding: 20px;
+  border: 1px solid;
+  left: 25%;
+  background: #000;
+}
+.games .modal-close {
+  position: absolute;
+  top: 0.1em;
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 2em;
+  cursor: pointer;
+  opacity: 0.7;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  right: 0.3em;
+  z-index: 101;
+}
+.games .modal-content {
+  left: 0;
+  background: transparent;
+  max-width: 100%;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;

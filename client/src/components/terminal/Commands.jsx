@@ -215,7 +215,7 @@ const TheInfo = () => {
 const InitialText = () => {
   return (
     <Typist typingDelay={100}>
-      <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 1.2.1 ****</h1>
+      <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 1.2.2 ****</h1>
     </Typist>
   );
 };

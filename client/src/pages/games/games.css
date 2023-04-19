@@ -19,21 +19,19 @@ h1.games {
   margin: 0 auto;
   cursor: pointer;
   opacity: 0.7;
-  border: 3px solid;
+  border: 15px solid #000;
 }
 .game img:hover {
   opacity: 1;
 }
 .title {
   font-size: 1.4em;
-  border-bottom: 1px dashed;
   margin-bottom: 10px;
 }
 .game .description {
   padding: 20px;
 }
 .game-link {
-  text-decoration: underline;
   text-align: center;
   color: var(--primary-color);
   font-weight: 600;
