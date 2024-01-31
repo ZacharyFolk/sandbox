@@ -1,0 +1,120 @@
+:root {
+  --primary-color: #5bf870;
+  --secondary-color: #2e7938;
+
+  --dos-white: #c7e4cb;
+  --lighter: #e3f0e5;
+  --dark: #050505;
+  --bg: #05321e;
+}
+
+/* Yea this sucks but I am done wrestling with MUI for now */
+
+.full-width-hack {
+  max-width: 100% !important;
+}
+
+.no-padding-hack {
+  padding: 0;
+}
+
+/* still sucks */
+.main-grid {
+  max-width: 98% !important;
+}
+#textContainer {
+  text-align: left;
+}
+
+.terminal {
+  position: relative;
+  height: 30vw;
+  min-height: 420px;
+  padding: 4rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+  /* text-transform: uppercase;
+    animation: textShadow 4s infinite; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
+  font-family: 'VT323', monospace;
+  font-size: 1.6rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  background: var(--bg);
+  background-image: radial-gradient(ellipse, var(--bg) 0%, var(--dark) 90%);
+}
+[contenteditable] {
+  caret-color: transparent; /** This hides the default browser caret */
+  outline: none;
+}
+.terminal-input {
+  white-space: pre-wrap;
+  width: 100%;
+}
+.terminal-input:before {
+  content: 'Z:\\> ';
+}
+.terminal-input[contenteditable='true']:after,
+.typer.active:after {
+  content: '■';
+  animation: cursor 1s infinite;
+  animation-timing-function: step-end;
+  margin-left: 1px;
+  line-height: 1rem;
+}
+
+.crt {
+  font-family: '"VT323", monospace';
+  color: var(--primary-color);
+}
+
+.monitor {
+  background-color: #202020;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  padding: 4rem;
+  margin: 40px auto;
+  color: var(--dos-white);
+  max-width: 1400px;
+  height: 100%;
+}
+
+.bezel {
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  bottom: 5%;
+  border: 10px solid #0f0f0f;
+  border-radius: 15px;
+}
+
+.switch {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  width: 30px;
+  height: 15px;
+  background-color: #666;
+  border-radius: 7px;
+}
+
+.switch-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}

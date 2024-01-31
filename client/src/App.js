@@ -16,13 +16,14 @@ import Games from './pages/games/Games';
 import Trivia from './pages/trivia/Trivia';
 import Archives from './pages/archives/Archives';
 import { Context } from './context/Context';
-import './main.css';
+// import './main.css';
 import './animation.css';
 import './prism/prism.css';
 import Favicon from 'react-favicon';
 import blinky from './blinky';
 import { InitialText } from './components/terminal/Commands';
-import StoryTime from './pages/storytime/StoryTime';
+// import StoryTime from './pages/storytime/StoryTime';
+import { Container } from '@mui/material';
 export default function App() {
   const { user } = useContext(Context);
   // const [value, parseIt] = setPath();
@@ -34,37 +35,33 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <div id='main' className={`main ${location.pathname.substring(1)}`}>
-      <div id='crt'>
-        <div className='scanline'></div>
-
-        {/* Routes nest inside one another. Nested route paths build upon
+    <Container className="full-width-hack no-padding-hack">
+      {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
-        <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/blog' element={<Blog />} />{' '}
-            <Route path='/archives/:archiveId' element={<Archives />} />
-            {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
-            <Route path='/games' element={<Games />} />{' '}
-            <Route path='/contact' element={<Contact />} />
-            <Route path='/cagematch' element={<Cagematch />} />
-            <Route path='/trivia' element={<Trivia />} />{' '}
-            <Route path='/storytime' element={<StoryTime />} />
-            <Route path='/login' element={user ? <Home /> : <Login />} />
-            <Route path='/write' element={user ? <Write /> : <Home />} />
-            <Route path='/post/:postId' element={<Single />} />
-            <Route path='/settings' element={user ? <Settings /> : <Home />} />
-            {/* Using path="*"" means "match anything", so this route
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />,
+          <Route path="/archives/:archiveId" element={<Archives />} />
+          {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
+          <Route path="/games" element={<Games />} />{' '}
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/cagematch" element={<Cagematch />} />
+          <Route path="/trivia" element={<Trivia />} />{' '}
+          {/* <Route path="/storytime" element={<StoryTime />} /> */}
+          <Route path="/login" element={user ? <Home /> : <Login />} />
+          <Route path="/write" element={user ? <Write /> : <Home />} />
+          <Route path="/post/:postId" element={<Single />} />
+          <Route path="/settings" element={user ? <Settings /> : <Home />} />
+          {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
-            <Route path='*' element={<NoMatch />} />
-          </Route>
-        </Routes>
-      </div>
-    </div>
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+      </Routes>
+    </Container>
   );
 }
 
@@ -74,22 +71,22 @@ function Layout() {
   const [output, setOutput] = useState(InitialText);
 
   return (
-    <div>
+    <>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
       <Favicon url={blinky} animationDelay={500} iconSize={16} />
-      <Terminal
+      {/* <Terminal
         command={command}
         setCommand={setCommand}
         output={output}
         setOutput={setOutput}
-      />
+      /> */}
 
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
       <Outlet />
-    </div>
+    </>
   );
 }
 
@@ -98,7 +95,7 @@ function NoMatch() {
     <div>
       <h2>Nothing to see here!</h2>
       <p>
-        <Link to='/'>Go to the home page</Link>
+        <Link to="/">Go to the home page</Link>
       </p>
     </div>
   );

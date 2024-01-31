@@ -15,6 +15,7 @@ const discoRoute = require('./discogs/discoRoutes.js');
 const emailRoute = require('./email/emailRoute');
 const uploadRoute = require('./routes/upload');
 dotenv.config();
+console.log(process.env.MONGO_URL);
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

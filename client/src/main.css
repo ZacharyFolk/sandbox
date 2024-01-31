@@ -130,7 +130,6 @@ input {
   width: 100%;
   border: 1px solid var(--secondary-color);
   background-color: var(--light);
-
   padding: 10px 0 10px 20px;
 }
 textarea {
