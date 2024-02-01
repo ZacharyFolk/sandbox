@@ -21,7 +21,7 @@ export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
   const inputRef = useRef();
-  const { output, setOutput } = props;
+  const { output, setOutput, viewPrompt, power } = props;
 
   const { user } = useContext(Context);
   // const [command, setCommand] = useState('');
@@ -52,7 +52,6 @@ export default function Terminal(props) {
   //   );
   // };
 
-
   const handleKeys = (e) => {
     // let len = this.keys.length;
     // this.setState({ number: Math.floor(Math.random() * len) });
@@ -68,7 +67,7 @@ export default function Terminal(props) {
         e.preventDefault();
         let typed = e.target.textContent.toLowerCase();
         e.target.innerHTML = '';
-         setOutput('');
+        setOutput('');
         updateCommand(typed);
         setEnter(true);
         break;
@@ -190,25 +189,27 @@ export default function Terminal(props) {
     console.log('COMMAND CHANGED ', command);
   }, [command, enter]);
 
-
   const monitorClickHandler = () => {
-
-
-    console.log('neat o');
+    // click anywhere to focus on the input
     console.log(inputRef.current);
-    inputRef.current.focus()
-  }
+    inputRef.current.focus();
+  };
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column', }} onClick = {monitorClickHandler} className='terminal'> 
-        <div id='targetOutput'>  {output}  </div>
-
-            <span
-              className='terminal-input'
-              contentEditable='true'
-              suppressContentEditableWarning={true}
-              onKeyDown={(e) => handleKeys(e)}
-              ref={inputRef}
-            ></span>
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column' }}
+      onClick={monitorClickHandler}
+      className={`terminal ${!power && 'terminal-off'}`}
+    >
+      <div id="targetOutput"> {output} </div>
+      {viewPrompt && (
+        <span
+          className="terminal-input"
+          contentEditable="true"
+          suppressContentEditableWarning={true}
+          onKeyDown={(e) => handleKeys(e)}
+          ref={inputRef}
+        ></span>
+      )}
     </Box>
   );
 }

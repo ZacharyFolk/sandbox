@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, Link } from 'react-router-dom';
 import Post from '../../components/post/Post';
-import fetchCategories from './../../utils/Category';
+import fetchCategories from '../../utils/Category';
 
 export default function Archives(props) {
   const [posts, setPosts] = useState([]);
@@ -35,9 +35,9 @@ export default function Archives(props) {
   }, [categoryId]);
 
   return (
-    <div className='container main blog'>
-      <div className='post-wrapper'>
-        <div className='posts-container'>
+    <div className="container main blog">
+      <div className="post-wrapper">
+        <div className="posts-container">
           <h2>Posts for Category: {category}</h2>
           <ul>
             {posts.map((p, i) => (
@@ -46,8 +46,8 @@ export default function Archives(props) {
           </ul>
         </div>
       </div>
-      <div className='sidebar'>
-        <div className='category-list'>
+      <div className="sidebar">
+        <div className="category-list">
           <h2>Categories</h2>
           <ul>
             {categories.map((category) => (

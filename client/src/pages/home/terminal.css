@@ -1,11 +1,10 @@
 :root {
   --primary-color: #5bf870;
   --secondary-color: #2e7938;
-
   --dos-white: #c7e4cb;
   --lighter: #e3f0e5;
   --dark: #050505;
-  --bg: #05321e;
+  --bg: #041b11;
 }
 
 /* Yea this sucks but I am done wrestling with MUI for now */
@@ -15,22 +14,24 @@
 }
 
 .no-padding-hack {
-  padding: 0;
+  padding: 0 !important;
 }
 
 /* still sucks */
 .main-grid {
   max-width: 98% !important;
 }
+
 #textContainer {
   text-align: left;
 }
 
 .terminal {
   position: relative;
+  overflow-y: hidden;
   height: 30vw;
   min-height: 420px;
-  padding: 4rem;
+  padding: 1rem 3rem 2rem;
   overflow-y: auto;
   overflow-x: hidden;
   word-break: break-word;
@@ -48,9 +49,33 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
   background-image: radial-gradient(ellipse, var(--bg) 0%, var(--dark) 90%);
 }
+
+.terminal-off {
+  animation: terminalBlinkOut 1s forwards;
+}
+@keyframes terminalBlinkOut {
+  0% {
+    background-color: var(--bg);
+    background-size: 100% 100%;
+    opacity: 1;
+  }
+  80% {
+    background-color: #000;
+    background-size: 2% 2%; /* Small size */
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #000;
+
+    background-size: 0;
+  }
+}
+
 [contenteditable] {
   caret-color: transparent; /** This hides the default browser caret */
   outline: none;
@@ -81,11 +106,12 @@
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  padding: 4rem;
+  padding: 3rem;
   margin: 40px auto;
   color: var(--dos-white);
   max-width: 1400px;
-  height: 100%;
+  height: 90%;
+  background-image: url('data:image/webp;base64,UklGRggEAABXRUJQVlA4TPsDAAAvL8ALAHcgkE12j/xVU1iO5Zj/7DCgLQBgm8Z5vPEB63WZzO6SculuIxDdGYxLF44tWyZdGQZBd43ASacRsmVfFw0kTnfLcvLa3T7f+oL+x/6EiP4/QqLV8mwMVEZdnNjYHuIPZ5S3tLv8i8eE7620oV3XDBpjDZx1JkQAsmBgVRsJwne63fFsxSLmRKXYtjygI92oKbSoZbCTCcdHpQcgP003Ci6vF+JcGqQcQFMCfQD3Nom/cYKihJlWSBeLeHOQMTdVVnG3zLhj0IcQ5IPPg+j2Z/9s5fzxJsqPIqnDEf5yfpIeaFSWciZBL21UdHxYnzCJeyJcfXwXp/fFiCNJTDo1HC8O5zFkaXwEo0UlBEHrTfdAF5Zj7mNDGqCWYFIT7cI1qBuXPQ7DUq74zVrg9auLL7oC0czjdpWQ+PfY7fDz7Xq1jPUuurzlnqxFHBcl3r3+swcuEJ6l89IWf3jz+wd5sEuaOa1Ss99Um++4F1MjT0tAN2IpMbk/s4b88UAdD/cf3NtMh/kexlmVO/4fscLWgvDSNYBFxBcT0LR/VaRymDLY1JdFzZh9CxfV7EkelkI9th4ibyXL7LpQ59qbZHVpvKna0UH6rQ1XDeOfPTnE/A0YgOxDD0J/hA/7cDlFn7aWRH0zpeNbTnoJkzIszi+S+wmZTdL1mt0rJ6FXZ3aY3G6YaCC5eE//DXCCvBJ4H4UMK+whgPCwHqOeUGSmG5evTfIAaJlz7d1SS0D5L7uYU8TUNb4XFjcv9gwo0nkl06AYJ6qEbFhJj7vlnWTUr+68mBSIdh+vy8RIhrAVtyUSfFC5rJeX36yL80KAkaI2NGgH82EETNGjDcANVhP+J8d4nm4UkmhkIJYvVxuuNROaVVrpCCFAXHFbQWmu4BsZZ+neayKZjj3Y6HKRWYvzpDtmYWK7E2z5sMR62fG9ekYG25thpwe2+V7nh3jFNrNm6UUL4Dp+nAeJZUOhFhRY7vD3QyEx5MzxiSivlMPZAK7g3fTnRzCyQ2e2UUUDOYm/1H9zgB2VhbI5El4RfoeGeH+6jklllKTWpZ8M2MYVwZa6WTODX5Yx/4VKhZy6KubiXG3oSp7nPWxNim2dr0AU+IgxGY8e0RLMjWBKmPszEvKVQE29s6t5eLHIx7PYIuKMKrpVH4uSYh5UCsAj2G6d6u7Y2/IscmnUBjA/LJ9bu94RIZTX3xB6rCl4Pjm3xlxfSOsCYwvdfsHvFGdaXsPQMt8FQl9y/k82gjx5Cte+I8M0I59Wc0B4rGweAxWZZQp2cFwAJ8LnuPlTWbtDQJmvxu2HW3xrpOQH9PDX+biHIjKIGYbWeN3J9wcQvP/BlXIDMk7zbrYZdC+pCQA=');
 }
 
 .bezel {
@@ -97,24 +123,155 @@
   border-radius: 15px;
 }
 
-.switch {
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
-  width: 30px;
-  height: 15px;
-  background-color: #666;
-  border-radius: 7px;
+.switch-container {
 }
 
-.switch-handle {
+/* The switch - the box around the slider */
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 5em;
+  height: 2.5em;
+  user-select: none;
+}
+
+/* Hide default HTML checkbox */
+.switch .cb {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.toggle {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  background-color: #ccc;
-  border-radius: 50%;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: #373737;
+  border-radius: 0.1em;
+  transition: 0.4s;
+  text-transform: uppercase;
+  font-weight: 700;
+  overflow: hidden;
+  box-shadow:
+    -0.3em 0 0 0 #373737,
+    -0.3em 0.3em 0 0 #373737,
+    0.3em 0 0 0 #373737,
+    0.3em 0.3em 0 0 #373737,
+    0 0.3em 0 0 #373737;
+}
+
+.toggle > .left {
+  position: absolute;
+  display: flex;
+  width: 50%;
+  height: 88%;
+  background-color: #f3f3f3;
+  color: #373737;
+  left: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  transform-origin: right;
+  transform: rotateX(10deg);
+  transform-style: preserve-3d;
+  transition: all 150ms;
+}
+
+.left::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgb(206, 206, 206);
+  transform-origin: center left;
+  transform: rotateY(90deg);
+}
+
+.left::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgb(112, 112, 112);
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+}
+
+.toggle > .right {
+  position: absolute;
+  display: flex;
+  width: 50%;
+  height: 88%;
+  background-color: #f3f3f3;
+  color: rgb(206, 206, 206);
+  right: 1px;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left;
+  transform: rotateX(10deg) rotateY(-45deg);
+  transform-style: preserve-3d;
+  transition: all 150ms;
+}
+
+.right::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgb(206, 206, 206);
+  transform-origin: center right;
+  transform: rotateY(-90deg);
+}
+
+.right::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgb(112, 112, 112);
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+}
+
+.switch input:checked + .toggle > .left {
+  transform: rotateX(10deg) rotateY(45deg);
+  color: rgb(206, 206, 206);
+}
+
+.switch input:checked + .toggle > .right {
+  transform: rotateX(10deg) rotateY(0deg);
+  color: var(--secondary-color);
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 3em;
+}
+.light {
+  margin: 3.5em 2em 0 0;
+}
+.led {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+.led-on {
+  background-color: #abff00;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+    inset #304701 0 -1px 9px,
+    #89ff00 0 2px 12px;
+}
+
+.led-off {
+  background-color: #3e4625;
+  box-shadow:
+    rgb(90 90 90 / 20%) 0 -1px 7px 1px,
+    inset #525252 0 -1px 9px,
+    #090909 0 2px 12px;
 }

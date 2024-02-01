@@ -3,8 +3,8 @@ import { TerminalContext } from '../../context/TerminalContext';
 import selfie from './../../images/matrix-me-small.jpg';
 import { SocialIcon } from 'react-social-icons';
 import Typist from 'react-typist-component';
-import Git from './../../components/git/Git';
-import Discogs from './../../components/discogs/Discogs';
+import Git from '../../components/git/Git';
+import Discogs from '../../components/discogs/Discogs';
 import { useContext, useEffect } from 'react';
 import GitIssues from '../../components/git/GitIssues';
 import Updates from '../../components/updates/Updates';
@@ -16,10 +16,10 @@ export default function About() {
 
   return (
     <>
-      <div className='container about-page-container'>
-        <div className='row'>
-          <div className='col about-col'>
-            <h2 className='about-heading'>About this website</h2>
+      <div className="container about-page-container">
+        <div className="row">
+          <div className="col about-col">
+            <h2 className="about-heading">About this website</h2>
             <p>
               Welcome to my website, you can find out more about my work as a
               front-end developer and explore some of my experiments and
@@ -43,7 +43,7 @@ export default function About() {
               they were built and hopefully help others on their coding journey!
             </p>
           </div>
-          <div className='about-sidebar'>
+          <div className="about-sidebar">
             <Updates />
 
             <GitIssues />

@@ -16,6 +16,11 @@ const darkTheme = createTheme({
     MuiContainer: {
       maxWidth: '99%',
     },
+    MuiTypography: {
+      h4: {
+        fontFamily: 'VT323',
+      },
+    },
   },
 });
 
