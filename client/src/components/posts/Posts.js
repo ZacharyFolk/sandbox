@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import fetchCategories from './../../utils/Category';
+import fetchCategories from '../../utils/Category';
 import Post from '../post/Post';
 
 export default function Posts({ posts }) {
@@ -15,16 +15,16 @@ export default function Posts({ posts }) {
   }, []);
   return (
     <>
-      <div className='post-wrapper'>
+      <div className="post-wrapper">
         <h2>Latest Posts</h2>
-        <div className='posts-container new-scroll'>
+        <div className="posts-container new-scroll">
           {posts.map((p, i) => (
             <Post key={i} post={p} />
           ))}
         </div>
       </div>
-      <div className='sidebar'>
-        <div className='category-list'>
+      <div className="sidebar">
+        <div className="category-list">
           <h2>Categories</h2>
           <ul>
             {categories.map((category) => (

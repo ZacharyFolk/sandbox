@@ -17,6 +17,8 @@ import Typist from 'react-typist-component';
 import MenuIcon from '@mui/icons-material/Menu';
 import Terminal from '../../components/terminal/Terminal';
 import { TerminalContext } from '../../context/TerminalContext';
+import { FetchLatestPost } from '../../components/posts/FetchLatestPost';
+import Portfolio from '../../components/projects/Portfolio';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -229,29 +231,14 @@ export default function Home() {
                   Latest Post
                 </Typography>
                 <Divider />
-                <p>
-                  My favorite way to learn is to actually create something that
-                  I can play with when it is finished.&nbsp; A card matching
-                  game is a good introduction to some key concepts like storing
-                  data and managing arrays. I will also talk about some key
-                  React concepts like states and effects.&nbsp; &nbsp;You can
-                  find a version of this (where I got a little carried away with
-                  the sounds)
-                </p>
-
-                <p>
-                  My favorite way to learn is to actually create something that
-                  I can play with when it is finished.&nbsp; A card matching
-                  game is a good introduction to some key concepts like storing
-                  data and managing arrays. I will also talk about some key
-                  React concepts like states and effects.&nbsp; &nbsp;You can
-                  find a version of this (where I got a little carried away with
-                  the sounds)
-                </p>
+                <FetchLatestPost />
               </Box>
             </Grid>
           </Grid>
         </Box>
+
+        <Divider sx={{ mb: 4, mt: 2 }} />
+        <Portfolio />
       </Container>
     </Container>
   );

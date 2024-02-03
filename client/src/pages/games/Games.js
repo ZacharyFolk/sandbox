@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { TerminalContext } from './../../context/TerminalContext';
+import { TerminalContext } from '../../context/TerminalContext';
 import { Link } from 'react-router-dom';
 import './games.css';
 import Modal from '../../utils/Modal';
@@ -18,25 +18,25 @@ export default function Games() {
 
   const aboutCage = () => {
     return (
-      <div className='description'>
+      <div className="description">
         <p>
           This is a little matching game and an example of myself really rolling
           with a bad punny idea. It was a fun exercise working with arrays and
           React's state management. The sounds are kind of obnoxious so be
           forewarned if you are so bold to challenge the Cage.
         </p>
-        <p className='game-link'>
-          <Link to='/cagematch'>Play the game!</Link>
+        <p className="game-link">
+          <Link to="/cagematch">Play the game!</Link>
         </p>
       </div>
     );
   };
   const aboutJeopardy = () => {
     return (
-      <div className='description'>
+      <div className="description">
         <p>
           This uses the API:
-          <a href='https://jservice.io/' rel='noreferrer' target='_blank'>
+          <a href="https://jservice.io/" rel="noreferrer" target="_blank">
             jService
           </a>{' '}
           which has over 200,000 Trivia questions from decades of Jeopardy.
@@ -56,15 +56,15 @@ export default function Games() {
           updates will be to make it mobile freindly and add a leadereboard and
           final jeopardy where you can bet it all!
         </p>
-        <p className='game-link'>
-          <Link to='/trivia'>Play the game!</Link>
+        <p className="game-link">
+          <Link to="/trivia">Play the game!</Link>
         </p>
       </div>
     );
   };
   const aboutStorybot = () => {
     return (
-      <div className='description'>
+      <div className="description">
         <p>
           This was a challenging one, I wanted to play around with the voice
           synthesizer built into our computers and have it read a story Mad Libs
@@ -74,8 +74,8 @@ export default function Games() {
           work on phones at all right now, I got a little carried away with the
           UI.
         </p>
-        <p className='game-link'>
-          <Link to='/storytime'>Play the game!</Link>
+        <p className="game-link">
+          <Link to="/storytime">Play the game!</Link>
         </p>
       </div>
     );
@@ -83,7 +83,7 @@ export default function Games() {
 
   const aboutMJ = () => {
     return (
-      <div className='description'>
+      <div className="description">
         <p>
           For this month I built a tool to help create prompts for the AI art
           generator, MidJourney. I made it very easy to update so thousands of
@@ -91,8 +91,8 @@ export default function Games() {
           a good exercise to write the React app as efficient as possible using
           memoization.
         </p>
-        <p className='game-link'>
-          <a href='https://midjourney-tool.zacs.website'>Check it out!</a>
+        <p className="game-link">
+          <a href="https://midjourney-tool.zacs.website">Check it out!</a>
         </p>
       </div>
     );
@@ -108,8 +108,8 @@ export default function Games() {
   }
   return (
     <>
-      <div className='container'>
-        <h1 className='games'>Random Projects</h1>
+      <div className="container">
+        <h1 className="games">Random Projects</h1>
         <p>
           Here are some projects I built for learning and practice. They are
           rough, and not great on phones, but were meant to challenge me with
@@ -117,47 +117,47 @@ export default function Games() {
           else. My goal is to make at least one a month for 2023. Check on the
           blog for more information about how they were built. Enjoy!
         </p>
-        <div className='gamegrid'>
-          <div className='game'>
-            <div className='title'>January</div>
+        <div className="gamegrid">
+          <div className="game">
+            <div className="title">January</div>
 
             <img
               onClick={() => {
                 handleModalOpen(aboutCage);
               }}
               src={cagematch}
-              alt='Title screen for cagematch'
+              alt="Title screen for cagematch"
             />
           </div>
-          <div className='game'>
-            <div className='title'>February</div>
+          <div className="game">
+            <div className="title">February</div>
 
             <img
               onClick={() => {
                 handleModalOpen(aboutJeopardy);
               }}
               src={triva}
-              alt='Title screen for trivia game'
+              alt="Title screen for trivia game"
             />
           </div>
-          <div className='game'>
-            <div className='title'>March</div>
+          <div className="game">
+            <div className="title">March</div>
             <img
               onClick={() => {
                 handleModalOpen(aboutStorybot);
               }}
               src={storybot}
-              alt='Title screen for storybot'
+              alt="Title screen for storybot"
             />
           </div>
-          <div className='game'>
-            <div className='title'>April</div>
+          <div className="game">
+            <div className="title">April</div>
             <img
               onClick={() => {
                 handleModalOpen(aboutMJ);
               }}
               src={midjourney}
-              alt='Midjourney Prompt Helper Tool'
+              alt="Midjourney Prompt Helper Tool"
             />
           </div>
         </div>
