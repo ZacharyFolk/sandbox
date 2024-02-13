@@ -4,11 +4,6 @@ const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
-
-
-export const getLatestPost = () => {
-
-    const res = await axiosInstance.get('/posts');
-
-
-}
+export const getLatestPost = async () => {
+  const res = await axiosInstance.get('/posts');
+};

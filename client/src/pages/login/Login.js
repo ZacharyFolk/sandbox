@@ -22,6 +22,7 @@ export default function Login() {
       console.log('payload: res.data =>', res.data);
 
       dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+      console.log('Login success... now what? ', res.data);
     } catch (error) {
       console.log('Dispatch LOGIN_FAILURE from login.jsx');
       console.log(error);
@@ -30,24 +31,24 @@ export default function Login() {
   };
 
   return (
-    <div className='login'>
-      <span className='loginTitle'>LOGIN</span>
-      <form className='loginForm' onSubmit={handleSubmit}>
-        <label htmlFor=''>Username</label>
+    <div className="login">
+      <span className="loginTitle">LOGIN</span>
+      <form className="loginForm" onSubmit={handleSubmit}>
+        <label htmlFor="">Username</label>
         <input
-          type='text'
-          className='loginInput'
-          placeholder='Enter your username'
+          type="text"
+          className="loginInput"
+          placeholder="Enter your username"
           ref={userRef}
         />
         <label>Password</label>
         <input
-          type='password'
-          className='loginInput'
-          placeholder='Enter your password.. '
+          type="password"
+          className="loginInput"
+          placeholder="Enter your password.. "
           ref={passwordRef}
         />
-        <button className='loginButton' type='submit' disabled={isFetching}>
+        <button className="loginButton" type="submit" disabled={isFetching}>
           LOGIN
         </button>
       </form>

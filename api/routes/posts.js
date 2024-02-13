@@ -72,11 +72,20 @@ router.delete('/:id', verify, async (req, res) => {
   }
 });
 
-// GET POST
+// GET POST BY ID OR LATEST PUBLISHED POST
 router.get('/:id', async (req, res) => {
+  console.log(req.params);
   try {
-    const post = await Post.findById(req.params.id);
-    res.status(200).json(post);
+    if (req.params.id === 'latest') {
+      const latestPost = await Post.findOne({ draft: false })
+        .sort({ createdAt: 'desc' })
+        .limit(1);
+
+      res.status(200).json(latestPost);
+    } else {
+      const post = await Post.findById(req.params.id);
+      res.status(200).json(post);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -114,6 +123,19 @@ router.get('/', async (req, res) => {
       posts = await Post.find();
     }
     res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// GET LATEST PUBLISHED POST
+router.get('/latest', async (req, res) => {
+  try {
+    const latestPost = await Post.findOne({ draft: false })
+      .sort({ createdAt: 'desc' })
+      .limit(1);
+
+    res.status(200).json(latestPost);
   } catch (error) {
     res.status(500).json(error);
   }
