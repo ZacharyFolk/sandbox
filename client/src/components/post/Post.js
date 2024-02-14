@@ -20,25 +20,25 @@ export default function Post({ post }) {
 
   return (
     (!post.draft || (post.draft && user)) && (
-      <div className='post'>
-        {post.photo && <img src={PF + post.photo} alt='' className='postImg' />}
+      <div className="post">
+        {post.photo && <img src={PF + post.photo} alt="" className="postImg" />}
         {console.log('what', post.draft)}{' '}
-        <div className='postInfo'>
+        <div className="postInfo">
           {/* <div className='postCats'>
         {post.categories.map((c) => (
           <span className='postCat'>{c.name}</span>
         ))}
       </div> */}
 
-          <span className='post-heading'>
+          <span className="post-heading">
             <b>{post.title}</b> -rw-r--r-- root {time}
           </span>
         </div>
         <p
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(excerpt) }}
         ></p>
-        <div className='post-link'>
-          <Link to={`/post/${post._id}`} className='full-post'>
+        <div className="post-link">
+          <Link to={`/post/${post._id}`} className="full-post">
             Read the full post &gt;
           </Link>
         </div>

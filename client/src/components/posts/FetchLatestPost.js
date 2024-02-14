@@ -50,6 +50,7 @@ export const FetchLatestPost = () => {
 
   useEffect(() => {
     const fetchLatestPost = async () => {
+      console.log('Fetching latest post... ');
       try {
         const response = await axiosInstance.get('/posts/latest');
         const fetchedLatestPost = response.data;

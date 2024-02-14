@@ -1,23 +1,33 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import useAxiosJWT from '../../utils/tokens';
 import Tiny from '../tiny/Tiny';
 import Prism from 'prismjs';
-export default function SinglePost() {
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+const SinglePost = () => {
   const location = useLocation();
-  // get the id for the post from pathname
   const postid = location.pathname.split('/')[2];
   const [post, setPost] = useState({});
-  const PF = 'http://localhost:9999/images/'; // Public Folder of API server
   const { user } = useContext(Context);
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [updateMode, setUpdateMode] = useState(false);
-  const [draft, setDraft] = useState(false);
-  const [categories, setCategories] = useState(new Set());
+  const [formData, setFormData] = useState({
+    title: '',
+    desc: '',
+    draft: false,
+    categories: new Set(),
+  });
   const [allCategories, setAllCategories] = useState([]);
+  const [updateMode, setUpdateMode] = useState(false); // Added updateMode state
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
@@ -30,15 +40,26 @@ export default function SinglePost() {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    const getPost = async () => {
+      const res = await axiosInstance.get('/posts/' + postid);
+      setPost(res.data);
+      setFormData({
+        title: res.data.title,
+        desc: res.data.desc,
+        draft: res.data.draft,
+        categories: new Set(res.data.categories),
+      });
+    };
+    getPost();
+  }, []);
+
   const handleDelete = async () => {
     try {
-      // from posts API  :  if (post.username === req.body.username), can send as data directly with delete method
-
       await axiosJWT.delete(`/posts/${post._id}`, {
         headers: { Authorization: 'Bearer ' + user.accessToken },
         data: { username: user.username },
       });
-
       window.location.replace('/');
     } catch (error) {
       console.log('Delete did not work', 'Error: ', error);
@@ -49,12 +70,9 @@ export default function SinglePost() {
     try {
       await axiosJWT.put(`/posts/${post._id}`, {
         username: user.username,
-        title,
-        desc,
-        draft,
-        categories: [...categories],
+        ...formData,
+        categories: [...formData.categories],
       });
-      //     window.location.reload();
       setUpdateMode(false);
     } catch (error) {
       console.log('Problem updating, error: ', error);
@@ -64,122 +82,110 @@ export default function SinglePost() {
   const handleSelectCategory = (e) => {
     const selectedCategoryId = e.target.value;
     const isChecked = e.target.checked;
-    setCategories((prevCategories) => {
-      const newCategories = new Set(prevCategories);
-      if (isChecked) {
-        newCategories.add(selectedCategoryId);
-      } else {
-        newCategories.delete(selectedCategoryId);
-      }
-      return newCategories;
-    });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      categories: isChecked
+        ? new Set([...prevFormData.categories, selectedCategoryId])
+        : new Set(
+            [...prevFormData.categories].filter(
+              (cat) => cat !== selectedCategoryId
+            )
+          ),
+    }));
   };
-  useEffect(() => {
-    const getPost = async () => {
-      const res = await axiosInstance.get('/posts/' + postid);
-      setPost(res.data);
-      setTitle(res.data.title);
-      setDesc(res.data.desc);
-      setDraft(res.data.draft);
-      let postCatsArray = res.data.categories;
-      postCatsArray.forEach((element) => {
-        categories.add(element);
-      });
-    };
-    getPost();
-  }, []);
 
   useEffect(() => {
     Prism.highlightAll();
-  }, [desc]);
-
-  // This is prob unnecessary as post object fixed to only included selected cats
-  // useEffect(() => {
-  //   const getPostsCats = async () => {
-  //     const res = await axiosInstance.get('/posts/cats/' + postid);
-  //     console.log('Selected Categories : ', res.data);
-
-  //     console.log(typeof res.data);
-  //   };
-
-  //   getPostsCats();
-  // }, [categories]);
+  }, [formData.desc]);
 
   if (!post) {
     return <div>Nothing here</div>;
   }
-  return (
-    <div className='container'>
-      <div className='post-wrapper'>
-        {post.photo && (
-          <img src={PF + post.photo} alt='' className='singlePostImg' />
-        )}
-        {updateMode ? (
-          <input
-            type='text'
-            value={title}
-            autoFocus
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        ) : (
-          <h1 className='singlePostTitle'>
-            {title}
-            {post.username === user?.username && ( // this syntax checks that post author matches logged in user and ? prevents error if user null
-              <div className='singlePostEdit'>
-                <i
-                  className='singlePostIcon far fa-edit'
-                  onClick={() => setUpdateMode(true)}
-                ></i>
-                <i
-                  className='singlePostIcon far fa-trash-alt'
-                  onClick={handleDelete}
-                ></i>
-              </div>
-            )}
-          </h1>
-        )}
-        <div className='singlePostInfo'>
-          <span className='singlePostDate'>
-            {new Date(post.createdAt).toDateString()}
-          </span>
-        </div>
-        {updateMode ? (
-          <>
-            <Tiny setDesc={setDesc} desc={desc} />
 
-            <div className='button-container'>
-              <div className='draft-container'>
-                <label>Draft</label>
-                <input
-                  type='checkbox'
-                  checked={draft}
-                  onChange={(e) => setDraft(e.target.checked)}
-                />
-              </div>
-              <div className='cat-chooser'>
-                <label>Categories</label>
-                {allCategories.map((category) => (
-                  <div key={category._id}>
-                    <input
-                      type='checkbox'
-                      id={category._id}
-                      value={category._id}
-                      checked={categories.has(category._id)}
-                      onChange={handleSelectCategory}
-                    />
-                    <label htmlFor={category._id}>{category.name}</label>
+  return (
+    <Container>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <Paper style={{ padding: '20px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Typography variant="h4" gutterBottom>
+                {formData.title}
+              </Typography>
+
+              {post.username === user?.username && (
+                <Box>
+                  <IconButton onClick={() => setUpdateMode(true)}>
+                    <EditNoteIcon />
+                  </IconButton>
+
+                  <IconButton onClick={handleDelete}>
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </Box>
+              )}
+            </Box>
+
+            <Box>
+              {new Date(post.createdAt).toDateString()}
+
+              {updateMode ? (
+                <>
+                  <Tiny
+                    setDesc={(desc) => setFormData({ ...formData, desc })}
+                    desc={formData.desc}
+                  />
+
+                  <div className="button-container">
+                    <div className="draft-container">
+                      <label>Draft</label>
+                      <input
+                        type="checkbox"
+                        checked={formData.draft}
+                        onChange={(e) =>
+                          setFormData({ ...formData, draft: e.target.checked })
+                        }
+                      />
+                    </div>
+
+                    <div className="cat-chooser">
+                      <label>Categories</label>
+                      {allCategories.map((category) => (
+                        <div key={category._id}>
+                          <input
+                            type="checkbox"
+                            id={category._id}
+                            value={category._id}
+                            checked={formData.categories.has(category._id)}
+                            onChange={handleSelectCategory}
+                          />
+                          <label htmlFor={category._id}>{category.name}</label>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button className="singlePostButton" onClick={handleUpdate}>
+                      Update
+                    </button>
                   </div>
-                ))}
-              </div>
-              <button className='singlePostButton' onClick={handleUpdate}>
-                Update
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className='content' dangerouslySetInnerHTML={{ __html: desc }} />
-        )}
-      </div>
-    </div>
+                </>
+              ) : (
+                <div
+                  className="content"
+                  dangerouslySetInnerHTML={{ __html: formData.desc }}
+                />
+              )}
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
-}
+};
+
+export default SinglePost;
