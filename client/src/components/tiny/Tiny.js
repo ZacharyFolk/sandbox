@@ -22,11 +22,11 @@ const Tiny = (props) => {
       console.log('upload handler error : ', error);
     }
   };
-
   return (
     <div className="tinyContainer">
       <Editor
         apiKey={process.env.REACT_APP_TINY_API}
+        onInit={(evt, editor) => (editorRef.current = editor)}
         value={desc}
         onEditorChange={(newValue, editor) => setDesc(newValue)}
         init={{

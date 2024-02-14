@@ -3,8 +3,12 @@ import { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Container,
+  Divider,
   Grid,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
   Typography,
 } from '@mui/material';
@@ -15,6 +19,9 @@ import Tiny from '../tiny/Tiny';
 import Prism from 'prismjs';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
+import './movethis.css';
+
 const SinglePost = () => {
   const location = useLocation();
   const postid = location.pathname.split('/')[2];
@@ -26,6 +33,7 @@ const SinglePost = () => {
     draft: false,
     categories: new Set(),
   });
+
   const [allCategories, setAllCategories] = useState([]);
   const [updateMode, setUpdateMode] = useState(false); // Added updateMode state
   const axiosInstance = axios.create({
@@ -103,10 +111,10 @@ const SinglePost = () => {
   }
 
   return (
-    <Container>
+    <Container sx={{ width: '90%' }}>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Paper style={{ padding: '20px' }}>
+          <Paper style={{ padding: '30px' }}>
             <Box
               sx={{
                 display: 'flex',
@@ -130,10 +138,10 @@ const SinglePost = () => {
                 </Box>
               )}
             </Box>
+            <Box> {new Date(post.createdAt).toDateString()}</Box>
 
+            <Divider />
             <Box>
-              {new Date(post.createdAt).toDateString()}
-
               {updateMode ? (
                 <>
                   <Tiny
@@ -181,6 +189,24 @@ const SinglePost = () => {
                 />
               )}
             </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper style={{ padding: '20px' }}>
+            <Typography variant="h6" gutterBottom>
+              Recent Posts
+            </Typography>
+            <List>
+              <ListItem button>
+                <ListItemText primary="Post 1" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Post 2" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Post 3" />
+              </ListItem>
+            </List>
           </Paper>
         </Grid>
       </Grid>
