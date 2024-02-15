@@ -1,19 +1,6 @@
-import { TerminalContext } from '../../context/TerminalContext';
-
-import selfie from './../../images/matrix-me-small.jpg';
-import { SocialIcon } from 'react-social-icons';
-import Typist from 'react-typist-component';
-import Git from '../../components/git/Git';
-import Discogs from '../../components/discogs/Discogs';
-import { useContext, useEffect } from 'react';
 import GitIssues from '../../components/git/GitIssues';
 import Updates from '../../components/updates/Updates';
 export default function About() {
-  // const { command, updateCommand } = useContext(TerminalContext);
-  // useEffect(() => {
-  //   updateCommand('about');
-  // }, []);
-
   return (
     <>
       <div className="container about-page-container">

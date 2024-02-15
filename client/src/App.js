@@ -21,19 +21,12 @@ import './animation.css';
 import './prism/prism.css';
 import Favicon from 'react-favicon';
 import blinky from './blinky';
-import { InitialText } from './components/terminal/Commands';
+
 // import StoryTime from './pages/storytime/StoryTime';
 import { Container } from '@mui/material';
 import { Header } from './components/Header';
 export default function App() {
   const { user } = useContext(Context);
-  // const [value, parseIt] = setPath();
-  // function setPath() {
-  //   let navigate = useNavigate();
-  //   console.log('run setPath');
-  //   navigate('about');
-  // }
-  const location = useLocation();
 
   return (
     <Container className="full-width-hack no-padding-hack">
@@ -67,10 +60,6 @@ export default function App() {
 }
 
 function Layout() {
-  // TODO : Look at using Context API for these commands instead of props
-  const [command, setCommand] = useState('');
-  const [output, setOutput] = useState(InitialText);
-
   return (
     <>
       {/* A "layout route" is a good place to put markup you want to
