@@ -105,22 +105,21 @@ router.get('/cats/:id', async (req, res) => {
 });
 
 // GET ALL POSTS
-
 router.get('/', async (req, res) => {
   const username = req.query.user; // ?user=
   const catName = req.query.cat;
   try {
     let posts;
     if (username) {
-      posts = await Post.find({ username });
+      posts = await Post.find({ username }).sort({ createdAt: -1 }); // Sort by createdAt in descending order
     } else if (catName) {
       posts = await Post.find({
         categories: {
           $in: [catName],
         },
-      });
+      }).sort({ createdAt: -1 }); // Sort by createdAt in descending order
     } else {
-      posts = await Post.find();
+      posts = await Post.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
     }
     res.status(200).json(posts);
   } catch (error) {

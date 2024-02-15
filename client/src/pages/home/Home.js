@@ -6,8 +6,12 @@ import {
   Box,
   Container,
   Divider,
+  Drawer,
   Grid,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
   Toolbar,
   Typography,
@@ -19,7 +23,8 @@ import Terminal from '../../components/terminal/Terminal';
 import { TerminalContext } from '../../context/TerminalContext';
 import { FetchLatestPost } from '../../components/posts/FetchLatestPost';
 import Portfolio from '../../components/projects/Portfolio';
-
+import ComputerIcon from '@mui/icons-material/Computer';
+import { Link } from 'react-router-dom';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -188,15 +193,35 @@ export default function Home() {
     setViewPrompt(false);
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <Container className="full-width-hack no-padding-hack">
-      <AppBar position="sticky">
-        <Toolbar sx={{ width: '100%' }}>
-          <IconButton size="large" edge="start" sx={{ marginRight: 2 }}>
+      <AppBar position="sticky" sx={{ width: '100%' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <IconButton
+            size="large"
+            edge="start"
+            sx={{ marginRight: 2 }}
+            component={Link}
+            to="/"
+          >
+            <ComputerIcon />
+          </IconButton>
+          <IconButton size="large" edge="end" onClick={toggleMenu}>
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
+      <Drawer anchor="left" open={isMenuOpen} onClose={toggleMenu}>
+        <List>
+          <ListItem>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </List>
+      </Drawer>
 
       <Container className="main-grid ">
         <Box>
@@ -218,10 +243,11 @@ export default function Home() {
               </div> */}
 
                 <div className="controls">
+                  <SwitchComponent power={power} setPower={setPower} />
+
                   <div className="light">
                     <div className={`led led-${power ? 'on' : 'off'}`}></div>
                   </div>
-                  <SwitchComponent power={power} setPower={setPower} />
                 </div>
               </Box>
             </Grid>

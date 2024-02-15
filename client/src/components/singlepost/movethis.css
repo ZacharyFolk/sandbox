@@ -1,4 +1,6 @@
-.paragraph-text {
+.content p,
+.paragraph-text,
+.post-p p {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.1em;
 }
