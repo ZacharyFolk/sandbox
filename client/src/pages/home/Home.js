@@ -18,13 +18,13 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Typist from 'react-typist-component';
-import MenuIcon from '@mui/icons-material/Menu';
 import Terminal from '../../components/terminal/Terminal';
 import { TerminalContext } from '../../context/TerminalContext';
 import { FetchLatestPost } from '../../components/posts/FetchLatestPost';
 import Portfolio from '../../components/projects/Portfolio';
-import ComputerIcon from '@mui/icons-material/Computer';
+
 import { Link } from 'react-router-dom';
+import { Header } from '../../components/Header';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -171,11 +171,6 @@ export default function Home() {
   const [power, setPower] = useState(false);
 
   const [output, setOutput] = useState(null);
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    console.log('Output CHANGED!', output);
-  }, [output]);
 
   useEffect(() => {
     power
@@ -193,36 +188,8 @@ export default function Home() {
     setViewPrompt(false);
   };
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
   return (
     <Container className="full-width-hack no-padding-hack">
-      <AppBar position="sticky" sx={{ width: '100%' }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton
-            size="large"
-            edge="start"
-            sx={{ marginRight: 2 }}
-            component={Link}
-            to="/"
-          >
-            <ComputerIcon />
-          </IconButton>
-          <IconButton size="large" edge="end" onClick={toggleMenu}>
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer anchor="left" open={isMenuOpen} onClose={toggleMenu}>
-        <List>
-          <ListItem>
-            <ListItemText primary="Home" />
-          </ListItem>
-        </List>
-      </Drawer>
-
       <Container className="main-grid ">
         <Box>
           <Grid container spacing={10}>

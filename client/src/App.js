@@ -24,6 +24,7 @@ import blinky from './blinky';
 import { InitialText } from './components/terminal/Commands';
 // import StoryTime from './pages/storytime/StoryTime';
 import { Container } from '@mui/material';
+import { Header } from './components/Header';
 export default function App() {
   const { user } = useContext(Context);
   // const [value, parseIt] = setPath();
@@ -85,6 +86,7 @@ function Layout() {
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
+      <Header />
       <Outlet />
     </>
   );

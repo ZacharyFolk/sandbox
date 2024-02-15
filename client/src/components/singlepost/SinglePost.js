@@ -21,6 +21,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import './movethis.css';
+import { FetchLatestPostLinks } from '../posts/FetchLatestPostLinks';
 
 const SinglePost = () => {
   const location = useLocation();
@@ -60,7 +61,7 @@ const SinglePost = () => {
       });
     };
     getPost();
-  }, []);
+  }, [postid]);
 
   const handleDelete = async () => {
     try {
@@ -196,17 +197,8 @@ const SinglePost = () => {
             <Typography variant="h6" gutterBottom>
               Recent Posts
             </Typography>
-            <List>
-              <ListItem button>
-                <ListItemText primary="Post 1" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Post 2" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Post 3" />
-              </ListItem>
-            </List>
+
+            <FetchLatestPostLinks />
           </Paper>
         </Grid>
       </Grid>
