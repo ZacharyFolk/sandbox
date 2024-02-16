@@ -10,6 +10,7 @@ import Portfolio from '../../components/projects/Portfolio';
 
 const HelpButtons = () => {
   const [selectedChip, setSelectedChip] = useState(null);
+  const { command, updateCommand } = useContext(TerminalContext);
 
   const updatePrompt = () => {
     // run Typist in the prompt with the selectedChip
@@ -19,6 +20,7 @@ const HelpButtons = () => {
   const handleClick = (value) => {
     setSelectedChip(value);
     console.log('Clicked on:', value);
+    updateCommand(value);
     // Do stuff with the value
   };
   return (
