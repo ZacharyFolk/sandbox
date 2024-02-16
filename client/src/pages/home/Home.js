@@ -1,79 +1,50 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import './terminal.css';
 import React from 'react';
-import {
-  AppBar,
-  Box,
-  Container,
-  Divider,
-  Drawer,
-  Grid,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Chip, Container, Divider, Grid, Typography } from '@mui/material';
 import Typist from 'react-typist-component';
 import Terminal from '../../components/terminal/Terminal';
 import { TerminalContext } from '../../context/TerminalContext';
 import { FetchLatestPost } from '../../components/posts/FetchLatestPost';
 import Portfolio from '../../components/projects/Portfolio';
 
-import { Link } from 'react-router-dom';
-import { Header } from '../../components/Header';
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+const HelpButtons = () => {
+  const [selectedChip, setSelectedChip] = useState(null);
 
-// const Prompt = (props) => {
-// const [userInput, setUserInput ] = useState('');
-// const { command, updateCommand } = useContext(TerminalContext);
-// const [enter, setEnter] = useState(false);
+  const updatePrompt = () => {
+    // run Typist in the prompt with the selectedChip
+    // run that command
+  };
 
-// const handleKeys = (e) => {
-//   // let len = this.keys.length;
-//   // this.setState({ number: Math.floor(Math.random() * len) });
-//   // new Audio(this.keys[this.state.number]).play();
-//   // console.log(e.keyCode);
-//   // console.log('from handleKeys');
+  const handleClick = (value) => {
+    setSelectedChip(value);
+    console.log('Clicked on:', value);
+    // Do stuff with the value
+  };
+  return (
+    <div>
+      <Chip
+        label="Help"
+        onClick={() => handleClick('help')}
+        sx={{
+          borderRadius: '4px', // Set the border radius
+          '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.08)', // Custom hover background color
+          },
+          '&:active': {
+            backgroundColor: 'rgba(0, 0, 0, 0.12)', // Custom active (click) background color
+          },
+        }}
+      />
 
-//   // console.log(this.props.parseIt);
-
-//   let code = e.keyCode;
-//   switch (code) {
-//     case 13:
-//       e.preventDefault();
-//       let typed = e.target.textContent.toLowerCase();
-//       e.target.innerHTML = '';
-//       props.setOutput('');
-//       updateCommand(typed);
-//       setEnter(true);
-//       break;
-//     default:
-//     // console.log('something else');
-//   }
-// };
-
-// return (
-//   <div className='terminal' ref={inputRef}>
-//             <span
-//               className='terminal-input'
-//               contentEditable='true'
-//               suppressContentEditableWarning={true} // yea I know what I am doing 😜
-//               onKeyDown={(e) => handleKeys(e)}
-//             ></span>
-//           </div>
-// )
-// }
-
+      <Chip label="Projects" onClick={() => handleClick('projects')} />
+      <Chip label="About" onClick={() => handleClick('about')} />
+      <Chip label="Blog" onClick={() => handleClick('blog')} />
+      <Chip label="Contact" onClick={() => handleClick('contact')} />
+      {selectedChip && <p>Selected chip: {selectedChip}</p>}
+    </div>
+  );
+};
 const Intro = ({ setOutput, setViewPrompt, power }) => {
   const introEnd = () => {
     setViewPrompt(true);
@@ -81,14 +52,12 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
   const Welcome = () => {
     return (
       <>
-        <Typist typinglDelay={10} onTypingDone={introEnd}>
-          <p>
-            Welcome to Zac's computer! So glad you stopped by I hope you find
-            some fun. You can navigate like a somewhat normal website, or try
-            using the computer, I am adding new things all the time. For the
-            basics you can type help and see a few of the commands.
-          </p>
+        <Typist typingDelay={1} onTypingDone={introEnd}>
+          <p>Welcome! Here are some of the available commands :</p>
         </Typist>
+        <Typist.Paste>
+          <HelpButtons />
+        </Typist.Paste>
       </>
     );
   };
@@ -102,7 +71,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
         setMemory(
           (prevMemory) => prevMemory + Math.floor(Math.random() * 1000) + 1
         );
-      }, 100);
+      }, 10);
 
       // Stop the animation after a certain duration (e.g., 3000 milliseconds)
       const timeoutId = setTimeout(() => {
@@ -131,12 +100,13 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
 
   const intro2 = () => {
     setOutput('');
-    setOutput(<RandomCaluclations />);
+    //  setOutput(<RandomCaluclations />);
+    setOutput(<Welcome />);
   };
 
   return (
     <>
-      <Typist typinglDelay={1} onTypingDone={intro2}>
+      <Typist typingDelay={30} onTypingDone={intro2}>
         <p>
           Starting Boot Process <br /> ....................
         </p>
@@ -197,8 +167,6 @@ export default function Home() {
               <Box className="monitor">
                 <div className="bezel">
                   <Terminal
-                    command={command}
-                    setCommand={setCommand}
                     output={output}
                     setOutput={setOutput}
                     viewPrompt={viewPrompt}

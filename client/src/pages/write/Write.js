@@ -1,9 +1,19 @@
-import { useContext, useEffect, useState, useRef } from 'react';
+import {
+  Container,
+  TextField,
+  Button,
+  Checkbox,
+  Select,
+  MenuItem,
+  Chip,
+  FormControlLabel,
+} from '@mui/material';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
-import './write.css';
 import Tiny from '../../components/tiny/Tiny';
 import useAxiosJWT from '../../utils/tokens';
+
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
@@ -67,67 +77,54 @@ export default function Write() {
   };
 
   return (
-    <div className='write'>
-      {file && (
-        <img className='writeImg' src={URL.createObjectURL(file)} alt='' />
-      )}
-      <div className='writeFormGroup'>
-        <div className='image-upload'>
-          <label htmlFor='fileInput'>
-            <i className='writeIcon fas fa-plus'> </i>
-            <span>Add main image</span>
-          </label>
-          <input
-            type='file'
-            id='fileInput'
-            style={{ display: 'none' }}
-            onChange={(e) => setFile(e.target.files[0])}
+    <Container>
+      {file && <img src={URL.createObjectURL(file)} alt="" />}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={draft}
+            onChange={(e) => setDraft(e.target.checked)}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
-        </div>
-
-        <div className='title-container'>
-          <input
-            type='text'
-            placeholder='Title'
-            className='writeInput'
-            id='post_title'
-            autoFocus={true}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        <Tiny setDesc={setDesc} desc={desc} />
-        <div className='button-container'>
-          <div className='draft-container'>
-            <label>Draft</label>
-            <input
-              type='checkbox'
-              checked={draft}
-              onChange={(e) => setDraft(e.target.checked)}
-            />
+        }
+        label="Draft"
+      />
+      <TextField
+        label="Title"
+        variant="outlined"
+        autoFocus={true}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <Tiny setDesc={setDesc} desc={desc} />
+      <Select
+        multiple
+        value={categories}
+        onChange={handleSelectCategory}
+        renderValue={(selected) => (
+          <div>
+            {selected.map((value) => (
+              <Chip key={value._id} label={value.name} />
+            ))}
           </div>
-          <div className='cat-chooser'>
-            <label>Categories</label>
-            <select multiple onChange={handleSelectCategory}>
-              {allCategories.map((c) => (
-                <option key={c._id} value={c._id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='newCat'>
-            <input
-              className='catInput'
-              placeholder='New Category'
-              type='text'
-              onChange={handleNewCategory}
-            />
-            <button onClick={addNewCategory}>Add New Category</button>
-          </div>
-          <button onClick={handleSubmit}>Submit</button>
-        </div>
-      </div>
-    </div>
+        )}
+      >
+        {allCategories.map((c) => (
+          <MenuItem key={c._id} value={c}>
+            {c.name}
+          </MenuItem>
+        ))}
+      </Select>
+      <TextField
+        label="New Category"
+        variant="outlined"
+        onChange={handleNewCategory}
+      />
+      <Button variant="contained" onClick={addNewCategory}>
+        Add New Category
+      </Button>
+      <Button variant="contained" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </Container>
   );
 }
