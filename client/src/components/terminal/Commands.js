@@ -5,9 +5,9 @@ const CurseResponse = () => {
   const ralphie = '/images/ralphie.jpg';
   return (
     <>
-      <Modal open={true} duration={4000}>
-        <img src={ralphie} alt='Take a break!' />
-        <p className='curse'>Time out! </p>
+      <Modal open={true} duration={3000}>
+        <img src={ralphie} alt="Take a break!" />
+        <p className="curse">Time out! </p>
       </Modal>
     </>
   );
@@ -99,16 +99,12 @@ const Deep = () => {
   const num = Math.floor(Math.random() * deepArray.length);
   const num2 = Math.floor(Math.random() * bkgdImages.length);
   return (
-    <>
-      <Modal open={true} theme={'deep'}>
-        <div
-          className='deepBkgd'
-          style={{ backgroundImage: `url(${bkgdImages[num2]})` }}
-        >
-          <p className='thought'>{deepArray[num]}</p>
-        </div>
-      </Modal>
-    </>
+    <div
+      className="deepBkgd"
+      style={{ backgroundImage: `url(${bkgdImages[num2]})` }}
+    >
+      <p className="thought">{deepArray[num]}</p>
+    </div>
   );
 };
 const Directions = () => {
@@ -162,7 +158,7 @@ const Directions = () => {
   ];
   let num = Math.floor(Math.random() * directionsArray.length);
   return (
-    <Typist typingDelay={50} cursor={<span className='cursor'>|</span>}>
+    <Typist typingDelay={50} cursor={<span className="cursor">|</span>}>
       <p>{directionsArray[num]}</p>
     </Typist>
   );
@@ -215,7 +211,7 @@ const TheInfo = () => {
 const InitialText = () => {
   return (
     <Typist typingDelay={100}>
-      <h1 className='main-heading'> **** ZACS WEBSITE BASIC V 1.2.2 ****</h1>
+      <h1 className="main-heading"> **** ZACS WEBSITE BASIC V 1.2.2 ****</h1>
     </Typist>
   );
 };
