@@ -12,11 +12,6 @@ const HelpButtons = () => {
   const [selectedChip, setSelectedChip] = useState(null);
   const { command, updateCommand } = useContext(TerminalContext);
 
-  const updatePrompt = () => {
-    // run Typist in the prompt with the selectedChip
-    // run that command
-  };
-
   const handleClick = (value) => {
     setSelectedChip(value);
     console.log('Clicked on:', value);
@@ -24,20 +19,8 @@ const HelpButtons = () => {
     // Do stuff with the value
   };
   return (
-    <div>
-      <Chip
-        label="Help"
-        onClick={() => handleClick('help')}
-        sx={{
-          borderRadius: '4px', // Set the border radius
-          '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.08)', // Custom hover background color
-          },
-          '&:active': {
-            backgroundColor: 'rgba(0, 0, 0, 0.12)', // Custom active (click) background color
-          },
-        }}
-      />
+    <div className="help-chips">
+      <Chip label="Help" onClick={() => handleClick('help')} />
 
       <Chip label="Projects" onClick={() => handleClick('projects')} />
       <Chip label="About" onClick={() => handleClick('about')} />
@@ -63,6 +46,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
       </>
     );
   };
+
   const RandomCaluclations = () => {
     const [memory, setMemory] = useState(0);
 
@@ -102,7 +86,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
 
   const intro2 = () => {
     setOutput('');
-    //  setOutput(<RandomCaluclations />);
+    setOutput(<RandomCaluclations />);
     setOutput(<Welcome />);
   };
 
@@ -138,7 +122,6 @@ const SwitchComponent = ({ power, setPower }) => {
 };
 
 export default function Home() {
-  const [command, setCommand] = useState('');
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(false);
 

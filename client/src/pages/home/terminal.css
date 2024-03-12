@@ -367,3 +367,8 @@
 .fade {
   animation: fadein 0.5s;
 }
+
+.help-chips .MuiChip-root {
+  border-radius: 4px;
+  margin-right: 20px;
+}
