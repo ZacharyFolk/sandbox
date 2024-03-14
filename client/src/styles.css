@@ -1,0 +1,23 @@
+/* Home Post */
+
+.featured-img-container {
+  width: 300px; /* Set your desired width */
+  height: 0;
+  padding-top: 65%; /* 4:3 aspect ratio (300 / 400 * 100) */
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Crop the image to cover the container */
+}
+
+.post-title {
+}
+.post-date {
+}

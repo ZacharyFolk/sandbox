@@ -10,14 +10,25 @@ const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 const HomePost = ({ post }) => {
   const [excerpt, setExcerpt] = useState('');
+  const [featuredImage, setFeaturedImage] = useState('');
 
   useEffect(() => {
     if (post && post.desc) {
+      console.log(post.desc);
       let excerpt = post.desc;
-      if (excerpt.length > 350) {
+      let featuredImageUrl = '';
+
+      // Find the first image tag in the post description
+      const match = excerpt.match(/<img.*?src=['"](.*?)['"]/);
+      if (match && match[1]) {
+        featuredImageUrl = match[1];
+      }
+
+      if (excerpt.length > 450) {
         excerpt = excerpt.substring(0, 350) + '...';
       }
       setExcerpt(excerpt);
+      setFeaturedImage(featuredImageUrl);
     }
   }, [post]);
 
@@ -27,9 +38,17 @@ const HomePost = ({ post }) => {
 
   return (
     <Box>
-      <Typography variant="h6" sx={{ mt: 2 }}>
+      <Typography variant="h4" className="post-title" sx={{ mt: 2 }}>
         {post.title}
       </Typography>
+      <Typography className="post-date" sx={{ mb: 2 }}>
+        {new Date(post.createdAt).toLocaleString()}
+      </Typography>
+      {featuredImage && (
+        <div className="featured-img-container">
+          <img className="featured-img" src={featuredImage} alt="" />
+        </div>
+      )}
       <Typography
         variant="body1"
         component="div"
@@ -38,9 +57,6 @@ const HomePost = ({ post }) => {
       <Link to={`/post/${post._id}`} className="full-post">
         Read the full post &gt;
       </Link>
-      <Typography variant="caption">
-        {new Date(post.createdAt).toLocaleString()}
-      </Typography>
     </Box>
   );
 };

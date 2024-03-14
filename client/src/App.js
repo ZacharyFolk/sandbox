@@ -10,7 +10,6 @@ import Blog from './pages/blog/Blog';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
-import Games from './pages/games/Games';
 import Trivia from './pages/trivia/Trivia';
 import Archives from './pages/archives/Archives';
 import { Context } from './context/Context';
@@ -38,7 +37,6 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />,
           <Route path="/archives/:archiveId" element={<Archives />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
-          <Route path="/games" element={<Games />} />{' '}
           <Route path="/contact" element={<Contact />} />
           <Route path="/trivia" element={<Trivia />} />{' '}
           {/* <Route path="/storytime" element={<StoryTime />} /> */}
