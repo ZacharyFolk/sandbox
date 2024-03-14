@@ -192,7 +192,9 @@ export default function Terminal(props) {
   const monitorClickHandler = () => {
     // click anywhere to focus on the input
     console.log(inputRef.current);
-    inputRef.current.focus();
+    inputRef.current && ( 
+      inputRef.current.focus()
+    )
   };
   return (
     <Box

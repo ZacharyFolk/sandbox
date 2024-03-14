@@ -11,7 +11,7 @@ const cors = require('cors');
 const path = require('path');
 const middlewares = require('./github/middlewares');
 const githubRoute = require('./github/githubRoutes');
-const discoRoute = require('./discogs/discoRoutes.js');
+// const discoRoute = require('./discogs/discoRoutes.js');
 const emailRoute = require('./email/emailRoute');
 const uploadRoute = require('./routes/upload');
 dotenv.config();
@@ -47,7 +47,7 @@ app.use('/api/users', userRoute);
 app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
 app.use('/api/github_api', githubRoute);
-app.use('/api/disco_api', discoRoute);
+// app.use('/api/disco_api', discoRoute);
 app.use('/api/email', emailRoute);
 app.use('/images', express.static(path.join(__dirname, '/images')));
 app.listen('9999', () => {

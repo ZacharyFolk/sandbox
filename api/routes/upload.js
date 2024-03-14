@@ -39,10 +39,16 @@ router.post(
   (req, res) => {
     res
       .status(200)
-      .send({ location: 'https://api.zacs.website/' + req.file.path });
+      .send({ location: 'http://localhost:9999/' + req.file.path });
   },
   (error, req, res, next) => {
-    res.status(400).send({ error: error.message });
+    if (error instanceof multer.MulterError) {
+      // Multer errors (e.g., file size exceeded)
+      res.status(400).send({ error: 'Multer error: ' + error.message });
+    } else if (error) {
+      // Other unexpected errors
+      res.status(500).send({ error: 'Server error: ' + error.message });
+    }
   }
 );
 

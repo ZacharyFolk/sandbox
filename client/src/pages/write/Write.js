@@ -7,13 +7,13 @@ import {
   MenuItem,
   Chip,
   FormControlLabel,
+  Box,
 } from '@mui/material';
 import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
 import Tiny from '../../components/tiny/Tiny';
 import useAxiosJWT from '../../utils/tokens';
-
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
@@ -78,7 +78,46 @@ export default function Write() {
 
   return (
     <Container>
-      {file && <img src={URL.createObjectURL(file)} alt="" />}
+      <Box sx={{ mt: 4 }}>
+        <TextField
+          label="Title"
+          variant="outlined"
+          autoFocus={true}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </Box>
+      <Box sx={{ mt: 4, mb: 4 }}>
+        <Tiny setDesc={setDesc} desc={desc} />
+      </Box>
+      <Box sx={{ display: 'flex' }}>
+        <Select
+          multiple
+          value={categories}
+          onChange={handleSelectCategory}
+          renderValue={(selected) => (
+            <div>
+              {selected.map((value) => (
+                <Chip key={value._id} label={value.name} />
+              ))}
+            </div>
+          )}
+        >
+          {allCategories.map((c) => (
+            <MenuItem key={c._id} value={c}>
+              {c.name}
+            </MenuItem>
+          ))}
+        </Select>
+
+        <TextField
+          label="New Category"
+          variant="outlined"
+          onChange={handleNewCategory}
+        />
+        <Button variant="contained" onClick={addNewCategory}>
+          Add New Category
+        </Button>
+      </Box>
       <FormControlLabel
         control={
           <Checkbox
@@ -89,39 +128,6 @@ export default function Write() {
         }
         label="Draft"
       />
-      <TextField
-        label="Title"
-        variant="outlined"
-        autoFocus={true}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <Tiny setDesc={setDesc} desc={desc} />
-      <Select
-        multiple
-        value={categories}
-        onChange={handleSelectCategory}
-        renderValue={(selected) => (
-          <div>
-            {selected.map((value) => (
-              <Chip key={value._id} label={value.name} />
-            ))}
-          </div>
-        )}
-      >
-        {allCategories.map((c) => (
-          <MenuItem key={c._id} value={c}>
-            {c.name}
-          </MenuItem>
-        ))}
-      </Select>
-      <TextField
-        label="New Category"
-        variant="outlined"
-        onChange={handleNewCategory}
-      />
-      <Button variant="contained" onClick={addNewCategory}>
-        Add New Category
-      </Button>
       <Button variant="contained" onClick={handleSubmit}>
         Submit
       </Button>

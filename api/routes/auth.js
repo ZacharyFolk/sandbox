@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_EXPIRY = '120s';
+const JWT_EXPIRY = '1200000s';
 // REFRESH TOKEN
 let refreshTokens = [];
 
@@ -66,44 +66,46 @@ router.post('/register', async (req, res) => {
     res.status(500).json(error);
   }
 });
-
-// LOGIN
 router.post('/login', async (req, res) => {
+  console.log(req.body.username);
+
   try {
     const user = await User.findOne({ username: req.body.username });
 
-    !user && res.status(400).json('Wrong credentials!');
+    console.log('USER ', user);
 
-    if (user) {
-      const validated = await bcrypt.compare(req.body.password, user.password);
-      if (validated) {
-        const accessToken = generateAccessToken(user);
-        const refreshToken = generateRefreshToken(user);
+    if (!user) {
+      console.log('User not found');
+      return res.status(400).json('Wrong credentials!');
+    }
 
-        console.log(
-          'ACCESS TOKEN',
-          accessToken,
-          ' REFRESH TOKEN',
-          refreshToken
-        );
-        refreshTokens.push(refreshToken);
+    const validated = await bcrypt.compare(req.body.password, user.password);
 
-        // remove password from response
-        const { password, ...others } = user._doc;
+    console.log('USER PASSWORD', user.password);
+    console.log('IS VALIDATED?? ', validated);
 
-        //  TODO : Maybe here instead update the user object with the tokens
-        // Should leave refreshToken in object though?
-        others.accessToken = accessToken;
-        others.refreshToken = refreshToken;
+    if (validated) {
+      const accessToken = generateAccessToken(user);
+      const refreshToken = generateRefreshToken(user);
 
-        res.status(200).json(others);
-      } else {
-        res.status(400).json('Nope.');
-      }
+      console.log('ACCESS TOKEN', accessToken, ' REFRESH TOKEN', refreshToken);
+      refreshTokens.push(refreshToken);
+
+      // remove password from response
+      const { password, ...others } = user._doc;
+
+      others.accessToken = accessToken;
+      others.refreshToken = refreshToken;
+
+      return res.status(200).json(others);
+    } else {
+      console.log('Password not validated');
+      return res.status(400).json('Wrong credentials!');
     }
   } catch (error) {
-    // console.log(error);
-    res.status(500).json(error);
+    console.error('Error:', error);
+    return res.status(500).json(error);
   }
 });
+
 module.exports = router;

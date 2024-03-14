@@ -23,34 +23,33 @@ const Tiny = (props) => {
     }
   };
   return (
-    <div className="tinyContainer">
-      <Editor
-        apiKey={process.env.REACT_APP_TINY_API}
-        onInit={(evt, editor) => (editorRef.current = editor)}
-        value={desc}
-        onEditorChange={(newValue, editor) => setDesc(newValue)}
-        init={{
-          height: 500,
-          menubar: 'insert',
-          file_picker_types: 'file image media',
-          image_uploadtab: true,
-          images_file_types: 'jpg,jpeg,gif,png,svg,webp',
-          images_upload_handler: my_upload_handler,
-          plugins:
-            'advlist anchor autolink autoresize autosave emoticons link lists code codesample image',
-          selector: 'textarea',
-          browser_spellcheck: true,
-          contextmenu: false,
-          width: '100%',
-          toolbar:
-            'undo redo | formatselect | ' +
-            'bold italic backcolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'image link | code codesample removeformat | anchor emoticons restoredraft',
-          codesample_global_prismjs: true,
-        }}
-      />
-    </div>
+    <Editor
+      apiKey={process.env.REACT_APP_TINY_API}
+      onInit={(evt, editor) => (editorRef.current = editor)}
+      value={desc}
+      onEditorChange={(newValue, editor) => setDesc(newValue)}
+      init={{
+        height: 500,
+        menubar: 'insert',
+        file_picker_types: 'file image media',
+        image_uploadtab: true,
+        images_file_types: 'jpg,jpeg,gif,png,svg,webp',
+        images_upload_handler: my_upload_handler,
+        plugins:
+          'advlist anchor autolink autoresize autosave emoticons link lists code codesample image',
+        selector: 'textarea',
+        browser_spellcheck: true,
+        contextmenu: false,
+        width: '100%',
+
+        toolbar:
+          'undo redo | formatselect | ' +
+          'bold italic backcolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'image link | code codesample removeformat | anchor emoticons restoredraft',
+        codesample_global_prismjs: true,
+      }}
+    />
   );
 };
 
