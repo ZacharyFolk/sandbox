@@ -279,3 +279,96 @@
     inset #525252 0 -1px 9px,
     #090909 0 2px 12px;
 }
+
+/* Deep Thoughts */
+
+.deepBkgd {
+  height: 100%;
+  min-height: 26vw;
+  background-size: cover;
+  padding-top: 20px;
+}
+
+.thought {
+  width: 80%;
+  margin: 0px auto 0;
+  color: #000;
+  font-family: serif;
+  line-height: 1.5em;
+  padding-top: 30px;
+  background: rgb(255, 255, 255, 0.3);
+  padding: 30px;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    visibility 0s linear 300ms,
+    opacity 300ms linear;
+  z-index: 101;
+}
+
+.modal.open {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    visibility 0s linear 0s,
+    opacity 300ms linear;
+}
+
+.modal-container {
+  position: relative;
+}
+.modal-content {
+  position: relative;
+  left: 25%;
+  background: var(--dark);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  max-width: 50%;
+  max-height: 40%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 130px;
+}
+#targetOutput p.curse {
+  text-align: center;
+  padding: 20px 0 0;
+  margin: 0;
+  font-size: 2em;
+}
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  background: #000;
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 2em;
+  cursor: pointer;
+  opacity: 0.7;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  right: 0.7em;
+}
+.modal-close:hover {
+  opacity: 1;
+}
+
+.fade {
+  animation: fadein 0.5s;
+}
+
+.help-chips .MuiChip-root {
+  border-radius: 4px;
+  margin-right: 20px;
+}

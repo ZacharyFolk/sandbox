@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Routes, Route, Outlet, Link, useLocation } from 'react-router-dom';
-import Terminal from './components/terminal/Terminal';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
@@ -11,7 +10,6 @@ import Blog from './pages/blog/Blog';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
-import Cagematch from './pages/cagematch/Cage';
 import Games from './pages/games/Games';
 import Trivia from './pages/trivia/Trivia';
 import Archives from './pages/archives/Archives';
@@ -42,7 +40,6 @@ export default function App() {
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
           <Route path="/games" element={<Games />} />{' '}
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cagematch" element={<Cagematch />} />
           <Route path="/trivia" element={<Trivia />} />{' '}
           {/* <Route path="/storytime" element={<StoryTime />} /> */}
           <Route path="/login" element={user ? <Home /> : <Login />} />
