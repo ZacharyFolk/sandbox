@@ -2,7 +2,13 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import {
   Box,
+  Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   IconButton,
@@ -34,6 +40,7 @@ const SinglePost = () => {
     draft: false,
     categories: new Set(),
   });
+  const [open, setOpen] = useState(false); // delete confirmation window
 
   const [allCategories, setAllCategories] = useState([]);
   const [updateMode, setUpdateMode] = useState(false); // Added updateMode state
@@ -63,6 +70,18 @@ const SinglePost = () => {
     getPost();
   }, [postid]);
 
+  const handleConfirmation = () => {
+    setOpen(true);
+  };
+
+  const handleConfirmationClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirmationYes = () => {
+    handleDelete();
+    setOpen(false);
+  };
   const handleDelete = async () => {
     try {
       await axiosJWT.delete(`/posts/${post._id}`, {
@@ -133,7 +152,7 @@ const SinglePost = () => {
                     <EditNoteIcon />
                   </IconButton>
 
-                  <IconButton onClick={handleDelete}>
+                  <IconButton onClick={handleConfirmation}>
                     <DeleteForeverIcon />
                   </IconButton>
                 </Box>
@@ -202,6 +221,23 @@ const SinglePost = () => {
           </Paper>
         </Grid>
       </Grid>
+
+      <Dialog open={open} onClose={handleConfirmationClose}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this post?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmationClose} color="primary">
+            No
+          </Button>
+          <Button onClick={handleConfirmationYes} color="primary" autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
