@@ -13,14 +13,27 @@ a {
 }
 a:link,
 a:visited {
-  border-bottom: 1px dotted;
-  padding-bottom: 2px;
   color: var(--secondary-color);
 }
 a:hover {
   color: var(--primary-color);
 }
 
+#root {
+  background-image: url('./../public/textures/gun-metal.png');
+}
+.main-post-content,
+.sidebar {
+  background-image: url('./../public/textures/dark-leather.png') !important;
+  padding: 40px;
+}
+.post-list:befort {
+  content: '  &gt; &nbsp;';
+}
+.sidebar {
+  padding: 40px;
+  background-color: #050505 !important;
+}
 /* Home Post */
 
 .featured-img-container {

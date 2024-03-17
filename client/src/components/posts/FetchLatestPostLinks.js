@@ -1,6 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { Box, List, ListItemButton, Typography } from '@mui/material';
+import {
+  Box,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
@@ -20,9 +27,10 @@ const LinkList = ({ post, key }) => {
   console.log('what link ', theLink);
   return (
     <Box>
-      <List>
+      <List className="post-list">
         <ListItemButton component={Link} to={theLink}>
-          {post.title}
+          <ListItemIcon> &gt;</ListItemIcon>
+          <ListItemText primary={post.title} />
         </ListItemButton>
       </List>
     </Box>

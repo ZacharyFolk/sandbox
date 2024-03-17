@@ -131,10 +131,10 @@ const SinglePost = () => {
   }
 
   return (
-    <Container sx={{ width: '90%' }}>
-      <Grid container spacing={2}>
+    <Container sx={{ width: '90%' }} className="single-post">
+      <Grid container spacing={0}>
         <Grid item xs={8}>
-          <Paper style={{ padding: '30px' }}>
+          <Paper className="main-post-content">
             <Box
               sx={{
                 display: 'flex',
@@ -211,11 +211,11 @@ const SinglePost = () => {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
-          <Paper style={{ padding: '20px' }}>
-            <Typography variant="h6" gutterBottom>
+        <Grid item xs={4} sx={{ padding: 0 }}>
+          <Paper className="sidebar">
+            {/* <Typography variant="h6" gutterBottom>
               Recent Posts
-            </Typography>
+            </Typography> */}
 
             <FetchLatestPostLinks />
           </Paper>
