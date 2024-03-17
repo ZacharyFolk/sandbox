@@ -163,6 +163,10 @@ const Directions = () => {
     </Typist>
   );
 };
+
+const Fortune = () => {
+  return <>Derpity derp derr</>;
+};
 const Games = () => {
   return (
     <>
@@ -173,7 +177,7 @@ const Games = () => {
 };
 const Hello = () => {
   return (
-    <Typist typingDelay={100}>
+    <Typist typingDelay={10}>
       <p>Hi! Thanks for stopping by!</p>
     </Typist>
   );
@@ -281,6 +285,7 @@ export {
   CurseResponse,
   Deep,
   Directions,
+  Fortune,
   Games,
   Hello,
   Help,

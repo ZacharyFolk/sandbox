@@ -17,6 +17,7 @@ import {
   InitialText,
 } from './Commands';
 import { Box } from '@mui/material';
+import GetFortune from '../../commands/fortune';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
@@ -120,6 +121,9 @@ export default function Terminal(props) {
       case 'thoughts':
         setOutput(Deep);
         break;
+      case 'fortune':
+        setOutput(<GetFortune />);
+        break;
       case 'games':
         setOutput(Games);
         break;
@@ -192,9 +196,7 @@ export default function Terminal(props) {
   const monitorClickHandler = () => {
     // click anywhere to focus on the input
     console.log(inputRef.current);
-    inputRef.current && ( 
-      inputRef.current.focus()
-    )
+    inputRef.current && inputRef.current.focus();
   };
   return (
     <Box
