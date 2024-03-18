@@ -202,7 +202,7 @@ export default function Terminal(props) {
     <Box
       sx={{ display: 'flex', flexDirection: 'column' }}
       onClick={monitorClickHandler}
-      className={`terminal ${!power && 'terminal-off'}`}
+      className={`new-scroll terminal ${!power && 'terminal-off'}`}
     >
       <div id="targetOutput"> {output} </div>
       {viewPrompt && (

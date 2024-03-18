@@ -9,9 +9,9 @@ const categoryRoute = require('./routes/categories');
 
 const cors = require('cors');
 const path = require('path');
-const middlewares = require('./github/middlewares');
-const githubRoute = require('./github/githubRoutes');
-const emailRoute = require('./email/emailRoute');
+// const middlewares = require('./github/middlewares');
+// const githubRoute = require('./github/githubRoutes');
+// const emailRoute = require('./email/emailRoute');
 const uploadRoute = require('./routes/upload');
 dotenv.config();
 console.log(process.env.MONGO_URL);
@@ -40,14 +40,14 @@ app.use(cors());
 // });
 app.use(express.json());
 app.use('/api/upload/', uploadRoute);
-app.use(middlewares.setHeaders);
+// app.use(middlewares.setHeaders);
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
-app.use('/api/github_api', githubRoute);
+// app.use('/api/github_api', githubRoute);
 
-app.use('/api/email', emailRoute);
+// app.use('/api/email', emailRoute);
 app.use('/images', express.static(path.join(__dirname, '/images')));
 app.listen('9999', () => {
   console.log('Starting API server at localhost:9999');

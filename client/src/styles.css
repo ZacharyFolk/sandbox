@@ -19,13 +19,38 @@ a:hover {
   color: var(--primary-color);
 }
 
-#root {
-  background-image: url('./../public/textures/gun-metal.png');
+/* TODO : This maybe a little excessive for the textured background.  I was trying to combine the gradient with the texture is reason for weird pseudo element here */
+
+body {
+  position: relative;
 }
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      to right,
+      rgba(65, 67, 69, 0.3),
+      rgba(35, 37, 38, 0.1)
+    ),
+    url('./../public/textures/dark-leather.png');
+  z-index: -1;
+}
+
+/* #root {
+  background-image: url('./../public/textures/gun-metal.png');
+} */
 .main-post-content,
 .sidebar {
   background-image: url('./../public/textures/dark-leather.png') !important;
   padding: 40px;
+}
+.monitor {
+  background-image: url('./../public/textures/gun-metal.png');
 }
 .post-list:befort {
   content: '  &gt; &nbsp;';
@@ -53,7 +78,44 @@ a:hover {
   object-fit: cover; /* Crop the image to cover the container */
 }
 
-.post-title {
+/* replace scrollbars */
+
+.new-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
 }
-.post-date {
+/* width */
+.new-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.new-scroll::-webkit-scrollbar-track {
+  background: rgb(23, 33, 26);
+}
+
+/* Handle */
+.new-scroll::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+}
+
+/* Handle on hover */
+.new-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* FOLK PHOTOGRAPHY */
+
+.fp-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+}
+.fp-img-container {
+  width: 150px;
+  margin: 3px 6px;
 }

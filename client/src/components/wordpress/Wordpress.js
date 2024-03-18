@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 const ImageCard = ({ thumbnail, link }) => {
   return (
-    <div className='fp-img-container'>
+    <div className="fp-img-container">
       <a href={link}>
-        <img src={thumbnail} alt='thumbnail' />
+        <img src={thumbnail} alt="thumbnail" />
       </a>
     </div>
   );
@@ -44,7 +44,7 @@ const ImageFeed = () => {
     }
   }, [feed]);
   return (
-    <div className='fp-images new-scroll'>
+    <div className="fp-container new-scroll">
       {parsedFeed.map((item, index) => (
         <ImageCard key={index} thumbnail={item.thumbnail} link={item.link} />
       ))}

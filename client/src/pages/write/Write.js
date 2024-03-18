@@ -17,19 +17,18 @@ import useAxiosJWT from '../../utils/tokens';
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-  const [file, setFile] = useState(null);
   const { user } = useContext(Context);
   const [draft, setDraft] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  });
 
   const axiosJWT = useAxiosJWT();
 
   useEffect(() => {
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_API_URL,
+    });
     axiosInstance
       .get('/categories')
       .then((res) => setAllCategories(res.data))

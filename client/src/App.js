@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
-import { Routes, Route, Outlet, Link, useLocation } from 'react-router-dom';
-import Register from './pages/register/Register';
+import { useContext } from 'react';
+import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import About from './pages/about/About';

@@ -1,15 +1,13 @@
 import Typist from 'react-typist-component';
-import Modal from '../../utils/Modal';
+// import Modal from '../../utils/Modal';
 
 const CurseResponse = () => {
   const ralphie = '/images/ralphie.jpg';
   return (
-    <>
-      <Modal open={true} duration={3000}>
-        <img src={ralphie} alt="Take a break!" />
-        <p className="curse">Time out! </p>
-      </Modal>
-    </>
+    <div className="curse-box">
+      <p className="curse">Time out! </p>
+      <img src={ralphie} alt="Take a break!" />
+    </div>
   );
 };
 const CageTips = (props) => {
@@ -204,12 +202,12 @@ const TheInfo = () => {
   let num = Math.floor(Math.random() * infoQuotes.length);
 
   return (
-    <Modal open={true}>
+    <>
       <blockquote>
         <p>{infoQuotes[num]}</p>
         <cite>&mdash;James Gleick - The Information</cite>
       </blockquote>
-    </Modal>
+    </>
   );
 };
 const InitialText = () => {

@@ -10,8 +10,7 @@ const GetFortune = () => {
         method: 'GET',
         url: 'https://fortune-cookie4.p.rapidapi.com/slack',
         headers: {
-          'X-RapidAPI-Key':
-            '3ebbe997d6msh3b4919d38255054p1e80f3jsnf3bb495dc785',
+          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API,
           'X-RapidAPI-Host': 'fortune-cookie4.p.rapidapi.com',
         },
       };

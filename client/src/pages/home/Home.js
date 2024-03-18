@@ -1,5 +1,4 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import './terminal.css';
 import React from 'react';
 import { Box, Chip, Container, Divider, Grid, Typography } from '@mui/material';
 import Typist from 'react-typist-component';
@@ -7,7 +6,7 @@ import Terminal from '../../components/terminal/Terminal';
 import { TerminalContext } from '../../context/TerminalContext';
 import { FetchLatestPost } from '../../components/posts/FetchLatestPost';
 import Portfolio from '../../components/projects/Portfolio';
-
+import Wordpress from '../../components/wordpress/Wordpress';
 const HelpButtons = () => {
   const [selectedChip, setSelectedChip] = useState(null);
   const { command, updateCommand } = useContext(TerminalContext);
@@ -21,7 +20,6 @@ const HelpButtons = () => {
   return (
     <div className="help-chips">
       <Chip label="Help" onClick={() => handleClick('help')} />
-
       <Chip label="Projects" onClick={() => handleClick('projects')} />
       <Chip label="About" onClick={() => handleClick('about')} />
       <Chip label="Blog" onClick={() => handleClick('blog')} />
@@ -92,7 +90,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
 
   return (
     <>
-      <Typist typingDelay={30} onTypingDone={intro2}>
+      <Typist typingDelay={1} onTypingDone={intro2}>
         <p>
           Starting Boot Process <br /> ....................
         </p>
@@ -103,6 +101,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
 
 const SwitchComponent = ({ power, setPower }) => {
   const switchclick = new Audio('./sounds/sound_click.mp3');
+  switchclick.volume = 0.1;
 
   const handleToggle = () => {
     switchclick.play();
@@ -147,7 +146,7 @@ export default function Home() {
     <Container className="full-width-hack no-padding-hack">
       <Container className="main-grid ">
         <Box>
-          <Grid container spacing={10}>
+          <Grid container spacing={8}>
             <Grid item xs={12} lg={8}>
               <Box className="monitor">
                 <div className="bezel">
@@ -185,6 +184,10 @@ export default function Home() {
 
         <Divider sx={{ mb: 4, mt: 2 }} />
         <Portfolio />
+
+        <Divider />
+
+        <Wordpress />
       </Container>
     </Container>
   );
