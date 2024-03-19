@@ -1,14 +1,19 @@
+# Define variables for SSL certificate and key paths
+map $host $ssl_cert {
+    default "/etc/letsencrypt/live/$host/fullchain.pem";
+}
+map $host $ssl_key {
+    default "/etc/letsencrypt/live/$host/privkey.pem";
+}
+
 server {
     listen 443 ssl;
     server_name folk.codes;
 
-    ssl_certificate /etc/letsencrypt/live/folk.codes/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/folk.codes/privkey.pem;
+    ssl_certificate $ssl_cert;
+    ssl_certificate_key $ssl_key;
 
     include /etc/letsencrypt/options-ssl-nginx.conf;
-
-#    root /home/zac/www/sandbox/client/build;
-#    root /var/www/html;
     root /var/www/main;
     index index.html;
 
@@ -16,42 +21,6 @@ server {
         try_files $uri $uri/ /index.html;
     }
 }
-
-
-server {
-    listen 80;
-    server_name magento.folk.codes;
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    server_name magento.folk.codes;
-
-    ssl_certificate /etc/letsencrypt/live/folk.codes/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/folk.codes/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    root /var/www/magento;
-    index index.php;
-
-    location / {
-        try_files $uri $uri/ /index.php$is_args$args;
-    }
-
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock; # Adjust version as needed
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
-}
-
-
 
 server {
     listen 80;
@@ -63,11 +32,10 @@ server {
     listen 443 ssl;
     server_name api.folk.codes;
 
-    ssl_certificate /etc/letsencrypt/live/folk.codes/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/folk.codes/privkey.pem;
+    ssl_certificate $ssl_cert;
+    ssl_certificate_key $ssl_key;
 
     include /etc/letsencrypt/options-ssl-nginx.conf;
-
 
     location / {
         proxy_pass http://localhost:9999;
