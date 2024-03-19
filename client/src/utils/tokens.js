@@ -15,13 +15,19 @@ const useAxiosJWT = () => {
       const res = await axiosInstance.post('/auth/refresh', {
         token: user.refreshToken,
       });
+      user.accessToken = res.data.accessToken;
       user.refreshToken = res.data.refreshToken;
       localStorage.setItem('user', JSON.stringify(user));
-      user.accessToken = res.data.accessToken;
-
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error('Error refreshing token:', error);
+      // Handle the error based on the type of error
+      if (error.response && error.response.status === 401) {
+        // Unauthorized error, likely due to expired refresh token
+        console.log('User is not authenticated. ');
+      } else {
+        console.log('An error occurred. Please try again later.');
+      }
     }
   };
 
@@ -42,6 +48,7 @@ const useAxiosJWT = () => {
       return config;
     },
     (error) => {
+      console.error('Error in request interceptor:', error);
       return Promise.reject(error);
     }
   );

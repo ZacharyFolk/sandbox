@@ -47,7 +47,10 @@ export default function Write() {
 
     try {
       const res = await axiosJWT.post('/posts', newPost);
-      window.location.replace('/post/' + res.data._id);
+      //  window.location.replace('/post/' + res.data._id);
+
+      // TODO : Instead of relocate just provide a snack that post is updated
+      console.log('POST UPDATED');
     } catch (error) {
       console.log('Post failed', error.message);
     }
