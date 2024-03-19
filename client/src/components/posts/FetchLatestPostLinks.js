@@ -15,14 +15,10 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
-const LinkList = ({ post, key }) => {
+const LinkList = ({ post }) => {
   if (!post) {
     return null; // Add a check to handle the case when post is not available yet
   }
-
-  console.log(post);
-  console.log(post._id);
-  console.log(post.title);
   let theLink = `/post/${post._id}`;
   console.log('what link ', theLink);
   return (
