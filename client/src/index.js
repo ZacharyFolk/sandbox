@@ -7,7 +7,6 @@ import { TerminalProvider } from './context/TerminalContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import './styles.css';
-import './pages/home/terminal.css';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
