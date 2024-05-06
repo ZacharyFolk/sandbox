@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   AppBar,
   Drawer,
-  IconButton,
+  Button,
   List,
   ListItemButton,
   ListItemIcon,
@@ -22,22 +22,19 @@ export const Header = () => {
     <>
       <AppBar position="sticky" sx={{ width: '100%' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton
+          <Button
             size="large"
             edge="start"
             sx={{ marginRight: 2 }}
             component={Link}
             to="/"
           >
-            <ComputerIcon />
-          </IconButton>
-          <IconButton size="large" edge="end" onClick={toggleMenu}>
-            <MenuIcon />
-          </IconButton>
+            <span className="logo-name"> {`{{ folk.codes }}`}</span>
+          </Button>
         </Toolbar>
       </AppBar>
 
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={isMenuOpen}
         onClose={toggleMenu}
@@ -53,7 +50,7 @@ export const Header = () => {
             <ListItemText primary="Home" />
           </ListItemButton>
         </List>
-      </Drawer>
+      </Drawer> */}
     </>
   );
 };

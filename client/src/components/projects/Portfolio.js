@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Container,
   Grid,
   Card,
   CardActionArea,
@@ -15,7 +14,7 @@ import {
 const projects = [
   {
     id: 1,
-    title: 'First Day',
+    title: 'My Disco',
     thumbnail: 'https://via.placeholder.com/150',
     images: [
       'https://via.placeholder.com/400',
@@ -30,31 +29,31 @@ const projects = [
     title: 'Cagematch',
     thumbnail: 'https://via.placeholder.com/150',
     images: [
-      'https://via.placeholder.com/400',
-      'https://via.placeholder.com/400',
-    ],
-    link: '/cagematch',
-    short_description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
-  },
-  {
-    id: 3,
-    title: 'Wutukno',
-    thumbnail: 'https://via.placeholder.com/150',
-    images: [
-      'https://via.placeholder.com/400',
+      'https://via.placeholder.com/300',
       'https://via.placeholder.com/400',
     ],
     link: '/cagematch',
     short_description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
   },
+  // {
+  //   id: 3,
+  //   title: 'Wutukno',
+  //   thumbnail: 'https://via.placeholder.com/150',
+  //   images: [
+  //     'https://via.placeholder.com/400',
+  //     'https://via.placeholder.com/400',
+  //   ],
+  //   link: '/cagematch',
+  //   short_description:
+  //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
+  // },
   {
     id: 4,
     title: 'Simple Folk',
     thumbnail: 'https://via.placeholder.com/150',
     images: [
-      'https://via.placeholder.com/400',
+      'https://via.placeholder.com/300',
       'https://via.placeholder.com/400',
     ],
     link: '/cagematch',
@@ -63,40 +62,40 @@ const projects = [
   },
   {
     id: 5,
-    title: 'Guru API',
+    title: 'Wise API',
     thumbnail: 'https://via.placeholder.com/150',
     images: [
       'https://via.placeholder.com/400',
       'https://via.placeholder.com/400',
     ],
-    link: '/cagematch',
+    link: 'https://wise-api.folk.codes/api-docs/',
     short_description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
+      'A  simple little api to retrieve one-liners from some of my favorite thinkers.  It came out of the desire to build an api from scratch (read more about it here) and as a resource for this mindfulness app I started building long ago and may someday actually finish.',
   },
-  {
-    id: 6,
-    title: 'Folk Photography',
-    thumbnail: 'https://via.placeholder.com/150',
-    images: [
-      'https://via.placeholder.com/400',
-      'https://via.placeholder.com/400',
-    ],
-    link: '/cagematch',
-    short_description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
-  },
-  {
-    id: 7,
-    title: 'Artological',
-    thumbnail: 'https://via.placeholder.com/150',
-    images: [
-      'https://via.placeholder.com/400',
-      'https://via.placeholder.com/400',
-    ],
-    link: '/cagematch',
-    short_description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
-  },
+  // {
+  //   id: 6,
+  //   title: 'Folk Photography',
+  //   thumbnail: 'https://via.placeholder.com/150',
+  //   images: [
+  //     'https://via.placeholder.com/400',
+  //     'https://via.placeholder.com/400',
+  //   ],
+  //   link: '/cagematch',
+  //   short_description:
+  //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
+  // },
+  // {
+  //   id: 7,
+  //   title: 'Artological',
+  //   thumbnail: 'https://via.placeholder.com/150',
+  //   images: [
+  //     'https://via.placeholder.com/400',
+  //     'https://via.placeholder.com/400',
+  //   ],
+  //   link: '/cagematch',
+  //   short_description:
+  //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
+  // },
 ];
 
 const Portfolio = () => {
@@ -147,14 +146,21 @@ const Portfolio = () => {
           <Typography variant="h4" component="div" gutterBottom>
             {selectedProject && selectedProject.title}
           </Typography>
-          <img
-            src={selectedProject && selectedProject.images[0]}
-            alt={selectedProject && selectedProject.title}
-            style={{ width: '100%' }}
-          />
-          <Typography variant="body1" component="div" style={{ marginTop: 20 }}>
+          <div className="project-img-container">
+            {selectedProject &&
+              selectedProject.images &&
+              selectedProject.images.map((image) => (
+                <img src={image} alt={selectedProject.title} />
+              ))}
+          </div>
+          <Typography variant="body1" component="div">
             {selectedProject && selectedProject.short_description}
           </Typography>
+          {selectedProject && (
+            <a href={selectedProject.link} target="_blank" rel="noreferrer">
+              View the project
+            </a>
+          )}
         </div>
       </Modal>
     </Box>

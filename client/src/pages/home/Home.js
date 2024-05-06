@@ -172,9 +172,7 @@ export default function Home() {
             </Grid>
             <Grid item xs={12} lg={4}>
               <Box sx={{ width: '100%' }}>
-                <Typography variant="h4" sx={{ mt: 6, fontFamily: 'VT323' }}>
-                  Latest Post
-                </Typography>
+                <Typography variant="h4">Latest Post</Typography>
                 <Divider />
                 <FetchLatestPost />
               </Box>
@@ -183,6 +181,7 @@ export default function Home() {
         </Box>
 
         <Divider sx={{ mb: 4, mt: 2 }} />
+        <Typography variant="h4">Latest Projects</Typography>
         <Portfolio />
 
         <Divider />

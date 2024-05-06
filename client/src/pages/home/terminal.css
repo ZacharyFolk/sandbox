@@ -7,6 +7,11 @@
   --bg: #041b11;
 }
 
+.logo-name {
+  font-size: 1.4em;
+  font-family: 'VT323', monospace;
+}
+
 /* Yea this sucks but I am done wrestling with MUI for now */
 
 .full-width-hack {
