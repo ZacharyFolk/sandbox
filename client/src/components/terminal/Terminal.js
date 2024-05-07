@@ -16,8 +16,12 @@ import {
   NoMatch,
   InitialText,
 } from './Commands';
+
+import Social from '../social/Social';
+import Wordpress from './../wordpress/Wordpress';
 import { Box } from '@mui/material';
 import GetFortune from '../../commands/fortune';
+import { FetchLatestPost } from '../posts/FetchLatestPost';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
@@ -124,21 +128,18 @@ export default function Terminal(props) {
       case 'fortune':
         setOutput(<GetFortune />);
         break;
-      case 'games':
-        setOutput(Games);
-        break;
       case 'help':
       case '?':
-      case 'contact':
       case 'command':
       case 'commands':
       case 'cmd':
         setOutput(Help);
         break;
+      case 'contact':
       case 'hi':
       case 'hello':
       case 'howdy':
-        setOutput(Hello);
+        setOutput(Social);
         break;
       case 'i':
       case 'gleick':
@@ -149,43 +150,18 @@ export default function Terminal(props) {
       case 'init':
         setOutput(InitialText);
         break;
-      case 'login':
-        navigate('/login/');
+      case 'latest':
+      case 'blog':
+        setOutput(<FetchLatestPost />);
+
         break;
-      case 'trivia':
-      case 'jeopardy':
-        navigate('/trivia');
+      case 'photo':
+      case 'photos':
+      case 'photography':
+      case 'fp':
+        setOutput(<Wordpress />);
         break;
-      case 'trivia-intro':
-        setOutput(Jeopardy);
-        break;
-      case 'madlibs':
-      case 'story':
-      case 'storytime':
-      case 'storybot':
-        navigate('/storytime');
-        break;
-      case 'cage1':
-        setOutput(<CageTips num={0} />);
-        break;
-      case 'cage2':
-        setOutput(<CageTips num={1} />);
-        break;
-      case 'cage3':
-        setOutput(<CageTips num={2} />);
-        break;
-      case 'cage4':
-        setOutput(<CageTips num={3} />);
-        break;
-      case 'cage5':
-        setOutput(<CageTips num={4} />);
-        break;
-      case 'cage6':
-        setOutput(<CageTips num={5} />);
-        break;
-      case 'cage7':
-        setOutput(<CageTips num={6} />);
-        break;
+
       default:
         setOutput(NoMatch);
     }

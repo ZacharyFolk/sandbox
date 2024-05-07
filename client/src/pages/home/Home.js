@@ -1,6 +1,8 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { Box, Chip, Container, Divider, Grid, Typography } from '@mui/material';
+import Cookies from 'js-cookie';
+
 import Typist from 'react-typist-component';
 import Terminal from '../../components/terminal/Terminal';
 import { TerminalContext } from '../../context/TerminalContext';
@@ -29,74 +31,88 @@ const HelpButtons = () => {
   );
 };
 const Intro = ({ setOutput, setViewPrompt, power }) => {
-  const introEnd = () => {
-    setViewPrompt(true);
-  };
-  const Welcome = () => {
-    return (
-      <>
-        <Typist typingDelay={1} onTypingDone={introEnd}>
-          <p>Welcome! Here are some of the available commands :</p>
-        </Typist>
-        <Typist.Paste>
-          <HelpButtons />
-        </Typist.Paste>
-      </>
-    );
-  };
+  const [hasRun, setHasRun] = useState(false);
 
-  const RandomCaluclations = () => {
-    const [memory, setMemory] = useState(0);
+  useEffect(() => {
+    if (power && !hasRun) {
+      setHasRun(true);
 
-    useEffect(() => {
-      let isMounted = true; // Flag to check if the component is still mounted
-
-      const interval = setInterval(() => {
-        setMemory(
-          (prevMemory) => prevMemory + Math.floor(Math.random() * 1000) + 1
-        );
-      }, 10);
-
-      // Stop the animation after a certain duration (e.g., 3000 milliseconds)
-      const timeoutId = setTimeout(() => {
-        clearInterval(interval);
-
-        // Check if the component is still mounted before updating the state
-        if (isMounted && power) {
-          setOutput(<Welcome />);
-        }
-      }, 3000);
-
-      // Cleanup function
-      return () => {
-        isMounted = false; // Component is unmounting, update the flag
-        clearInterval(interval);
-        clearTimeout(timeoutId);
+      const introEnd = () => {
+        setViewPrompt(true);
       };
-    }, [power, setOutput]);
 
-    return (
-      <div className="memory-animation">
-        <div className="animation">Calculating Memory: {memory} KB</div>
-      </div>
-    );
-  };
+      const Welcome = () => {
+        return (
+          <>
+            <Typist typingDelay={10} onTypingDone={introEnd}>
+              <p>Welcome! Main commands :</p>
+            </Typist>
+            <Typist.Paste>
+              <HelpButtons />
+            </Typist.Paste>
+          </>
+        );
+      };
 
-  const intro2 = () => {
-    setOutput('');
-    setOutput(<RandomCaluclations />);
-    setOutput(<Welcome />);
-  };
+      const RandomCalculations = () => {
+        const [memory, setMemory] = useState(1000);
 
-  return (
-    <>
-      <Typist typingDelay={1} onTypingDone={intro2}>
-        <p>
-          Starting Boot Process <br /> ....................
-        </p>
-      </Typist>
-    </>
-  );
+        useEffect(() => {
+          let isMounted = true; // Flag to check if the component is still mounted
+
+          const interval = setInterval(() => {
+            setMemory(
+              (prevMemory) => prevMemory + Math.floor(Math.random() * 1000) + 1
+            );
+          }, 100);
+
+          // Stop the animation after a certain duration (e.g., 3000 milliseconds)
+          const timeoutId = setTimeout(() => {
+            clearInterval(interval);
+
+            // Check if the component is still mounted before updating the state
+            if (isMounted && power) {
+              setOutput(<Welcome />);
+            }
+          }, 3000);
+
+          // Cleanup function
+          return () => {
+            isMounted = false; // Component is unmounting, update the flag
+            clearInterval(interval);
+            clearTimeout(timeoutId);
+          };
+        }, [power, setOutput]);
+
+        return (
+          <div className="memory-animation">
+            <div className="animation">
+              Important Looking Numbers: {memory} ZB
+            </div>
+          </div>
+        );
+      };
+
+      const intro2 = () => {
+        setOutput('');
+        setOutput(<RandomCalculations />);
+      };
+
+      setOutput(
+        <>
+          <Typist typingDelay={20} onTypingDone={intro2}>
+            <p>
+              Loading some monkey business
+              <br /> ....................
+              <br /> .........................
+            </p>
+          </Typist>
+        </>
+      );
+    }
+  }, [power, setOutput, setViewPrompt, hasRun]);
+
+  return null; // Return null to render nothing
 };
 
 const SwitchComponent = ({ power, setPower }) => {
@@ -108,7 +124,9 @@ const SwitchComponent = ({ power, setPower }) => {
 
     setPower((prevPower) => !prevPower);
   };
-
+  useEffect(() => {
+    Cookies.set('power', power);
+  }, [power]);
   return (
     <div className={`switch ${power ? 'on' : 'off'}`} onClick={handleToggle}>
       <input className="cb" type="checkbox" checked={power} readOnly />
@@ -122,8 +140,10 @@ const SwitchComponent = ({ power, setPower }) => {
 
 export default function Home() {
   const [viewPrompt, setViewPrompt] = useState(false);
-  const [power, setPower] = useState(false);
-
+  const [power, setPower] = useState(() => {
+    const cookiePower = Cookies.get('power');
+    return cookiePower ? cookiePower === 'true' : false;
+  });
   const [output, setOutput] = useState(null);
 
   useEffect(() => {
@@ -137,6 +157,7 @@ export default function Home() {
         )
       : turnOff();
   }, [power]);
+
   const turnOff = () => {
     setOutput('');
     setViewPrompt(false);
@@ -157,10 +178,6 @@ export default function Home() {
                     power={power}
                   />
                 </div>
-                {/* <div class="switch">
-                <div class="switch-handle"></div>
-              </div> */}
-
                 <div className="controls">
                   <SwitchComponent power={power} setPower={setPower} />
 
@@ -186,7 +203,7 @@ export default function Home() {
 
         <Divider />
 
-        <Wordpress />
+        {/* <Wordpress /> */}
       </Container>
     </Container>
   );

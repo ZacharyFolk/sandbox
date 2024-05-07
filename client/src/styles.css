@@ -84,6 +84,8 @@ body::before {
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
+  /* TODO : this is just a random guess */
+  max-height: 20vw;
 }
 /* width */
 .new-scroll::-webkit-scrollbar {
