@@ -22,6 +22,7 @@ import Wordpress from './../wordpress/Wordpress';
 import { Box } from '@mui/material';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
+import Portfolio from '../projects/Portfolio';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
@@ -160,6 +161,11 @@ export default function Terminal(props) {
       case 'photography':
       case 'fp':
         setOutput(<Wordpress />);
+        break;
+      case 'project':
+      case 'projects':
+      case 'portfolio':
+        setOutput(<Portfolio />);
         break;
 
       default:

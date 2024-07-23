@@ -30,89 +30,101 @@ const HelpButtons = () => {
     </div>
   );
 };
+
+const RandomBoot = ({ onDone }) => {
+  const bootArray = [
+    'Loading Terminal Z . . .',
+    'Putting hamster in the wheel... ',
+    'Transmitting bits and boops...',
+    'Initiating the initial thing...',
+    'Transmitting from a computer in my garage to this pretend computer to your computer... ',
+  ];
+  const message = bootArray[Math.floor(Math.random() * bootArray.length)];
+
+  return (
+    <Typist typingDelay={10} onTypingDone={onDone}>
+      <p>{message}</p>
+    </Typist>
+  );
+};
+
+const Welcome = ({ onDone }) => (
+  <>
+    <Typist typingDelay={10} onTypingDone={onDone}>
+      <p>Welcome! Main commands :</p>
+    </Typist>
+    <Typist.Paste>
+      <HelpButtons />
+    </Typist.Paste>
+  </>
+);
+
+const RandomCalculations = ({ onDone }) => {
+  const [memory, setMemory] = useState(1000);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const interval = setInterval(() => {
+      setMemory(
+        (prevMemory) => prevMemory + Math.floor(Math.random() * 1000) + 1
+      );
+    }, 100);
+
+    const timeoutId = setTimeout(() => {
+      clearInterval(interval);
+      if (isMounted) {
+        onDone();
+      }
+    }, 3000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+      clearTimeout(timeoutId);
+    };
+  }, [onDone]);
+
+  return (
+    <div className="memory-animation">
+      <div className="animation">Important Looking Numbers: {memory} ZB</div>
+    </div>
+  );
+};
+
 const Intro = ({ setOutput, setViewPrompt, power }) => {
   const [hasRun, setHasRun] = useState(false);
 
   useEffect(() => {
-    if (power && !hasRun) {
-      setHasRun(true);
+    if (power) {
+      if (!hasRun) {
+        setHasRun(true);
 
-      const introEnd = () => {
-        setViewPrompt(true);
-      };
+        const intro2 = () => {
+          if (power) {
+            setTimeout(() => {
+              setOutput('');
+              setOutput(<RandomCalculations onDone={introEnd} />);
+            }, 2000);
+          }
+        };
 
-      const Welcome = () => {
-        return (
-          <>
-            <Typist typingDelay={10} onTypingDone={introEnd}>
-              <p>Welcome! Main commands :</p>
-            </Typist>
-            <Typist.Paste>
-              <HelpButtons />
-            </Typist.Paste>
-          </>
-        );
-      };
+        const introEnd = () => {
+          if (power) {
+            setTimeout(() => {
+              setOutput(<Welcome onDone={() => setViewPrompt(true)} />);
+            }, 2000);
+          }
+        };
 
-      const RandomCalculations = () => {
-        const [memory, setMemory] = useState(1000);
-
-        useEffect(() => {
-          let isMounted = true; // Flag to check if the component is still mounted
-
-          const interval = setInterval(() => {
-            setMemory(
-              (prevMemory) => prevMemory + Math.floor(Math.random() * 1000) + 1
-            );
-          }, 100);
-
-          // Stop the animation after a certain duration (e.g., 3000 milliseconds)
-          const timeoutId = setTimeout(() => {
-            clearInterval(interval);
-
-            // Check if the component is still mounted before updating the state
-            if (isMounted && power) {
-              setOutput(<Welcome />);
-            }
-          }, 3000);
-
-          // Cleanup function
-          return () => {
-            isMounted = false; // Component is unmounting, update the flag
-            clearInterval(interval);
-            clearTimeout(timeoutId);
-          };
-        }, [power, setOutput]);
-
-        return (
-          <div className="memory-animation">
-            <div className="animation">
-              Important Looking Numbers: {memory} ZB
-            </div>
-          </div>
-        );
-      };
-
-      const intro2 = () => {
-        setOutput('');
-        setOutput(<RandomCalculations />);
-      };
-
-      setOutput(
-        <>
-          <Typist typingDelay={20} onTypingDone={intro2}>
-            <p>
-              Loading some monkey business
-              <br /> ....................
-              <br /> .........................
-            </p>
-          </Typist>
-        </>
-      );
+        setOutput(<RandomBoot onDone={intro2} />);
+      } else {
+        console.log('hasRun', hasRun);
+      }
     }
-  }, [power, setOutput, setViewPrompt, hasRun]);
+  }, [power, hasRun, setOutput, setViewPrompt]);
 
-  return null; // Return null to render nothing
+  return null;
 };
 
 const SwitchComponent = ({ power, setPower }) => {
@@ -168,7 +180,7 @@ export default function Home() {
       <Container className="main-grid ">
         <Box>
           <Grid container spacing={8}>
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12}>
               <Box className="monitor">
                 <div className="bezel">
                   <Terminal
@@ -187,21 +199,14 @@ export default function Home() {
                 </div>
               </Box>
             </Grid>
-            <Grid item xs={12} lg={4}>
-              <Box sx={{ width: '100%' }}>
-                <Typography variant="h4">Latest Post</Typography>
-                <Divider />
-                <FetchLatestPost />
-              </Box>
-            </Grid>
           </Grid>
         </Box>
 
-        <Divider sx={{ mb: 4, mt: 2 }} />
+        {/* <Divider sx={{ mb: 4, mt: 2 }} />
         <Typography variant="h4">Latest Projects</Typography>
         <Portfolio />
 
-        <Divider />
+        <Divider /> */}
 
         {/* <Wordpress /> */}
       </Container>

@@ -149,8 +149,8 @@ const Portfolio = () => {
           <div className="project-img-container">
             {selectedProject &&
               selectedProject.images &&
-              selectedProject.images.map((image) => (
-                <img src={image} alt={selectedProject.title} />
+              selectedProject.images.map((image, index) => (
+                <img key={index} src={image} alt={selectedProject.title} />
               ))}
           </div>
           <Typography variant="body1" component="div">

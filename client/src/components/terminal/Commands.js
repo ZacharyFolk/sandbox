@@ -260,6 +260,23 @@ const NoMatch = () => {
   );
 };
 
+const RandomBoot = ({ onDone }) => {
+  const bootArray = [
+    'Loading Terminal Z . . .',
+    'Putting hamster in the wheel... ',
+    'Transmitting bits and boops...',
+    'Initiating the initial thing...',
+    'Transmitting from a computer in my garage to this pretend computer to your computer... ',
+  ];
+  let num = Math.floor(Math.random() * bootArray.length);
+  return (
+    <Typist typingDelay={10} finishDelay={1000} onTypingDone={onDone}>
+      <p>{bootArray[num]}</p>
+    </Typist>
+  );
+};
+
+//  onTypingDone={intro2}
 const Help = () => {
   return (
     <Typist typingDelay={10}>
@@ -291,4 +308,5 @@ export {
   InitialText,
   Jeopardy,
   NoMatch,
+  RandomBoot,
 };
