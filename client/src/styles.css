@@ -19,8 +19,11 @@ a:hover {
   color: var(--primary-color);
 }
 
-/* TODO : This maybe a little excessive for the textured background.  I was trying to combine the gradient with the texture is reason for weird pseudo element here */
-
+/** TODO : textured background
+I was trying to combine the gradient with the texture is reason for weird pseudo element here.
+It is also bad because it creates a gap at the bottom in some browsers 
+*/
+/* 
 body {
   position: relative;
   margin: 0;
@@ -42,7 +45,7 @@ body::before {
     url('./../public/textures/dark-leather.png');
 
   z-index: -1;
-}
+} */
 
 /* #root {
   background-image: url('./../public/textures/gun-metal.png');
@@ -87,8 +90,7 @@ body::before {
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
-  /* TODO : this is just a random guess */
-  max-height: 20vw;
+  max-height: 30vw;
 }
 /* width */
 .new-scroll::-webkit-scrollbar {
@@ -115,7 +117,6 @@ body::before {
 .fp-container {
   display: flex;
   flex-wrap: wrap;
-  max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
@@ -166,7 +167,7 @@ body::before {
   position: relative;
   overflow-y: hidden;
   /* height: 30vw; */
-  min-height: 50vh;
+  min-height: 60vh;
   padding: 3rem;
   overflow-y: auto;
   overflow-x: hidden;
@@ -572,4 +573,13 @@ body::before {
 .help-chips .MuiChip-root {
   border-radius: 4px;
   margin-right: 20px;
+}
+
+@media (max-width: 960px) {
+  .monitor {
+    height: 90vh;
+  }
+  .bezel {
+    height: 70vh;
+  }
 }

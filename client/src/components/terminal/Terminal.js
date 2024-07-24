@@ -23,6 +23,7 @@ import { Box } from '@mui/material';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
 import Portfolio from '../projects/Portfolio';
+import Blog from '../../pages/blog/Blog';
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
@@ -154,8 +155,10 @@ export default function Terminal(props) {
       case 'latest':
       case 'blog':
         setOutput(<FetchLatestPost />);
-
         break;
+      // case 'allposts':
+      //   setOutput(<Blog />);
+      //   break;
       case 'photo':
       case 'photos':
       case 'photography':

@@ -3,7 +3,7 @@ import axios from 'axios';
 const ImageCard = ({ thumbnail, link }) => {
   return (
     <div className="fp-img-container">
-      <a href={link}>
+      <a href={link} target="_blank" rel="noreferrer">
         <img src={thumbnail} alt="thumbnail" />
       </a>
     </div>
