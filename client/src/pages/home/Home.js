@@ -31,7 +31,7 @@ const HelpButtons = () => {
   );
 };
 
-const RandomBoot = ({ onDone }) => {
+const RandomBoot = ({ onDone, powerRef }) => {
   const bootArray = [
     'Loading Terminal Z . . .',
     'Putting hamster in the wheel... ',
@@ -42,15 +42,25 @@ const RandomBoot = ({ onDone }) => {
   const message = bootArray[Math.floor(Math.random() * bootArray.length)];
 
   return (
-    <Typist typingDelay={10} onTypingDone={onDone}>
+    <Typist
+      typingDelay={10}
+      onTypingDone={() => {
+        if (powerRef.current) onDone();
+      }}
+    >
       <p>{message}</p>
     </Typist>
   );
 };
 
-const Welcome = ({ onDone }) => (
+const Welcome = ({ onDone, powerRef }) => (
   <>
-    <Typist typingDelay={10} onTypingDone={onDone}>
+    <Typist
+      typingDelay={10}
+      onTypingDone={() => {
+        if (powerRef.current) onDone();
+      }}
+    >
       <p>Welcome! Main commands :</p>
     </Typist>
     <Typist.Paste>
@@ -59,7 +69,7 @@ const Welcome = ({ onDone }) => (
   </>
 );
 
-const RandomCalculations = ({ onDone }) => {
+const RandomCalculations = ({ onDone, powerRef }) => {
   const [memory, setMemory] = useState(1000);
 
   useEffect(() => {
@@ -73,7 +83,7 @@ const RandomCalculations = ({ onDone }) => {
 
     const timeoutId = setTimeout(() => {
       clearInterval(interval);
-      if (isMounted) {
+      if (isMounted && powerRef.current) {
         onDone();
       }
     }, 3000);
@@ -83,7 +93,7 @@ const RandomCalculations = ({ onDone }) => {
       clearInterval(interval);
       clearTimeout(timeoutId);
     };
-  }, [onDone]);
+  }, [onDone, powerRef]);
 
   return (
     <div className="memory-animation">
@@ -94,34 +104,51 @@ const RandomCalculations = ({ onDone }) => {
 
 const Intro = ({ setOutput, setViewPrompt, power }) => {
   const [hasRun, setHasRun] = useState(false);
+  const timeouts = useRef([]);
+  const powerRef = useRef(power);
 
   useEffect(() => {
+    powerRef.current = power;
+
     if (power) {
       if (!hasRun) {
         setHasRun(true);
 
         const intro2 = () => {
-          if (power) {
-            setTimeout(() => {
+          const timeoutId = setTimeout(() => {
+            if (powerRef.current) {
               setOutput('');
-              setOutput(<RandomCalculations onDone={introEnd} />);
-            }, 2000);
-          }
+              setOutput(
+                <RandomCalculations onDone={introEnd} powerRef={powerRef} />
+              );
+            }
+          }, 2000);
+          timeouts.current.push(timeoutId);
         };
 
         const introEnd = () => {
-          if (power) {
-            setTimeout(() => {
-              setOutput(<Welcome onDone={() => setViewPrompt(true)} />);
-            }, 2000);
-          }
+          const timeoutId = setTimeout(() => {
+            if (powerRef.current) {
+              setOutput(
+                <Welcome
+                  onDone={() => {
+                    if (powerRef.current) setViewPrompt(true);
+                  }}
+                  powerRef={powerRef}
+                />
+              );
+            }
+          }, 2000);
+          timeouts.current.push(timeoutId);
         };
 
-        setOutput(<RandomBoot onDone={intro2} />);
-      } else {
-        console.log('hasRun', hasRun);
+        setOutput(<RandomBoot onDone={intro2} powerRef={powerRef} />);
       }
     }
+    return () => {
+      timeouts.current.forEach(clearTimeout);
+      timeouts.current = [];
+    };
   }, [power, hasRun, setOutput, setViewPrompt]);
 
   return null;
