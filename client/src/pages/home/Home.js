@@ -70,6 +70,7 @@ const Welcome = ({ onDone, powerRef }) => (
 );
 
 const RandomCalculations = ({ onDone, powerRef }) => {
+  console.log('Calculations');
   const [memory, setMemory] = useState(1000);
 
   useEffect(() => {
@@ -111,9 +112,14 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
     powerRef.current = power;
 
     if (power) {
-      if (!hasRun) {
-        setHasRun(true);
+      // Log the initial value of hasRun
+      console.log('Initial hasRun:', hasRun);
 
+      // Schedule a state update
+      setHasRun(true);
+
+      // Use a function to handle the side effects of state update properly
+      const handleStateUpdate = () => {
         const intro2 = () => {
           const timeoutId = setTimeout(() => {
             if (powerRef.current) {
@@ -142,9 +148,26 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
           timeouts.current.push(timeoutId);
         };
 
-        setOutput(<RandomBoot onDone={intro2} powerRef={powerRef} />);
-      }
+        if (!hasRun) {
+          console.log('Running intro2');
+          setOutput(<RandomBoot onDone={intro2} powerRef={powerRef} />);
+        } else {
+          console.log('Running introEnd');
+          setOutput(
+            <Welcome
+              onDone={() => {
+                if (powerRef.current) setViewPrompt(true);
+              }}
+              powerRef={powerRef}
+            />
+          );
+        }
+      };
+
+      // Delay the state-dependent logic to ensure state update has occurred
+      setTimeout(handleStateUpdate, 0);
     }
+
     return () => {
       timeouts.current.forEach(clearTimeout);
       timeouts.current = [];
@@ -163,9 +186,11 @@ const SwitchComponent = ({ power, setPower }) => {
 
     setPower((prevPower) => !prevPower);
   };
+
   useEffect(() => {
     Cookies.set('power', power);
   }, [power]);
+
   return (
     <div className={`switch ${power ? 'on' : 'off'}`} onClick={handleToggle}>
       <input className="cb" type="checkbox" checked={power} readOnly />
