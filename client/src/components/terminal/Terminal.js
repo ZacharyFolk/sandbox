@@ -1,18 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Context } from '../../context/Context';
 import { TerminalContext } from '../../context/TerminalContext';
 import curses from 'profane-words';
 import {
-  CageTips,
   CurseResponse,
   Deep,
   Directions,
-  Games,
   Help,
-  Hello,
   TheInfo,
-  Jeopardy,
   NoMatch,
   InitialText,
 } from './Commands';
@@ -23,51 +17,14 @@ import { Box } from '@mui/material';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
 import Portfolio from '../projects/Portfolio';
-import Blog from '../../pages/blog/Blog';
+
 export default function Terminal(props) {
   const { command, updateCommand } = useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
   const inputRef = useRef();
   const { output, setOutput, viewPrompt, power } = props;
 
-  const { user } = useContext(Context);
-  // const [command, setCommand] = useState('');
-  // const [output, setOutput] = useState(initialText);
-
-  const navigate = useNavigate();
-  function redirectAbout() {
-    navigate('about');
-  }
-
-  // useEffect(() => {
-  //   console.log('LOCATION CHANGED!');
-  //   console.log(location.pathname);
-  //   if (location.pathname === '/about') {
-  //     setOutput('');
-  //     setOutput(AboutLoaded);
-  //     console.log('ABOUT PAGE!');
-  //   } else {
-  //     setOutput(initialText);
-  //   }
-  // }, [location]);
-  // const AboutLoaded = () => {
-  //   return (
-  //     <Typist typingDelay={5}>
-  //       <p>Initializing data retrieval for Zachary Folk....</p>
-  //       <Typist.Delay ms={500} />
-  //     </Typist>
-  //   );
-  // };
-
   const handleKeys = (e) => {
-    // let len = this.keys.length;
-    // this.setState({ number: Math.floor(Math.random() * len) });
-    // new Audio(this.keys[this.state.number]).play();
-    // console.log(e.keyCode);
-    // console.log('from handleKeys');
-
-    // console.log(this.props.parseIt);
-
     let code = e.keyCode;
     switch (code) {
       case 13:
@@ -88,16 +45,6 @@ export default function Terminal(props) {
     }
 
     switch (command) {
-      case 'home':
-        navigate('/');
-        break;
-      case 'about':
-        redirectAbout();
-        break;
-      case 'cage':
-      case 'cagematch':
-        navigate('cagematch');
-        break;
       case 'clear':
         setOutput('');
         break;
@@ -176,7 +123,7 @@ export default function Terminal(props) {
     }
     setEnter(false);
     console.log('COMMAND CHANGED ', command);
-  }, [command, enter]);
+  }, [command, enter, setOutput]);
 
   const monitorClickHandler = () => {
     // click anywhere to focus on the input

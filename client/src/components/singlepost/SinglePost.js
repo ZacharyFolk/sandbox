@@ -12,9 +12,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Paper,
   Typography,
 } from '@mui/material';
