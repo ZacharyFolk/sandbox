@@ -11,12 +11,13 @@ import Portfolio from '../../components/projects/Portfolio';
 import Wordpress from '../../components/wordpress/Wordpress';
 const HelpButtons = () => {
   const [selectedChip, setSelectedChip] = useState(null);
-  const { command, updateCommand } = useContext(TerminalContext);
+  const { updateCommand, updateInput } = useContext(TerminalContext);
 
   const handleClick = (value) => {
     setSelectedChip(value);
     console.log('Clicked on:', value);
     updateCommand(value);
+    updateInput(value);
     // Do stuff with the value
   };
   return (

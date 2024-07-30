@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+
 import { TerminalContext } from '../../context/TerminalContext';
 import curses from 'profane-words';
 import {
@@ -19,9 +20,10 @@ import { FetchLatestPost } from '../posts/FetchLatestPost';
 import Portfolio from '../projects/Portfolio';
 
 export default function Terminal(props) {
-  const { command, updateCommand } = useContext(TerminalContext);
+  const { command, updateCommand, inputRef, clearInput } =
+    useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
-  const inputRef = useRef();
+
   const { output, setOutput, viewPrompt, power } = props;
 
   const handleKeys = (e) => {
@@ -30,7 +32,8 @@ export default function Terminal(props) {
       case 13:
         e.preventDefault();
         let typed = e.target.textContent.toLowerCase();
-        e.target.innerHTML = '';
+        //    e.target.innerHTML = '';
+        clearInput();
         setOutput('');
         updateCommand(typed);
         setEnter(true);
@@ -42,84 +45,84 @@ export default function Terminal(props) {
   useEffect(() => {
     if (curses.includes(command)) {
       return setOutput(CurseResponse);
-    }
+    } else {
+      switch (command) {
+        case 'clear':
+          setOutput('');
+          break;
+        case 'n':
+        case 'north':
+        case 'e':
+        case 'east':
+        case 'w':
+        case 'west':
+        case 's':
+        case 'south':
+        case 'ne':
+        case 'up':
+        case 'down':
+        case 'nw':
+        case 'se':
+        case 'sw':
+        case 'u':
+        case 'd':
+        case 'l':
+        case 'look':
+          setOutput(Directions);
+          break;
+        case 'deep':
+        case 'deep thoughts':
+        case 'deepthoughts':
+        case 'thoughts':
+          setOutput(Deep);
+          break;
+        case 'fortune':
+          setOutput(<GetFortune />);
+          break;
+        case 'help':
+        case '?':
+        case 'command':
+        case 'commands':
+        case 'cmd':
+          setOutput(Help);
+          break;
+        case 'contact':
+        case 'hi':
+        case 'hello':
+        case 'howdy':
+          setOutput(Social);
+          break;
+        case 'i':
+        case 'gleick':
+        case 'info':
+        case 'information':
+          setOutput(TheInfo);
+          break;
+        case 'init':
+          setOutput(InitialText);
+          break;
+        case 'latest':
+        case 'blog':
+          setOutput(<FetchLatestPost />);
+          break;
+        // case 'allposts':
+        //   setOutput(<Blog />);
+        //   break;
+        case 'photo':
+        case 'photos':
+        case 'photography':
+        case 'fp':
+          setOutput(<Wordpress />);
+          break;
+        case 'project':
+        case 'projects':
+        case 'portfolio':
+          setOutput(<Portfolio />);
+          break;
 
-    switch (command) {
-      case 'clear':
-        setOutput('');
-        break;
-      case 'n':
-      case 'north':
-      case 'e':
-      case 'east':
-      case 'w':
-      case 'west':
-      case 's':
-      case 'south':
-      case 'ne':
-      case 'up':
-      case 'down':
-      case 'nw':
-      case 'se':
-      case 'sw':
-      case 'u':
-      case 'd':
-      case 'l':
-      case 'look':
-        setOutput(Directions);
-        break;
-      case 'deep':
-      case 'deep thoughts':
-      case 'deepthoughts':
-      case 'thoughts':
-        setOutput(Deep);
-        break;
-      case 'fortune':
-        setOutput(<GetFortune />);
-        break;
-      case 'help':
-      case '?':
-      case 'command':
-      case 'commands':
-      case 'cmd':
-        setOutput(Help);
-        break;
-      case 'contact':
-      case 'hi':
-      case 'hello':
-      case 'howdy':
-        setOutput(Social);
-        break;
-      case 'i':
-      case 'gleick':
-      case 'info':
-      case 'information':
-        setOutput(TheInfo);
-        break;
-      case 'init':
-        setOutput(InitialText);
-        break;
-      case 'latest':
-      case 'blog':
-        setOutput(<FetchLatestPost />);
-        break;
-      // case 'allposts':
-      //   setOutput(<Blog />);
-      //   break;
-      case 'photo':
-      case 'photos':
-      case 'photography':
-      case 'fp':
-        setOutput(<Wordpress />);
-        break;
-      case 'project':
-      case 'projects':
-      case 'portfolio':
-        setOutput(<Portfolio />);
-        break;
-
-      default:
-        setOutput(NoMatch);
+        default:
+          setOutput(NoMatch);
+      }
     }
     setEnter(false);
     console.log('COMMAND CHANGED ', command);
