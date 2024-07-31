@@ -1,5 +1,7 @@
 import Typist from 'react-typist-component';
 // import Modal from '../../utils/Modal';
+import { TerminalContext } from '../../context/TerminalContext';
+import { useContext } from 'react';
 
 const CurseResponse = () => {
   const ralphie = '/images/ralphie.jpg';
@@ -180,6 +182,110 @@ const Hello = () => {
     </Typist>
   );
 };
+
+const Help = () => {
+  const { updateCommand, updateInput } = useContext(TerminalContext);
+
+  const handleClick = (value) => {
+    updateCommand(value);
+    updateInput('');
+  };
+
+  const handleMouseEnter = (value) => {
+    updateInput(value);
+  };
+
+  return (
+    <Typist typingDelay={10}>
+      <h4>Useful commands: </h4>
+      <ul className="help-list">
+        <li
+          onMouseEnter={() => handleMouseEnter('about')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('about')}
+        >
+          about
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('projects')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('projects')}
+        >
+          projects
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('contact')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('contact')}
+        >
+          contact
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('photos')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('photos')}
+        >
+          photos
+        </li>
+
+        <li
+          onMouseEnter={() => handleMouseEnter('blog')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('blog')}
+        >
+          blog
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('latest')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('latest')}
+        >
+          latest
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('fortune')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('fortune')}
+        >
+          fortune
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('info')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('info')}
+        >
+          info
+        </li>
+        <li
+          onMouseEnter={() => handleMouseEnter('deep')}
+          onMouseLeave={() => {
+            updateInput('');
+          }}
+          onClick={() => handleClick('deep')}
+        >
+          deep
+        </li>
+      </ul>
+    </Typist>
+  );
+};
+
 const TheInfo = () => {
   const infoQuotes = [
     'When information is cheap, attention becomes expensive.',
@@ -277,23 +383,6 @@ const RandomBoot = ({ onDone }) => {
 };
 
 //  onTypingDone={intro2}
-const Help = () => {
-  return (
-    <Typist typingDelay={10}>
-      <p>
-        Available commands : about | home | help | games | look | cagematch.
-      </p>
-      <p>
-        If you would enjoy playing the most pointless "adventure game" ever
-        created, try typing a direction.
-      </p>
-      <p>
-        Adding more stuff every day... a lot of secret eggs. For now if I don't
-        understand I will be sure and share some random facts!
-      </p>
-    </Typist>
-  );
-};
 
 export {
   CageTips,

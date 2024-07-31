@@ -11,6 +11,8 @@ import Portfolio from '../../components/projects/Portfolio';
 import Wordpress from '../../components/wordpress/Wordpress';
 const HelpButtons = () => {
   const [selectedChip, setSelectedChip] = useState(null);
+  const [hoveredChip, setHoveredChip] = useState(null);
+
   const { updateCommand, updateInput } = useContext(TerminalContext);
 
   const handleClick = (value) => {
@@ -20,9 +22,16 @@ const HelpButtons = () => {
     updateInput(value);
     // Do stuff with the value
   };
+
+  const handleMouseEnter = (value) => {
+    setHoveredChip(value);
+    console.log('Hovered on:', value);
+    updateInput(value);
+  };
+
   return (
     <div className="help-chips">
-      <Chip label="Help" onClick={() => handleClick('help')} />
+      <Chip label="Help" onMouseEnter={() => handleMouseEnter('help')} />
       <Chip label="Projects" onClick={() => handleClick('projects')} />
       <Chip label="About" onClick={() => handleClick('about')} />
       <Chip label="Blog" onClick={() => handleClick('blog')} />

@@ -450,7 +450,15 @@ body::before {
     inset #525252 0 -1px 9px,
     #090909 0 2px 12px;
 }
+/* Help */
 
+ul.help-list {
+  list-style-type: none;
+  display: flex;
+}
+ul.help-list li {
+  margin-right: 20px;
+}
 /* Curse */
 
 .curse-box {
