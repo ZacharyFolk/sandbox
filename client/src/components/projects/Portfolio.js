@@ -22,7 +22,7 @@ const projects = [
     ],
     link: '/cagematch',
     short_description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
+      'Experiments with the Discogs API I created a new way to visualize your record collection.  The app allows to sort by dates, search, and show detailed information about the records.  There is also a feature that allows one to create a collage wallpaper of all of their different album covers.',
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const projects = [
     ],
     link: '/cagematch',
     short_description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac velit ut sem tincidunt vestibulum vel a libero.',
+      'A card matching game I built with timer, high scores, and other easter eggs.',
   },
   // {
   //   id: 3,

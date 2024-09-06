@@ -71,7 +71,9 @@ const Welcome = ({ onDone, powerRef }) => (
         if (powerRef.current) onDone();
       }}
     >
-      <p>Welcome! Main commands :</p>
+      <p>
+        Welcome! <br /> <br /> Type help for a list of useful commands.
+      </p>
     </Typist>
     <Typist.Paste>
       <HelpButtons />

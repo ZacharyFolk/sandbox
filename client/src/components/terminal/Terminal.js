@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { TerminalContext } from '../../context/TerminalContext';
 import curses from 'profane-words';
 import {
+  About,
   CurseResponse,
   Deep,
   Directions,
@@ -10,6 +11,7 @@ import {
   TheInfo,
   NoMatch,
   InitialText,
+  Projects,
 } from './Commands';
 
 import Social from '../social/Social';
@@ -47,6 +49,10 @@ export default function Terminal(props) {
       return setOutput(CurseResponse);
     } else {
       switch (command) {
+        case 'about':
+        case 'zac':
+          setOutput(About);
+          break;
         case 'clear':
           setOutput('');
           break;
@@ -117,7 +123,7 @@ export default function Terminal(props) {
         case 'project':
         case 'projects':
         case 'portfolio':
-          setOutput(<Portfolio />);
+          setOutput(<Projects />);
           break;
 
         default:
@@ -139,7 +145,10 @@ export default function Terminal(props) {
       onClick={monitorClickHandler}
       className={`new-scroll terminal ${!power && 'terminal-off'}`}
     >
-      <div id="targetOutput"> {output} </div>
+      <div id="targetOutput">
+        {' '}
+        {output} <div className="scanline"></div>
+      </div>
       {viewPrompt && (
         <span
           className="terminal-input"

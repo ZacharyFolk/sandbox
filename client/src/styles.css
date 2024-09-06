@@ -168,7 +168,7 @@ body::before {
   overflow-y: hidden;
   /* height: 30vw; */
   min-height: 60vh;
-  padding: 3rem;
+  padding: 2.5em 3em;
   overflow-y: auto;
   overflow-x: hidden;
   word-break: break-word;
@@ -182,7 +182,7 @@ body::before {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
   font-family: 'VT323', monospace;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
@@ -233,6 +233,24 @@ body::before {
     rgba(255, 255, 255, 0) 20%
   );
 }
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 8;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(255, 255, 255, 0.2) 10%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  opacity: 0.1;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  pointer-events: none;
+  animation: scanline 10s linear infinite;
+}
+
 @keyframes terminalBlinkOut {
   0% {
     opacity: 1;
@@ -454,10 +472,10 @@ body::before {
 
 ul.help-list {
   list-style-type: none;
-  display: flex;
 }
 ul.help-list li {
   margin-right: 20px;
+  float: left;
 }
 /* Curse */
 
@@ -499,7 +517,6 @@ ul.help-list li {
 
 .deepBkgd {
   height: 100%;
-  min-height: 26vw;
   background-size: cover;
   padding-top: 20px;
 }
@@ -589,5 +606,17 @@ ul.help-list li {
   }
   .bezel {
     height: 70vh;
+  }
+}
+
+@keyframes scanline {
+  0% {
+    bottom: 100%;
+  }
+  80% {
+    bottom: 100%;
+  }
+  100% {
+    bottom: 0%;
   }
 }

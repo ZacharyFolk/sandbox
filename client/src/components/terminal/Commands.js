@@ -3,6 +3,30 @@ import Typist from 'react-typist-component';
 import { TerminalContext } from '../../context/TerminalContext';
 import { useContext } from 'react';
 
+const About = () => {
+  return (
+    <Typist typingDelay={10}>
+      <h1 className="main-heading"> **** ZACS WEBSITE BASIC V 2.3.2 ****</h1>
+      <p>
+        This started out as a simple digital business card and grew into this
+        complex project built on a MERN stack. This simulated terminal I an
+        proud to consider one of the worlds dumbest A.I., just an endless switch
+        statement that I keep adding commands to. I may start adding it to a
+        real LLM in the near future. There is a full blog interface where I use
+        TinyMCE CMS and I ramble on about random things.
+      </p>
+
+      <p>
+        My name is Zachary Folk and I am a developer with a home base near
+        Seattle. As much as I enjoy the machines and making pointless apps, I am
+        often out in the woods or the middle of the country somewhere. If you
+        are still reading this I am kind of amazed, you should send me a
+        message, it would really make my day.
+      </p>
+    </Typist>
+  );
+};
+
 const CurseResponse = () => {
   const ralphie = '/images/ralphie.jpg';
   return (
@@ -164,9 +188,6 @@ const Directions = () => {
   );
 };
 
-const Fortune = () => {
-  return <>Derpity derp derr</>;
-};
 const Games = () => {
   return (
     <>
@@ -187,6 +208,7 @@ const Help = () => {
   const { updateCommand, updateInput } = useContext(TerminalContext);
 
   const handleClick = (value) => {
+    console.log('You clicked ', value);
     updateCommand(value);
     updateInput('');
   };
@@ -195,93 +217,39 @@ const Help = () => {
     updateInput(value);
   };
 
+  const commands = [
+    'about',
+    'projects',
+    'contact',
+    'photos',
+    'blog',
+    'latest',
+    'fortune',
+    'info',
+    'deep',
+  ];
   return (
     <Typist typingDelay={10}>
-      <h4>Useful commands: </h4>
+      <h4>Useful commands:</h4>
       <ul className="help-list">
-        <li
-          onMouseEnter={() => handleMouseEnter('about')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('about')}
-        >
-          about
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('projects')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('projects')}
-        >
-          projects
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('contact')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('contact')}
-        >
-          contact
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('photos')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('photos')}
-        >
-          photos
-        </li>
-
-        <li
-          onMouseEnter={() => handleMouseEnter('blog')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('blog')}
-        >
-          blog
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('latest')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('latest')}
-        >
-          latest
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('fortune')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('fortune')}
-        >
-          fortune
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('info')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('info')}
-        >
-          info
-        </li>
-        <li
-          onMouseEnter={() => handleMouseEnter('deep')}
-          onMouseLeave={() => {
-            updateInput('');
-          }}
-          onClick={() => handleClick('deep')}
-        >
-          deep
-        </li>
+        {commands.map((command) => (
+          <li
+            key={command}
+            onMouseEnter={() => handleMouseEnter(command)}
+            onMouseLeave={() => updateInput('')}
+            onClick={() => handleClick(command)}
+          >
+            {command}
+          </li>
+        ))}
       </ul>
+      <br />
+      <h4>Other tips</h4>
+      <p>
+        Try and type whatever you like to see what happens. I am always adding
+        more easter eggs.
+      </p>
+      <p>You can just type ? if you want to see this screen again.</p>
     </Typist>
   );
 };
@@ -366,6 +334,45 @@ const NoMatch = () => {
   );
 };
 
+const Projects = () => {
+  return (
+    <Typist typingDelay={10}>
+      <p>
+        I am always making things and it would be great if it entertains others
+        for a minute or two. Some projects are utterly ridiculous but were fun
+        learning experiences, for example this{' '}
+        <a href="https://cagematch.folk.codes" target="_blank" rel="noreferrer">
+          card matching game
+        </a>
+        . Try it out, I even added an API and database for high scores. There is
+        a blog post that tells more about how I made it.
+      </p>
+      <p>
+        I had a lot of fun turning a giant json file of over 200,000 Jeopardy
+        questions into a functional game and made a new interface for the
+        Discogs API.
+      </p>
+      <p>
+        I also built my own API that is quotes from wise people. It is part of
+        another mindfulness app I have been working on.
+      </p>
+      <p>
+        THe most functional thing I have worked on lately is a very different
+        kind of WordPress theme that I use for my photography site. If you have
+        photos and want to test it out reach out, I would love to get some
+        feedback on it.
+      </p>
+      <p>
+        You can read more about these projects and play with them over here.
+      </p>
+      <p>
+        I also build actually useful things for people specializing in WordPress
+        and custom React applications. Reach out if you would like to work
+        together!
+      </p>
+    </Typist>
+  );
+};
 const RandomBoot = ({ onDone }) => {
   const bootArray = [
     'Loading Terminal Z . . .',
@@ -385,11 +392,11 @@ const RandomBoot = ({ onDone }) => {
 //  onTypingDone={intro2}
 
 export {
+  About,
   CageTips,
   CurseResponse,
   Deep,
   Directions,
-  Fortune,
   Games,
   Hello,
   Help,
@@ -397,5 +404,6 @@ export {
   InitialText,
   Jeopardy,
   NoMatch,
+  Projects,
   RandomBoot,
 };
