@@ -18,46 +18,20 @@ a:visited {
 a:hover {
   color: var(--primary-color);
 }
-
-/** TODO : textured background
-I was trying to combine the gradient with the texture is reason for weird pseudo element here.
-It is also bad because it creates a gap at the bottom in some browsers 
-*/
-/* 
-body {
-  position: relative;
-  margin: 0;
-  min-height: 100vh;
+.command-link {
+  color: var(--primary-color);
+}
+.external-link {
+  color: var(--primary-color);
+  text-decoration: underline;
 }
 
-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(
-      to right,
-      rgba(65, 67, 69, 0.3),
-      rgba(35, 37, 38, 0.1)
-    ),
-    url('./../public/textures/dark-leather.png');
-
-  z-index: -1;
-} */
-
-/* #root {
-  background-image: url('./../public/textures/gun-metal.png');
-} */
 .main-post-content,
 .sidebar {
   background-image: url('./../public/textures/dark-leather.png') !important;
   padding: 40px;
 }
-/* .monitor {
-  background-image: url('./../public/textures/gun-metal.png');
-} */
+
 .post-list:befort {
   content: '  &gt; &nbsp;';
 }
@@ -68,7 +42,7 @@ body::before {
 /* Home Post */
 
 .featured-img-container {
-  width: 300px; /* Set your desired width */
+  width: 300px;
   height: 0;
   padding-top: 65%; /* 4:3 aspect ratio (300 / 400 * 100) */
   position: relative;
@@ -84,7 +58,7 @@ body::before {
   object-fit: cover; /* Crop the image to cover the container */
 }
 
-/* replace scrollbars */
+/* replace scrollbar */
 
 .new-scroll {
   overflow-x: hidden;
@@ -139,30 +113,6 @@ body::before {
   --bg: #041b11;
 }
 
-.logo-name {
-  font-size: 1.4em;
-  font-family: 'VT323', monospace;
-}
-
-/* Yea this sucks but I am done wrestling with MUI for now */
-
-.full-width-hack {
-  max-width: 100% !important;
-}
-
-.no-padding-hack {
-  padding: 0 !important;
-}
-
-/* still sucks */
-.main-grid {
-  max-width: 98% !important;
-}
-
-#textContainer {
-  text-align: left;
-}
-
 .terminal {
   position: relative;
   overflow-y: hidden;
@@ -178,9 +128,7 @@ body::before {
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
+
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
   -webkit-font-smoothing: antialiased;
@@ -280,11 +228,6 @@ body::before {
   animation-timing-function: step-end;
   margin-left: 1px;
   line-height: 1rem;
-}
-
-.crt {
-  font-family: '"VT323", monospace';
-  color: var(--primary-color);
 }
 
 .monitor {
@@ -522,14 +465,23 @@ ul.help-list li {
 }
 
 .thought {
+  min-height: 40vh;
   width: 80%;
   margin: 0px auto 0;
   color: #000;
   font-family: serif;
-  line-height: 1.5em;
-  padding-top: 30px;
-  background: rgb(255, 255, 255, 0.3);
+  font-size: 3vw;
+  background: rgb(255, 255, 255, 0.5);
   padding: 30px;
+}
+
+/* ABOUT */
+
+.about-selfie {
+  width: 30%;
+  min-width: 150px;
+  float: left;
+  padding-right: 20px;
 }
 
 /* Contact page / Social icons */
@@ -601,11 +553,6 @@ ul.help-list li {
 
 .fade {
   animation: fadein 0.5s;
-}
-
-.help-chips .MuiChip-root {
-  border-radius: 4px;
-  margin-right: 20px;
 }
 
 @media (max-width: 960px) {

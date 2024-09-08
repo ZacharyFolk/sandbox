@@ -5,25 +5,47 @@ import { useContext } from 'react';
 
 const About = () => {
   return (
-    <Typist typingDelay={10}>
-      <h1 className="main-heading"> **** ZACS WEBSITE BASIC V 2.3.2 ****</h1>
-      <p>
-        This started out as a simple digital business card and grew into this
-        complex project built on a MERN stack. This simulated terminal I an
-        proud to consider one of the worlds dumbest A.I., just an endless switch
-        statement that I keep adding commands to. I may start adding it to a
-        real LLM in the near future. There is a full blog interface where I use
-        TinyMCE CMS and I ramble on about random things.
-      </p>
+    <>
+      <Typist typingDelay={10}>
+        <h1 className="main-heading"> **** ZACS BASIC V 2.3.2 ****</h1>
+        <p>
+          This started out as a simple digital business card and grew into this
+          complex project that includes a complete blog and this "artificial
+          intelligence" I wrote, well really it is a huge switch statement that
+          I am forever adding little secret commands to amuse myself.
+        </p>
+        <p>
+          There is a full blog interface with a secret login only for me where I
+          use TinyMCE CMS and I ramble on about random things, mostly about
+          React and coding projects.
+        </p>
 
-      <p>
-        My name is Zachary Folk and I am a developer with a home base near
-        Seattle. As much as I enjoy the machines and making pointless apps, I am
-        often out in the woods or the middle of the country somewhere. If you
-        are still reading this I am kind of amazed, you should send me a
-        message, it would really make my day.
-      </p>
-    </Typist>
+        <Typist.Paste>
+          <img
+            src="/images/matrix-me-small.jpg"
+            alt="Zachary Folk"
+            className="about-selfie"
+          />
+        </Typist.Paste>
+
+        <p>
+          My name is Zachary Folk and I am a developer with a home base near
+          Seattle. As much as I enjoy the machines and making pointless apps, I
+          am often out in the woods or the middle of the country somewhere.
+          Along with computers and music, photography is a lifelong passion for
+          me and you can see some of my latest work by typing photos.
+        </p>
+        <p>
+          This domain also houses many of the random experimental apps that I
+          build. You can see a list of them by typing projects and most are
+          available to play with.
+        </p>
+        <p>
+          If you want to work together or just say hi, type contact to find out
+          all the ways to reach out. Thanks for visiting!
+        </p>
+      </Typist>
+    </>
   );
 };
 
@@ -36,18 +58,7 @@ const CurseResponse = () => {
     </div>
   );
 };
-const CageTips = (props) => {
-  const tipsArray = [
-    'Game loaded. Press any key to continue.',
-    'Dealing cards. . . . ',
-    'You start the game with 10 ❤s and the game ends if you run out. Regain lost ❤ with a correct match. Good luck!',
-    'Uh Oh. Only 3 tries left!',
-    'Not looking good...',
-    'Game over.  Press Enter to play again.',
-    'Congratulations! You did it. Press Enter to play again.',
-  ];
-  return tipsArray[props.num];
-};
+
 const Deep = () => {
   const bkgdImages = [
     '/images/deep/deep1.jpg',
@@ -188,14 +199,6 @@ const Directions = () => {
   );
 };
 
-const Games = () => {
-  return (
-    <>
-      Here are some of the latest projects that are ready to play with. Read
-      more about how they were built on the blog!
-    </>
-  );
-};
 const Hello = () => {
   return (
     <Typist typingDelay={10}>
@@ -238,6 +241,7 @@ const Help = () => {
             onMouseEnter={() => handleMouseEnter(command)}
             onMouseLeave={() => updateInput('')}
             onClick={() => handleClick(command)}
+            className="command-link"
           >
             {command}
           </li>
@@ -284,21 +288,7 @@ const TheInfo = () => {
     </>
   );
 };
-const InitialText = () => {
-  return (
-    <Typist typingDelay={100}>
-      <h1 className="main-heading"> **** ZACS WEBSITE BASIC V 1.2.2 ****</h1>
-    </Typist>
-  );
-};
 
-const Jeopardy = () => {
-  return (
-    <Typist typingDelay={100}>
-      <p>Welcome to trivia with over 200,000 questions!</p>
-    </Typist>
-  );
-};
 const NoMatch = () => {
   const nopeArray = [
     "I'm sorry, Dave. I'm, afraid I can't do that.",
@@ -389,21 +379,55 @@ const RandomBoot = ({ onDone }) => {
   );
 };
 
+const Welcome = ({ onDone, powerRef }) => {
+  const { updateCommand, updateInput } = useContext(TerminalContext);
+
+  const handleClick = (value) => {
+    updateCommand(value);
+    updateInput('');
+  };
+
+  const handleMouseEnter = (value) => {
+    updateInput(value);
+  };
+  return (
+    <>
+      <Typist
+        typingDelay={10}
+        onTypingDone={() => {
+          if (powerRef.current) onDone();
+        }}
+      >
+        <p>
+          Welcome! <br /> <br /> So glad you here. <br />
+          <br /> Type{' '}
+          <span
+            className="command-link"
+            onMouseEnter={() => handleMouseEnter('help')}
+            onMouseLeave={() => updateInput('')}
+            onClick={() => handleClick('help')}
+          >
+            help
+          </span>{' '}
+          for a list of useful commands.
+        </p>
+      </Typist>
+    </>
+  );
+};
+
 //  onTypingDone={intro2}
 
 export {
   About,
-  CageTips,
   CurseResponse,
   Deep,
   Directions,
-  Games,
   Hello,
   Help,
   TheInfo,
-  InitialText,
-  Jeopardy,
   NoMatch,
   Projects,
   RandomBoot,
+  Welcome,
 };

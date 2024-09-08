@@ -9,7 +9,6 @@ import Blog from './pages/blog/Blog';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
 import Settings from './pages/settings/Settings';
-import Trivia from './pages/trivia/Trivia';
 import Archives from './pages/archives/Archives';
 import { Context } from './context/Context';
 // import './main.css';
@@ -37,7 +36,6 @@ export default function App() {
           <Route path="/archives/:archiveId" element={<Archives />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
           <Route path="/contact" element={<Contact />} />
-          <Route path="/trivia" element={<Trivia />} />{' '}
           {/* <Route path="/storytime" element={<StoryTime />} /> */}
           <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/write" element={user ? <Write /> : <Home />} />

@@ -10,7 +10,6 @@ import {
   Help,
   TheInfo,
   NoMatch,
-  InitialText,
   Projects,
 } from './Commands';
 
@@ -19,7 +18,6 @@ import Wordpress from './../wordpress/Wordpress';
 import { Box } from '@mui/material';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
-import Portfolio from '../projects/Portfolio';
 
 export default function Terminal(props) {
   const { command, updateCommand, inputRef, clearInput } =
@@ -103,9 +101,6 @@ export default function Terminal(props) {
         case 'info':
         case 'information':
           setOutput(TheInfo);
-          break;
-        case 'init':
-          setOutput(InitialText);
           break;
         case 'latest':
         case 'blog':
