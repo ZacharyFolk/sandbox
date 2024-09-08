@@ -143,20 +143,21 @@ export default function Terminal(props) {
     <Box
       sx={{ display: 'flex', flexDirection: 'column' }}
       onClick={monitorClickHandler}
-      className={`new-scroll terminal ${!power && 'terminal-off'}`}
+      className={` terminal ${!power && 'terminal-off'}`}
     >
-      <div id="targetOutput">
-        {' '}
+      <div id="targetOutput" className="new-scroll">
         {output} <div className="scanline"></div>
       </div>
       {viewPrompt && (
-        <span
-          className="terminal-input"
-          contentEditable="true"
-          suppressContentEditableWarning={true}
-          onKeyDown={(e) => handleKeys(e)}
-          ref={inputRef}
-        ></span>
+        <div className="input-container">
+          <span
+            className="terminal-input"
+            contentEditable="true"
+            suppressContentEditableWarning={true}
+            onKeyDown={(e) => handleKeys(e)}
+            ref={inputRef}
+          ></span>
+        </div>
       )}
     </Box>
   );

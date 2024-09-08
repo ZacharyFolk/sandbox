@@ -90,7 +90,7 @@ body::before {
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
-  max-height: 30vw;
+  max-height: 42vh;
 }
 /* width */
 .new-scroll::-webkit-scrollbar {
@@ -320,7 +320,7 @@ body::before {
 }
 
 #targetOutput {
-  max-height: 90%;
+  padding-right: 40px;
 }
 /* Hide default HTML checkbox */
 .switch .cb {
@@ -530,6 +530,14 @@ ul.help-list li {
   padding-top: 30px;
   background: rgb(255, 255, 255, 0.3);
   padding: 30px;
+}
+
+/* Contact page / Social icons */
+.main-social-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  place-items: center;
+  gap: 20px;
 }
 
 /* MODAL */
