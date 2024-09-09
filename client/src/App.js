@@ -17,13 +17,12 @@ import Favicon from 'react-favicon';
 import blinky from './blinky';
 
 // import StoryTime from './pages/storytime/StoryTime';
-import { Container } from '@mui/material';
-import { Header } from './components/Header';
+
 export default function App() {
   const { user } = useContext(Context);
 
   return (
-    <Container className="full-width-hack no-padding-hack">
+    <>
       {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
@@ -43,7 +42,7 @@ export default function App() {
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
-    </Container>
+    </>
   );
 }
 

@@ -7,6 +7,15 @@
   --bg: #05321e;
 }
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+body {
+  margin: 0;
+  color: rgb(255, 255, 255);
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  background-color: rgb(18, 18, 18);
+}
 a {
   outline: none;
   text-decoration: none;
@@ -73,7 +82,7 @@ hr {
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
-  max-height: 42vh;
+  max-height: 50vh;
 }
 /* width */
 .new-scroll::-webkit-scrollbar {
@@ -258,7 +267,7 @@ hr {
   bottom: 5%;
   border: 10px solid #0f0f0f;
   border-radius: 15px;
-  height: 60vh;
+  height: 72vh;
 }
 
 /* The switch - the box around the slider */
@@ -276,6 +285,8 @@ hr {
 }
 /* Hide default HTML checkbox */
 .switch .cb {
+  display: none;
+  visibility: none;
   opacity: 0;
   width: 0;
   height: 0;
@@ -387,11 +398,11 @@ hr {
 .controls {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding: 0 20px;
 }
-.controls-left {
-  margin: 10px 0 0;
-}
+
 .controls-right {
   display: flex;
   align-items: center;
@@ -404,7 +415,6 @@ hr {
 
 .menu-icon {
   cursor: pointer;
-  margin-top: 1.5em;
   background: var(--dark);
   font-size: 1.2em;
   color: #d2d2d2;
@@ -430,7 +440,7 @@ hr {
   height: 20px;
   border-radius: 50%;
   position: absolute;
-  top: 22px;
+  top: 0;
   right: 15px;
 }
 .led-on {
@@ -453,10 +463,10 @@ hr {
 
 .slide-menu {
   position: absolute;
-  top: -4vh;
+  top: -8vh;
   left: 0;
   width: 100%;
-  background-color: rgb(20 26 20 / 55%);
+  background-color: rgb(20 26 20 / 85%);
   color: white;
   display: flex;
   flex-direction: column;
@@ -674,6 +684,9 @@ ul.help-list li {
 }
 
 @media (max-width: 960px) {
+  .main-heading {
+    font-size: 1em;
+  }
   .deepBkgd {
     margin-top: 20%;
   }
@@ -684,24 +697,24 @@ ul.help-list li {
     display: block;
   }
   .monitor {
-    height: 98vh;
-    margin: 0;
+    height: 82vh;
+    margin: 20px 10px;
     padding: 0;
   }
   .bezel {
-    height: 80vh;
-    margin: 20px 0 0;
+    height: 60vh;
+    margin: 30px 10px;
     padding: 0;
   }
   .terminal {
-    min-height: 79vh;
+    min-height: 54vh;
   }
 
   #targetOutput {
     padding: 20px;
   }
   .terminal-input {
-    margin-left: 40px;
+    margin-left: 20px;
   }
   .no-padding-hack,
   .terminal {
@@ -709,6 +722,6 @@ ul.help-list li {
   }
 
   .new-scroll {
-    max-height: 84vh;
+    max-height: 48vh;
   }
 }
