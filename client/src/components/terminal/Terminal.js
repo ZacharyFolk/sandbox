@@ -15,7 +15,6 @@ import {
 
 import Social from '../social/Social';
 import Wordpress from './../wordpress/Wordpress';
-import { Box } from '@mui/material';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
 
@@ -135,8 +134,7 @@ export default function Terminal(props) {
     inputRef.current && inputRef.current.focus();
   };
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column' }}
+    <div
       onClick={monitorClickHandler}
       className={` terminal ${!power && 'terminal-off'}`}
     >
@@ -154,6 +152,6 @@ export default function Terminal(props) {
           ></span>
         </div>
       )}
-    </Box>
+    </div>
   );
 }

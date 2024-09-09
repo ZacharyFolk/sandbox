@@ -333,11 +333,12 @@ const Projects = () => {
         GitHub where I work on a handful of pet projects.
       </p>
       <Typist.Paste>
-        <img
-          src="https://ghchart.rshah.org/zacharyfolk"
-          alt="github contributions"
-          className="git-cons"
-        />
+        <div className="git-cons">
+          <img
+            src="https://ghchart.rshah.org/zacharyfolk"
+            alt="github contributions"
+          />{' '}
+        </div>
       </Typist.Paste>
       <p>
         Some of these projects are utterly pointless and silly but they were a
@@ -361,8 +362,20 @@ const Projects = () => {
           />
         </Typist.Paste>
         is a simple matching game with a high score database. It has power-ups
-        if you get multiple matches in a row. It has an abundance of Nicolas
-        Cage. There is a blog post that tells more about how I made it.
+        if you get multiple matches in a row.
+      </p>
+      <p>It has an abundance of Nicolas Cage. </p>
+      <p>
+        There is{' '}
+        <a
+          href="https://folk.codes/post/64023d8da42174866a50a545"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          a blog post
+        </a>{' '}
+        that tells more about how I made it.
       </p>
       <hr />
       <p>
@@ -374,20 +387,26 @@ const Projects = () => {
         >
           Wutuknow?
         </a>{' '}
-        - this one got a bit more complex. I created a database and an API to
-        deal with a giant json file of over 200,000 Jeopardy questions. The game
-        works by matching your answers with what is in the data.
-        <Typist.Paste>
-          <img
-            src="images/screenshot-wutuknow.jpg"
-            alt="Cagematch card game"
-            className="ss-right"
-          />
-        </Typist.Paste>
+        - For this project I created a database and an API to deal with a giant
+        json file of over 200,000 Jeopardy questions.
+      </p>
+      <Typist.Paste>
+        <img
+          src="images/screenshot-wutuknow.jpg"
+          alt="Cagematch card game"
+          className="ss-right"
+        />
+      </Typist.Paste>
+      <p>
+        The game keeps score of correct answers and has 3 rounds like the show.
+      </p>
+      <p>
+        I learned a lot of things building this like the levenshtein distance
+        equation and that I am really bad at Jeopardy.
       </p>
       <p>
         If you play, I apologize if your correct answers are rejected, it uses
-        some fuzzy math for the "judges" and often gets it wrong.
+        some fuzzy math for the "judges" and often gets it wrong. Have fun!
       </p>
       <hr />
       <p>
@@ -425,12 +444,14 @@ const Projects = () => {
           rel="noreferrer"
           className="external-link"
         >
-          Wise-Guys API
+          Wise API
         </a>{' '}
-        is simple collection of quotes from many wise people. It is part of
-        another mindfulness app I have been working on for a while.
+        is a simple collection of quotes from many wise people. It is part of
+        another mindfulness app I have been working on for a while. Stay
+        tuned...
       </p>
       <p>
+        Here is an example request :
         <pre>
           <code class="language-bash">
             curl 'https://wise-api.folk.codes/api/quotes/random'
@@ -462,9 +483,9 @@ const Projects = () => {
       </p>
 
       <p>
-        I also build actually useful things once in a while. Mainly for people
-        that need e-commerce applications or content sites. Contact me if you
-        would like to work together!
+        I also build useful things once in a while. Mainly for clients that need
+        e-commerce applications or content sites. Contact me if you would like
+        to work together!
       </p>
     </Typist>
   );

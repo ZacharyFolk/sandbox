@@ -503,6 +503,11 @@ ul.help-list li {
 
 /** Projects output */
 .git-cons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.git-cons img {
   max-width: 100%;
 }
 
@@ -585,15 +590,6 @@ ul.help-list li {
   animation: fadein 0.5s;
 }
 
-@media (max-width: 960px) {
-  .monitor {
-    height: 90vh;
-  }
-  .bezel {
-    height: 70vh;
-  }
-}
-
 @keyframes scanline {
   0% {
     bottom: 100%;
@@ -603,5 +599,28 @@ ul.help-list li {
   }
   100% {
     bottom: 0%;
+  }
+}
+
+@media (max-width: 960px) {
+  .monitor {
+    height: 98vh;
+    margin: 0;
+    padding: 0;
+  }
+  .bezel {
+    height: 88vh;
+    margin: 20px 0 0;
+    padding: 0;
+  }
+  .terminal {
+    min-height: 80vh;
+  }
+  .no-padding-hack,
+  .terminal {
+    padding: 0;
+  }
+  .new-scroll {
+    max-height: 84vh;
   }
 }
