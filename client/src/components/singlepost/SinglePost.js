@@ -1,27 +1,10 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-} from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { Context } from '../../context/Context';
 import useAxiosJWT from '../../utils/tokens';
 import Tiny from '../tiny/Tiny';
 import Prism from 'prismjs';
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import './movethis.css';
 import { FetchLatestPostLinks } from '../posts/FetchLatestPostLinks';
@@ -40,7 +23,7 @@ const SinglePost = () => {
   const [open, setOpen] = useState(false); // delete confirmation window
 
   const [allCategories, setAllCategories] = useState([]);
-  const [updateMode, setUpdateMode] = useState(false); // Added updateMode state
+  const [updateMode, setUpdateMode] = useState(false);
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   });
@@ -128,114 +111,89 @@ const SinglePost = () => {
   }
 
   return (
-    <Container sx={{ width: '90%' }} className="single-post">
-      <Grid container spacing={0}>
-        <Grid item xs={8}>
-          <Paper className="main-post-content">
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="h4" gutterBottom>
-                {formData.title}
-              </Typography>
+    <div className="single-post" style={{ width: '90%', margin: '0 auto' }}>
+      <div className="post-container" style={{ display: 'flex' }}>
+        <div className="main-post-content" style={{ flex: '2' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h2>{formData.title}</h2>
 
-              {post.username === user?.username && (
-                <Box>
-                  <IconButton onClick={() => setUpdateMode(true)}>
-                    <EditNoteIcon />
-                  </IconButton>
+            {post.username === user?.username && (
+              <div>
+                <button onClick={() => setUpdateMode(true)}>Edit</button>
+                <button onClick={handleConfirmation}>Delete</button>
+              </div>
+            )}
+          </div>
+          <div>{new Date(post.createdAt).toDateString()}</div>
 
-                  <IconButton onClick={handleConfirmation}>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </Box>
-              )}
-            </Box>
-            <Box> {new Date(post.createdAt).toDateString()}</Box>
-
-            <Divider />
-            <Box>
-              {updateMode ? (
-                <>
-                  <Tiny
-                    setDesc={(desc) => setFormData({ ...formData, desc })}
-                    desc={formData.desc}
-                  />
-
-                  <div className="button-container">
-                    <div className="draft-container">
-                      <label>Draft</label>
-                      <input
-                        type="checkbox"
-                        checked={formData.draft}
-                        onChange={(e) =>
-                          setFormData({ ...formData, draft: e.target.checked })
-                        }
-                      />
-                    </div>
-
-                    <div className="cat-chooser">
-                      <label>Categories</label>
-                      {allCategories.map((category) => (
-                        <div key={category._id}>
-                          <input
-                            type="checkbox"
-                            id={category._id}
-                            value={category._id}
-                            checked={formData.categories.has(category._id)}
-                            onChange={handleSelectCategory}
-                          />
-                          <label htmlFor={category._id}>{category.name}</label>
-                        </div>
-                      ))}
-                    </div>
-
-                    <button className="singlePostButton" onClick={handleUpdate}>
-                      Update
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div
-                  className="content"
-                  dangerouslySetInnerHTML={{ __html: formData.desc }}
+          <hr />
+          <div>
+            {updateMode ? (
+              <>
+                <Tiny
+                  setDesc={(desc) => setFormData({ ...formData, desc })}
+                  desc={formData.desc}
                 />
-              )}
-            </Box>
-          </Paper>
-        </Grid>
-        <Grid item xs={4} sx={{ padding: 0 }}>
-          <Paper className="sidebar">
-            {/* <Typography variant="h6" gutterBottom>
-              Recent Posts
-            </Typography> */}
 
-            <FetchLatestPostLinks />
-          </Paper>
-        </Grid>
-      </Grid>
+                <div className="button-container">
+                  <div className="draft-container">
+                    <label>Draft</label>
+                    <input
+                      type="checkbox"
+                      checked={formData.draft}
+                      onChange={(e) =>
+                        setFormData({ ...formData, draft: e.target.checked })
+                      }
+                    />
+                  </div>
 
-      <Dialog open={open} onClose={handleConfirmationClose}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this post?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleConfirmationClose} color="primary">
-            No
-          </Button>
-          <Button onClick={handleConfirmationYes} color="primary" autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+                  <div className="cat-chooser">
+                    <label>Categories</label>
+                    {allCategories.map((category) => (
+                      <div key={category._id}>
+                        <input
+                          type="checkbox"
+                          id={category._id}
+                          value={category._id}
+                          checked={formData.categories.has(category._id)}
+                          onChange={handleSelectCategory}
+                        />
+                        <label htmlFor={category._id}>{category.name}</label>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button className="singlePostButton" onClick={handleUpdate}>
+                    Update
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div
+                className="content"
+                dangerouslySetInnerHTML={{ __html: formData.desc }}
+              />
+            )}
+          </div>
+        </div>
+        <div className="sidebar" style={{ flex: '1' }}>
+          <FetchLatestPostLinks />
+        </div>
+      </div>
+
+      {open && (
+        <div className="dialog">
+          <div className="dialog-title">Confirm Deletion</div>
+          <div className="dialog-content">
+            <p>Are you sure you want to delete this post?</p>
+          </div>
+          <div className="dialog-actions">
+            <button onClick={handleConfirmationClose}>No</button>
+            <button onClick={handleConfirmationYes}>Yes</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

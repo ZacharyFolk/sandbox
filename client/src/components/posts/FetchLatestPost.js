@@ -1,9 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { Box, Typography } from '@mui/material';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
@@ -37,27 +35,26 @@ const HomePost = ({ post }) => {
   }
 
   return (
-    <Box>
-      <Typography variant="h4" className="post-title" sx={{ mt: 2 }}>
-        {post.title}
-      </Typography>
-      <Typography className="post-date" sx={{ mb: 2 }}>
-        {new Date(post.createdAt).toLocaleString()}
-      </Typography>
+    <div className="post-container">
+      <h2>{post.title}</h2>
+
+      <p className="post-date">{new Date(post.createdAt).toLocaleString()}</p>
+
       {featuredImage && (
         <div className="featured-img-container">
           <img className="featured-img" src={featuredImage} alt="" />
         </div>
       )}
-      <Typography
-        variant="body1"
-        component="div"
+
+      <div
+        className="post-excerpt"
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(excerpt) }}
       />
+
       <Link to={`/post/${post._id}`} className="full-post">
         Read the full post &gt;
       </Link>
-    </Box>
+    </div>
   );
 };
 
@@ -80,8 +77,8 @@ export const FetchLatestPost = () => {
     fetchLatestPost();
   }, []);
   return (
-    <Box>
+    <div className="latest-post-container">
       <HomePost post={latestPost} />
-    </Box>
+    </div>
   );
 };

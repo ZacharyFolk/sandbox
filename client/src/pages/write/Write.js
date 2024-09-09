@@ -1,19 +1,9 @@
-import {
-  Container,
-  TextField,
-  Button,
-  Checkbox,
-  Select,
-  MenuItem,
-  Chip,
-  FormControlLabel,
-  Box,
-} from '@mui/material';
 import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Context } from '../../context/Context';
 import Tiny from '../../components/tiny/Tiny';
 import useAxiosJWT from '../../utils/tokens';
+
 export default function Write() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
@@ -79,60 +69,63 @@ export default function Write() {
   };
 
   return (
-    <Container>
-      <Box sx={{ mt: 4 }}>
-        <TextField
-          label="Title"
-          variant="outlined"
+    <div className="write-container">
+      <div className="form-group">
+        <label htmlFor="title">Title</label>
+        <input
+          id="title"
+          type="text"
+          className="form-control"
           autoFocus={true}
           onChange={(e) => setTitle(e.target.value)}
         />
-      </Box>
-      <Box sx={{ mt: 4, mb: 4 }}>
+      </div>
+
+      <div className="form-group">
         <Tiny setDesc={setDesc} desc={desc} />
-      </Box>
-      <Box sx={{ display: 'flex' }}>
-        <Select
+      </div>
+
+      <div className="form-group select-group">
+        <label htmlFor="categories">Categories</label>
+        <select
           multiple
-          value={categories}
+          value={categories.map((cat) => cat._id)}
           onChange={handleSelectCategory}
-          renderValue={(selected) => (
-            <div>
-              {selected.map((value) => (
-                <Chip key={value._id} label={value.name} />
-              ))}
-            </div>
-          )}
+          className="form-control"
         >
           {allCategories.map((c) => (
-            <MenuItem key={c._id} value={c}>
+            <option key={c._id} value={c._id}>
               {c.name}
-            </MenuItem>
+            </option>
           ))}
-        </Select>
+        </select>
 
-        <TextField
-          label="New Category"
-          variant="outlined"
+        <label htmlFor="new-category">New Category</label>
+        <input
+          id="new-category"
+          type="text"
+          className="form-control"
           onChange={handleNewCategory}
         />
-        <Button variant="contained" onClick={addNewCategory}>
+        <button onClick={addNewCategory} className="btn">
           Add New Category
-        </Button>
-      </Box>
-      <FormControlLabel
-        control={
-          <Checkbox
+        </button>
+      </div>
+
+      <div className="form-group">
+        <label>
+          <input
+            type="checkbox"
             checked={draft}
             onChange={(e) => setDraft(e.target.checked)}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-        }
-        label="Draft"
-      />
-      <Button variant="contained" onClick={handleSubmit}>
+          />{' '}
+          Draft
+        </label>
+      </div>
+
+      <button onClick={handleSubmit} className="btn btn-submit">
         Submit
-      </Button>
-    </Container>
+      </button>
+    </div>
   );
 }

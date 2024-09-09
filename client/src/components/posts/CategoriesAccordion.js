@@ -1,54 +1,49 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Grid,
-  Paper,
-  Box,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 
 export const CategoriesAccordion = ({ categories }) => {
-  const theme = useTheme();
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const [isMediumScreen, setIsMediumScreen] = useState(
+    window.innerWidth <= 768
+  );
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMediumScreen(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <Paper>
-      <Typography variant="h4">Categories</Typography>
-      <Divider />
+    <div className="categories-container">
+      <h2>Categories</h2>
+      <hr />
       {isMediumScreen ? (
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h5">Expand Categories</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <List>
+        <div className="accordion">
+          <div className="accordion-summary">
+            <button className="expand-btn">Expand Categories</button>
+          </div>
+          <div className="accordion-details">
+            <ul className="category-list">
               {categories.map((category) => (
-                <ListItem key={category._id}>
+                <li key={category._id}>
                   <Link to={`/archives/${category._id}`}>{category.name}</Link>
-                </ListItem>
+                </li>
               ))}
-            </List>
-          </AccordionDetails>
-        </Accordion>
+            </ul>
+          </div>
+        </div>
       ) : (
-        <List>
+        <ul className="category-list">
           {categories.map((category) => (
-            <ListItem key={category._id}>
+            <li key={category._id}>
               <Link to={`/archives/${category._id}`}>{category.name}</Link>
-            </ListItem>
+            </li>
           ))}
-        </List>
+        </ul>
       )}
-    </Paper>
+    </div>
   );
 };
