@@ -484,8 +484,9 @@ const Projects = () => {
 
       <p>
         I also build useful things once in a while. Mainly for clients that need
-        e-commerce applications or content sites. Contact me if you would like
-        to work together!
+        e-commerce applications or content sites.{' '}
+        <a href="/?command=contact">Contact me</a> if you would like to work
+        together!
       </p>
     </Typist>
   );

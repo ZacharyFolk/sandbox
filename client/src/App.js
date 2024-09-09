@@ -4,7 +4,6 @@ import { Routes, Route, Outlet, Link } from 'react-router-dom';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
-import Contact from './pages/contact/Contact';
 import Blog from './pages/blog/Blog';
 import Single from './pages/single/Single';
 import Write from './pages/write/Write';
@@ -35,9 +34,6 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />,
           <Route path="/archives/:archiveId" element={<Archives />} />
           {/* <Route path='/register' element={user ? <Home /> : <Register />} /> */}
-          <Route path="/contact" element={<Contact />} />
-          {/* <Route path="/storytime" element={<StoryTime />} /> */}
-          <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/write" element={user ? <Write /> : <Home />} />
           <Route path="/post/:postId" element={<Single />} />
           <Route path="/settings" element={user ? <Settings /> : <Home />} />

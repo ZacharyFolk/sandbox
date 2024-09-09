@@ -49,13 +49,26 @@ const Social = () => {
     <>
       <Typist typingDelay={10}>
         <p>
-          Make contact! <br /> <br /> Email me @{' '}
+          Would you like to work together or have any questions? <br />
+          <br />I would love to hear from you!
+          <br />
+          <br />
+          {'\u2709'}{' '}
           <a href="mailto:folkcodes@gmail.com">folkcodes@gmail.com</a>
+          <br />
+          {'\u260E'} <a href="tel:207-714-5203">206.714.5203</a>
+          <br />
+          {'\u274F'}{' '}
+          <a href="/resumes/Zachary Folk-resume-092024-v2.pdf" target="_blank">
+            Latest Resume
+          </a>{' '}
+          <br /> <br /> <br />
         </p>
+
+        <Typist.Paste>
+          <SocialButtons />
+        </Typist.Paste>
       </Typist>
-      <Typist.Paste>
-        <SocialButtons />
-      </Typist.Paste>
     </>
   );
 };
