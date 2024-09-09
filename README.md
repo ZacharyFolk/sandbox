@@ -1,10 +1,8 @@
-# Zacs Website
-
                                  _________________
                                 |  _____________  |
                                 | |             | |
-                                | |    ZAC'S    | |
-                                | |   WEBSITE   | |
+                                | |    folk     | |
+                                | |    codes    | |
                                 | |             | |
                                 | |_____________| |
                                 |_________________|
@@ -12,109 +10,21 @@
                                  __[___________]____
                                 |        [_____] [*]|
                                 |        [_____] [ ]|
-                                |___________________|
                                  ___________________
                                 /###################\
-                                \-------------------/
 
 This is where I keep a blog and work on random javaScript experiments.
 The main focus is on learning by experimenting and building random stuff to play with.
 Feel free to dig through the code base and check the blog for tutorials and videos on building
 some of the apps you can find on the site.
 
+[<img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FZacharyFolk%2Fsandbox%2Fmaster%2Fclient%2Fpackage.json&query=%24.version&label=version
+">](/CHANGELOG.md)
+
+<img src="https://img.shields.io/github/commit-activity/m/zacharyfolk/sandbox" />
+
 ---
 
     Live Demo
 
-You can check it out on [zacs.website](https://www.zacs.website).
-
----
-
-    Changelog
-
-### [1.2.2] - 2023-03-06
-
-#### Fixed
-
-- More Modal bugs
-- Broken image paths in blog
-
-#### Added
-
-- This months project
-
-### [1.2.1] - 2023-03-06
-
-#### Fixed
-
-- Modal bugs
-- Broken image paths / versioning blog image uploads
-
-### [1.2.0] - 2023-02-28
-
-#### Added
-
-- Testing out Google Analytics
-
-#### Updated
-
-- image uploads to posts
-- DRY the token methods
-
-#### Fixed
-
-- Initial access token
-- Default draft and category selections
-
-### [1.1.1] - 2023-02-19
-
-#### Updated
-
-- new theme for Jeopardy game
-
-#### Added
-
-- StoryBot
-
-### [1.0.1] - 2023-02-07
-
-#### Fixed
-
-- a lot of styles for mobile (games still look horrible but kind of work)
-- some bugs with the modal
-- random desktop styles
-
-#### Added
-
-- updated resume
-- modals to game page
-
-### [1.0.0] - 2023-01-31
-
-#### Added
-
-- Connected to GitHub issues API
-- Added Jeopardy style game
-- Added matcing game "Cagematch"
-- Random response for unknown inputs
-- Adventure game simulator (directions as input)
-- GitHub contribution calendar
-- Added bad word filter
-- Added connection to Wordpress photography site
-- Added blockquotes and "information" input response
-- Added categories and draft mode for blog posts
-
-#### Updated
-
-- Spellcheck for TinyMCE
-- Created context for terminal component
-
-### [0.0.1] - 2023-01-07
-
-#### Initialized
-
-- Setting up initial site
-- Working header terminal
-- Working blog
-
----
+You can check it out on [folk.codes](https://folk.codes).
