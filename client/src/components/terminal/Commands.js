@@ -328,37 +328,143 @@ const Projects = () => {
   return (
     <Typist typingDelay={10}>
       <p>
-        I am always making things and it would be great if it entertains others
-        for a minute or two. Some projects are utterly ridiculous but were fun
-        learning experiences, for example this{' '}
-        <a href="https://cagematch.folk.codes" target="_blank" rel="noreferrer">
-          card matching game
+        I have been building a lot of random things lately with React like this
+        website and it's CMS system. You can see some of my public repos on
+        GitHub where I work on a handful of pet projects.
+      </p>
+      <Typist.Paste>
+        <img
+          src="https://ghchart.rshah.org/zacharyfolk"
+          alt="github contributions"
+          className="git-cons"
+        />
+      </Typist.Paste>
+      <p>
+        Some of these projects are utterly pointless and silly but they were a
+        good learning experiences and hopefully provide a minute of random fun
+        for others.
+      </p>
+      <p>
+        <a
+          href="https://cagematch.folk.codes"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          CAGEMATCH
+        </a>{' '}
+        <Typist.Paste>
+          <img
+            src="images/screenshot-cagematch.jpg"
+            alt="Cagematch card game"
+            className="ss-left"
+          />
+        </Typist.Paste>
+        is a simple matching game with a high score database. It has power-ups
+        if you get multiple matches in a row. It has an abundance of Nicolas
+        Cage. There is a blog post that tells more about how I made it.
+      </p>
+      <hr />
+      <p>
+        <a
+          href="https://wutuknow.folk.codes"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          Wutuknow?
+        </a>{' '}
+        - this one got a bit more complex. I created a database and an API to
+        deal with a giant json file of over 200,000 Jeopardy questions. The game
+        works by matching your answers with what is in the data.
+        <Typist.Paste>
+          <img
+            src="images/screenshot-wutuknow.jpg"
+            alt="Cagematch card game"
+            className="ss-right"
+          />
+        </Typist.Paste>
+      </p>
+      <p>
+        If you play, I apologize if your correct answers are rejected, it uses
+        some fuzzy math for the "judges" and often gets it wrong.
+      </p>
+      <hr />
+      <p>
+        <Typist.Paste>
+          <img
+            src="images/screenshot-disco.jpg"
+            alt="My Disco"
+            className="ss-left"
+          />
+        </Typist.Paste>
+        <a
+          href="https://disco.folk.codes"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          My Disco
+        </a>{' '}
+        As a record appreciator and a fan of the Discogs API I decided to try
+        building my own app. It is a work in progress but does a number of
+        things with your record data.
+      </p>
+
+      <p>
+        It allows to sort by year, quick search, and charts of your genres.
+        Using YouTube it creates a playlist of songs from the record. It also
+        has a feature to create images from a random collage of your record
+        collection.
+      </p>
+      <hr />
+      <p>
+        <a
+          href="https://wise-api.folk.codes/api-docs/"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          Wise-Guys API
+        </a>{' '}
+        is simple collection of quotes from many wise people. It is part of
+        another mindfulness app I have been working on for a while.
+      </p>
+      <p>
+        <pre>
+          <code class="language-bash">
+            curl 'https://wise-api.folk.codes/api/quotes/random'
+          </code>
+        </pre>
+      </p>
+      <hr />
+      <p>
+        <a
+          href="https://github.com/ZacharyFolk/simplefolk"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          Simple Folk
+        </a>{' '}
+        is a project decades in the making that I use for{' '}
+        <a
+          href="https://folkphotography.com"
+          target="_blank"
+          rel="noreferrer"
+          className="external-link"
+        >
+          my photography site
         </a>
-        . Try it out, I even added an API and database for high scores. There is
-        a blog post that tells more about how I made it.
+        . It has now evolved into a very unique WordPress theme. If you have
+        photos and want to test it out please reach out, I would love to get
+        some feedback on using it.
       </p>
+
       <p>
-        I had a lot of fun turning a giant json file of over 200,000 Jeopardy
-        questions into a functional game and made a new interface for the
-        Discogs API.
-      </p>
-      <p>
-        I also built my own API that is quotes from wise people. It is part of
-        another mindfulness app I have been working on.
-      </p>
-      <p>
-        THe most functional thing I have worked on lately is a very different
-        kind of WordPress theme that I use for my photography site. If you have
-        photos and want to test it out reach out, I would love to get some
-        feedback on it.
-      </p>
-      <p>
-        You can read more about these projects and play with them over here.
-      </p>
-      <p>
-        I also build actually useful things for people specializing in WordPress
-        and custom React applications. Reach out if you would like to work
-        together!
+        I also build actually useful things once in a while. Mainly for people
+        that need e-commerce applications or content sites. Contact me if you
+        would like to work together!
       </p>
     </Typist>
   );
@@ -399,7 +505,8 @@ const Welcome = ({ onDone, powerRef }) => {
         }}
       >
         <p>
-          Welcome! <br /> <br /> So glad you here. <br />
+          Welcome! <br /> <br /> Thank you for visiting! Type some commands and
+          see what happens. <br />
           <br /> Type{' '}
           <span
             className="command-link"

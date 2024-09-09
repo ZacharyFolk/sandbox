@@ -26,6 +26,15 @@ a:hover {
   text-decoration: underline;
 }
 
+hr {
+  clear: both; /* Ensures it clears both left and right floated elements */
+  width: 100%; /* Makes the hr fill the entire width of its parent */
+  border: none; /* Removes the default border */
+  height: 2px; /* Customize the thickness */
+  background-color: var(--secondary-color);
+  margin: 20px 0 0;
+}
+
 .main-post-content,
 .sidebar {
   background-image: url('./../public/textures/dark-leather.png') !important;
@@ -263,7 +272,7 @@ a:hover {
 }
 
 #targetOutput {
-  padding-right: 40px;
+  padding: 20px 40px 0 0;
 }
 /* Hide default HTML checkbox */
 .switch .cb {
@@ -490,6 +499,27 @@ ul.help-list li {
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   place-items: center;
   gap: 20px;
+}
+
+/** Projects output */
+.git-cons {
+  max-width: 100%;
+}
+
+/* Screenshots */
+
+.ss-left {
+  min-width: 180px;
+  width: 30%;
+  float: left;
+  margin: 10px 20px 20px 0;
+}
+
+.ss-right {
+  min-width: 180px;
+  width: 30%;
+  float: right;
+  margin: 0 20px 20px 10px;
 }
 
 /* MODAL */
