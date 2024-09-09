@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
       <Typist typingDelay={10}>
-        <h1 className="main-heading"> **** ZACS BASIC V 2.3.2 ****</h1>
+        <h2 className="main-heading"> **** Folk Codes V 2.0.0 ****</h2>
         <p>
           This started out as a simple digital business card and grew into this
           complex project that includes a complete blog and this "artificial

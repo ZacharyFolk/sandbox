@@ -387,8 +387,36 @@ hr {
 .controls {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-bottom: 60px;
+  justify-content: space-around;
+}
+.controls-left {
+  margin: 10px 0 0;
+}
+.controls-right {
+  display: flex;
+  align-items: center;
+}
+/* command helper - hiding on big screens */
+
+.menu-icon {
+  display: none;
+}
+
+.menu-icon {
+  cursor: pointer;
+  margin-top: 1.5em;
+  background: var(--dark);
+  font-size: 1.2em;
+  color: #d2d2d2;
+  padding: 2px 8px 6px;
+}
+.menu-icon:hover {
+  background: var(--secondary-color);
+  color: #a5c292;
+}
+.menu-icon:active {
+  background: var(--primary-color);
+  color: #292929;
 }
 .light {
   position: relative;
@@ -420,6 +448,46 @@ hr {
     inset #525252 0 -1px 9px,
     #090909 0 2px 12px;
 }
+
+/* Side Menu */
+
+.slide-menu {
+  position: absolute;
+  top: -4vh;
+  left: 0;
+  width: 100%;
+  background-color: rgb(20 26 20 / 55%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: top 0.3s ease;
+  z-index: 1;
+}
+
+.slide-menu.open {
+  top: 0;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.slide-menu ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.slide-menu ul li {
+  cursor: pointer;
+  padding: 1rem;
+  text-align: center;
+  color: var(--secondary-color);
+}
+
+.slide-menu ul li:hover {
+  color: var(--primary-color);
+}
+
 /* Help */
 
 ul.help-list {
@@ -486,6 +554,9 @@ ul.help-list li {
 
 /* ABOUT */
 
+.main-heading {
+  text-align: center;
+}
 .about-selfie {
   width: 30%;
   min-width: 150px;
@@ -603,6 +674,9 @@ ul.help-list li {
 }
 
 @media (max-width: 960px) {
+  .menu-icon {
+    display: block;
+  }
   .monitor {
     height: 98vh;
     margin: 0;
@@ -615,6 +689,9 @@ ul.help-list li {
   }
   .terminal {
     min-height: 80vh;
+  }
+  #targetOutput {
+    padding: 20px;
   }
   .no-padding-hack,
   .terminal {
