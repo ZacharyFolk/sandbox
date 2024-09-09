@@ -42,6 +42,8 @@ export default function Terminal(props) {
     }
   };
   useEffect(() => {
+    if (!command) return;
+
     if (curses.includes(command)) {
       return setOutput(CurseResponse);
     } else {

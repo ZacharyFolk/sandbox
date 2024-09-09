@@ -1,10 +1,17 @@
-import { createContext, useState, useRef } from 'react';
+import { createContext, useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const TerminalContext = createContext('');
 
 export const TerminalProvider = ({ children }) => {
   const [command, setCommand] = useState('');
   const inputRef = useRef(null);
+  const location = useLocation();
+
+  const getCommandFromUrl = () => {
+    const query = new URLSearchParams(location.search);
+    return query.get('command');
+  };
 
   const updateCommand = (value) => {
     if (value) {
@@ -24,6 +31,13 @@ export const TerminalProvider = ({ children }) => {
       inputRef.current.innerText = '';
     }
   };
+
+  useEffect(() => {
+    const urlCommand = getCommandFromUrl();
+    if (urlCommand) {
+      setCommand(urlCommand);
+    }
+  }, [location.search]);
 
   return (
     <TerminalContext.Provider

@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { useLocation } from 'react-router-dom';
 import Typist from 'react-typist-component';
 import { Welcome } from './Commands';
+import { TerminalContext } from '../../context/TerminalContext';
+import { useContext } from 'react';
+import Cookies from 'js-cookie';
 
 const RandomBoot = ({ onDone, powerRef }) => {
   const bootArray = [
@@ -63,31 +66,24 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
   const [hasRun, setHasRun] = useState(false);
   const timeouts = useRef([]);
   const powerRef = useRef(power);
+  const location = useLocation(); // Get the current location
+  const query = new URLSearchParams(location.search);
+  const command = query.get('command');
+  const { updateInput } = useContext(TerminalContext);
 
   useEffect(() => {
     powerRef.current = power;
 
     if (power) {
-      // Log the initial value of hasRun
-      console.log('Initial hasRun:', hasRun);
+      if (command) {
+        // If a command is present, ensure the prompt is shown
+        setViewPrompt(true);
+        updateInput(command); // Update input with command from URL query
+      } else {
+        // Log the initial value of hasRun
+        console.log('Initial hasRun:', hasRun);
 
-      // Schedule a state update
-      setHasRun(true);
-
-      // Use a function to handle the side effects of state update properly
-      const handleStateUpdate = () => {
-        const intro2 = () => {
-          const timeoutId = setTimeout(() => {
-            if (powerRef.current) {
-              setOutput('');
-              setOutput(
-                <RandomCalculations onDone={introEnd} powerRef={powerRef} />
-              );
-            }
-          }, 2000);
-          timeouts.current.push(timeoutId);
-        };
-
+        // Ensure the prompt appears once the intro is complete
         const introEnd = () => {
           const timeoutId = setTimeout(() => {
             if (powerRef.current) {
@@ -104,31 +100,40 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
           timeouts.current.push(timeoutId);
         };
 
-        if (!hasRun) {
-          console.log('Running intro2');
-          setOutput(<RandomBoot onDone={intro2} powerRef={powerRef} />);
-        } else {
-          console.log('Running introEnd');
-          setOutput(
-            <Welcome
-              onDone={() => {
-                if (powerRef.current) setViewPrompt(true);
-              }}
-              powerRef={powerRef}
-            />
-          );
-        }
-      };
+        // Schedule the intro state updates
+        const handleStateUpdate = () => {
+          const intro2 = () => {
+            const timeoutId = setTimeout(() => {
+              if (powerRef.current) {
+                setOutput('');
+                setOutput(
+                  <RandomCalculations onDone={introEnd} powerRef={powerRef} />
+                );
+              }
+            }, 2000);
+            timeouts.current.push(timeoutId);
+          };
 
-      // Delay the state-dependent logic to ensure state update has occurred
-      setTimeout(handleStateUpdate, 0);
+          if (!hasRun) {
+            console.log('Running intro2');
+            setOutput(<RandomBoot onDone={intro2} powerRef={powerRef} />);
+          } else {
+            console.log('Running introEnd');
+            introEnd();
+          }
+        };
+
+        // Run the state update handler to kick off the intro sequence
+        setTimeout(handleStateUpdate, 0);
+        setHasRun(true);
+      }
     }
 
     return () => {
       timeouts.current.forEach(clearTimeout);
       timeouts.current = [];
     };
-  }, [power, hasRun, setOutput, setViewPrompt]);
+  }, [power, hasRun, setOutput, setViewPrompt, command]);
 
   return null;
 };
