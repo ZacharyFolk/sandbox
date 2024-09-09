@@ -6,7 +6,7 @@
   --dark: #050505;
   --bg: #05321e;
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 a {
   outline: none;
   text-decoration: none;
@@ -542,12 +542,12 @@ ul.help-list li {
 }
 
 .thought {
-  min-height: 40vh;
+  min-height: 36vh;
   width: 80%;
   margin: 0px auto 0;
   color: #000;
-  font-family: serif;
-  font-size: 3vw;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.6vw;
   background: rgb(255, 255, 255, 0.5);
   padding: 30px;
 }
@@ -674,6 +674,12 @@ ul.help-list li {
 }
 
 @media (max-width: 960px) {
+  .deepBkgd {
+    margin-top: 20%;
+  }
+  .thought {
+    font-size: 6vw;
+  }
   .menu-icon {
     display: block;
   }
@@ -683,20 +689,25 @@ ul.help-list li {
     padding: 0;
   }
   .bezel {
-    height: 88vh;
+    height: 80vh;
     margin: 20px 0 0;
     padding: 0;
   }
   .terminal {
-    min-height: 80vh;
+    min-height: 79vh;
   }
+
   #targetOutput {
     padding: 20px;
+  }
+  .terminal-input {
+    margin-left: 40px;
   }
   .no-padding-hack,
   .terminal {
     padding: 0;
   }
+
   .new-scroll {
     max-height: 84vh;
   }
