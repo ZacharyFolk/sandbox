@@ -1,7 +1,7 @@
 {
-  "name": "folkblog",
-  "version": "0.1.0",
-  "homepage": "http://172.21.185.235:3000/",
+  "name": "folk.codes",
+  "version": "2.0.0",
+  "homepage": "https://folk.codes/",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
