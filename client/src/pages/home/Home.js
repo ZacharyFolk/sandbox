@@ -48,7 +48,10 @@ export default function Home() {
       </div>
       <div className="controls">
         <div className="controls-left">
-          <button className="menu-icon" onClick={toggleMenu}>
+          <button
+            className={`menu-icon ${isMenuOpen ? 'menu-active' : ''}`}
+            onClick={toggleMenu}
+          >
             ☰
           </button>
           <nav className={`slide-menu ${isMenuOpen ? 'open' : ''}`}>

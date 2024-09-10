@@ -400,7 +400,7 @@ hr {
   align-items: center;
   justify-content: space-between;
   margin-top: 25px;
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 .controls-right {
@@ -419,12 +419,15 @@ hr {
   font-size: 1.2em;
   color: #d2d2d2;
   padding: 2px 8px 6px;
+  border: 0;
+  outline: none;
 }
 .menu-icon:hover {
   background: var(--secondary-color);
   color: #a5c292;
 }
-.menu-icon:active {
+.menu-icon:active,
+.menu-active {
   background: var(--primary-color);
   color: #292929;
 }
@@ -502,6 +505,9 @@ hr {
 
 ul.help-list {
   list-style-type: none;
+  width: 100%;
+  display: flex;
+  padding: 0;
 }
 ul.help-list li {
   margin-right: 20px;

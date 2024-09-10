@@ -217,6 +217,13 @@ const Help = () => {
   };
 
   const handleMouseEnter = (value) => {
+    // Only update input on desktop (mouse events)
+    if (!('ontouchstart' in window)) {
+      updateInput(value);
+    }
+  };
+  const handleTouchStart = (value) => {
+    // Handle touch events on mobile
     updateInput(value);
   };
 
@@ -239,6 +246,7 @@ const Help = () => {
           <li
             key={command}
             onMouseEnter={() => handleMouseEnter(command)}
+            onTouchStart={() => handleTouchStart(command)}
             onMouseLeave={() => updateInput('')}
             onClick={() => handleClick(command)}
             className="command-link"

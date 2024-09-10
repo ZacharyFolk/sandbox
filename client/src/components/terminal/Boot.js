@@ -29,12 +29,10 @@ const RandomBoot = ({ onDone, powerRef }) => {
 };
 
 const RandomCalculations = ({ onDone, powerRef }) => {
-  console.log('Calculations');
   const [memory, setMemory] = useState(1000);
 
   useEffect(() => {
     let isMounted = true;
-
     const interval = setInterval(() => {
       setMemory(
         (prevMemory) => prevMemory + Math.floor(Math.random() * 1000) + 1
@@ -73,16 +71,12 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
 
   useEffect(() => {
     powerRef.current = power;
-
     if (power) {
       if (command) {
-        // If a command is present, ensure the prompt is shown
+        // If a command is present in url, ensure the prompt is shown
         setViewPrompt(true);
-        updateInput(command); // Update input with command from URL query
+        updateInput(command);
       } else {
-        // Log the initial value of hasRun
-        console.log('Initial hasRun:', hasRun);
-
         // Ensure the prompt appears once the intro is complete
         const introEnd = () => {
           const timeoutId = setTimeout(() => {
@@ -105,7 +99,6 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
           const intro2 = () => {
             const timeoutId = setTimeout(() => {
               if (powerRef.current) {
-                setOutput('');
                 setOutput(
                   <RandomCalculations onDone={introEnd} powerRef={powerRef} />
                 );
