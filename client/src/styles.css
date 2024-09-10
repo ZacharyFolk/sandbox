@@ -506,7 +506,6 @@ hr {
 ul.help-list {
   list-style-type: none;
   width: 100%;
-  display: flex;
   padding: 0;
 }
 ul.help-list li {
@@ -709,7 +708,7 @@ ul.help-list li {
   }
   .bezel {
     height: 60vh;
-    margin: 30px 10px;
+    margin: 30px 20px;
     padding: 0;
   }
   .terminal {
@@ -717,10 +716,10 @@ ul.help-list li {
   }
 
   #targetOutput {
-    padding: 20px;
+    padding: 30px 40px;
   }
   .terminal-input {
-    margin-left: 20px;
+    margin-left: 40px;
   }
   .no-padding-hack,
   .terminal {

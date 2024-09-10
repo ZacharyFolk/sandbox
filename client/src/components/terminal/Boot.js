@@ -6,28 +6,6 @@ import { TerminalContext } from '../../context/TerminalContext';
 import { useContext } from 'react';
 import Cookies from 'js-cookie';
 
-const RandomBoot = ({ onDone, powerRef }) => {
-  const bootArray = [
-    'Loading Terminal Z . . .',
-    'Putting hamster in the wheel... ',
-    'Transmitting bits and boops...',
-    'Initiating the initial thing...',
-    'Transmitting from a computer in my garage to this pretend computer to your computer... ',
-  ];
-  const message = bootArray[Math.floor(Math.random() * bootArray.length)];
-
-  return (
-    <Typist
-      typingDelay={10}
-      onTypingDone={() => {
-        if (powerRef.current) onDone();
-      }}
-    >
-      <p>{message}</p>
-    </Typist>
-  );
-};
-
 const RandomCalculations = ({ onDone, powerRef }) => {
   const [memory, setMemory] = useState(1000);
 
@@ -44,7 +22,7 @@ const RandomCalculations = ({ onDone, powerRef }) => {
       if (isMounted && powerRef.current) {
         onDone();
       }
-    }, 3000);
+    }, 2000);
 
     return () => {
       isMounted = false;
@@ -69,6 +47,48 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
   const command = query.get('command');
   const { updateInput } = useContext(TerminalContext);
 
+  const introEnd = () => {
+    const timeoutId = setTimeout(() => {
+      if (powerRef.current) {
+        setOutput(
+          <Welcome
+            onDone={() => {
+              if (powerRef.current) setViewPrompt(true);
+            }}
+            powerRef={powerRef}
+          />
+        );
+      }
+    }, 2000);
+    timeouts.current.push(timeoutId);
+  };
+
+  const RandomBoot = ({ onDone, powerRef }) => {
+    const bootArray = [
+      'Loading Terminal Z . . .',
+      'Putting hamster in the wheel... ',
+      'Transmitting bits and boops...',
+      'Initiating the initial thing...',
+      'Transmitting from a computer in my garage to this pretend computer to your computer... ',
+    ];
+    const message = bootArray[Math.floor(Math.random() * bootArray.length)];
+
+    return (
+      <Typist
+        typingDelay={10}
+        onTypingDone={() => {
+          if (powerRef.current) onDone();
+        }}
+      >
+        <p>{message}</p>
+        <Typist.Paste>
+          <RandomCalculations onDone={introEnd} powerRef={powerRef} />
+        </Typist.Paste>
+        <p>Accessing welcome screen . . .</p>
+      </Typist>
+    );
+  };
+
   useEffect(() => {
     powerRef.current = power;
     if (power) {
@@ -77,24 +97,6 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
         setViewPrompt(true);
         updateInput(command);
       } else {
-        // Ensure the prompt appears once the intro is complete
-        const introEnd = () => {
-          const timeoutId = setTimeout(() => {
-            if (powerRef.current) {
-              setOutput(
-                <Welcome
-                  onDone={() => {
-                    if (powerRef.current) setViewPrompt(true);
-                  }}
-                  powerRef={powerRef}
-                />
-              );
-            }
-          }, 2000);
-          timeouts.current.push(timeoutId);
-        };
-
-        // Schedule the intro state updates
         const handleStateUpdate = () => {
           const intro2 = () => {
             const timeoutId = setTimeout(() => {
@@ -106,10 +108,9 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
             }, 2000);
             timeouts.current.push(timeoutId);
           };
-
           if (!hasRun) {
             console.log('Running intro2');
-            setOutput(<RandomBoot onDone={intro2} powerRef={powerRef} />);
+            setOutput(<RandomBoot powerRef={powerRef} />);
           } else {
             console.log('Running introEnd');
             introEnd();
