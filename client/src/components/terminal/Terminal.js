@@ -17,6 +17,8 @@ import Social from '../social/Social';
 import Wordpress from './../wordpress/Wordpress';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
+import { TerminalPosts } from '../posts/TerminalPosts';
+import Matrix from '../matrix/Matrix';
 
 export default function Terminal(props) {
   const { command, updateCommand, inputRef, clearInput } =
@@ -104,12 +106,18 @@ export default function Terminal(props) {
           setOutput(TheInfo);
           break;
         case 'latest':
-        case 'blog':
           setOutput(<FetchLatestPost />);
           break;
-        // case 'allposts':
-        //   setOutput(<Blog />);
-        //   break;
+        case 'posts':
+        case 'allposts':
+        case 'blog':
+          setOutput(<TerminalPosts />);
+          break;
+        case 'matrix':
+        case 'neo':
+        case 'redpill':
+          setOutput(<Matrix />);
+          break;
         case 'photo':
         case 'photos':
         case 'photography':

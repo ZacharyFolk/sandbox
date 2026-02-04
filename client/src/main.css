@@ -1075,3 +1075,133 @@ h2.about-heading {
     max-height: 80%;
   }
 }
+
+/* ==================
+   TERMINAL POSTS
+================== */
+
+.terminal-posts-container {
+  max-height: 320px;
+  padding-right: 20px;
+}
+
+.terminal-posts-intro {
+  font-style: italic;
+  opacity: 0.8;
+  margin: 0 0 10px;
+}
+
+.terminal-posts-container hr {
+  border: none;
+  border-top: 1px dashed var(--secondary-color);
+  margin: 15px 0;
+}
+
+.terminal-post-item {
+  padding: 15px 0;
+  border-bottom: 1px dashed rgba(91, 248, 112, 0.3);
+}
+
+.terminal-post-item:last-child {
+  border-bottom: none;
+}
+
+.terminal-post-title {
+  font-size: 1.1em;
+  margin: 0 0 5px;
+  color: var(--primary-color);
+}
+
+.terminal-post-date {
+  font-size: 0.8em;
+  opacity: 0.6;
+  margin: 0 0 10px;
+}
+
+.terminal-post-excerpt {
+  font-size: 0.9em;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.terminal-post-excerpt p {
+  margin: 0;
+}
+
+.terminal-post-link {
+  display: inline-block;
+  font-size: 0.9em;
+  color: var(--light);
+  border-bottom: 1px dotted var(--secondary-color);
+}
+
+.terminal-post-link:hover {
+  color: var(--primary-color);
+}
+
+/* ==================
+   MATRIX EASTER EGG
+================== */
+
+.matrix-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.matrix-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.matrix-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  text-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+}
+
+.matrix-text {
+  font-size: 1.5em;
+  color: #0f0;
+  animation: matrixPulse 2s ease-in-out infinite;
+  margin: 0;
+}
+
+.matrix-subtext {
+  font-size: 0.8em;
+  color: rgba(0, 255, 0, 0.6);
+  margin: 10px 0 0;
+}
+
+@keyframes matrixPulse {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+  }
+  50% {
+    opacity: 0.7;
+    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+  }
+}
+
+/* GLightbox overrides for terminal aesthetic */
+.glightbox-clean .gclose,
+.glightbox-clean .gnext,
+.glightbox-clean .gprev {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--primary-color);
+}
+
+.glightbox-clean .gclose:hover,
+.glightbox-clean .gnext:hover,
+.glightbox-clean .gprev:hover {
+  background-color: var(--secondary-color);
+}
