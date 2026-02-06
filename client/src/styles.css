@@ -735,3 +735,334 @@ ul.help-list li {
     max-height: 48vh;
   }
 }
+
+/* ==================
+   TERMINAL POSTS
+================== */
+
+.terminal-posts-container {
+  max-height: 320px;
+  padding-right: 20px;
+}
+
+.terminal-posts-intro {
+  font-style: italic;
+  opacity: 0.8;
+  margin: 0 0 10px;
+}
+
+.terminal-posts-container hr {
+  border: none;
+  border-top: 1px dashed var(--secondary-color);
+  margin: 15px 0;
+}
+
+.terminal-post-item {
+  padding: 15px 0;
+  border-bottom: 1px dashed rgba(91, 248, 112, 0.3);
+}
+
+.terminal-post-item:last-child {
+  border-bottom: none;
+}
+
+.terminal-post-title {
+  font-size: 1.1em;
+  margin: 0 0 5px;
+  color: var(--primary-color);
+}
+
+.terminal-post-date {
+  font-size: 0.8em;
+  opacity: 0.6;
+  margin: 0 0 10px;
+}
+
+.terminal-post-excerpt {
+  font-size: 0.9em;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.terminal-post-excerpt p {
+  margin: 0;
+}
+
+.terminal-post-link {
+  display: inline-block;
+  font-size: 0.9em;
+  color: var(--light);
+  border-bottom: 1px dotted var(--secondary-color);
+}
+
+.terminal-post-link:hover {
+  color: var(--primary-color);
+}
+
+/* ==================
+   MATRIX EASTER EGG
+================== */
+
+.matrix-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.matrix-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.matrix-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  text-shadow:
+    0 0 20px #0f0,
+    0 0 40px #0f0;
+}
+
+.matrix-text {
+  font-size: 1.5em;
+  color: #0f0;
+  animation: matrixPulse 2s ease-in-out infinite;
+  margin: 0;
+}
+
+.matrix-subtext {
+  font-size: 0.8em;
+  color: rgba(0, 255, 0, 0.6);
+  margin: 10px 0 0;
+}
+
+@keyframes matrixPulse {
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow:
+      0 0 20px #0f0,
+      0 0 40px #0f0;
+  }
+  50% {
+    opacity: 0.7;
+    text-shadow:
+      0 0 10px #0f0,
+      0 0 20px #0f0;
+  }
+}
+
+/* ==================
+   GAME MODE OVERRIDES
+================== */
+
+.game-active {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.game-mode {
+  overflow: hidden !important;
+}
+
+/* ==================
+   TETRIS GAME
+================== */
+
+.terminal-game-container {
+  outline: none;
+  width: 100%;
+  height: 100%;
+  text-transform: none !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-game-container:focus {
+  outline: none;
+}
+
+.terminal-game-container .game-header {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--secondary-color);
+}
+
+.terminal-game-container .game-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.terminal-game-container .game-exit-hint {
+  font-size: 0.8em;
+  opacity: 0.6;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.terminal-game-container .tetris-layout {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 25px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  padding: 10px 0;
+}
+
+.terminal-game-container .tetris-left {
+  font-size: 0.8em;
+  flex-shrink: 0;
+  min-width: 70px;
+}
+
+/* .terminal-game-container .tetris-center {
+  position: relative;
+  flex-shrink: 0;
+} */
+
+.terminal-game-container .tetris-right {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-game-container .tetris-label {
+  margin: 0 0 3px 0;
+  opacity: 0.7;
+  font-size: 0.9em;
+}
+
+.terminal-game-container .tetris-stats {
+  padding-top: 8px;
+  border-top: 1px dashed var(--secondary-color);
+}
+
+.terminal-game-container .tetris-stats p {
+  margin: 3px 0;
+}
+
+.terminal-game-container .tetris-controls {
+  padding-top: 8px;
+  border-top: 1px dashed var(--secondary-color);
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.terminal-game-container .tetris-controls p {
+  margin: 1px 0;
+}
+
+.terminal-game-container .tetris-game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  padding: 20px;
+  text-align: center;
+  border: 2px solid var(--primary-color);
+  z-index: 10;
+}
+
+.terminal-game-container .tetris-game-over p {
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+}
+
+.terminal-game-container .tetris-game-over button {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  width: auto;
+}
+
+.terminal-game-container .tetris-game-over button:hover {
+  background: var(--primary-color);
+  color: #000;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Required styles for react-tetris */
+.terminal-game-container table.game-board {
+  border-collapse: collapse;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 10px rgba(91, 248, 112, 0.3);
+  display: table !important;
+}
+
+.terminal-game-container td.game-block {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  min-height: 18px;
+  border: 1px solid #222;
+  padding: 0;
+}
+
+.terminal-game-container .block-empty {
+  background-color: #0a0a0a;
+}
+
+.terminal-game-container .piece-i {
+  background-color: #5bf870;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-j {
+  background-color: #2e7938;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-l {
+  background-color: #7cfc00;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-o {
+  background-color: #00ff7f;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-s {
+  background-color: #32cd32;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-t {
+  background-color: #98fb98;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-z {
+  background-color: #00fa9a;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-game-container .piece-preview {
+  background-color: rgba(91, 248, 112, 0.2);
+}

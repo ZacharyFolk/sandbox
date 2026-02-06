@@ -18,10 +18,11 @@ import Wordpress from './../wordpress/Wordpress';
 import GetFortune from '../../commands/fortune';
 import { FetchLatestPost } from '../posts/FetchLatestPost';
 import { TerminalPosts } from '../posts/TerminalPosts';
+import TerminalTetris from '../tetris/TerminalTetris';
 import Matrix from '../matrix/Matrix';
 
 export default function Terminal(props) {
-  const { command, updateCommand, inputRef, clearInput } =
+  const { command, updateCommand, inputRef, clearInput, gameMode } =
     useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
 
@@ -118,6 +119,9 @@ export default function Terminal(props) {
         case 'redpill':
           setOutput(<Matrix />);
           break;
+        case 'tetris':
+          setOutput(<TerminalTetris />);
+          break;
         case 'photo':
         case 'photos':
         case 'photography':
@@ -139,19 +143,20 @@ export default function Terminal(props) {
   }, [command, enter, setOutput]);
 
   const monitorClickHandler = () => {
-    // click anywhere to focus on the input
+    // click anywhere to focus on the input (but not in game mode)
+    if (gameMode) return;
     console.log(inputRef.current);
     inputRef.current && inputRef.current.focus();
   };
   return (
     <div
       onClick={monitorClickHandler}
-      className={` terminal ${!power && 'terminal-off'}`}
+      className={`terminal ${!power && 'terminal-off'} ${gameMode && 'game-mode'}`}
     >
-      <div id="targetOutput" className="new-scroll">
+      <div id="targetOutput" className={`new-scroll ${gameMode ? 'game-active' : ''}`}>
         {output} <div className="scanline"></div>
       </div>
-      {viewPrompt && (
+      {viewPrompt && !gameMode && (
         <div className="input-container">
           <span
             className="terminal-input"

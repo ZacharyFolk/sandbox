@@ -5,6 +5,7 @@ export const TerminalContext = createContext('');
 
 export const TerminalProvider = ({ children }) => {
   const [command, setCommand] = useState('');
+  const [gameMode, setGameMode] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();
 
@@ -32,6 +33,18 @@ export const TerminalProvider = ({ children }) => {
     }
   };
 
+  // Enter game mode - hides terminal input, disables click-to-focus, disables body scroll
+  const enterGameMode = () => {
+    setGameMode(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  // Exit game mode - restores normal terminal behavior and body scroll
+  const exitGameMode = () => {
+    setGameMode(false);
+    document.body.style.overflow = '';
+  };
+
   useEffect(() => {
     const urlCommand = getCommandFromUrl();
     if (urlCommand) {
@@ -41,7 +54,16 @@ export const TerminalProvider = ({ children }) => {
 
   return (
     <TerminalContext.Provider
-      value={{ command, updateCommand, inputRef, updateInput, clearInput }}
+      value={{
+        command,
+        updateCommand,
+        inputRef,
+        updateInput,
+        clearInput,
+        gameMode,
+        enterGameMode,
+        exitGameMode,
+      }}
     >
       {children}
     </TerminalContext.Provider>
