@@ -227,20 +227,23 @@ const Help = () => {
     updateInput(value);
   };
 
-  const commands = [
-    'about',
-    'projects',
-    'contact',
-    'photos',
+  const commands = ['about', 'projects', 'contact', 'photos', 'latest'];
+
+  const eggs = [
+    'deep',
+    'tetris',
+    'hack',
+    'password',
+    'info',
     'blog',
-    'latest',
     'fortune',
     'info',
-    'deep',
+    'matrix',
   ];
+
   return (
     <Typist typingDelay={10}>
-      <h4>Useful commands:</h4>
+      <h4>Useful commands</h4>
       <ul className="help-list">
         {commands.map((command) => (
           <li
@@ -256,12 +259,30 @@ const Help = () => {
         ))}
       </ul>
       <br />
-      <h4>Other tips</h4>
+      <h4>Free eggs</h4>
+      <ul className="help-list">
+        {eggs.map((egg) => (
+          <li
+            key={egg}
+            onMouseEnter={() => handleMouseEnter(egg)}
+            onTouchStart={() => handleTouchStart(egg)}
+            onMouseLeave={() => updateInput('')}
+            onClick={() => handleClick(egg)}
+            className="command-link"
+          >
+            {egg}
+          </li>
+        ))}
+      </ul>
+      <br />
       <p>
-        Try and type whatever you like to see what happens. I am always adding
-        more easter eggs.
+        There is a response for whatever you type, maybe not what you expected,
+        but you may find more eggs.
       </p>
-      <p>You can just type ? if you want to see this screen again.</p>
+      <p>
+        You can type <span class="highlight">?</span> if you want to see this
+        screen again.
+      </p>
     </Typist>
   );
 };
@@ -503,8 +524,8 @@ const RandomBoot = ({ onDone }) => {
   const bootArray = [
     'Loading Terminal Z . . .',
     'Putting hamster in the wheel... ',
-    'Transmitting bits and boops...',
-    'Initiating the initial thing...',
+    'Beep beep boop...',
+    'Initiating the initial init...',
     'Transmitting from a computer in my garage to this pretend computer to your computer... ',
   ];
   let num = Math.floor(Math.random() * bootArray.length);

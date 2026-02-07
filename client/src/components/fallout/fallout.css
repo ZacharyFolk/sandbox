@@ -1,0 +1,171 @@
+.fallout-container {
+  text-transform: none;
+  padding: 2rem;
+  outline: none;
+  color: var(--color);
+  background: var(--bg);
+  min-height: 400px;
+  --lh: calc(1ch * 2.55);
+  --column: calc(17 * var(--lh));
+}
+
+.fallout-container.intro,
+.fallout-container.outro {
+  --lh: calc(1ch * 2.55);
+  --column: calc(17 * var(--lh));
+}
+
+.fallout-intro,
+.fallout-outro,
+.fallout-locked {
+  margin-bottom: 1rem;
+}
+
+.fallout-intro p,
+.fallout-outro p,
+.fallout-locked p {
+  margin: 0.5rem 0;
+}
+
+.fallout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.fallout-hint {
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+.lives {
+  font-weight: normal;
+  margin: 0;
+  margin-bottom: 2.5ch;
+}
+
+.game {
+  display: flex;
+  position: relative;
+  max-height: var(--column);
+  line-height: var(--lh);
+}
+
+.cypher {
+  flex: 0 0 auto;
+  width: 40ch;
+  height: var(--column);
+  column-count: 2;
+  column-gap: 1ch;
+  column-fill: auto;
+  word-break: break-all;
+  outline: none;
+}
+
+.cypher .row {
+  margin: 0;
+}
+
+.cypher span {
+  cursor: default;
+}
+
+.cypher span.active,
+.cypher span:hover {
+  background-color: var(--color);
+  color: var(--bg);
+}
+
+.cypher span[data-word],
+.cypher span[data-special] {
+  cursor: pointer;
+}
+
+.output {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-left: 1ch;
+  max-height: var(--column);
+  overflow-y: auto;
+}
+
+.output pre {
+  margin: 0;
+  margin-bottom: 2.5ch;
+  white-space: pre-wrap;
+}
+
+.active-word {
+  font-weight: normal;
+}
+
+.active-word:before {
+  content: "> ";
+  display: inline-block;
+}
+
+.fallout-locked {
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.fallout-buttons,
+.fallout-exit {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.fallout-button {
+  background: none;
+  border: none;
+  color: var(--color);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+}
+
+.fallout-button:hover,
+.fallout-button:focus {
+  background: var(--color);
+  color: var(--bg);
+  outline: none;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .fallout-container {
+    padding: 1rem;
+  }
+
+  .game {
+    flex-direction: column;
+  }
+
+  .cypher {
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+
+  .output {
+    max-height: 30vh;
+  }
+
+  .fallout-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

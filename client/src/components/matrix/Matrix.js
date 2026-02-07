@@ -71,7 +71,7 @@ const Matrix = () => {
       <canvas ref={canvasRef} className="matrix-canvas" />
       <div className="matrix-overlay">
         <p className="matrix-text">Wake up, Neo...</p>
-        <p className="matrix-subtext">Type 'clear' to unplug</p>
+        {/* <p className="matrix-subtext">Type 'clear' to unplug</p> */}
       </div>
     </div>
   );

@@ -806,7 +806,7 @@ ul.help-list li {
 .matrix-container {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 50vh;
   overflow: hidden;
 }
 
@@ -1065,4 +1065,83 @@ ul.help-list li {
 
 .terminal-game-container .piece-preview {
   background-color: rgba(91, 248, 112, 0.2);
+}
+
+/* ==================
+   HACKING MODE
+================== */
+
+.hacking-container {
+  outline: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Courier New', monospace;
+  text-transform: none !important;
+}
+
+.hacking-container:focus {
+  outline: none;
+}
+
+.hacking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.hacking-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-shadow: 0 0 10px var(--primary-color);
+}
+
+.hacking-title .blink {
+  animation: hackBlink 1s ease-in-out infinite;
+}
+
+@keyframes hackBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hacking-exit-hint {
+  font-size: 0.8em;
+  opacity: 0.6;
+}
+
+.hacking-output {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.hacking-line {
+  margin: 2px 0;
+  word-break: break-all;
+}
+
+.hacking-line.success {
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+  font-weight: bold;
+}
+
+.hacking-line.current {
+  color: #fff;
+}
+
+.hacking-cursor {
+  animation: cursorBlink 0.5s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }

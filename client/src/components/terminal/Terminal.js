@@ -20,6 +20,8 @@ import { FetchLatestPost } from '../posts/FetchLatestPost';
 import { TerminalPosts } from '../posts/TerminalPosts';
 import TerminalTetris from '../tetris/TerminalTetris';
 import Matrix from '../matrix/Matrix';
+import Hacking from '../hacking/Hacking';
+import FalloutGame from '../fallout/FalloutGame';
 
 export default function Terminal(props) {
   const { command, updateCommand, inputRef, clearInput, gameMode } =
@@ -118,6 +120,17 @@ export default function Terminal(props) {
         case 'neo':
         case 'redpill':
           setOutput(<Matrix />);
+          break;
+        case 'hack':
+        case 'hacking':
+        case 'hackerman':
+        case 'hackers':
+          setOutput(<Hacking />);
+          break;
+        case 'password':
+        case 'fallout':
+        case 'robco':
+          setOutput(<FalloutGame />);
           break;
         case 'tetris':
           setOutput(<TerminalTetris />);
