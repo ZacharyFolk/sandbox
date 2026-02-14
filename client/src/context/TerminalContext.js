@@ -39,10 +39,17 @@ export const TerminalProvider = ({ children }) => {
     document.body.style.overflow = 'hidden';
   };
 
-  // Exit game mode - restores normal terminal behavior and body scroll
+  // Exit game mode - restores normal terminal behavior, body scroll, and input focus.
+  // setTimeout defers the focus call until after React re-renders the input element,
+  // since the input is conditionally rendered and won't exist in the DOM yet on this tick.
   const exitGameMode = () => {
     setGameMode(false);
     document.body.style.overflow = '';
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
   };
 
   useEffect(() => {

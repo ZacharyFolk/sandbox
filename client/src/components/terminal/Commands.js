@@ -232,6 +232,7 @@ const Help = () => {
   const eggs = [
     'deep',
     'tetris',
+    'cagematch',
     'hack',
     'password',
     'info',

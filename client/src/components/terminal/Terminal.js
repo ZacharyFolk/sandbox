@@ -22,6 +22,7 @@ import TerminalTetris from '../tetris/TerminalTetris';
 import Matrix from '../matrix/Matrix';
 import Hacking from '../hacking/Hacking';
 import FalloutGame from '../fallout/FalloutGame';
+import CageMatch from '../cagematch/CageMatch';
 
 export default function Terminal(props) {
   const { command, updateCommand, inputRef, clearInput, gameMode } =
@@ -131,6 +132,12 @@ export default function Terminal(props) {
         case 'fallout':
         case 'robco':
           setOutput(<FalloutGame />);
+          break;
+        case 'cagematch':
+        case 'cage':
+        case 'cards':
+        case 'match':
+          setOutput(<CageMatch />);
           break;
         case 'tetris':
           setOutput(<TerminalTetris />);
