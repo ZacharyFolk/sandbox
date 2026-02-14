@@ -1,0 +1,91 @@
+/* Needed so absolute overlays position relative to the container */
+.terminal-game-container {
+  position: relative;
+}
+
+/* ── Title / scoring overlay ─────────────────────────────────── */
+.tetris-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  z-index: 10;
+  color: var(--primary-color);
+  font-family: inherit;
+}
+
+.tetris-overlay-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 20px var(--primary-color);
+  margin: 0;
+}
+
+.tetris-overlay-score {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.tetris-overlay-hint {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.tetris-overlay-new-hi {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-shadow: 0 0 12px #fff;
+  animation: tetris-pulse 0.8s ease-in-out infinite;
+  margin: 0;
+}
+
+@keyframes tetris-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── Title buttons ───────────────────────────────────────────── */
+.tetris-title-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.tetris-overlay-btn {
+  background: none;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+}
+
+.tetris-overlay-btn:hover,
+.tetris-overlay-btn:focus {
+  background: var(--primary-color);
+  color: var(--bg);
+  outline: none;
+}
+
+/* ── Scoring form ────────────────────────────────────────────── */
+.tetris-score-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
