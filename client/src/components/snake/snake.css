@@ -1,0 +1,151 @@
+.snake-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg);
+  color: var(--primary-color);
+  outline: none;
+  font-family: inherit;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.snake-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--primary-color);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.snake-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.snake-stat {
+  font-size: 0.9rem;
+}
+
+.snake-exit-hint {
+  margin-left: auto;
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ── Canvas area ─────────────────────────────────────────────── */
+.snake-canvas-area {
+  position: relative;
+  margin: auto;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 0 30px rgba(91, 248, 112, 0.15);
+}
+
+.snake-canvas {
+  display: block;
+}
+
+/* ── Overlay (idle / game over) ──────────────────────────────── */
+.snake-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 50, 30, 0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.snake-overlay-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 20px var(--primary-color);
+  margin: 0;
+}
+
+.snake-overlay-score {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.snake-new-hi {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-shadow: 0 0 12px #fff;
+  animation: snake-pulse 0.8s ease-in-out infinite;
+  margin: 0;
+}
+
+@keyframes snake-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.snake-overlay-hint {
+  font-size: 0.85rem;
+  opacity: 0.65;
+  margin: 0.4rem 0 0;
+}
+
+/* ── Title screen buttons ────────────────────────────────────── */
+.snake-title-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+/* ── Scoring screen ──────────────────────────────────────────── */
+.snake-score-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Reuses cagematch letter-pickers / letter styles from cagematch.css,
+   but needs its own button for the submit action */
+.snake-submit-btn {
+  background: none;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.snake-submit-btn:hover,
+.snake-submit-btn:focus {
+  background: var(--primary-color);
+  color: var(--bg);
+  outline: none;
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.snake-footer {
+  padding: 0.4rem;
+  font-size: 0.75rem;
+  opacity: 0.45;
+  flex-shrink: 0;
+}

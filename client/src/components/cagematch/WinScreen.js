@@ -38,7 +38,6 @@ AlphabetSelector.propTypes = {
 };
 
 export const WinScreen = ({
-  setCurrentScreen,
   fullDeck,
   newHigh,
   time,
@@ -98,19 +97,16 @@ export const WinScreen = ({
             Enter your initials for a position in the top ten.
           </p>
           <AlphabetSelector initials={initials} onSelect={handleSelect} />
-          <button onClick={submitScore}>ENTER</button>
+          <button className="new-game-button" onClick={submitScore}>ENTER</button>
         </div>
       ) : (
-        <button onClick={newGame}>
-          New Game
-        </button>
+        <button className="new-game-button" onClick={newGame}>New Game</button>
       )}
     </div>
   );
 };
 
 WinScreen.propTypes = {
-  setCurrentScreen: PropTypes.func.isRequired,
   fullDeck: PropTypes.array.isRequired,
   newHigh: PropTypes.bool.isRequired,
   time: PropTypes.number.isRequired,

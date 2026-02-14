@@ -1,8 +1,7 @@
-const prod_path = 'https://score-api.folk.codes/api/leaderboard';
-const dev_path = 'http://localhost:1999/api/leaderboard/';
+const prod_path = 'https://api.folk.codes/api/leaderboard/cagematch';
+const dev_path  = 'http://localhost:9999/api/leaderboard/cagematch';
 
-// Use production path for now
-const API_PATH = prod_path;
+const API_PATH = process.env.NODE_ENV === 'production' ? prod_path : dev_path;
 
 /**
  * Returns the high scores for cagematch

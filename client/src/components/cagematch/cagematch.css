@@ -6,7 +6,7 @@
   bottom: 0;
   width: 100%;
   height: 100%;
-  color: var(--color);
+  color: var(--primary-color);
   background: var(--bg);
   padding: 0;
   overflow: hidden;
@@ -23,7 +23,7 @@
   width: 100%;
   align-items: center;
   padding: 0.5rem;
-  border-bottom: 1px solid var(--color);
+  border-bottom: 1px solid var(--primary-color);
   flex-shrink: 0;
   box-sizing: border-box;
 }
@@ -89,7 +89,7 @@
   aspect-ratio: 3/4;
   object-fit: cover;
   cursor: pointer;
-  border: 1px solid var(--color);
+  border: 1px solid var(--primary-color);
   transition: transform 0.15s, opacity 0.15s;
   opacity: 0.8;
   display: block;
@@ -98,7 +98,7 @@
 .cage-card:hover {
   transform: scale(1.1);
   opacity: 1;
-  border: 2px solid var(--color);
+  border: 2px solid var(--primary-color);
 }
 
 .cage-card.selected {
@@ -131,7 +131,7 @@
   max-width: 300px;
   max-height: 400px;
   margin: 2rem 0;
-  border: 3px solid var(--color);
+  border: 3px solid var(--primary-color);
 }
 
 .letter-pickers {
@@ -157,8 +157,8 @@
 
 .letter button {
   background: none;
-  border: 1px solid var(--color);
-  color: var(--color);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
   cursor: pointer;
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -166,7 +166,7 @@
 }
 
 .letter button:hover {
-  background: var(--color);
+  background: var(--primary-color);
   color: var(--bg);
 }
 
@@ -185,8 +185,8 @@
 .high-score-form button,
 .new-game-button {
   background: none;
-  border: 2px solid var(--color);
-  color: var(--color);
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
   cursor: pointer;
   padding: 1rem 2rem;
   font-size: 1.2rem;
@@ -197,7 +197,7 @@
 
 .high-score-form button:hover,
 .new-game-button:hover {
-  background: var(--color);
+  background: var(--primary-color);
   color: var(--bg);
   transform: scale(1.05);
 }
@@ -219,8 +219,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
+  justify-content: space-between;
+  padding: 2rem 0.5rem 2rem;
   overflow: hidden;
   box-sizing: border-box;
   background-image: url('../../../public/images/cagematch/title-screen.jpg');
@@ -235,25 +235,32 @@
   text-align: center;
   background: rgba(0, 0, 0, 0.85);
   padding: 1rem;
-  border: 1px solid var(--color);
+  border: 1px solid var(--primary-color);
 }
 
 .cage-title {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  text-shadow: 0 0 20px var(--color);
+  text-shadow: 0 0 20px var(--primary-color);
+  background: rgba(0, 0, 0, 0.75);
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--primary-color);
 }
 
 .cage-start-button-container {
   margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
 }
 
 .cage-start-button {
   background: none;
-  border: 2px solid var(--color);
-  color: var(--color);
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
   cursor: pointer;
   padding: 0.75rem 2rem;
   font-size: 1rem;
@@ -265,10 +272,10 @@
 
 .cage-start-button:hover,
 .cage-start-button:focus {
-  background: var(--color);
+  background: var(--primary-color);
   color: var(--bg);
   transform: scale(1.05);
-  box-shadow: 0 0 30px var(--color);
+  box-shadow: 0 0 30px var(--primary-color);
   outline: none;
 }
 
@@ -304,7 +311,7 @@
 .cage-leaderboard td {
   padding: 0.3rem 0.4rem;
   text-align: left;
-  border-bottom: 1px solid var(--color);
+  border-bottom: 1px solid var(--primary-color);
 }
 
 .cage-leaderboard th {
@@ -355,7 +362,7 @@
 .streak {
   text-align: center;
   padding: 2rem;
-  border: 3px solid var(--color);
+  border: 3px solid var(--primary-color);
   background: var(--bg);
 }
 
@@ -424,7 +431,7 @@
   width: 250px;
   height: 350px;
   object-fit: cover;
-  border: 3px solid var(--color);
+  border: 3px solid var(--primary-color);
   box-shadow: 0 0 50px rgba(var(--color-rgb, 0, 255, 0), 0.5);
   animation: cardPulse 0.5s ease-out;
 }

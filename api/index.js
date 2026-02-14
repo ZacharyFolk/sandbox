@@ -6,6 +6,7 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
+const leaderboardRoute = require('./routes/leaderboard');
 
 const cors = require('cors');
 const path = require('path');
@@ -45,6 +46,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/posts', postsRoute);
 app.use('/api/categories', categoryRoute);
+app.use('/api/leaderboard', leaderboardRoute);
 // app.use('/api/github_api', githubRoute);
 
 // app.use('/api/email', emailRoute);
