@@ -82,7 +82,7 @@ hr {
   overflow-x: hidden;
   overflow-y: auto;
   max-width: 100%;
-  max-height: 50vh;
+  max-height: 54vh;
 }
 /* width */
 .new-scroll::-webkit-scrollbar {
@@ -140,7 +140,7 @@ pre {
   position: relative;
   overflow-y: hidden;
   /* height: 30vw; */
-  min-height: 60vh;
+  min-height: 58vh;
   padding: 2.5em 3em;
   overflow-y: auto;
   overflow-x: hidden;
@@ -286,7 +286,7 @@ pre {
 }
 
 #targetOutput {
-  padding: 20px 40px 0 0;
+  padding: 20px 40px 20px 0;
 }
 /* Hide default HTML checkbox */
 .switch .cb {
@@ -523,7 +523,7 @@ ul.help-list li {
   position: relative;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-around;
 }
 
@@ -584,16 +584,20 @@ ul.help-list li {
 }
 
 .thought {
-  min-height: 36vh;
+  display: flex;
+  align-items: center;
+  min-height: 50vh;
   width: 80%;
   margin: 0px auto 0;
-  color: #000;
-  font-family: 'Great Vibes', cursive;
-  font-size: 1.6vw;
-  background: rgb(255, 255, 255, 0.5);
-  padding: 30px;
 }
 
+.thought p {
+  background: rgba(231, 233, 208, 0.75);
+  color: #000;
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.6vw;
+  padding: 30px;
+}
 /* ABOUT */
 
 .main-heading {
@@ -719,11 +723,11 @@ ul.help-list li {
   .main-heading {
     font-size: 1em;
   }
-  .deepBkgd {
-    margin-top: 20%;
-  }
   .thought {
-    font-size: 6vw;
+    min-height: 44vh;
+  }
+  .thought p {
+    font-size: 5vw;
   }
   .menu-icon {
     display: block;
@@ -737,9 +741,6 @@ ul.help-list li {
     height: 60vh;
     margin: 30px 20px;
     padding: 0;
-  }
-  .terminal {
-    min-height: 54vh;
   }
 
   #targetOutput {
@@ -1128,8 +1129,13 @@ ul.help-list li {
 }
 
 @keyframes hackBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .hacking-exit-hint {
@@ -1164,6 +1170,11 @@ ul.help-list li {
 }
 
 @keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }

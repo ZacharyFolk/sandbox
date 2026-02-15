@@ -1,9 +1,7 @@
 const CurseResponse = () => {
-  const ralphie = '/images/ralphie.jpg';
   return (
-    <div className="curse-box">
-      <p className="curse">Time out! </p>
-      <img src={ralphie} alt="Take a break!" />
+    <div className="curse-box" style={{ backgroundImage: 'url(/images/ralphie.jpg)' }}>
+      <p className="curse">Time out!</p>
     </div>
   );
 };

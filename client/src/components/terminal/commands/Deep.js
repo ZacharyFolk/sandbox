@@ -49,7 +49,9 @@ const Deep = () => {
       className="deepBkgd"
       style={{ backgroundImage: `url(${bkgdImages[num2]})` }}
     >
-      <p className="thought">{deepArray[num]}</p>
+      <div className="thought">
+        <p>{deepArray[num]}</p>
+      </div>
     </div>
   );
 };
