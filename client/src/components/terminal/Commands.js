@@ -1,7 +1,7 @@
 import Typist from 'react-typist-component';
 // import Modal from '../../utils/Modal';
 import { TerminalContext } from '../../context/TerminalContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 const About = () => {
   return (
@@ -537,6 +537,14 @@ const Monty = () => {
     '/images/monty/monty-12.gif',
   ];
   const src = images[Math.floor(Math.random() * images.length)];
+  const audioRef = useRef(new Audio('/sounds/monty/intermission-music.mp3'));
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    audio.play().catch(() => {});
+    return () => { audio.pause(); audio.currentTime = 0; };
+  }, []);
+
   return (
     <div className="monty-box">
       <p className="monty-tagline">And now for something completely different.</p>
