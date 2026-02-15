@@ -564,10 +564,10 @@ ul.help-list li {
 }
 
 .monty-tagline {
-  font-style: italic;
-  opacity: 0.6;
-  margin: 0;
-  font-size: 0.85rem;
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.4rem;
+  margin: 0 0 1.2rem 0;
+  line-height: 1.2;
 }
 
 .monty-gif {

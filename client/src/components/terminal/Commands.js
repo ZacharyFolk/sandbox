@@ -1,7 +1,7 @@
 import Typist from 'react-typist-component';
 // import Modal from '../../utils/Modal';
 import { TerminalContext } from '../../context/TerminalContext';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 const About = () => {
   return (
@@ -536,19 +536,25 @@ const Monty = () => {
     '/images/monty/monty-11.gif',
     '/images/monty/monty-12.gif',
   ];
-  const src = images[Math.floor(Math.random() * images.length)];
+  const [showImage, setShowImage] = useState(false);
+  const src = useRef(images[Math.floor(Math.random() * images.length)]).current;
   const audioRef = useRef(new Audio('/sounds/monty/intermission-music.mp3'));
 
   useEffect(() => {
+    if (!showImage) return;
     const audio = audioRef.current;
     audio.play().catch(() => {});
     return () => { audio.pause(); audio.currentTime = 0; };
-  }, []);
+  }, [showImage]);
 
   return (
     <div className="monty-box">
-      <p className="monty-tagline">And now for something completely different.</p>
-      <img src={src} alt="Monty Python" className="monty-gif" />
+      <Typist typingDelay={65} onTypingDone={() => setTimeout(() => setShowImage(true), 1000)}>
+        <p className="monty-tagline">And now for something completely different.</p>
+      </Typist>
+      {showImage && (
+        <img src={src} alt="Monty Python" className="monty-gif" />
+      )}
     </div>
   );
 };
