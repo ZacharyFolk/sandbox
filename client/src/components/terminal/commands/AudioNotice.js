@@ -1,27 +1,15 @@
 import Typist from 'react-typist-component';
 
 const MUTE_LINES = `
-╔══════════════════════════════════════════════════════════════╗
-║           ██  AUDIO SUBSYSTEM — CONTROL REPORT  ██          ║
-║                  FOLK.CODES TERMINAL  MK-II                  ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║   INITIATING AUDIO SHUTDOWN SEQUENCE . . .                   ║
-║                                                              ║
-║   ┌──────────────────────────────────────────────────┐       ║
-║   │  OUTPUT CHANNEL  :  [[ DISABLED ]]               │       ║
-║   │  SIGNAL ROUTE    :  INTERRUPTED                  │       ║
-║   │  SPEAKER STATUS  :  ▷╳   MUTED                  │       ║
-║   │  AUTH LEVEL      :  OPERATOR / CONFIRMED         │       ║
-║   └──────────────────────────────────────────────────┘       ║
-║                                                              ║
-║   ALL AUDIO OUTPUT CHANNELS HAVE BEEN SUSPENDED.             ║
-║   ACOUSTIC EMISSIONS: NONE.                                  ║
-║   THIS UNIT IS NOW OPERATING IN SILENT MODE.                 ║
-║                                                              ║
-║   *** AUDIO — OFFLINE ***                                    ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝`;
+╔══════════════════════════════════════════╗
+║   ▷╳  AUDIO SUBSYSTEM  —  MK-II        ║
+╠══════════════════════════════════════════╣
+║   STATUS  :  [[ MUTED ]]                ║
+║   ROUTE   :  INTERRUPTED                ║
+║   OUTPUT  :  SUSPENDED                  ║
+╠══════════════════════════════════════════╣
+║   *** UNIT OPERATING IN SILENT MODE *** ║
+╚══════════════════════════════════════════╝`;
 
 const UNMUTE_LINES = `
 ╔══════════════════════════════════════════════════════════════╗

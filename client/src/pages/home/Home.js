@@ -40,14 +40,21 @@ export default function Home() {
     }, 350);
   };
 
+  const playDirect = (ref) => {
+    ref.current.currentTime = 0;
+    ref.current.play().catch(() => {});
+  };
+
   const toggleMute = () => {
-    if (!speakerMuted) playClick(); // last click before muting
     const nextMuted = !speakerMuted;
+    // Always play click regardless of mute state (last click before silence, or first sound on restore)
+    playDirect(clickSoundRef);
     setSpeakerMuted(nextMuted);
     setOutput(
       <AudioNotice
+        key={Date.now()}
         muted={nextMuted}
-        onDone={nextMuted ? undefined : () => playSound(bingSoundRef)}
+        onDone={nextMuted ? undefined : () => playDirect(bingSoundRef)}
       />
     );
   };
@@ -89,6 +96,15 @@ export default function Home() {
       <div className="controls">
         <div className="controls-left">
           <button
+            className={`monitor-nameplate ${isCommandPanelOpen ? 'monitor-nameplate--active' : ''}`}
+            onClick={() => { playClick(); setIsCommandPanelOpen((p) => !p); }}
+            title="Quick commands"
+            disabled={!power}
+          >
+            <span className="nameplate-symbol">&gt;_</span>
+            <span className="nameplate-text">folk.codes</span>
+          </button>
+          <button
             className={`menu-icon ${isMenuOpen ? 'menu-active' : ''}`}
             onClick={toggleMenu}
           >
@@ -99,14 +115,6 @@ export default function Home() {
           </nav>
         </div>
         <div className="controls-center">
-          <button
-            className={`monitor-nameplate ${isCommandPanelOpen ? 'monitor-nameplate--active' : ''}`}
-            onClick={() => { playClick(); setIsCommandPanelOpen((p) => !p); }}
-            title="Quick commands"
-          >
-            <span className="nameplate-symbol">&gt;_</span>
-            <span className="nameplate-text">folk.codes</span>
-          </button>
           <div className="speaker-grille">
             <div className="speaker-inner" />
           </div>
@@ -115,6 +123,7 @@ export default function Home() {
               className={`audio-toggle ${speakerMuted ? 'audio-toggle--off' : ''}`}
               onClick={toggleMute}
               title={speakerMuted ? 'Unmute' : 'Mute'}
+              disabled={!power}
             >
               <div className="audio-toggle-gate">
                 <div className="audio-toggle-lever" />
@@ -129,9 +138,9 @@ export default function Home() {
         </div>
         <div className="controls-right">
           <div className="vintage-buttons">
-            <button className="vtg-btn vtg-btn--round" onClick={playClick} title=""></button>
-            <button className="vtg-btn vtg-btn--round vtg-btn--amber" onClick={playClick} title=""></button>
-            <button className="vtg-btn vtg-btn--square" onClick={triggerSecretScroll} title=""></button>
+            <button className="vtg-btn vtg-btn--round" onClick={playClick} disabled={!power} title=""></button>
+            <button className="vtg-btn vtg-btn--round vtg-btn--amber" onClick={playClick} disabled={!power} title=""></button>
+            <button className="vtg-btn vtg-btn--square" onClick={triggerSecretScroll} disabled={!power} title=""></button>
           </div>
           <div className="led-cluster">
             <div className="led-row">
@@ -142,7 +151,7 @@ export default function Home() {
             </div>
             <div className="led-row">
               <div className="led-socket">
-                <div className={`led led-hdd ${power ? 'led-hdd-active' : 'led-off'}`}></div>
+                <div className={`led ${power ? 'led-hdd led-hdd-active' : 'led-off'}`}></div>
               </div>
               <span className="led-label">HDD</span>
             </div>

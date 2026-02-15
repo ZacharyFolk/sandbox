@@ -101,6 +101,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
         updateInput(command);
       } else {
         const handleStateUpdate = () => {
+          if (!powerRef.current) return;
           const intro2 = () => {
             const timeoutId = setTimeout(() => {
               if (powerRef.current) {
@@ -121,7 +122,8 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
         };
 
         // Run the state update handler to kick off the intro sequence
-        setTimeout(handleStateUpdate, 0);
+        const kickoffId = setTimeout(handleStateUpdate, 0);
+        timeouts.current.push(kickoffId);
         setHasRun(true);
       }
     }
