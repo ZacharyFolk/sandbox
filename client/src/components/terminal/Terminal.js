@@ -8,6 +8,7 @@ import {
   Deep,
   Directions,
   Help,
+  Monty,
   TheInfo,
   NoMatch,
   Projects,
@@ -145,6 +146,11 @@ export default function Terminal(props) {
           break;
         case 'snake':
           setOutput(<TerminalSnake />);
+          break;
+        case 'monty':
+        case 'python':
+        case 'spam':
+          setOutput(<Monty />);
           break;
         case 'photo':
         case 'photos':

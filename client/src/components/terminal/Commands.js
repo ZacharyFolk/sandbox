@@ -521,6 +521,30 @@ const Projects = () => {
     </Typist>
   );
 };
+const Monty = () => {
+  const images = [
+    '/images/monty/monty-1.gif',
+    '/images/monty/monty-2.gif',
+    '/images/monty/monty-3.gif',
+    '/images/monty/monty-4.gif',
+    '/images/monty/monty-5.gif',
+    '/images/monty/monty-6.gif',
+    '/images/monty/monty-7.gif',
+    '/images/monty/monty-8.gif',
+    '/images/monty/monty-9.gif',
+    '/images/monty/monty-10.gif',
+    '/images/monty/monty-11.gif',
+    '/images/monty/monty-12.gif',
+  ];
+  const src = images[Math.floor(Math.random() * images.length)];
+  return (
+    <div className="monty-box">
+      <p className="monty-tagline">And now for something completely different.</p>
+      <img src={src} alt="Monty Python" className="monty-gif" />
+    </div>
+  );
+};
+
 const RandomBoot = ({ onDone }) => {
   const bootArray = [
     'Loading Terminal Z . . .',
@@ -584,6 +608,7 @@ export {
   Directions,
   Hello,
   Help,
+  Monty,
   TheInfo,
   NoMatch,
   Projects,
