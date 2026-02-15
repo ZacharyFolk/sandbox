@@ -12,7 +12,7 @@ import {
   TheInfo,
   NoMatch,
   Projects,
-} from './Commands';
+} from './commands/index';
 
 import Social from '../social/Social';
 import Wordpress from './../wordpress/Wordpress';

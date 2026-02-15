@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Typist from 'react-typist-component';
-import { Welcome } from './Commands';
+import { Welcome } from './commands/index';
 import { TerminalContext } from '../../context/TerminalContext';
 import { useContext } from 'react';
 import Cookies from 'js-cookie';
@@ -45,7 +45,7 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
   const location = useLocation(); // Get the current location
   const query = new URLSearchParams(location.search);
   const command = query.get('command');
-  const { updateInput } = useContext(TerminalContext);
+  const { updateInput, inputRef } = useContext(TerminalContext);
 
   const introEnd = () => {
     const timeoutId = setTimeout(() => {
@@ -53,7 +53,10 @@ const Intro = ({ setOutput, setViewPrompt, power }) => {
         setOutput(
           <Welcome
             onDone={() => {
-              if (powerRef.current) setViewPrompt(true);
+              if (powerRef.current) {
+                setViewPrompt(true);
+                setTimeout(() => inputRef.current && inputRef.current.focus(), 0);
+              }
             }}
             powerRef={powerRef}
           />
