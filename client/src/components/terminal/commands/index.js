@@ -1,5 +1,7 @@
 export { default as About } from './About';
 export { default as CurseResponse } from './CurseResponse';
+export { default as Egg } from './Egg';
+export { default as Games } from './Games';
 export { default as Deep } from './Deep';
 export { default as Directions } from './Directions';
 export { default as Hello } from './Hello';

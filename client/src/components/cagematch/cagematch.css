@@ -13,6 +13,8 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  justify-content: center;
+  padding: 0 20px;
 }
 
 /* Use existing .new-scroll class from main.css */
@@ -59,8 +61,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .cage-grid {
@@ -72,7 +79,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
-  align-content: start;
+  align-content: space-around;
   box-sizing: border-box;
 }
 
@@ -84,7 +91,9 @@
   object-fit: cover;
   cursor: pointer;
   border: 1px solid var(--primary-color);
-  transition: transform 0.15s, opacity 0.15s;
+  transition:
+    transform 0.15s,
+    opacity 0.15s;
   opacity: 0.8;
   display: block;
 }
@@ -98,6 +107,11 @@
 .cage-card.selected {
   opacity: 0.5;
   transform: scale(0.95);
+}
+
+.cage-card.matched {
+  cursor: default;
+  pointer-events: none;
 }
 
 .cage-fullscreen {
@@ -349,8 +363,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .streak {
@@ -465,7 +483,8 @@
 }
 
 @keyframes textBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-50%) scale(1);
   }
   50% {
@@ -504,61 +523,61 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 6px;
   }
-  
+
   .cage-logo {
     font-size: 1.2rem;
   }
-  
+
   .cage-win-title,
   .cage-game-over-title {
     font-size: 2rem;
   }
-  
+
   .modal-card {
     width: 150px;
     height: 210px;
   }
-  
+
   .modal-cards {
     gap: 1rem;
   }
-  
+
   .modal-text {
     font-size: 2rem;
   }
-  
+
   .cage-header-right {
     gap: 0.5rem;
     font-size: 0.9rem;
   }
-  
+
   .cagematch-exit-hint {
     font-size: 0.75rem;
     bottom: 0.5rem;
     right: 0.5rem;
   }
-  
+
   .cage-title {
     font-size: 2rem;
   }
-  
+
   .cage-title-screen {
     padding: 0.5rem;
   }
-  
+
   .cage-title-content {
     padding: 0.75rem;
   }
-  
+
   .cage-start-button {
     padding: 0.75rem 2rem;
     font-size: 1rem;
   }
-  
+
   .cage-leaderboard table {
     font-size: 0.85rem;
   }
-  
+
   .cage-leaderboard th,
   .cage-leaderboard td {
     padding: 0.4rem;

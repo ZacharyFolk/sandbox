@@ -11,7 +11,7 @@ import AudioNotice from '../../components/terminal/commands/AudioNotice';
 import { TerminalContext } from '../../context/TerminalContext';
 
 export default function Home() {
-  const { speakerMuted, setSpeakerMuted } = useContext(TerminalContext);
+  const { speakerMuted, setSpeakerMuted, updateCommand } = useContext(TerminalContext);
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(() => {
     const cookiePower = Cookies.get('power');
@@ -138,7 +138,7 @@ export default function Home() {
         </div>
         <div className="controls-right">
           <div className="vintage-buttons">
-            <button className="vtg-btn vtg-btn--round" onClick={playClick} disabled={!power} title=""></button>
+            <button className="vtg-btn vtg-btn--round" onClick={() => { playClick(); updateCommand('help'); }} disabled={!power} title="Help">?</button>
             <button className="vtg-btn vtg-btn--round vtg-btn--amber" onClick={playClick} disabled={!power} title=""></button>
             <button className="vtg-btn vtg-btn--square" onClick={triggerSecretScroll} disabled={!power} title=""></button>
           </div>

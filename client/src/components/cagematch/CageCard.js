@@ -48,7 +48,7 @@ export const CageCard = ({
       }
       alt={card.name}
       onClick={handleClick}
-      className={`cage-card ${isSelected ? 'selected' : ''}`}
+      className={`cage-card ${isSelected ? 'selected' : ''} ${card.isMatched ? 'matched' : ''}`}
     />
   );
 };

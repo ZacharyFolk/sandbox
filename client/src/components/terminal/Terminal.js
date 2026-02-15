@@ -7,6 +7,8 @@ import {
   CurseResponse,
   Deep,
   Directions,
+  Egg,
+  Games,
   Help,
   Monty,
   TheInfo,
@@ -146,6 +148,14 @@ export default function Terminal(props) {
           break;
         case 'snake':
           setOutput(<TerminalSnake />);
+          break;
+        case 'game':
+        case 'games':
+          setOutput(<Games />);
+          break;
+        case 'egg':
+        case 'eggs':
+          setOutput(<Egg />);
           break;
         case 'monty':
         case 'python':

@@ -150,7 +150,7 @@ pre {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  cursor: pointer;
+  /* cursor: pointer; */
 
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
@@ -1032,6 +1032,12 @@ pre {
     0 1px 0 rgba(255, 255, 255, 0.12),
     inset 0 -2px 4px rgba(0, 0, 0, 0.5),
     inset 0 1px 2px rgba(255, 255, 255, 0.15);
+  font-family: monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: rgb(188 195 255);
+  line-height: 1;
+  text-shadow: -3px 0px 6px #1c1c1a;
 }
 
 .vtg-btn--amber {
@@ -1805,5 +1811,104 @@ ul.help-list li {
   }
   50% {
     opacity: 0;
+  }
+}
+
+.bz-hud {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: #33ff33;
+  text-shadow: 0 0 5px #33ff3399;
+  border: 1px solid rgba(51, 255, 51, 0.65);
+  box-shadow: 0 0 14px rgba(51, 255, 51, 0.25), inset 0 0 30px rgba(51, 255, 51, 0.04);
+  animation: bz-boot 0.2s steps(1) 2;
+  margin-top: 0.4rem;
+}
+
+@keyframes bz-boot {
+  0%   { opacity: 0; }
+  50%  { opacity: 1; }
+  75%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.bz-scene {
+  margin: 0;
+  padding: 0.5rem 0.8rem 0.4rem;
+  white-space: pre;
+  line-height: 1.25;
+  border-bottom: 1px solid rgba(51, 255, 51, 0.4);
+}
+
+.bz-select {
+  text-align: center;
+  padding: 0.35rem 0;
+  letter-spacing: 0.18em;
+  font-size: 0.65rem;
+  border-bottom: 1px solid rgba(51, 255, 51, 0.4);
+  opacity: 0.85;
+}
+
+.bz-games {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.4rem;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid rgba(51, 255, 51, 0.4);
+}
+
+.bz-target {
+  opacity: 0;
+  animation: egg-stream 0.4s linear forwards;
+  letter-spacing: 0.06em;
+}
+
+.bz-radar {
+  margin: 0;
+  padding: 0.25rem 0.8rem;
+  white-space: pre;
+  font-size: 0.6rem;
+  opacity: 0.6;
+  text-align: center;
+}
+
+.egg-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.egg-gif {
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.egg-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.egg-item {
+  opacity: 0;
+  animation: egg-stream 0.6s linear forwards;
+}
+
+@keyframes egg-stream {
+  from {
+    opacity: 0;
+    transform: translateX(-140px);
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
