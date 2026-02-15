@@ -254,15 +254,33 @@ pre {
 }
 
 .monitor {
-  background-color: #080808;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  /* Molded plastic — lighter toward the face center, dark at edges */
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 38%, #1c1c1a 0%, #111110 45%, #090908 100%);
+  border-radius: 22px;
+  /* Layered shadow: hard contact shadow + soft ambient + faint top-edge highlight */
+  box-shadow:
+    0 2px 0   rgba(255,255,255,0.04),      /* top-edge bevel highlight */
+    0 4px 12px rgba(0,0,0,0.6),             /* close contact shadow */
+    0 18px 50px rgba(0,0,0,0.7),            /* deep ambient shadow */
+    inset 0 1px 0 rgba(255,255,255,0.06),   /* inner top bevel */
+    inset 0 -2px 6px rgba(0,0,0,0.5);       /* inner bottom depth */
   overflow: hidden;
   padding: 4%;
   margin: 40px auto;
   color: var(--dos-white);
   max-width: 1220px;
   height: 80vh;
+  /* Subtle scanline-like ribbing on the face */
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 38%, #1c1c1a 0%, #111110 45%, #090908 100%),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    );
 }
 
 .bezel {
@@ -270,9 +288,224 @@ pre {
   left: 5%;
   right: 5%;
   bottom: 5%;
-  border: 10px solid #0f0f0f;
-  border-radius: 15px;
+  border-radius: 12px;
   height: 72vh;
+  /* Recessed screen well */
+  box-shadow:
+    inset 0 2px 8px  rgba(0,0,0,0.9),
+    inset 0 0  20px  rgba(0,0,0,0.6),
+    inset 0 -2px 4px rgba(0,0,0,0.7),
+    0 0 0 8px #0d0d0c,                   /* thick plastic rim */
+    0 0 0 10px #161614;                  /* outer rim lip */
+}
+
+/* ── Speaker grille ──────────────────────────────────────────── */
+.speaker-grille {
+  width: 160px;
+  height: 54px;
+  border-radius: 6px;
+  /* Sunken well */
+  background: #0a0a09;
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,0.9),
+    inset 0 -1px 2px rgba(255,255,255,0.03),
+    0 1px 0 rgba(255,255,255,0.04);
+  border: 1px solid #1e1e1c;
+  overflow: hidden;
+  position: relative;
+}
+
+.speaker-inner {
+  position: absolute;
+  inset: 5px 8px;
+  border-radius: 4px;
+  /* Dot-mesh fabric grille */
+  background-image:
+    radial-gradient(circle, #2e2e2a 1.2px, transparent 1.2px);
+  background-size: 5px 5px;
+  background-color: #0d0d0b;
+  /* Slight horizontal vignette — darker at edges like a real cone shadow */
+  -webkit-mask-image:
+    radial-gradient(ellipse 90% 75% at 50% 50%, black 40%, transparent 100%);
+  mask-image:
+    radial-gradient(ellipse 90% 75% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* ── Controls center (nameplate + speaker + audio) ──────────── */
+.controls-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ── Audio panel (toggle + LCD) ──────────────────────────────── */
+.audio-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  background: linear-gradient(155deg, #1c1c1a 0%, #111110 100%);
+  border: 1px solid #252522;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 3px rgba(0,0,0,0.7),
+    0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* Toggle switch housing */
+.audio-toggle {
+  width: 26px;
+  padding: 3px 0;
+  background: linear-gradient(155deg, #2e2e2c 0%, #1a1a18 100%);
+  border: 1px solid #2a2a28;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 4px rgba(0,0,0,0.8),
+    0 1px 0 rgba(255,255,255,0.05);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+/* Slot the lever rides in */
+.audio-toggle-gate {
+  width: 8px;
+  height: 26px;
+  background: #080807;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.95);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2px;
+  transition: all 0.12s;
+}
+
+/* The metal lever nub */
+.audio-toggle-lever {
+  width: 8px;
+  height: 10px;
+  border-radius: 2px;
+  background: radial-gradient(circle at 40% 30%, #b0b0a8, #6a6a62 55%, #3a3a34);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.12s ease;
+  transform: translateY(0);
+}
+
+/* Off (muted) — lever drops to bottom of gate */
+.audio-toggle--off .audio-toggle-gate {
+  align-items: flex-end;
+  padding-top: 0;
+  padding-bottom: 2px;
+}
+
+.audio-toggle--off .audio-toggle-lever {
+  background: radial-gradient(circle at 40% 30%, #7a5a5a, #4a3030 55%, #2a1818);
+}
+
+/* LCD display */
+.audio-lcd {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.audio-lcd-screen {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  padding: 2px 4px;
+  /* Classic greenish LCD */
+  color: #7ecf50;
+  background: #0e1a0c;
+  border: 1px solid #0a0f08;
+  border-radius: 1px;
+  box-shadow:
+    inset 0 0 4px rgba(0,0,0,0.6),
+    0 0 3px rgba(80,180,30,0.08);
+}
+
+/* Muted state — dim amber */
+.audio-toggle--off ~ .audio-lcd .audio-lcd-screen {
+  color: #8a7030;
+  background: #120f08;
+  box-shadow:
+    inset 0 0 4px rgba(0,0,0,0.6),
+    0 0 3px rgba(120,90,20,0.08);
+}
+
+/* ── Monitor nameplate ───────────────────────────────────────── */
+.monitor-nameplate {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  /* Embossed metal plate */
+  background: linear-gradient(
+    155deg,
+    #252522 0%,
+    #1a1a18 35%,
+    #202020 65%,
+    #131311 100%
+  );
+  box-shadow:
+    0 1px 0   rgba(255,255,255,0.07),
+    0 2px 5px rgba(0,0,0,0.65),
+    inset 0  1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.45);
+  border: 1px solid #2e2e2a;
+  transition: filter 0.15s;
+}
+.monitor-nameplate:hover {
+  filter: brightness(1.2);
+}
+.monitor-nameplate:active,
+.monitor-nameplate--active {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.8),
+    inset 0 1px 4px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+  filter: brightness(0.9);
+}
+
+.nameplate-symbol {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: var(--primary-color);
+  opacity: 0.85;
+  line-height: 1;
+}
+.monitor-nameplate--active .nameplate-symbol {
+  opacity: 1;
+  text-shadow: 0 0 6px var(--primary-color);
+}
+
+.nameplate-text {
+  font-family: monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  /* Chrome gradient text */
+  background: linear-gradient(
+    180deg,
+    #d0d0ca 0%,
+    #888882 38%,
+    #c0c0ba 62%,
+    #606058 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* The switch - the box around the slider */
@@ -412,6 +645,147 @@ pre {
   display: flex;
   align-items: center;
 }
+
+/* ── Quick-command panel button ──────────────────────────────── */
+.panel-btn {
+  cursor: pointer;
+  background: var(--dark);
+  font-size: 0.85em;
+  font-family: monospace;
+  color: #d2d2d2;
+  padding: 3px 8px;
+  border: 1px solid #3a3a3a;
+  outline: none;
+  letter-spacing: 0.05em;
+  margin-left: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.panel-btn:hover {
+  background: var(--secondary-color);
+  color: #a5c292;
+}
+.panel-btn-active,
+.panel-btn:active {
+  background: var(--primary-color);
+  color: #292929;
+  border-color: var(--primary-color);
+}
+
+/* ── Quick-command panel overlay ─────────────────────────────── */
+.qcp-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qcp-panel {
+  background: rgba(8, 14, 8, 0.96);
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 0 30px rgba(0, 255, 65, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.5);
+  min-width: 280px;
+  max-width: 420px;
+  width: 60%;
+  font-family: inherit;
+}
+
+.qcp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--primary-color);
+  opacity: 0.8;
+}
+
+.qcp-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--primary-color);
+  text-transform: uppercase;
+}
+
+.qcp-close {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  padding: 0;
+  line-height: 1;
+}
+.qcp-close:hover { opacity: 1; }
+
+.qcp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+}
+
+.qcp-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.65rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.qcp-item:hover {
+  background: rgba(0, 255, 65, 0.08);
+}
+
+.qcp-label {
+  color: var(--primary-color);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  min-width: 80px;
+}
+.qcp-label::before { content: '> '; opacity: 0.4; }
+
+.qcp-hint {
+  color: var(--secondary-color);
+  font-size: 0.75rem;
+  opacity: 0.55;
+}
+
+/* ── Secret scroll ───────────────────────────────────────────── */
+.secret-scroll {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-family: inherit;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--primary-color);
+  white-space: pre;
+  overflow: hidden;
+}
+
+.secret-line {
+  opacity: 0;
+  animation: secret-fade-in 0.12s forwards;
+}
+
+@keyframes secret-fade-in {
+  to { opacity: 1; }
+}
+
+/* ── NASA/ASCII terminal output ──────────────────────────────── */
+.nasa-report {
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff88;
+  background: transparent;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre;
+  margin: 0.5rem 0;
+  text-shadow: 0 0 6px #00ff88aa;
+  letter-spacing: 0.03em;
+}
+
 /* command helper - hiding on big screens */
 
 .menu-icon {
@@ -436,35 +810,198 @@ pre {
   background: var(--primary-color);
   color: #292929;
 }
-.light {
-  position: relative;
-  height: 20px;
-  width: 20px;
-  margin-left: 40px;
-  padding: 0;
-}
-.led {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  right: 15px;
-}
-.led-on {
-  background-color: #abff00;
+/* ── LED cluster ─────────────────────────────────────────────── */
+.led-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 18px;
+  padding: 8px 12px;
+  background: linear-gradient(160deg, #1a1a18 0%, #111110 100%);
+  border: 1px solid #2a2a26;
+  border-radius: 3px;
   box-shadow:
-    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
-    inset #304701 0 -1px 9px,
-    #89ff00 0 2px 12px;
+    inset 0 1px 3px rgba(0,0,0,0.7),
+    inset 0 -1px 1px rgba(255,255,255,0.03),
+    0 1px 0 rgba(255,255,255,0.04);
+}
+
+.led-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.led-label {
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  color: #555;
+  text-transform: uppercase;
+  font-family: monospace;
+  line-height: 1;
+}
+
+.led-socket {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #2a2a28, #0d0d0c);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.9),
+    inset 0 -1px 1px rgba(255,255,255,0.04),
+    0 0 0 1px #0a0a09;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.led-on {
+  background: radial-gradient(circle at 35% 30%, #d4ff70, #7bcc00 55%, #3a6600);
+  box-shadow:
+    0 0 3px 1px rgba(0,0,0,0.5),
+    0 0 6px 2px #6dcc00,
+    0 0 14px 3px rgba(100,210,0,0.4);
+  animation: led-pulse 2.8s ease-in-out infinite;
 }
 
 .led-off {
-  background-color: #3e4625;
+  background: radial-gradient(circle at 35% 30%, #3a3d2e, #1e200e);
   box-shadow:
-    rgb(90 90 90 / 20%) 0 -1px 7px 1px,
-    inset #525252 0 -1px 9px,
-    #090909 0 2px 12px;
+    0 0 3px 1px rgba(0,0,0,0.6),
+    inset 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.led-hdd {
+  background: radial-gradient(circle at 35% 30%, #ff5a3a, #cc1800 55%, #6b0000);
+  box-shadow:
+    0 0 3px 1px rgba(0,0,0,0.5),
+    0 0 6px 2px #cc1800,
+    0 0 14px 3px rgba(200,30,0,0.35);
+}
+
+.led-hdd-active {
+  background: radial-gradient(circle at 35% 30%, #ff5a3a, #cc1800 55%, #6b0000);
+  box-shadow:
+    0 0 3px 1px rgba(0,0,0,0.5),
+    0 0 6px 2px #cc1800,
+    0 0 14px 3px rgba(200,30,0,0.35);
+  animation: led-hdd-blink 0.9s steps(1) infinite;
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.72; }
+}
+
+@keyframes led-hdd-blink {
+  0%  { opacity: 1; }
+  20% { opacity: 0.08; }
+  40% { opacity: 1; }
+  60% { opacity: 0.08; }
+  80% { opacity: 1; }
+}
+
+/* ── Vintage buttons ─────────────────────────────────────────── */
+.vintage-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 4px;
+  padding: 8px 14px;
+  background: linear-gradient(160deg, #1c1c1a 0%, #121210 100%);
+  border: 1px solid #2a2a26;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 3px rgba(0,0,0,0.7),
+    0 1px 0 rgba(255,255,255,0.04);
+}
+
+.vtg-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  position: relative;
+  transition: transform 0.07s ease, box-shadow 0.07s ease, filter 0.07s ease;
+}
+
+/* Round buttons — domed metal cap */
+.vtg-btn--round {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%, #6a6a62, #3a3a34 50%, #1e1e1a);
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.7),
+    0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -2px 4px rgba(0,0,0,0.5),
+    inset 0 1px 2px rgba(255,255,255,0.15);
+}
+
+.vtg-btn--amber {
+  background:
+    radial-gradient(circle at 38% 32%, #8a7040, #5a4820 50%, #2a2010);
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.7),
+    0 1px 0 rgba(255,200,80,0.1),
+    inset 0 -2px 4px rgba(0,0,0,0.5),
+    inset 0 1px 2px rgba(255,200,80,0.12);
+}
+
+/* Square button — chunky industrial */
+.vtg-btn--square {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  background:
+    linear-gradient(155deg, #5a5a52 0%, #3a3a34 40%, #1e1e1a 100%);
+  box-shadow:
+    0 3px 5px rgba(0,0,0,0.7),
+    0 1px 0 rgba(255,255,255,0.1),
+    inset 0 -2px 3px rgba(0,0,0,0.5),
+    inset 0 1px 2px rgba(255,255,255,0.12);
+}
+
+/* Hover — slight brightening */
+.vtg-btn:hover {
+  filter: brightness(1.25);
+}
+
+/* Active / pressed — sinks down, shadow collapses */
+.vtg-btn:active {
+  transform: translateY(2px);
+  filter: brightness(0.85);
+}
+
+.vtg-btn--round:active {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.8),
+    inset 0 2px 5px rgba(0,0,0,0.7),
+    inset 0 1px 2px rgba(255,255,255,0.06);
+}
+
+.vtg-btn--square:active {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.8),
+    inset 0 2px 4px rgba(0,0,0,0.7),
+    inset 0 1px 2px rgba(255,255,255,0.06);
+}
+
+/* Amber button — lit state when command panel is open */
+.vtg-btn--lit {
+  background:
+    radial-gradient(circle at 38% 32%, #c8a050, #8a6018 50%, #3a2808);
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.7),
+    0 0 8px 2px rgba(200,150,40,0.35),
+    inset 0 -2px 4px rgba(0,0,0,0.4),
+    inset 0 1px 2px rgba(255,220,100,0.3);
 }
 
 /* Side Menu */

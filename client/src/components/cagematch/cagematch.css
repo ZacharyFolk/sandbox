@@ -51,12 +51,6 @@
   gap: 0.5rem;
 }
 
-.cage-volume {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
 .cage-eye {
   cursor: pointer;
   display: flex;

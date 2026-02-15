@@ -6,6 +6,7 @@ export const TerminalContext = createContext('');
 export const TerminalProvider = ({ children }) => {
   const [command, setCommand] = useState('');
   const [gameMode, setGameMode] = useState(false);
+  const [speakerMuted, setSpeakerMuted] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();
 
@@ -70,6 +71,8 @@ export const TerminalProvider = ({ children }) => {
         gameMode,
         enterGameMode,
         exitGameMode,
+        speakerMuted,
+        setSpeakerMuted,
       }}
     >
       {children}

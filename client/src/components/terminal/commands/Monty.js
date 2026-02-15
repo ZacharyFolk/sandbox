@@ -1,5 +1,6 @@
 import Typist from 'react-typist-component';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
+import { TerminalContext } from '../../../context/TerminalContext';
 
 const images = [
   '/images/monty/monty-1.gif',
@@ -17,6 +18,7 @@ const images = [
 ];
 
 const Monty = () => {
+  const { speakerMuted } = useContext(TerminalContext);
   const [showImage, setShowImage] = useState(false);
   const src = useRef(images[Math.floor(Math.random() * images.length)]).current;
   const audioRef = useRef(new Audio('/sounds/monty/intermission-music.mp3'));
@@ -24,9 +26,9 @@ const Monty = () => {
   useEffect(() => {
     if (!showImage) return;
     const audio = audioRef.current;
-    audio.play().catch(() => {});
+    if (!speakerMuted) audio.play().catch(() => {});
     return () => { audio.pause(); audio.currentTime = 0; };
-  }, [showImage]);
+  }, [showImage, speakerMuted]);
 
   return (
     <div className="monty-box">

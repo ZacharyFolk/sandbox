@@ -26,10 +26,9 @@ const clipArray = [through, bored, bunny, declaration];
 const getRandomSound = () => clipArray[Math.floor(Math.random() * clipArray.length)];
 
 const CageMatch = () => {
-  const { enterGameMode, exitGameMode, updateCommand } = useContext(TerminalContext);
+  const { enterGameMode, exitGameMode, updateCommand, speakerMuted } = useContext(TerminalContext);
 
   const maxLives = 10;
-  const [muted, setMuted] = useState(false);
   const [cardsDealt, setCardsDealt] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [fullDeck, setFullDeck] = useState([]);
@@ -42,7 +41,6 @@ const CageMatch = () => {
   // resetKey increments each new game so CageCard's useEffect always fires on reset
   const [resetKey, setResetKey] = useState(0);
   const [newHigh, setNewHigh] = useState(false);
-  const [audioElements, setAudioElements] = useState([]);
   const [flipAllCards, setFlipAllCards] = useState(false);
   const [newStreak, setNewStreak] = useState(false);
   const [showPeek, setShowPeek] = useState(false);
@@ -56,11 +54,11 @@ const CageMatch = () => {
 
   // Refs let the matching effect read current values without them being dependencies,
   // which would otherwise re-trigger the effect mid-flight and cause double-counting.
-  const mutedRef = useRef(muted);
+  const mutedRef = useRef(speakerMuted);
   const cardsDealtRef = useRef(cardsDealt);
   const consecutiveMatchesRef = useRef(0);
 
-  useEffect(() => { mutedRef.current = muted; }, [muted]);
+  useEffect(() => { mutedRef.current = speakerMuted; }, [speakerMuted]);
   useEffect(() => { cardsDealtRef.current = cardsDealt; }, [cardsDealt]);
 
   // Dev cheat: window.cagematchWin() skips straight to the win/scoring screen
@@ -107,7 +105,6 @@ const CageMatch = () => {
       audio.currentTime = 0;
       audio.volume = 0.2;
       audio.play().catch(() => {});
-      setAudioElements((prev) => [...prev, { audio, isPlaying: true }]);
     }
   };
 
@@ -282,10 +279,7 @@ const CageMatch = () => {
       {currentScreen !== 'title' && (
         <CageHead
           hearts={hearts}
-          muted={muted}
-          setMuted={setMuted}
           timer={timer}
-          audioElements={audioElements}
           handleFlipAllCards={handleFlipAllCards}
           showPeek={showPeek}
         />
