@@ -13,4 +13,5 @@ export { default as NoMatch } from './NoMatch';
 export { default as Projects } from './Projects';
 export { default as RandomBoot } from './RandomBoot';
 export { default as TheInfo } from './TheInfo';
+export { default as Tralfamadore } from './Tralfamadore';
 export { default as Welcome } from './Welcome';

@@ -29,6 +29,7 @@ import Hacking from '../hacking/Hacking';
 import FalloutGame from '../fallout/FalloutGame';
 import CageMatch from '../cagematch/CageMatch';
 import HitchhikerGame from './commands/HitchhikerGame';
+import Tralfamadore from './commands/Tralfamadore';
 
 export default function Terminal(props) {
   const { command, updateCommand, inputRef, clearInput, gameMode, setScreensaver, setScreensaverType } =
@@ -189,6 +190,14 @@ export default function Terminal(props) {
         case 'egg':
         case 'eggs':
           setOutput(<Egg />);
+          break;
+        case 'pooteweet':
+        case 'soitgoes':
+        case 'tralfamadore':
+        case 'unstuck':
+        case 'vonnegut':
+        case 'kilgore':
+          setOutput(<Tralfamadore />);
           break;
         case 'monty':
         case 'python':

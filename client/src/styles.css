@@ -2297,6 +2297,37 @@ ul.help-list li {
     inset 0 0 160px rgba(0, 0, 0, 0.25);
 }
 
+/* ==================
+   TRALFAMADORE — VONNEGUT TRIBUTE
+================== */
+
+.tralfamadore-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  overflow: hidden;
+  background: #020014;
+  cursor: crosshair;
+}
+
+.tralfamadore-container:focus {
+  outline: none;
+}
+
+.tralfamadore-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Courier New', monospace;
+  font-size: 0.55rem;
+  color: rgba(167, 139, 250, 0.25);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 0.1em;
+}
+
 /* Amber button lit state when CRT is active */
 .vtg-btn--active.vtg-btn--amber {
   box-shadow:

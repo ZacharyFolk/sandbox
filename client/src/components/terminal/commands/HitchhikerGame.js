@@ -461,15 +461,27 @@ const HitchhikerGame = () => {
   // ── Has item helper ──────────────────────────────────────────────────────
   const hasItem = (item) => inventoryRef.current.includes(item);
 
+  // ── Room description helper ─────────────────────────────────────────────
+  const getRoomDesc = useCallback((roomId, fl) => {
+    const room = ROOMS[roomId];
+    if (roomId === 'bedroom') {
+      return fl.lightOn ? room.descLight(fl) : room.descDark;
+    }
+    const desc = room.description;
+    return typeof desc === 'function' ? desc(fl) : desc;
+  }, []);
+
   // ── PROCESS COMMAND ──────────────────────────────────────────────────────
   const processCommand = useCallback((raw) => {
     const room = currentRoomRef.current;
     const fl = flagsRef.current;
-    const { verb, noun } = parseInput(raw);
+    const parsed = parseInput(raw);
+    const { verb, noun } = parsed;
     const output = [];
 
     const say = (text, type = 'normal') => output.push({ text, type });
     const roomSay = (text) => output.push({ text, type: 'room' });
+    const commit = () => addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
 
     // ── RESTART ──────────────────────────────────────────────────────────
     if (verb === 'restart') {
@@ -477,27 +489,29 @@ const HitchhikerGame = () => {
       setInventory([]);
       setFlags({
         visitedRooms: {},
-        asprinTaken: false,
+        lightOn: false,
+        inBed: true,
+        headache: true,
         gownWorn: false,
         lookedPocket: false,
         liedDown: false,
         fordArrived: false,
         prosserTalked: false,
+        prosserLying: false,
         beerDrunk: 0,
-        peanutsTaken: false,
         towelTaken: false,
+        sandwichTaken: false,
         fordTalked: 0,
+        dogAppeared: false,
+        dogFed: false,
+        deviceDropped: false,
         gameOver: false,
       });
       setVogonPhase(0);
       setOutputLines([
-        { text: TITLE_ART, type: 'title' },
-        { text: '', type: 'normal' },
         { text: `— ${ROOMS.bedroom.name} —`, type: 'room' },
         { text: '', type: 'normal' },
         { text: ROOMS.bedroom.onEnter, type: 'normal' },
-        { text: '', type: 'normal' },
-        { text: ROOMS.bedroom.description, type: 'normal' },
       ]);
       return;
     }
@@ -505,30 +519,21 @@ const HitchhikerGame = () => {
     // ── QUIT ─────────────────────────────────────────────────────────────
     if (verb === 'quit') {
       say("\nSo long, and thanks for all the fish.\n");
-      addOutputMulti([
-        { text: `> ${raw}`, type: 'input' },
-        ...output,
-      ]);
+      commit();
       setTimeout(() => exitGameMode(), 1200);
       return;
     }
 
     // ── GAME OVER STATE ──────────────────────────────────────────────────
     if (fl.gameOver) {
-      if (verb !== 'restart' && verb !== 'quit') {
-        say("\nThe Earth has been demolished. There's not much to do.");
-        say("Type RESTART or QUIT.");
-      }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
+      say("\nThe Earth has been demolished. There's not much to do.");
+      say("Type RESTART or QUIT.");
+      commit();
       return;
     }
 
     // ── HELP ─────────────────────────────────────────────────────────────
-    if (verb === 'help') {
-      say(HELP_TEXT);
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
-    }
+    if (verb === 'help') { say(HELP_TEXT); commit(); return; }
 
     // ── INVENTORY ────────────────────────────────────────────────────────
     if (verb === 'inventory') {
@@ -537,165 +542,251 @@ const HitchhikerGame = () => {
         say("You are carrying nothing. This is philosophically interesting but practically useless.");
       } else {
         say("You are carrying:");
-        inventoryRef.current.forEach(item => {
-          say(`  - ${item.toUpperCase()}`);
-        });
-        if (!fl.lookedPocket) {
-          say("\n(Your pockets feel suspiciously lumpy. Try LOOK POCKET.)");
-        }
+        inventoryRef.current.forEach(item => say(`  - ${item.toUpperCase()}`));
+        if (fl.gownWorn) say("  (wearing the DRESSING GOWN)");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
     // ── VOGON SCENE (special room) ───────────────────────────────────────
     if (room === 'vogon') {
-      handleVogonRoom(verb, noun, raw);
-      return;
+      if (verb === 'look') {
+        say("\nThe sky is full of Vogon ships. The Earth is being demolished. There's really nothing more to look at.");
+      } else {
+        say("\nThe Earth has been demolished. There's not much to do.");
+        say("Type RESTART or QUIT.");
+      }
+      commit(); return;
     }
 
-    // ── LOOK ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── TURN ON LIGHT ────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    if (verb === 'light') {
+      if (room !== 'bedroom') {
+        say("\nThere's no light switch here that you can see.");
+      } else if (fl.lightOn) {
+        say("\nThe light is already on.");
+      } else {
+        say("\nGood start. You fumble for the light switch. After a brief but intense battle with the darkness, you find it.");
+        say("\nLight floods the room. Your eyes protest violently. The room is revealed in all its squalid glory.");
+        say('');
+        setFlags(f => ({ ...f, lightOn: true }));
+        say(ROOMS.bedroom.descLight({ ...fl, lightOn: true }));
+      }
+      commit(); return;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ── STAND / GET UP ───────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    if (verb === 'stand') {
+      if (room === 'bedroom') {
+        if (!fl.inBed) {
+          say("\nYou're already standing. Well, swaying. Same thing.");
+        } else if (!fl.lightOn) {
+          say("\nYou try to get out of bed in the dark. You stumble into something. It's the wall. The wall has always been there. You should have remembered that.\n\n(Perhaps try TURN ON LIGHT first.)");
+        } else {
+          say("\nYou swing your legs out of bed and stand up. The room lurches sideways briefly, then grudgingly agrees to stay put." + (fl.headache ? " Your headache throbs in protest." : ""));
+          setFlags(f => ({ ...f, inBed: false }));
+        }
+      } else if (room === 'frontyard' && fl.liedDown) {
+        if (!fl.prosserLying) {
+          say("\nYou can't get up now! The bulldozer will flatten your house the moment you move!");
+        } else {
+          say("\nYou stand up. Mr. Prosser obediently takes your place in the mud, looking confused but compliant.");
+        }
+      } else {
+        say("\nYou're already standing.");
+      }
+      commit(); return;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ── LOOK ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'look') {
       if (!noun) {
-        // Look at room
         say('');
         roomSay(`— ${ROOMS[room].name} —`);
         say('');
-        say(ROOMS[room].description);
-        if (room === 'frontyard' && fl.liedDown && !fl.fordArrived) {
-          say("\nYou are lying in front of the bulldozer. This is surprisingly comfortable for an act of civil disobedience.");
-        }
-        if (room === 'frontyard' && fl.fordArrived) {
-          say("\nMr. Prosser is lying in front of the bulldozer, looking confused but strangely at peace. Ford is tugging your arm urgently.");
-        }
+        say(getRoomDesc(room, fl));
+      } else if (room === 'bedroom' && !fl.lightOn) {
+        say("\nIt's dark. You can't see a thing. Not a sausage. The darkness is absolute and uncompromising.");
       } else if (noun === 'pocket' || noun === 'pockets') {
-        say('');
-        say("You rummage through your pockets.");
-        say('');
-        if (!fl.lookedPocket) {
-          say("You find: some LINT, and a small THING YOUR AUNT GAVE YOU which you have never been entirely sure what it is.");
-          say("You also notice a distinct absence of TEA, which seems like an oversight on the part of the universe.");
-          setInventory(prev => [...prev, 'lint', 'thing your aunt gave you', 'no tea']);
+        if (!fl.gownWorn) {
+          say("\nYou're not wearing anything with pockets. Or much of anything, really.");
+        } else if (!fl.lookedPocket) {
+          say("\nYou rummage through the gown pocket. You find:");
+          say("\n  - A bottle of BUFFERED ANALGESIC");
+          say("  - Some POCKET FLUFF");
+          say("  - A THING YOUR AUNT GAVE YOU which you have never been entirely sure what it is.");
+          say("\nYou also notice a distinct absence of TEA, which seems like an oversight on the part of the universe.");
+          setInventory(prev => [...prev, 'analgesic', 'fluff', 'thing your aunt gave you', 'no tea']);
           setFlags(f => ({ ...f, lookedPocket: true }));
         } else {
-          say("You've already searched your pockets. They haven't gotten any more interesting.");
+          say("\nYou've already searched your pockets. They haven't gotten any more interesting.");
         }
-      } else if (noun === 'aspirin' || noun === 'asprin') {
-        say('');
-        say(ITEM_DESCRIPTIONS.aspirin);
+      } else if (noun === 'analgesic' || noun === 'aspirin' || noun === 'asprin' || noun === 'buffered analgesic') {
+        say('\n' + ITEM_DESCRIPTIONS.analgesic);
       } else if (noun === 'gown' || noun === 'dressing gown' || noun === 'robe') {
-        say('');
-        say(ITEM_DESCRIPTIONS.gown);
+        say('\n' + ITEM_DESCRIPTIONS.gown);
       } else if (noun === 'phone') {
-        say('');
-        say(ITEM_DESCRIPTIONS.phone);
-      } else if (noun === 'bed') {
-        say('');
-        say("Your bed. It looks like a fight occurred in it. Both sides lost.");
-      } else if (noun === 'shelf') {
-        say('');
-        say("A shelf cluttered with the archaeology of bedside living: an aspirin bottle, a half-read book about the mating habits of newts (you were going through a phase), and a glass of water that has achieved room temperature and is considering evaporation.");
+        say('\n' + ITEM_DESCRIPTIONS.phone);
+      } else if (noun === 'screwdriver' && room === 'bedroom') {
+        say('\n' + ITEM_DESCRIPTIONS.screwdriver);
+      } else if (noun === 'toothbrush' && room === 'bedroom') {
+        say('\n' + ITEM_DESCRIPTIONS.toothbrush);
+      } else if (noun === 'bed' && room === 'bedroom') {
+        say("\nYour bed. It looks like a fight occurred in it. Both sides lost.");
+      } else if (noun === 'shelf' && room === 'bedroom') {
+        say("\nA shelf cluttered with the archaeology of bedside living: a screwdriver, a toothbrush, a half-read book about the mating habits of newts (you were going through a phase), and a glass of water that has achieved room temperature and is considering evaporation.");
       } else if (noun === 'bulldozer' && room === 'frontyard') {
-        say('');
-        say("It's a large, yellow, purposeful-looking bulldozer. It has the kind of expression that bulldozers have, which is to say: none. It will demolish your house with the same emotional engagement with which you might crush a biscuit.");
-      } else if (noun === 'prosser' && room === 'frontyard') {
-        say('');
-        say("Mr. L. Prosser. Age 40. A nervous, fidgety man. He has an oddly-shaped head — rather small, and flat on top. There's something almost simian about him, though that's probably unfair to simians. He is, on his mother's side, directly descended from Genghis Khan, though he doesn't know this and if he did it wouldn't help him in any appreciable way.");
+        say("\nIt's a large, yellow, purposeful-looking bulldozer. It will demolish your house with the same emotional engagement with which you might crush a biscuit.");
+      } else if ((noun === 'prosser' || noun === 'mr prosser') && room === 'frontyard') {
+        say("\nMr. L. Prosser. Age 40. A nervous, fidgety man. He has an oddly-shaped head — rather small, and flat on top. He is, on his mother's side, directly descended from Genghis Khan, though he doesn't know this and if he did it wouldn't help him in any appreciable way.");
       } else if (noun === 'ford' && room === 'pub') {
-        say('');
-        say("Ford Prefect. He's not from Guildford after all. He's not even from Earth. He looks like he's trying to do several impossible things at once, and succeeding at most of them. His eyes have the manic intensity of someone who knows something terrible is about to happen and has done the maths on exactly how terrible.");
+        say("\nFord Prefect. He's not from Guildford after all. He's not even from Earth. He looks like he's trying to do several impossible things at once, and succeeding at most of them.");
       } else if (noun === 'beer' && room === 'pub') {
-        say('');
-        say(ITEM_DESCRIPTIONS.beer);
+        say('\n' + ITEM_DESCRIPTIONS.beer);
+      } else if ((noun === 'sandwich' || noun === 'cheese sandwich') && room === 'pub') {
+        say('\n' + ITEM_DESCRIPTIONS.sandwich);
       } else if (noun === 'peanuts' && room === 'pub') {
-        say('');
-        say(ITEM_DESCRIPTIONS.peanuts);
-      } else if (noun === 'towel' && room === 'pub') {
-        say('');
-        say(ITEM_DESCRIPTIONS.towel);
-      } else if (noun === 'lint' && hasItem('lint')) {
-        say('');
-        say(ITEM_DESCRIPTIONS.lint);
+        say('\n' + ITEM_DESCRIPTIONS.peanuts);
+      } else if (noun === 'towel' && (room === 'pub' || hasItem('towel'))) {
+        say('\n' + ITEM_DESCRIPTIONS.towel);
+      } else if ((noun === 'junk mail' || noun === 'mail') && (room === 'porch' || hasItem('junk mail'))) {
+        say('\n' + ITEM_DESCRIPTIONS['junk mail']);
+      } else if (noun === 'fluff' && hasItem('fluff')) {
+        say('\n' + ITEM_DESCRIPTIONS.fluff);
       } else if ((noun === 'thing' || noun === 'thing your aunt gave you') && hasItem('thing your aunt gave you')) {
-        say('');
-        say(ITEM_DESCRIPTIONS['thing your aunt gave you']);
+        say('\n' + ITEM_DESCRIPTIONS['thing your aunt gave you']);
       } else if (noun === 'no tea' || noun === 'tea') {
-        say('');
-        say(ITEM_DESCRIPTIONS['no tea']);
+        say('\n' + ITEM_DESCRIPTIONS['no tea']);
       } else if (noun === 'curtains' || noun === 'window') {
-        say('');
-        say("The curtains are drawn. Behind them, the world is happening without your consent. This is typical of the world.");
+        say("\nThe curtains are drawn. Behind them, the world is happening without your consent. This is typical of the world.");
       } else if (noun === 'house' && room === 'frontyard') {
-        say('');
-        say("Your house. It's small and somewhat ratty, but it's yours. Or it was. Bureaucracy has other plans for it, as bureaucracy so often does.");
+        say("\nYour house. It's small and somewhat ratty, but it's yours. Or it was. Bureaucracy has other plans for it.");
+      } else if ((noun === 'dog') && room === 'lane' && fl.dogAppeared) {
+        say("\nA small, mangy mongrel of no particular breed. It's looking at you with the kind of desperate optimism that only dogs and salesmen can manage." + (fl.dogFed ? " It appears to have eaten recently and is very pleased about it." : ""));
+      } else if ((noun === 'device' || noun === 'thumb' || noun === 'sub-etha') && room === 'lane' && fl.deviceDropped) {
+        say('\n' + ITEM_DESCRIPTIONS.device);
       } else {
-        say('');
-        say("You don't see that here. (Try looking at something that exists. It's generally more productive.)");
+        say("\nYou don't see that here.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── TAKE / GET ───────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── TAKE / GET ───────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'take') {
       if (!noun) {
         say("\nTake what? You reach out and grasp the air. It is unimpressed.");
-      } else if ((noun === 'aspirin' || noun === 'asprin') && room === 'bedroom') {
-        if (hasItem('aspirin')) {
-          say("\nYou've already taken the aspirin. Your headache remains, out of spite.");
-        } else {
-          say("\nYou take the aspirin bottle and pop two pills. Your headache recedes slightly, like a tide going out, only to reveal all the unpleasant things that were lurking underneath.\n\nTaken.");
-          setInventory(prev => [...prev, 'aspirin']);
-          setFlags(f => ({ ...f, asprinTaken: true }));
-        }
+      } else if (room === 'bedroom' && !fl.lightOn) {
+        say("\nIt's dark. You grope around blindly and find nothing useful. This is not unlike most of your attempts at finding things even with the light on.");
+      } else if (room === 'bedroom' && fl.inBed && noun !== 'gown' && noun !== 'dressing gown' && noun !== 'robe') {
+        say("\nYou can't reach that from bed. Try STAND or GET UP first.");
+      // ── Bedroom items ──
       } else if ((noun === 'gown' || noun === 'dressing gown' || noun === 'robe') && room === 'bedroom') {
-        if (hasItem('gown') || fl.gownWorn) {
-          say("\nYou're already wearing it. One dressing gown is enough for most purposes, unless you're planning something avant-garde.");
+        if (fl.gownWorn) {
+          say("\nYou're already wearing it.");
         } else {
-          say("\nYou pick up the dressing gown and put it on. It provides the exact amount of dignity one would expect from a dressing gown, which is to say: almost none, but just enough to answer the door.\n\nTaken and worn.");
+          say("\nYou pick up the dressing gown. It provides the exact amount of dignity one would expect from a dressing gown, which is to say: almost none, but just enough to answer the door. You notice something in the pocket.\n\nTaken.");
           setInventory(prev => [...prev, 'gown']);
           setFlags(f => ({ ...f, gownWorn: true }));
         }
+      } else if ((noun === 'analgesic' || noun === 'aspirin' || noun === 'asprin' || noun === 'buffered analgesic') && room === 'bedroom') {
+        if (hasItem('analgesic') || !fl.headache) {
+          say("\nYou've already got the analgesic.");
+        } else if (!fl.lookedPocket) {
+          say("\nYou don't see any analgesic here. (Have you checked your POCKETS?)");
+        } else {
+          say("\nYou already found it in your pocket.");
+        }
+      } else if (noun === 'screwdriver' && room === 'bedroom') {
+        if (hasItem('screwdriver')) {
+          say("\nYou already have the screwdriver.");
+        } else if (fl.headache) {
+          say("\nYou reach for the screwdriver. Luckily, this is too small for you to get hold of while your head is throbbing this badly. Try taking something for that headache first.");
+        } else {
+          say("\nYou take the screwdriver. It's flat-headed. This will be important later, though you don't know why yet.\n\nTaken.");
+          setInventory(prev => [...prev, 'screwdriver']);
+        }
+      } else if (noun === 'toothbrush' && room === 'bedroom') {
+        if (hasItem('toothbrush')) {
+          say("\nYou already have the toothbrush.");
+        } else if (fl.headache) {
+          say("\nYou reach for the toothbrush but your hand is shaking too badly. Take something for that headache first.");
+        } else {
+          say("\nYou take the toothbrush. Good dental hygiene, even in the face of the apocalypse.\n\nTaken.");
+          setInventory(prev => [...prev, 'toothbrush']);
+        }
       } else if (noun === 'phone' && room === 'bedroom') {
         say("\nYou pick up the phone. The notification stares at you accusingly. You put it back down. Some things are better left unread.");
+      // ── Porch items ──
+      } else if ((noun === 'mail' || noun === 'junk mail') && room === 'porch') {
+        if (hasItem('junk mail')) {
+          say("\nYou've already got the mail.");
+        } else {
+          say("\nYou pick up the junk mail. Most of it is rubbish — double glazing offers, pizza menus. But at the bottom there's a demolition notice from the council. The date is nine months ago.\n\nTaken.");
+          setInventory(prev => [...prev, 'junk mail']);
+        }
+      // ── Frontyard items ──
       } else if (noun === 'bulldozer' && room === 'frontyard') {
         say("\nIt weighs several tons. Your arms do not. The maths is against you on this one.");
-      } else if (noun === 'prosser' && room === 'frontyard') {
+      } else if ((noun === 'prosser' || noun === 'mr prosser') && room === 'frontyard') {
         say("\nMr. Prosser is not the kind of thing one takes. He is the kind of thing that happens to you, like weather or tax audits.");
+      // ── Pub items ──
       } else if (noun === 'beer' && room === 'pub') {
         say("\nFord pushes the beer toward you. \"Drink it, don't carry it. There isn't time.\"\n\n(Try DRINK BEER instead.)");
-      } else if (noun === 'peanuts' && room === 'pub') {
-        if (fl.peanutsTaken) {
-          say("\nYou've already got the peanuts. How many peanuts does one person need? (According to Ford: all of them.)");
+      } else if ((noun === 'sandwich' || noun === 'cheese sandwich') && room === 'pub') {
+        if (fl.sandwichTaken) {
+          say("\nYou already have the sandwich.");
         } else {
-          say("\nYou pocket the peanuts. Ford nods approvingly. \"You'll need the salt and the protein,\" he says. \"Trust me.\"\n\nYou decide not to ask what you'll need them for. Some questions are best left for after the apocalypse.\n\nTaken.");
-          setInventory(prev => [...prev, 'peanuts']);
-          setFlags(f => ({ ...f, peanutsTaken: true }));
+          say("\nYou take the cheese sandwich from the counter. It's not much to look at, but it cost a pound.\n\nTaken.");
+          setInventory(prev => [...prev, 'sandwich']);
+          setFlags(f => ({ ...f, sandwichTaken: true }));
         }
+      } else if (noun === 'peanuts' && room === 'pub') {
+        say("\n\"Leave the peanuts,\" says Ford. \"I'll get you some later. Just drink your beer.\"");
       } else if (noun === 'towel' && room === 'pub') {
         if (fl.towelTaken) {
           say("\nYou already have the towel. Relax. Don't Panic.");
         } else {
-          say("\nFord pushes the towel toward you with the reverence usually reserved for religious artifacts.\n\n\"A towel,\" Ford says solemnly, \"is about the most massively useful thing an interstellar hitchhiker can have. Partly because it has great practical value — you can wrap it around you for warmth, lie on it on the brilliant marble-sanded beaches of Santraginus V, use it to sail a miniraft down the slow heavy River Moth...\"\n\nHe pauses for breath.\n\n\"...and of course dry yourself off with it if it still seems to be clean enough.\"\n\nThe words DON'T PANIC are written on it in large, friendly letters.\n\nTaken.");
+          say("\nFord pushes the towel toward you with the reverence usually reserved for religious artifacts.\n\n\"A towel,\" Ford says solemnly, \"is about the most massively useful thing an interstellar hitchhiker can have.\"\n\nThe words DON'T PANIC are written on it in large, friendly letters.\n\nTaken.");
           setInventory(prev => [...prev, 'towel']);
           setFlags(f => ({ ...f, towelTaken: true }));
+        }
+      // ── Lane items ──
+      } else if ((noun === 'device' || noun === 'thumb' || noun === 'sub-etha') && room === 'lane' && fl.deviceDropped) {
+        if (hasItem('device')) {
+          say("\nYou already have the device.");
+        } else {
+          say("\nYou pick up the small black device. It has a large, friendly green button on it.\n\nTaken.");
+          setInventory(prev => [...prev, 'device']);
         }
       } else {
         say("\nYou can't take that. " + (Math.random() > 0.5
           ? "It doesn't want to be taken, and frankly, who can blame it?"
           : "Some things in life are simply not portable."));
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── WEAR ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── WEAR ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'wear') {
       if (noun === 'gown' || noun === 'dressing gown' || noun === 'robe') {
         if (fl.gownWorn) {
-          say("\nYou're already wearing it. Looking good. Well, looking acceptable. Well, looking like someone who owns a dressing gown.");
-        } else if (room === 'bedroom') {
-          say("\nYou put on the dressing gown. You are now marginally more dressed than you were before, which isn't saying much.\n\nWorn.");
+          say("\nYou're already wearing it. Looking good. Well, looking acceptable.");
+        } else if (room === 'bedroom' && !fl.lightOn) {
+          say("\nYou fumble around in the dark and find the dressing gown. You put it on. You notice something in the pocket.\n\nWorn.");
+          if (!hasItem('gown')) setInventory(prev => [...prev, 'gown']);
+          setFlags(f => ({ ...f, gownWorn: true }));
+        } else if (hasItem('gown') || room === 'bedroom') {
+          say("\nYou put on the dressing gown. You are now marginally more dressed than you were before.\n\nWorn.");
           if (!hasItem('gown')) setInventory(prev => [...prev, 'gown']);
           setFlags(f => ({ ...f, gownWorn: true }));
         } else {
@@ -706,67 +797,185 @@ const HitchhikerGame = () => {
       } else {
         say("\nYou can't wear that. Not without causing a scene, anyway.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── GO / MOVE ────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── EAT ──────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    if (verb === 'eat') {
+      if (noun === 'analgesic' || noun === 'aspirin' || noun === 'asprin' || noun === 'buffered analgesic') {
+        if (!hasItem('analgesic')) {
+          say("\nYou don't have any analgesic. " + (!fl.lookedPocket && fl.gownWorn ? "(Have you checked your POCKETS?)" : ""));
+        } else if (!fl.headache) {
+          say("\nYour headache is already gone. Taking more would be greedy.");
+        } else {
+          say("\nYou swallow the analgesic. It tastes like chalk and broken promises, but your headache recedes like a tide going out — revealing all the unpleasant things lurking underneath, but at least you can see them now.");
+          say("\n+10 POINTS. (You are now slightly less likely to die.)");
+          setFlags(f => ({ ...f, headache: false }));
+          setInventory(prev => prev.filter(i => i !== 'analgesic'));
+        }
+      } else if (noun === 'peanuts' && hasItem('peanuts')) {
+        say("\nYou eat some peanuts. They're salty and protein-rich, which Ford assures you is important for surviving matter transference beams.");
+      } else if (noun === 'sandwich' || noun === 'cheese sandwich') {
+        if (hasItem('sandwich')) {
+          say("\nYou eat the cheese sandwich. It's adequate.\n\nFord gives you a look. \"I hope that wasn't important,\" he says.\n\n(HINT: It was. You just made the game significantly harder later. But we won't worry about that now.)");
+          setInventory(prev => prev.filter(i => i !== 'sandwich'));
+        } else {
+          say("\nYou don't have a sandwich.");
+        }
+      } else {
+        say("\nYou can't eat that. Your digestive system has standards, even if you don't.");
+      }
+      commit(); return;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ── DRINK ────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    if (verb === 'drink') {
+      if (room === 'pub' && (noun === 'beer' || noun === 'pint' || noun === 'bitter')) {
+        const beerCount = fl.beerDrunk;
+        if (beerCount === 0) {
+          say("\nYou drink the first pint. It's warm and flat and utterly perfect. Ford says something about Betelgeuse. You assume it's a pub.\n\nFord pushes another pint toward you.");
+        } else if (beerCount === 1) {
+          say("\nYou drink the second pint. Ford says something about \"muscle relaxant\" which you choose not to examine too closely.\n\n\"Three pints,\" Ford says. \"Three pints is almost enough.\"");
+        } else if (beerCount === 2) {
+          say("\nYou drink the third pint. Your muscles are now thoroughly relaxed. So is your grasp on reality.\n\nA distant crash echoes from the direction of your house.\n\n\"Good,\" says Ford. \"Now — have you got the towel? We should go.\"");
+        } else {
+          say("\nYou've had enough beer. Ford is pulling your arm urgently. \"We really need to leave NOW,\" he says.\n\n(Try GO EAST to head outside.)");
+        }
+        setFlags(f => ({ ...f, beerDrunk: f.beerDrunk + 1 }));
+      } else if (noun === 'tea') {
+        say("\nYou don't have any tea. The absence of tea is a running theme in your life. It will continue to be a running theme across several galaxies.");
+      } else {
+        say("\nYou can't drink that.");
+      }
+      commit(); return;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ── GO / MOVE ────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'go') {
       const dir = DIRECTION_ALIASES[noun] || noun;
-      const roomData = ROOMS[room];
       if (!dir) {
         say("\nGo where? The universe is large, but you need to be more specific.");
-      } else if (room === 'frontyard' && dir === 'south' && !fl.fordArrived) {
-        say("\nYou can't leave with a bulldozer about to demolish your house! You need to do something about this situation first.");
-      } else if (roomData.exits[dir]) {
-        const nextRoom = roomData.exits[dir];
+        commit(); return;
+      }
 
-        // Special: leaving frontyard south triggers pub transition
-        if (room === 'frontyard' && dir === 'south' && fl.fordArrived) {
-          // Go to pub
+      // ── Bedroom exits ──
+      if (room === 'bedroom' && dir === 'south') {
+        if (!fl.lightOn) {
+          say("\nYou stumble in the dark and walk into a wall. The wall jostles you rather rudely.\n\n(Try TURN ON LIGHT.)");
+        } else if (fl.inBed) {
+          say("\nYou can't go anywhere while lying in bed. Try STAND or GET UP.");
+        } else if (fl.headache) {
+          say("\nYou try to walk to the door but miss the doorway by a good eighteen inches. The wall jostles you rather rudely. Your headache makes precise navigation impossible.\n\n(Perhaps you should take something for that headache. Have you checked your POCKETS?)");
+        } else if (!fl.gownWorn) {
+          say("\nYou can't go outside in your underwear. Well, you could, but you'd be arrested. Find something to wear first.");
+        } else {
+          say('');
+          roomSay(`— ${ROOMS.porch.name} —`);
+          say('');
+          if (!fl.visitedRooms.porch) {
+            say(ROOMS.porch.onEnter);
+            say('');
+          }
+          say(ROOMS.porch.description);
+          setCurrentRoom('porch');
+          setFlags(f => ({ ...f, visitedRooms: { ...f.visitedRooms, porch: true } }));
+        }
+      // ── Porch exits ──
+      } else if (room === 'porch' && dir === 'north') {
+        say('');
+        roomSay(`— ${ROOMS.bedroom.name} —`);
+        say('');
+        say(getRoomDesc('bedroom', fl));
+        setCurrentRoom('bedroom');
+      } else if (room === 'porch' && dir === 'south') {
+        say('');
+        roomSay(`— ${ROOMS.frontyard.name} —`);
+        say('');
+        if (!fl.visitedRooms.frontyard) {
+          say(ROOMS.frontyard.onEnter);
+          say('');
+        }
+        say(getRoomDesc('frontyard', fl));
+        setCurrentRoom('frontyard');
+        setFlags(f => ({ ...f, visitedRooms: { ...f.visitedRooms, frontyard: true } }));
+      // ── Frontyard exits ──
+      } else if (room === 'frontyard' && dir === 'north') {
+        say('');
+        roomSay(`— ${ROOMS.porch.name} —`);
+        say('');
+        say(ROOMS.porch.description);
+        setCurrentRoom('porch');
+      } else if (room === 'frontyard' && dir === 'south') {
+        if (!fl.prosserLying) {
+          say("\nYou can't leave! The bulldozer will flatten your house the moment you turn your back. You need to do something about this situation first.\n\n" + (!fl.liedDown ? "(Perhaps try LYING DOWN in front of the bulldozer.)" : "(Wait for events to unfold...)"));
+        } else {
           say('');
           roomSay(`— ${ROOMS.pub.name} —`);
           say('');
           say(ROOMS.pub.onEnter);
           say('');
-          say(ROOMS.pub.description);
+          say(getRoomDesc('pub', fl));
           setCurrentRoom('pub');
           setFlags(f => ({ ...f, visitedRooms: { ...f.visitedRooms, pub: true } }));
-          addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-          return;
         }
-
-        const visited = fl.visitedRooms[nextRoom];
-        say('');
-        roomSay(`— ${ROOMS[nextRoom].name} —`);
-        say('');
-        if (!visited) {
-          say(ROOMS[nextRoom].onEnter);
+      // ── Pub exits ──
+      } else if (room === 'pub' && dir === 'east') {
+        if (fl.beerDrunk < 3) {
+          say("\nFord grabs your arm. \"You haven't had enough beer yet. Trust me, you'll need it.\"\n\n(DRINK BEER " + (3 - fl.beerDrunk) + " more time" + (3 - fl.beerDrunk > 1 ? "s" : "") + ".)");
+        } else if (!fl.towelTaken) {
+          say("\nFord stops you. \"The towel! Don't forget the towel! It's the most important thing!\"\n\n(TAKE TOWEL before leaving.)");
+        } else {
           say('');
+          roomSay(`— ${ROOMS.lane.name} —`);
+          say('');
+          say(ROOMS.lane.onEnter);
+          say('');
+          setFlags(f => ({ ...f, visitedRooms: { ...f.visitedRooms, lane: true }, dogAppeared: true }));
+          say(ROOMS.lane.description({ ...fl, dogAppeared: true }));
+          setCurrentRoom('lane');
         }
-        say(ROOMS[nextRoom].description);
-        setCurrentRoom(nextRoom);
-        setFlags(f => ({ ...f, visitedRooms: { ...f.visitedRooms, [nextRoom]: true } }));
+      } else if (room === 'pub' && dir === 'west') {
+        say("\nThere's nothing that way but more pub wall.");
+      // ── Lane exits ──
+      } else if (room === 'lane' && dir === 'west') {
+        say('');
+        roomSay(`— ${ROOMS.pub.name} —`);
+        say('');
+        say(getRoomDesc('pub', fl));
+        setCurrentRoom('pub');
+      } else if (room === 'lane' && dir === 'east') {
+        if (!fl.deviceDropped) {
+          say("\nYou look east. Your house — or what's left of it — is a pile of rubble. There's nothing useful in that direction.\n\nFord is scanning the sky anxiously.");
+        } else {
+          say("\nThere's nothing east but the ruins of your house. Ford is right here — use the device!");
+        }
       } else {
-        const dirMessages = [
-          "You can't go that way. There is, metaphysically speaking, nothing in that direction. Physically speaking, there's probably a wall.",
-          "There's no exit in that direction. The architecture of your life has constraints.",
-          "You walk into a wall. The wall wins. Walls usually do.",
+        const msgs = [
+          "You can't go that way.",
+          "There's no exit in that direction.",
+          "You walk into a wall. The wall wins.",
         ];
-        say('\n' + dirMessages[Math.floor(Math.random() * dirMessages.length)]);
+        say('\n' + msgs[Math.floor(Math.random() * msgs.length)]);
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── LIE DOWN ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── LIE DOWN ─────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'lie') {
       if (room === 'frontyard') {
         if (fl.liedDown) {
           say("\nYou're already lying down. Horizontal suits you.");
         } else {
           say("\nYou lie down in front of the bulldozer in a dramatic act of protest.");
-          say("\nThe mud is cold and damp. The bulldozer rumbles impatiently above you. Mr. Prosser looks like a man who has just realized his day is about to get significantly more complicated.");
+          say("\nThe mud is cold and damp. Mr. Prosser looks like a man who has just realized his day is about to get significantly more complicated.");
           say("\n\"Come off it, Mr. Dent,\" he says, \"you can't win, you know. You can't lie in front of the bulldozer indefinitely.\"");
           say("\n\"I'm game,\" you say. \"We'll see who rusts first.\"");
           setFlags(f => ({ ...f, liedDown: true }));
@@ -790,52 +999,63 @@ const HitchhikerGame = () => {
                 { text: '', type: 'normal' },
                 { text: "Ford turns to Mr. Prosser. \"Mr. Prosser, if Mr. Dent leaves, will you promise to lie in front of the bulldozer for him?\"", type: 'normal' },
                 { text: '', type: 'normal' },
-                { text: "Mr. Prosser, who has never had an original thought in his life, agrees before his brain can file an objection.", type: 'normal' },
+                { text: "Mr. Prosser, who has never had an original thought in his life, agrees before his brain can file an objection. He lies down obediently in the mud.", type: 'normal' },
                 { text: '', type: 'normal' },
-                { text: "\"Come on,\" says Ford. He seems unusually urgent. Even for Ford.", type: 'normal' },
+                { text: "\"Come on,\" says Ford. He seems unusually urgent.", type: 'normal' },
                 { text: '', type: 'normal' },
                 { text: "(You can now GO SOUTH to follow Ford to the pub.)", type: 'hint' },
               ];
               setOutputLines(prev => [...prev, ...fordLines]);
-              setFlags(f => ({ ...f, fordArrived: true }));
-              // Add south exit to frontyard
-              ROOMS.frontyard.exits.south = 'pub';
+              setFlags(f => ({ ...f, fordArrived: true, prosserLying: true }));
             }
-          }, 2000);
+          }, 3000);
         }
       } else if (room === 'bedroom') {
-        say("\nYou lie down on your bed. You've only just gotten up. The bed is warm and inviting. The world outside is cold and full of Thursdays.\n\nBut something nags at you. Something about today feels... terminal.");
+        if (fl.inBed) {
+          say("\nYou're already in bed. This is, arguably, the most sensible place to be today.");
+        } else {
+          say("\nYou lie down on your bed. You've only just gotten up. The bed is warm and inviting. But something nags at you. Something about today feels... terminal.");
+          setFlags(f => ({ ...f, inBed: true }));
+        }
       } else if (room === 'pub') {
         say("\nYou lie down on the pub floor. The barman gives you a look that suggests this is not the first time someone has done this, but that it never gets less disappointing.");
       } else {
         say("\nYou lie down. The ground is there for you, as always.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── WAIT ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── WAIT ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'wait') {
       if (room === 'frontyard' && !fl.liedDown) {
-        say("\nYou wait. The bulldozer waits. Mr. Prosser waits. Everyone is waiting. This is very English of all of you, but it isn't going to save your house.\n\n(Perhaps you should try a more proactive approach. Like LYING DOWN in front of the bulldozer.)");
+        say("\nYou wait. The bulldozer waits. Mr. Prosser waits. This is very English of all of you, but it isn't going to save your house.\n\n(Perhaps you should try LYING DOWN in front of the bulldozer.)");
       } else if (room === 'frontyard' && fl.liedDown && !fl.fordArrived) {
-        say("\nYou wait in the mud. It's wet. It's cold. It's mud. These are the three essential properties of mud, and this mud has all of them.");
+        say("\nYou wait in the mud. It's wet. It's cold. It's mud.");
       } else if (room === 'pub') {
-        say("\nYou wait. Ford taps the table impatiently. \"We really don't have time for this,\" he says. \"The world is going to end in about twelve minutes.\"\n\nThe barman polishes a glass. Barmen always polish glasses. It's in the contract.");
+        say("\nYou wait. Ford taps the table impatiently. \"We really don't have time for this,\" he says. \"The world is going to end in about twelve minutes.\"");
+      } else if (room === 'lane' && !fl.deviceDropped) {
+        // Trigger device drop on wait
+        say("\nFord is looking at the sky. He fumbles in his satchel and pulls out a small black device.");
+        say("\n\"Here,\" he says, pressing it into your hands. \"Electronic Sub-Etha Sens-O-Matic. Standard hitchhiker's equipment. When you see the ships, PRESS THE GREEN BUTTON.\"");
+        say("\nFord drops the device on the ground as the sky begins to darken ominously.");
+        setFlags(f => ({ ...f, deviceDropped: true }));
       } else {
         say("\nTime passes. Nothing happens. This is what time does best.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── TALK ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── TALK ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'talk') {
       if (room === 'frontyard' && (noun === 'prosser' || noun === 'mr prosser' || noun === 'man')) {
         if (!fl.prosserTalked) {
           say("\n\"Mr. Prosser,\" you say, \"why do you want to demolish my house?\"");
           say("\n\"It's a bypass,\" he says. \"You've got to build bypasses.\"");
-          say("\nHe says this as if it explains everything. It explains nothing. Bypasses never explain anything. They just happen, like rain or government policy.");
+          say("\nHe says this as if it explains everything. It explains nothing.");
           say("\n\"But why MY house?\"");
           say("\n\"Mr. Dent, the plans have been available at the local planning office for the last nine months.\"");
           say("\n\"Yes. In the bottom of a locked filing cabinet stuck in a disused lavatory with a sign on the door saying 'Beware of the Leopard.'\"");
@@ -846,104 +1066,92 @@ const HitchhikerGame = () => {
         }
       } else if (room === 'pub' && noun === 'ford') {
         const fordDialogue = [
-          [
-            "\n\"Ford, what is going on?\"",
-            "\n\"The world is going to end,\" says Ford matter-of-factly.",
-            "\n\"Yes, you keep saying that. When exactly?\"",
-            "\n\"In about twelve minutes. Give or take.\"",
-            "\n\"Ford, that's — that can't be right.\"",
-            "\n\"I've been monitoring the sub-ether for weeks. A Vogon Constructor Fleet is on its way. They're going to demolish the Earth.\"",
-            "\n\"What's a Vogon?\"",
-            "\n\"Trust me, you don't want to know. Take my towel. You're going to need it.\"",
-          ],
-          [
-            "\n\"Ford, are you sure about this end-of-the-world business?\"",
-            "\n\"Quite sure. I'm a researcher for the Hitchhiker's Guide to the Galaxy. It's a sort of electronic book. It tells you everything you need to know about everything.\"",
-            "\n\"And what does it say about Earth?\"",
-            "\nFord pauses. \"Mostly harmless.\"",
-            "\n\"MOSTLY HARMLESS?! Is that all?\"",
-            "\n\"Well, I did manage to get the entry updated. It used to just say 'Harmless.'\"",
-          ],
-          [
-            "\n\"Ford, assuming the world IS about to end — what do we do?\"",
-            "\n\"We stick out our thumbs.\"",
-            "\n\"I'm sorry?\"",
-            "\n\"Electronic thumb. Standard hitchhiker's equipment. When the Vogon fleet arrives, I can signal for a ship to pick us up. Probably. Possibly. There's a chance.\"",
-            "\n\"How much of a chance?\"",
-            "\n\"In the region of... let me think... one in... well, let's not dwell on numbers. Have another beer. Take the towel. Eat some peanuts.\"",
-          ],
+          ["\n\"Ford, what is going on?\"", "\n\"The world is going to end,\" says Ford.", "\n\"When exactly?\"", "\n\"In about twelve minutes. A Vogon Constructor Fleet is on its way. They're going to demolish the Earth.\"", "\n\"What's a Vogon?\"", "\n\"Trust me, you don't want to know. Drink your beer. Take the towel.\""],
+          ["\n\"Ford, are you sure about this?\"", "\n\"Quite sure. I'm a researcher for the Hitchhiker's Guide to the Galaxy. It's a sort of electronic book.\"", "\n\"And what does it say about Earth?\"", "\nFord pauses. \"Mostly harmless.\"", "\n\"MOSTLY HARMLESS?! Is that all?\"", "\n\"It used to just say 'Harmless.' I got the entry updated.\""],
+          ["\n\"Ford, what do we do?\"", "\n\"We stick out our thumbs.\"", "\n\"Electronic thumb. Standard hitchhiker's equipment. When the Vogon fleet arrives, I can signal a ship to pick us up. Probably.\"", "\n\"How much of a chance?\"", "\n\"Let's not dwell on numbers. Have another beer. Take the towel. Buy a sandwich.\""],
         ];
-        const dialogueIndex = Math.min(fl.fordTalked, fordDialogue.length - 1);
-        fordDialogue[dialogueIndex].forEach(line => say(line));
+        const idx = Math.min(fl.fordTalked, fordDialogue.length - 1);
+        fordDialogue[idx].forEach(line => say(line));
         setFlags(f => ({ ...f, fordTalked: f.fordTalked + 1 }));
       } else if (noun === 'barman' && room === 'pub') {
-        say("\n\"Last orders,\" says the barman, \"though I suppose that's a bit literal today.\"\n\nHe doesn't know why he said that. Something in the air, perhaps.");
+        say("\n\"Last orders,\" says the barman, \"though I suppose that's a bit literal today.\"");
       } else if (noun === 'ford' && room === 'frontyard' && fl.fordArrived) {
-        say("\n\"Not now, Arthur. Pub. Now. The world's about to end and I could use a drink.\"\n\n(GO SOUTH to head to the pub.)");
+        say("\n\"Not now, Arthur. Pub. Now. The world's about to end.\"\n\n(GO SOUTH to head to the pub.)");
+      } else if (noun === 'dog' && room === 'lane' && fl.dogAppeared) {
+        say("\nThe dog yaps at you. It doesn't have much to say, but it says it with great enthusiasm.");
       } else if (!noun) {
-        say("\nTalk to whom? Talking to yourself is valid, but the parser can't handle existential monologues.");
+        say("\nTalk to whom?");
       } else {
-        say("\nThere's nobody by that name here. Or if there is, they're ignoring you, which amounts to the same thing.");
+        say("\nThere's nobody by that name here.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── DRINK ────────────────────────────────────────────────────────────
-    if (verb === 'drink') {
-      if (room === 'pub' && (noun === 'beer' || noun === 'pint' || noun === 'bitter')) {
-        const beerCount = fl.beerDrunk;
-        if (beerCount === 0) {
-          say("\nYou drink the beer. It's warm and flat and utterly perfect. For a brief, beautiful moment, the impending destruction of your planet seems like someone else's problem.\n\nFord orders you another one.");
-        } else if (beerCount === 1) {
-          say("\nYou drink the second beer. Ford says something about \"muscle relaxant\" which you choose not to examine too closely.\n\n\"Three pints,\" Ford says. \"Three pints is almost enough.\"");
-        } else if (beerCount === 2) {
-          say("\nYou drink the third beer. Your muscles are now thoroughly relaxed. So is your grasp on reality, which Ford assures you is exactly where it needs to be.\n\n\"Good,\" says Ford. \"Now — have you got the towel?\"");
+    // ═══════════════════════════════════════════════════════════════════
+    // ── GIVE ─────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    if (verb === 'give') {
+      const target = parsed.target || '';
+      if ((noun === 'sandwich' || noun === 'cheese sandwich') && room === 'lane' && fl.dogAppeared && (target === 'dog' || !target)) {
+        if (!hasItem('sandwich')) {
+          say("\nYou don't have a sandwich to give." + (fl.sandwichTaken ? " Oh. You ate it, didn't you?" : ""));
         } else {
-          say("\nThere's no more beer. The barman has stopped serving. He's staring out the window at something in the sky.\n\nEveryone is staring at the sky.");
+          say("\nYou offer the cheese sandwich to the dog. The dog is deeply moved. It wolfs down the sandwich with the kind of gratitude that suggests it has never eaten anything this good, which, given the quality of the sandwich, says a lot about the dog's life.");
+          say("\nThe dog wags its tail and curls up contentedly.");
+          say("\n+5 POINTS. (The dog will remember this. So will the universe.)");
+          setInventory(prev => prev.filter(i => i !== 'sandwich'));
+          setFlags(f => ({ ...f, dogFed: true }));
         }
-        setFlags(f => ({ ...f, beerDrunk: f.beerDrunk + 1 }));
-      } else if (noun === 'tea') {
-        say("\nYou don't have any tea. The absence of tea is a running theme in your life. It will continue to be a running theme across several galaxies.");
       } else {
-        say("\nYou can't drink that. And even if you could, this probably isn't the time.");
+        say("\nYou can't give that to anyone here.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── EAT ──────────────────────────────────────────────────────────────
-    if (verb === 'eat') {
-      if (noun === 'peanuts') {
-        if (hasItem('peanuts')) {
-          say("\nYou eat some peanuts. They're salty and protein-rich, which Ford assures you is important for surviving matter transference beams.\n\nYou decide not to ask follow-up questions.");
-        } else if (room === 'pub') {
-          say("\nYou should probably TAKE the peanuts first. Even in the face of planetary annihilation, manners matter.");
-        } else {
-          say("\nYou don't have any peanuts.");
-        }
-      } else if (noun === 'aspirin' || noun === 'asprin') {
-        say("\nYou've already taken the aspirin. Any more and you'd need a prescription, and your GP's office is about to be demolished along with everything else.");
+    // ═══════════════════════════════════════════════════════════════════
+    // ── PRESS ────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    if (verb === 'press') {
+      if ((noun === 'green button' || noun === 'button') && hasItem('device')) {
+        say('');
+        say('════════════════════════════════════════════════════════════════');
+        say('');
+        say("You press the green button.");
+        say("\nNothing happens for a moment. Then everything happens at once.");
+        say('');
+        say(VOGON_POETRY);
+        say('');
+        say(VOGON_ANNOUNCEMENT);
+        say('');
+        say("Ford grabs your arm. \"NOW!\" he screams.");
+        say("\nA strange tingling sensation runs through your body. The last thing you see is the Earth, hanging in space, looking — for the first time in your life — beautiful.");
+        say("\nThen it explodes.");
+        say('');
+        say(DONT_PANIC);
+        setCurrentRoom('vogon');
+        setFlags(f => ({ ...f, gameOver: true }));
+      } else if ((noun === 'green button' || noun === 'button') && room === 'lane' && fl.deviceDropped && !hasItem('device')) {
+        say("\nYou need to TAKE the DEVICE first.");
       } else {
-        say("\nYou can't eat that. Your digestive system has standards, even if you don't.");
+        say("\nThere's nothing to press here.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
-    // ── USE ──────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
+    // ── USE ──────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════
     if (verb === 'use') {
       if (noun === 'phone' && room === 'bedroom') {
-        say("\nYou check the phone. There's a nine-month-old notification from the council planning department about a bypass. You dismiss it.\n\nIn retrospect, this was a mistake. But then, most things are, in retrospect.");
-      } else if (noun === 'towel') {
-        say("\nYou hold the towel. The words DON'T PANIC stare up at you in large, friendly letters. They are the most reassuring words you have ever read.\n\nYou feel slightly less panicked. This is the towel's job, and it does it well.");
-      } else if (noun === 'thumb' || noun === 'electronic thumb') {
-        say("\nYou don't have an Electronic Thumb. Ford has one, but he hasn't given it to you. He says you're not ready. He may be right.");
+        say("\nYou check the phone. There's a nine-month-old notification from the council about a bypass. You dismiss it.\n\nIn retrospect, this was a mistake.");
+      } else if (noun === 'towel' && hasItem('towel')) {
+        say("\nYou hold the towel. The words DON'T PANIC stare up at you in large, friendly letters. You feel slightly less panicked.");
+      } else if ((noun === 'device' || noun === 'thumb') && hasItem('device')) {
+        say("\nTry PRESS GREEN BUTTON.");
       } else {
-        say("\nYou can't use that. Not here, not now, and possibly not ever.");
+        say("\nYou can't use that here.");
       }
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      return;
+      commit(); return;
     }
 
     // ── UNKNOWN VERB ─────────────────────────────────────────────────────
@@ -952,57 +1160,31 @@ const HitchhikerGame = () => {
       "That's not a verb I recognize. Try HELP for a list of things I do understand.",
       "I have no idea what you mean by that. Neither do you, probably.",
       "The parser stares at you blankly. You stare back. Neither of you blinks.",
-      "I can't do that. And I've tried. Well, I thought about trying. It's the thought that counts.",
     ];
     say('\n' + unknownMessages[Math.floor(Math.random() * unknownMessages.length)]);
-    addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-  }, []);
+    commit();
+  }, [getRoomDesc]);
 
-  // ── VOGON ROOM HANDLER ────────────────────────────────────────────────
-  const handleVogonRoom = useCallback((verb, noun, raw) => {
-    const output = [];
-    const say = (text, type = 'normal') => output.push({ text, type });
-
-    if (verb === 'restart') {
-      processCommand('restart');
-      return;
-    }
-    if (verb === 'quit') {
-      say("\nSo long, and thanks for all the fish.");
-      addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-      setTimeout(() => exitGameMode(), 1200);
-      return;
-    }
-    if (verb === 'look') {
-      say("\nThe sky is full of Vogon ships. The Earth is being demolished. There's really nothing more to look at.");
-    } else {
-      say("\nThe Earth has been demolished. There's not much to do.");
-      say("Type RESTART or QUIT.");
-    }
-    addOutputMulti([{ text: `> ${raw}`, type: 'input' }, ...output]);
-  }, []);
-
-  // ── Trigger Vogon scene from pub (when towel taken + beer drunk) ─────
+  // ── Trigger device drop in lane after delay ─────────────────────────
   useEffect(() => {
-    if (currentRoom === 'pub' && flags.towelTaken && flags.beerDrunk >= 3 && !flags.gameOver) {
+    if (currentRoom === 'lane' && !flags.deviceDropped) {
       const timer = setTimeout(() => {
         const lines = [
           { text: '', type: 'normal' },
-          { text: '════════════════════════════════════════════════════════════════', type: 'divider' },
+          { text: "Ford is staring at the sky. He fumbles in his satchel and pulls out a small black device with a green button.", type: 'normal' },
           { text: '', type: 'normal' },
-          { text: VOGON_POETRY, type: 'normal' },
+          { text: "\"Here,\" he says urgently. \"Sub-Etha Sens-O-Matic. Electronic thumb. When you see the ships — and you WILL see the ships — PRESS THE GREEN BUTTON.\"", type: 'normal' },
           { text: '', type: 'normal' },
-          { text: VOGON_ANNOUNCEMENT, type: 'announcement' },
+          { text: "He drops the DEVICE on the ground at your feet.", type: 'normal' },
           { text: '', type: 'normal' },
-          { text: DONT_PANIC, type: 'title' },
+          { text: "(TAKE the DEVICE, then PRESS GREEN BUTTON.)", type: 'hint' },
         ];
         setOutputLines(prev => [...prev, ...lines]);
-        setCurrentRoom('vogon');
-        setFlags(f => ({ ...f, gameOver: true }));
-      }, 3000);
+        setFlags(f => ({ ...f, deviceDropped: true }));
+      }, 4000);
       return () => clearTimeout(timer);
     }
-  }, [flags.towelTaken, flags.beerDrunk, currentRoom, flags.gameOver]);
+  }, [currentRoom, flags.deviceDropped]);
 
   // ── KEYBOARD HANDLER ─────────────────────────────────────────────────
   const handleKeyDown = useCallback((e) => {
