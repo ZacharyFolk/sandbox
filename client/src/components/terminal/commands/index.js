@@ -2,6 +2,7 @@ export { default as About } from './About';
 export { default as CurseResponse } from './CurseResponse';
 export { default as Egg } from './Egg';
 export { default as Hitchhiker } from './Hitchhiker';
+export { default as HitchhikerGame } from './HitchhikerGame';
 export { default as Games } from './Games';
 export { default as Deep } from './Deep';
 export { default as Directions } from './Directions';

@@ -12,7 +12,15 @@ import Screensaver from '../../components/screensaver/Screensaver';
 import { TerminalContext } from '../../context/TerminalContext';
 
 export default function Home() {
-  const { speakerMuted, setSpeakerMuted, updateCommand, screensaver, setScreensaver } = useContext(TerminalContext);
+  const {
+    speakerMuted,
+    setSpeakerMuted,
+    updateCommand,
+    screensaver,
+    setScreensaver,
+    crtFilter,
+    setCrtFilter,
+  } = useContext(TerminalContext);
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(() => {
     const cookiePower = Cookies.get('power');
@@ -22,13 +30,13 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCommandPanelOpen, setIsCommandPanelOpen] = useState(false);
   const clickSoundRef = useRef(new Audio('/sounds/sound_click.mp3'));
-  const bingSoundRef  = useRef(new Audio('/sounds/monty/monty-python-bing.mp3'));
+  const bingSoundRef = useRef(new Audio('/sounds/monty/monty-python-bing.mp3'));
   const idleTimerRef = useRef(null);
 
   const resetIdleTimer = useCallback(() => {
     clearTimeout(idleTimerRef.current);
     if (power) {
-      idleTimerRef.current = setTimeout(() => setScreensaver(true), 60000);
+      idleTimerRef.current = setTimeout(() => setScreensaver(true), 30000);
     }
   }, [power, setScreensaver]);
 
@@ -103,7 +111,7 @@ export default function Home() {
 
   return (
     <div className="monitor">
-      <div className="bezel">
+      <div className={`bezel ${crtFilter ? 'crt' : ''}`}>
         <Terminal
           output={output}
           setOutput={setOutput}
@@ -119,7 +127,10 @@ export default function Home() {
         <div className="controls-left">
           <button
             className={`monitor-nameplate ${isCommandPanelOpen ? 'monitor-nameplate--active' : ''}`}
-            onClick={() => { playClick(); setIsCommandPanelOpen((p) => !p); }}
+            onClick={() => {
+              playClick();
+              setIsCommandPanelOpen((p) => !p);
+            }}
             title="Quick commands"
             disabled={!power}
           >
@@ -160,9 +171,29 @@ export default function Home() {
         </div>
         <div className="controls-right">
           <div className="vintage-buttons">
-            <button className="vtg-btn vtg-btn--round" onClick={() => { playClick(); updateCommand('help'); }} disabled={!power} title="Help">?</button>
-            <button className="vtg-btn vtg-btn--round vtg-btn--amber" onClick={playClick} disabled={!power} title=""></button>
-            <button className="vtg-btn vtg-btn--square" onClick={triggerSecretScroll} disabled={!power} title=""></button>
+            <button
+              className="vtg-btn vtg-btn--round"
+              onClick={() => {
+                playClick();
+                updateCommand('help');
+              }}
+              disabled={!power}
+              title="Help"
+            >
+              ?
+            </button>
+            <button
+              className={`vtg-btn vtg-btn--round vtg-btn--amber ${crtFilter ? 'vtg-btn--active' : ''}`}
+              onClick={() => { playClick(); setCrtFilter((c) => !c); }}
+              disabled={!power}
+              title="CRT Filter"
+            ></button>
+            <button
+              className="vtg-btn vtg-btn--square"
+              onClick={triggerSecretScroll}
+              disabled={!power}
+              title=""
+            ></button>
           </div>
           <div className="led-cluster">
             <div className="led-row">
@@ -173,7 +204,9 @@ export default function Home() {
             </div>
             <div className="led-row">
               <div className="led-socket">
-                <div className={`led ${power ? 'led-hdd led-hdd-active' : 'led-off'}`}></div>
+                <div
+                  className={`led ${power ? 'led-hdd led-hdd-active' : 'led-off'}`}
+                ></div>
               </div>
               <span className="led-label">HDD</span>
             </div>

@@ -8,6 +8,8 @@ export const TerminalProvider = ({ children }) => {
   const [gameMode, setGameMode] = useState(false);
   const [speakerMuted, setSpeakerMuted] = useState(false);
   const [screensaver, setScreensaver] = useState(false);
+  const [screensaverType, setScreensaverType] = useState(null);
+  const [crtFilter, setCrtFilter] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();
 
@@ -76,6 +78,10 @@ export const TerminalProvider = ({ children }) => {
         setSpeakerMuted,
         screensaver,
         setScreensaver,
+        crtFilter,
+        setCrtFilter,
+        screensaverType,
+        setScreensaverType,
       }}
     >
       {children}

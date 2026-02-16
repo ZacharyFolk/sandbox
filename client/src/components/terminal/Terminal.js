@@ -28,9 +28,10 @@ import Matrix from '../matrix/Matrix';
 import Hacking from '../hacking/Hacking';
 import FalloutGame from '../fallout/FalloutGame';
 import CageMatch from '../cagematch/CageMatch';
+import HitchhikerGame from './commands/HitchhikerGame';
 
 export default function Terminal(props) {
-  const { command, updateCommand, inputRef, clearInput, gameMode, setScreensaver } =
+  const { command, updateCommand, inputRef, clearInput, gameMode, setScreensaver, setScreensaverType } =
     useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
 
@@ -54,6 +55,17 @@ export default function Terminal(props) {
   };
   useEffect(() => {
     if (!command) return;
+
+    // Screensaver picker: ss <name>
+    if (command.startsWith('ss ') || command.startsWith('screensaver ')) {
+      const name = command.split(' ').slice(1).join(' ').trim();
+      const valid = ['dvd', 'stars', 'starfield', 'pipes', 'aquarium', 'fish'];
+      if (valid.includes(name)) {
+        setScreensaverType(name);
+        setScreensaver(true);
+        return;
+      }
+    }
 
     if (curses.includes(command)) {
       return setOutput(CurseResponse);
@@ -156,14 +168,23 @@ export default function Terminal(props) {
           break;
         case 'screensaver':
         case 'ss':
+          setScreensaverType(null);
           setScreensaver(true);
           break;
-        case '42':
         case 'hitchhiker':
         case 'hhgttg':
         case 'douglas':
         case 'adams':
           setOutput(<Hitchhiker />);
+          break;
+        case '42':
+        case 'adventure':
+        case 'hhg':
+        case 'zaphod':
+        case 'dont panic':
+        case "don't panic":
+        case 'text adventure':
+          setOutput(<HitchhikerGame />);
           break;
         case 'egg':
         case 'eggs':
