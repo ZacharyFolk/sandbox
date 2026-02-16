@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import Cookies from 'js-cookie';
 import Terminal from '../../components/terminal/Terminal';
@@ -8,10 +8,11 @@ import { CommandMenu } from '../../components/menus/CommandMenu';
 import QuickCommandPanel from '../../components/menus/QuickCommandPanel';
 import SecretScroll from '../../components/terminal/commands/SecretScroll';
 import AudioNotice from '../../components/terminal/commands/AudioNotice';
+import Screensaver from '../../components/screensaver/Screensaver';
 import { TerminalContext } from '../../context/TerminalContext';
 
 export default function Home() {
-  const { speakerMuted, setSpeakerMuted, updateCommand } = useContext(TerminalContext);
+  const { speakerMuted, setSpeakerMuted, updateCommand, screensaver, setScreensaver } = useContext(TerminalContext);
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(() => {
     const cookiePower = Cookies.get('power');
@@ -22,6 +23,24 @@ export default function Home() {
   const [isCommandPanelOpen, setIsCommandPanelOpen] = useState(false);
   const clickSoundRef = useRef(new Audio('/sounds/sound_click.mp3'));
   const bingSoundRef  = useRef(new Audio('/sounds/monty/monty-python-bing.mp3'));
+  const idleTimerRef = useRef(null);
+
+  const resetIdleTimer = useCallback(() => {
+    clearTimeout(idleTimerRef.current);
+    if (power) {
+      idleTimerRef.current = setTimeout(() => setScreensaver(true), 60000);
+    }
+  }, [power, setScreensaver]);
+
+  useEffect(() => {
+    resetIdleTimer();
+    const events = ['mousemove', 'keydown', 'click', 'touchstart'];
+    events.forEach((e) => document.addEventListener(e, resetIdleTimer));
+    return () => {
+      clearTimeout(idleTimerRef.current);
+      events.forEach((e) => document.removeEventListener(e, resetIdleTimer));
+    };
+  }, [resetIdleTimer]);
 
   const playSound = (ref) => {
     if (speakerMuted) return;
@@ -78,6 +97,8 @@ export default function Home() {
   const turnOff = () => {
     setOutput('');
     setViewPrompt(false);
+    setScreensaver(false);
+    clearTimeout(idleTimerRef.current);
   };
 
   return (
@@ -92,6 +113,7 @@ export default function Home() {
         {isCommandPanelOpen && (
           <QuickCommandPanel onClose={() => setIsCommandPanelOpen(false)} />
         )}
+        {screensaver && <Screensaver />}
       </div>
       <div className="controls">
         <div className="controls-left">

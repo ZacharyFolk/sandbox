@@ -7,6 +7,7 @@ export const TerminalProvider = ({ children }) => {
   const [command, setCommand] = useState('');
   const [gameMode, setGameMode] = useState(false);
   const [speakerMuted, setSpeakerMuted] = useState(false);
+  const [screensaver, setScreensaver] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();
 
@@ -73,6 +74,8 @@ export const TerminalProvider = ({ children }) => {
         exitGameMode,
         speakerMuted,
         setSpeakerMuted,
+        screensaver,
+        setScreensaver,
       }}
     >
       {children}

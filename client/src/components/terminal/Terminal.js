@@ -9,6 +9,7 @@ import {
   Directions,
   Egg,
   Games,
+  Hitchhiker,
   Help,
   Monty,
   TheInfo,
@@ -29,7 +30,7 @@ import FalloutGame from '../fallout/FalloutGame';
 import CageMatch from '../cagematch/CageMatch';
 
 export default function Terminal(props) {
-  const { command, updateCommand, inputRef, clearInput, gameMode } =
+  const { command, updateCommand, inputRef, clearInput, gameMode, setScreensaver } =
     useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
 
@@ -152,6 +153,17 @@ export default function Terminal(props) {
         case 'game':
         case 'games':
           setOutput(<Games />);
+          break;
+        case 'screensaver':
+        case 'ss':
+          setScreensaver(true);
+          break;
+        case '42':
+        case 'hitchhiker':
+        case 'hhgttg':
+        case 'douglas':
+        case 'adams':
+          setOutput(<Hitchhiker />);
           break;
         case 'egg':
         case 'eggs':
