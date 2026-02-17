@@ -17,6 +17,8 @@ export default function Home() {
     updateCommand,
     screensaver,
     setScreensaver,
+    theme,
+    setTheme,
   } = useContext(TerminalContext);
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(() => {
@@ -103,7 +105,7 @@ export default function Home() {
   };
 
   return (
-    <div className="monitor">
+    <div className={`monitor theme-${theme}`}>
       <div className="bezel crt">
         <Terminal
           output={output}
@@ -169,8 +171,16 @@ export default function Home() {
             </button>
             <button
               className="vtg-btn vtg-btn--round vtg-btn--amber"
-              onClick={() => playClick()}
+              onClick={() => {
+                playClick();
+                const themes = ['phosphor', 'c64', 'amber'];
+                const labels = { phosphor: 'PHOSPHOR GREEN', c64: 'COMMODORE 64', amber: 'AMBER PHOSPHOR' };
+                const next = themes[(themes.indexOf(theme) + 1) % themes.length];
+                setTheme(next);
+                setLcdMessage(`◈ THEME — ${labels[next]}`);
+              }}
               disabled={!power}
+              title="Theme"
             ></button>
             <button
               className={`vtg-btn vtg-btn--square ${screensaver ? 'vtg-btn--active' : ''}`}
