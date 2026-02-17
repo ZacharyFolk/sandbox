@@ -347,27 +347,19 @@ pre {
   );
 }
 
-/* ── Controls center (nameplate + speaker + audio) ──────────── */
+/* ── Controls center (speaker group + LCD ticker) ────────────── */
 .controls-center {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
 }
 
-/* ── Audio panel (toggle + LCD) ──────────────────────────────── */
-.audio-panel {
+/* Speaker grille + audio toggle grouped together */
+.speaker-group {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 7px;
-  padding: 0 10px;
-  height: 54px;
-  background: linear-gradient(155deg, #1c1c1a 0%, #111110 100%);
-  border: 1px solid #252522;
-  border-radius: 4px;
-  box-shadow:
-    inset 0 1px 3px rgba(0, 0, 0, 0.7),
-    0 1px 0 rgba(255, 255, 255, 0.04);
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 /* Toggle switch housing */
@@ -678,7 +670,7 @@ pre {
 .controls-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 /* ── Power-off disabled state for all interactive controls ───── */
@@ -2185,7 +2177,7 @@ ul.help-list li {
   position: absolute;
   inset: 0;
   background: #000;
-  z-index: 50;
+  z-index: 10;
   overflow: hidden;
   cursor: none;
   border-radius: inherit;
@@ -2245,7 +2237,8 @@ ul.help-list li {
 /* ── CRT Filter ──────────────────────────────────────────────── */
 
 /* Chromatic aberration — offset red/blue channels via layered shadows */
-.crt .terminal {
+.crt .terminal,
+.crt .terminal * {
   text-shadow:
     -0.6px 0 0 rgba(255, 30, 30, 0.35),
      0.6px 0 0 rgba(30, 130, 255, 0.35);
@@ -2256,7 +2249,7 @@ ul.help-list li {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 9;
+  z-index: 100;
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
@@ -2269,13 +2262,15 @@ ul.help-list li {
 }
 
 /* Phosphor bloom — green glow cast from the screen */
-.crt .terminal {
+.crt .terminal,
+.crt .dvd-screensaver {
   filter: blur(0.3px) brightness(1.15);
   box-shadow: inset 0 0 60px rgba(91, 248, 112, 0.08);
 }
 
 /* Subtle flicker */
-.crt .terminal {
+.crt .terminal,
+.crt .dvd-screensaver {
   animation: crt-flicker 0.08s infinite alternate;
 }
 
@@ -2289,7 +2284,7 @@ ul.help-list li {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 101;
   pointer-events: none;
   border-radius: inherit;
   box-shadow:
@@ -2473,6 +2468,104 @@ ul.help-list li {
   white-space: nowrap;
   pointer-events: none;
   letter-spacing: 0.12em;
+}
+
+/* ── LCD ticker readout ──────────────────────────────────────── */
+.lcd-ticker {
+  width: 200px;
+  flex-shrink: 0;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  background: linear-gradient(155deg, #1c1c1a 0%, #111110 100%);
+  border: 1px solid #252522;
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.lcd-ticker:hover {
+  border-color: #333330;
+}
+
+.lcd-ticker:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.lcd-ticker-screen {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #0a140a;
+  border: 1px solid #0a0f08;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 8px rgba(0, 0, 0, 0.8),
+    0 0 3px rgba(80, 180, 30, 0.06);
+}
+
+/* Dot-matrix pixel grid overlay */
+.lcd-ticker-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 2px,
+      rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0.25) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 2px,
+      rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0.25) 3px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Idle state — static "folk.codes" label */
+.lcd-ticker-idle {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  color: #7ecf50;
+  text-shadow: 0 0 4px rgba(100, 200, 60, 0.3);
+  padding: 0 8px;
+}
+
+.lcd-ticker-cursor {
+  color: #5bf870;
+  text-shadow: 0 0 6px rgba(91, 248, 112, 0.5);
+}
+
+/* Scrolling message */
+.lcd-ticker-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: #7ecf50;
+  text-shadow: 0 0 4px rgba(100, 200, 60, 0.35);
+  padding: 0 8px;
+  animation: lcd-fadein 0.15s ease-out;
+}
+
+@keyframes lcd-fadein {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* Amber button lit state when CRT is active */

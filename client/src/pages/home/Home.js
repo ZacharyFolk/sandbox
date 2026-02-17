@@ -6,8 +6,7 @@ import SwitchComponent from '../../components/terminal/Switch';
 import Intro from '../../components/terminal/Boot';
 import { CommandMenu } from '../../components/menus/CommandMenu';
 import QuickCommandPanel from '../../components/menus/QuickCommandPanel';
-import SecretScroll from '../../components/terminal/commands/SecretScroll';
-import AudioNotice from '../../components/terminal/commands/AudioNotice';
+import LcdTicker from '../../components/LcdTicker';
 import Screensaver from '../../components/screensaver/Screensaver';
 import { TerminalContext } from '../../context/TerminalContext';
 
@@ -18,8 +17,6 @@ export default function Home() {
     updateCommand,
     screensaver,
     setScreensaver,
-    crtFilter,
-    setCrtFilter,
   } = useContext(TerminalContext);
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(() => {
@@ -29,6 +26,7 @@ export default function Home() {
   const [output, setOutput] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCommandPanelOpen, setIsCommandPanelOpen] = useState(false);
+  const [lcdMessage, setLcdMessage] = useState(null);
   const clickSoundRef = useRef(new Audio('/sounds/sound_click.mp3'));
   const bingSoundRef = useRef(new Audio('/sounds/monty/monty-python-bing.mp3'));
   const idleTimerRef = useRef(null);
@@ -58,15 +56,6 @@ export default function Home() {
 
   const playClick = () => playSound(clickSoundRef);
 
-  const triggerSecretScroll = () => {
-    playClick();
-    setTimeout(() => {
-      setOutput(
-        <SecretScroll onDone={() => setTimeout(() => setOutput(''), 600)} />
-      );
-    }, 350);
-  };
-
   const playDirect = (ref) => {
     ref.current.currentTime = 0;
     ref.current.play().catch(() => {});
@@ -74,16 +63,20 @@ export default function Home() {
 
   const toggleMute = () => {
     const nextMuted = !speakerMuted;
-    // Always play click regardless of mute state (last click before silence, or first sound on restore)
     playDirect(clickSoundRef);
     setSpeakerMuted(nextMuted);
-    setOutput(
-      <AudioNotice
-        key={Date.now()}
-        muted={nextMuted}
-        onDone={nextMuted ? undefined : () => playDirect(bingSoundRef)}
-      />
-    );
+    if (nextMuted) {
+      setLcdMessage('◁╳ AUDIO — MUTED');
+    } else {
+      setLcdMessage([
+        { text: '◁)) AUDIO — ENABLED', delay: 1000 },
+        { text: '◁)) 3 . . .', delay: 800 },
+        { text: '◁)) 2 . . .', delay: 800 },
+        { text: '◁)) 1 . . .', delay: 800 },
+        { text: '◁)) ♪ BING', delay: 600 },
+      ]);
+      setTimeout(() => playDirect(bingSoundRef), 3400);
+    }
   };
 
   const toggleMenu = () => {
@@ -111,7 +104,7 @@ export default function Home() {
 
   return (
     <div className="monitor">
-      <div className={`bezel ${crtFilter ? 'crt' : ''}`}>
+      <div className="bezel crt">
         <Terminal
           output={output}
           setOutput={setOutput}
@@ -126,18 +119,6 @@ export default function Home() {
       <div className="controls">
         <div className="controls-left">
           <button
-            className={`monitor-nameplate ${isCommandPanelOpen ? 'monitor-nameplate--active' : ''}`}
-            onClick={() => {
-              playClick();
-              setIsCommandPanelOpen((p) => !p);
-            }}
-            title="Quick commands"
-            disabled={!power}
-          >
-            <span className="nameplate-symbol">&gt;_</span>
-            <span className="nameplate-text">folk.codes</span>
-          </button>
-          <button
             className={`menu-icon ${isMenuOpen ? 'menu-active' : ''}`}
             onClick={toggleMenu}
           >
@@ -148,10 +129,10 @@ export default function Home() {
           </nav>
         </div>
         <div className="controls-center">
-          <div className="speaker-grille">
-            <div className="speaker-inner" />
-          </div>
-          <div className="audio-panel">
+          <div className="speaker-group">
+            <div className="speaker-grille">
+              <div className="speaker-inner" />
+            </div>
             <button
               className={`audio-toggle ${speakerMuted ? 'audio-toggle--off' : ''}`}
               onClick={toggleMute}
@@ -162,12 +143,16 @@ export default function Home() {
                 <div className="audio-toggle-lever" />
               </div>
             </button>
-            <div className="audio-lcd">
-              <span className="audio-lcd-screen">
-                {speakerMuted ? '▷╳' : '▷))'}
-              </span>
-            </div>
           </div>
+          <LcdTicker
+            message={lcdMessage}
+            onDone={() => setLcdMessage(null)}
+            onClick={() => {
+              playClick();
+              setIsCommandPanelOpen((p) => !p);
+            }}
+            disabled={!power}
+          />
         </div>
         <div className="controls-right">
           <div className="vintage-buttons">
@@ -183,16 +168,22 @@ export default function Home() {
               ?
             </button>
             <button
-              className={`vtg-btn vtg-btn--round vtg-btn--amber ${crtFilter ? 'vtg-btn--active' : ''}`}
-              onClick={() => { playClick(); setCrtFilter((c) => !c); }}
+              className="vtg-btn vtg-btn--round vtg-btn--amber"
+              onClick={() => playClick()}
               disabled={!power}
-              title="CRT Filter"
             ></button>
             <button
-              className="vtg-btn vtg-btn--square"
-              onClick={triggerSecretScroll}
+              className={`vtg-btn vtg-btn--square ${screensaver ? 'vtg-btn--active' : ''}`}
+              onClick={() => {
+                playClick();
+                const next = !screensaver;
+                setScreensaver(next);
+                setLcdMessage(next
+                  ? 'SCREENSAVER — DEPLOYED /// PRESS ANY KEY TO DISMISS'
+                  : 'SCREENSAVER — DISMISSED /// RESUMING SESSION');
+              }}
               disabled={!power}
-              title=""
+              title="Screensaver"
             ></button>
           </div>
           <div className="led-cluster">

@@ -406,6 +406,11 @@ export default function AquariumScreensaver() {
       drawShark();
       drawSub();
       drawHUD();
+
+      // CRT scanlines
+      ctx.fillStyle = 'rgba(0,0,0,0.12)';
+      for (let y = 0; y < H; y += 3) ctx.fillRect(0, y, W, 1);
+
       rafId = requestAnimationFrame(animate);
     };
 
