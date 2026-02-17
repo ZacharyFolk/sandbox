@@ -30,6 +30,8 @@ import FalloutGame from '../fallout/FalloutGame';
 import CageMatch from '../cagematch/CageMatch';
 import HitchhikerGame from './commands/HitchhikerGame';
 import Tralfamadore from './commands/Tralfamadore';
+import Roguelike from './commands/Roguelike';
+import Labyrinth from './commands/Labyrinth';
 
 export default function Terminal(props) {
   const { command, updateCommand, inputRef, clearInput, gameMode, setScreensaver, setScreensaverType } =
@@ -198,6 +200,19 @@ export default function Terminal(props) {
         case 'vonnegut':
         case 'kilgore':
           setOutput(<Tralfamadore />);
+          break;
+        case 'rogue':
+        case 'roguelike':
+        case 'crawl':
+        case 'delve':
+        case 'descend':
+          setOutput(<Roguelike />);
+          break;
+        case 'labyrinth':
+        case 'maze':
+        case 'wolfenstein':
+        case '3d':
+          setOutput(<Labyrinth />);
           break;
         case 'monty':
         case 'python':
