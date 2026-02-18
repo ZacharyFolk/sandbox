@@ -889,6 +889,36 @@ pre {
   letter-spacing: 0.03em;
 }
 
+/* Conway's Game of Life info overlay */
+.conway-info-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+.conway-info-panel {
+  max-width: 540px;
+  max-height: 85%;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.92);
+  border: 2px solid var(--t-primary);
+  box-shadow: 0 0 20px var(--t-glow), inset 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 4px;
+}
+.conway-info-text {
+  font-family: var(--t-font-mono);
+  color: var(--t-text);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  white-space: pre;
+  margin: 0;
+  padding: 8px 12px;
+  text-shadow: 0 0 4px var(--t-glow);
+}
+
 /* command helper - hiding on big screens */
 
 .menu-icon {
@@ -2318,6 +2348,58 @@ ul.help-list li {
 @keyframes crt-flicker {
   0%   { opacity: 1; }
   100% { opacity: 0.97; }
+}
+
+/* ── Slideshow screensaver ──────────────────────────────── */
+.slideshow-screensaver {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 10;
+  overflow: hidden;
+}
+.slideshow-slide {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+.slideshow-slide--active {
+  opacity: 1;
+}
+.slideshow-counter {
+  position: absolute;
+  bottom: 32px;
+  right: 16px;
+  font-family: var(--t-font-mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+.slideshow-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--t-font-mono);
+  font-size: 0.85rem;
+  color: var(--t-text);
+  text-align: center;
+  line-height: 1.8;
+  text-shadow: 0 0 6px var(--t-glow);
+}
+.slideshow-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--t-font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
 }
 
 /* Barrel distortion illusion — vignette + slight border curve */

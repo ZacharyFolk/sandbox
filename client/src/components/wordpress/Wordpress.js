@@ -18,14 +18,33 @@ const ImageCard = ({ thumbnail, fullSize, link }) => {
   );
 };
 
+const LoadingMessage = () => {
+  const [dots, setDots] = useState('');
+  useEffect(() => {
+    const id = setInterval(() => {
+      setDots(d => d.length >= 3 ? '' : d + '.');
+    }, 500);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <pre className="nasa-report">{`
+  Folk Photography — Loading${dots}
+
+  Connecting to folkphotography.com
+  Requesting media feed from WordPress API . . .
+`}</pre>
+  );
+};
+
 const ImageFeed = () => {
   const [feed, setFeed] = useState(null);
   const [parsedFeed, setParsedFeed] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const lightboxRef = useRef(null);
 
   const processData = (feed) => {
     if (feed) {
-      console.log(feed);
       let parsedData = [];
       Object.entries(feed).forEach(([key, value]) => {
         const thumbnail = value.media_details?.sizes?.thumbnail?.source_url;
@@ -44,10 +63,17 @@ const ImageFeed = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      const res = await axios.get(
-        'https://folkphotography.com/wp-json/wp/v2/media?per_page=30'
-      );
-      setFeed(res.data);
+      try {
+        const res = await axios.get(
+          'https://folkphotography.com/wp-json/wp/v2/media?per_page=30',
+          { timeout: 10000 }
+        );
+        setFeed(res.data);
+      } catch (err) {
+        setError(err.message || 'Failed to reach folkphotography.com');
+      } finally {
+        setLoading(false);
+      }
     };
     fetchImages();
   }, []);
@@ -88,6 +114,24 @@ const ImageFeed = () => {
       }
     };
   }, [parsedFeed]);
+
+  if (loading) {
+    return <LoadingMessage />;
+  }
+
+  if (error) {
+    return (
+      <pre className="nasa-report">{`
+  Folk Photography — Offline
+
+  The photography feed at folkphotography.com
+  could not be reached. The site may be down
+  or undergoing maintenance.
+
+  Error: ${error}
+`}</pre>
+    );
+  }
 
   return (
     <div className="fp-container new-scroll">

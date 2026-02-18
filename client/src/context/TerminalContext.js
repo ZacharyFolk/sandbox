@@ -29,6 +29,17 @@ export const TerminalProvider = ({ children }) => {
     if (inputRef.current) {
       inputRef.current.innerText = value;
       inputRef.current.focus();
+      // Place cursor at end of text
+      const range = document.createRange();
+      const sel = window.getSelection();
+      if (inputRef.current.childNodes.length > 0) {
+        range.setStartAfter(inputRef.current.lastChild);
+      } else {
+        range.setStart(inputRef.current, 0);
+      }
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
     }
   };
 

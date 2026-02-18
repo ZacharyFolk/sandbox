@@ -11,6 +11,7 @@ import {
   Games,
   Hitchhiker,
   Help,
+  History,
   Monty,
   TheInfo,
   NoMatch,
@@ -32,28 +33,84 @@ import HitchhikerGame from './commands/HitchhikerGame';
 import Tralfamadore from './commands/Tralfamadore';
 import Roguelike from './commands/Roguelike';
 import Labyrinth from './commands/Labyrinth';
+import ConwayLife from './commands/ConwayLife';
+
+const HISTORY_KEY = 'folk_terminal_history';
+const MAX_HISTORY = 200;
+
+const loadHistory = () => {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+  } catch { return []; }
+};
+
+const saveHistory = (history) => {
+  try {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+  } catch {}
+};
 
 export default function Terminal(props) {
-  const { command, updateCommand, inputRef, clearInput, gameMode, setScreensaver, setScreensaverType } =
+  const { command, updateCommand, inputRef, updateInput, clearInput, gameMode, setScreensaver, setScreensaverType } =
     useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
+  const historyRef = useRef(loadHistory());
+  const historyIndexRef = useRef(-1);
+  const savedInputRef = useRef('');
 
   const { output, setOutput, viewPrompt, power } = props;
 
   const handleKeys = (e) => {
     let code = e.keyCode;
     switch (code) {
-      case 13:
+      case 13: {
         e.preventDefault();
         let typed = e.target.textContent.toLowerCase();
-        //    e.target.innerHTML = '';
+        if (typed.trim()) {
+          historyRef.current.push(typed.trim());
+          saveHistory(historyRef.current);
+        }
+        historyIndexRef.current = -1;
+        savedInputRef.current = '';
         clearInput();
         setOutput('');
         updateCommand(typed);
         setEnter(true);
         break;
+      }
+      case 38: {
+        // Up arrow — navigate backward through history
+        e.preventDefault();
+        const history = historyRef.current;
+        if (!history.length) break;
+        if (historyIndexRef.current === -1) {
+          savedInputRef.current = e.target.textContent || '';
+          historyIndexRef.current = history.length - 1;
+        } else if (historyIndexRef.current > 0) {
+          historyIndexRef.current--;
+        }
+        updateInput(history[historyIndexRef.current]);
+        break;
+      }
+      case 40: {
+        // Down arrow — navigate forward through history
+        e.preventDefault();
+        const history = historyRef.current;
+        if (historyIndexRef.current === -1) break;
+        if (historyIndexRef.current < history.length - 1) {
+          historyIndexRef.current++;
+          updateInput(history[historyIndexRef.current]);
+        } else {
+          historyIndexRef.current = -1;
+          updateInput(savedInputRef.current);
+        }
+        break;
+      }
       default:
-      // console.log('something else');
+        // Reset history browsing position on any other key
+        if (historyIndexRef.current !== -1) {
+          historyIndexRef.current = -1;
+        }
     }
   };
   useEffect(() => {
@@ -213,6 +270,15 @@ export default function Terminal(props) {
         case 'wolfenstein':
         case '3d':
           setOutput(<Labyrinth />);
+          break;
+        case 'history':
+          setOutput(<History history={historyRef.current} />);
+          break;
+        case 'life':
+        case 'conway':
+        case 'gol':
+        case 'gameoflife':
+          setOutput(<ConwayLife />);
           break;
         case 'monty':
         case 'python':

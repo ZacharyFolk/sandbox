@@ -8,6 +8,7 @@ export { default as Deep } from './Deep';
 export { default as Directions } from './Directions';
 export { default as Hello } from './Hello';
 export { default as Help } from './Help';
+export { default as History } from './History';
 export { default as Labyrinth } from './Labyrinth';
 export { default as Monty } from './Monty';
 export { default as NoMatch } from './NoMatch';
