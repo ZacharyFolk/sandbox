@@ -37,7 +37,7 @@ const LcdTicker = ({ message, onDone, onClick, disabled }) => {
       timerRef.current = setTimeout(() => {
         setCurrent(null);
         if (onDone) onDone();
-      }, 3000);
+      }, 8000);
     }
 
     return () => {

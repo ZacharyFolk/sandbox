@@ -49,20 +49,34 @@ export default function SlideshowScreensaver() {
     return () => clearInterval(timerRef.current);
   }, [images]);
 
-  // Dismiss on keydown or click
+  // Keyboard & click handlers
   useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (images.length > 1) setCurrent(c => (c + 1) % images.length);
+        return;
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (images.length > 1) setCurrent(c => (c - 1 + images.length) % images.length);
+        return;
+      }
+      setScreensaver(false);
+      setTimeout(() => inputRef.current?.focus(), 0);
+    };
     const dismiss = () => {
       setScreensaver(false);
       setTimeout(() => inputRef.current?.focus(), 0);
     };
-    document.addEventListener('keydown', dismiss);
+    document.addEventListener('keydown', onKey);
     const container = containerRef.current;
     container?.addEventListener('click', dismiss);
     return () => {
-      document.removeEventListener('keydown', dismiss);
+      document.removeEventListener('keydown', onKey);
       container?.removeEventListener('click', dismiss);
     };
-  }, [setScreensaver, inputRef]);
+  }, [setScreensaver, inputRef, images.length]);
 
   return (
     <div ref={containerRef} className="slideshow-screensaver">

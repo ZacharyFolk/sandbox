@@ -8,6 +8,7 @@ export const TerminalProvider = ({ children }) => {
   const [gameMode, setGameMode] = useState(false);
   const [speakerMuted, setSpeakerMuted] = useState(false);
   const [screensaver, setScreensaver] = useState(false);
+  const [screensaverEnabled, setScreensaverEnabled] = useState(true);
   const [screensaverType, setScreensaverType] = useState(null);
   const [crtFilter, setCrtFilter] = useState(false);
   const [theme, setTheme] = useState('phosphor');
@@ -92,6 +93,8 @@ export const TerminalProvider = ({ children }) => {
         setScreensaver,
         crtFilter,
         setCrtFilter,
+        screensaverEnabled,
+        setScreensaverEnabled,
         screensaverType,
         setScreensaverType,
         theme,

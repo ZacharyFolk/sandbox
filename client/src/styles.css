@@ -889,6 +889,480 @@ pre {
   letter-spacing: 0.03em;
 }
 
+/* ── Wordle game ─────────────────────────────────────────────── */
+.wordle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  outline: none;
+  gap: 12px;
+}
+
+.wordle-title {
+  font-family: var(--t-font-terminal);
+  font-size: 1.4rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 8px var(--t-glow);
+  letter-spacing: 0.3em;
+  margin-bottom: 4px;
+}
+
+.wordle-message {
+  font-family: var(--t-font-terminal);
+  font-size: 0.9rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 6px var(--t-glow);
+  text-align: center;
+  min-height: 2.4em;
+  letter-spacing: 0.1em;
+}
+
+.wordle-message--final {
+  font-size: 1.1rem;
+}
+
+.wordle-message-sub {
+  font-size: 0.65rem;
+  color: var(--t-dim);
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+
+.wordle-board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wordle-row {
+  display: flex;
+  gap: 5px;
+}
+
+.wordle-row--shake {
+  animation: wordle-shake 0.4s ease-in-out;
+}
+
+@keyframes wordle-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.wordle-tile {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--t-font-terminal);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--t-text);
+  border: 2px solid rgba(var(--t-primary-rgb), 0.15);
+  background: transparent;
+  transition: border-color 0.15s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.wordle-tile--filled {
+  border-color: rgba(var(--t-primary-rgb), 0.5);
+  animation: wordle-pop 0.1s ease-out;
+}
+
+@keyframes wordle-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.wordle-tile--correct {
+  background: rgba(var(--t-primary-rgb), 0.25);
+  border-color: var(--t-primary);
+  box-shadow: 0 0 8px rgba(var(--t-primary-rgb), 0.3);
+  color: var(--t-primary);
+}
+
+.wordle-tile--present {
+  background: rgba(181, 159, 59, 0.25);
+  border-color: #b59f3b;
+  box-shadow: 0 0 6px rgba(181, 159, 59, 0.25);
+  color: #d4c36a;
+}
+
+.wordle-tile--absent {
+  background: rgba(var(--t-primary-rgb), 0.04);
+  border-color: rgba(var(--t-primary-rgb), 0.08);
+  color: rgba(var(--t-primary-rgb), 0.3);
+}
+
+.wordle-keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.wordle-keyboard-row {
+  display: flex;
+  gap: 4px;
+}
+
+.wordle-key {
+  min-width: 28px;
+  height: 36px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--t-font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--t-text);
+  background: rgba(var(--t-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--t-primary-rgb), 0.15);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.wordle-key:hover {
+  background: rgba(var(--t-primary-rgb), 0.15);
+}
+
+.wordle-key--wide {
+  min-width: 52px;
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+}
+
+.wordle-key--correct {
+  background: rgba(var(--t-primary-rgb), 0.3);
+  border-color: var(--t-primary);
+  color: var(--t-primary);
+}
+
+.wordle-key--present {
+  background: rgba(181, 159, 59, 0.3);
+  border-color: #b59f3b;
+  color: #d4c36a;
+}
+
+.wordle-key--absent {
+  background: rgba(var(--t-primary-rgb), 0.02);
+  border-color: rgba(var(--t-primary-rgb), 0.05);
+  color: rgba(var(--t-primary-rgb), 0.2);
+}
+
+.wordle-hint {
+  font-family: var(--t-font-mono);
+  font-size: 0.55rem;
+  color: var(--t-dim);
+  margin-top: 8px;
+}
+
+.wordle-help-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.wordle-help-panel {
+  max-width: 420px;
+  max-height: 80%;
+  overflow-y: auto;
+  background: var(--t-bg);
+  border: 1px solid rgba(var(--t-primary-rgb), 0.2);
+  border-radius: 4px;
+  padding: 16px 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.wordle-help-text {
+  font-family: var(--t-font-terminal);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--t-text);
+}
+
+.wordle-help-text p {
+  margin: 0.6em 0;
+}
+
+.wordle-help-section {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--t-primary);
+  text-shadow: 0 0 6px var(--t-glow);
+  margin-top: 1.2em;
+}
+
+.wordle-help-rule {
+  height: 1px;
+  background: rgba(var(--t-primary-rgb), 0.2);
+  margin: 4px 0 8px;
+}
+
+.wordle-help-example {
+  margin: 12px 0;
+}
+
+.wordle-help-tiles {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.wordle-help-tiles .wordle-tile {
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+}
+
+.wordle-help-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: var(--t-dim);
+}
+
+.wordle-help-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  margin-right: 6px;
+  font-size: 0;
+}
+
+.wordle-help-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--t-font-mono);
+  font-size: 0.7rem;
+  color: var(--t-dim);
+  margin-top: 4px;
+}
+
+.wordle-help-close {
+  display: block;
+  margin: 8px auto 0;
+  padding: 6px 24px;
+  font-family: var(--t-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--t-primary);
+  background: rgba(var(--t-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--t-primary-rgb), 0.25);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.wordle-help-close:hover {
+  background: rgba(var(--t-primary-rgb), 0.15);
+}
+
+/* Hangman */
+.hangman-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  outline: none;
+  gap: 8px;
+}
+
+.hangman-title {
+  font-family: var(--t-font-terminal);
+  font-size: 1.4rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 8px var(--t-glow);
+  letter-spacing: 0.3em;
+}
+
+.hangman-message {
+  font-family: var(--t-font-terminal);
+  font-size: 0.9rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 6px var(--t-glow);
+  text-align: center;
+  min-height: 2em;
+  letter-spacing: 0.1em;
+}
+
+.hangman-message--final { font-size: 1.1rem; }
+
+.hangman-message-sub {
+  font-size: 0.65rem;
+  color: var(--t-dim);
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+
+.hangman-reveal {
+  color: #b59f3b;
+  text-shadow: 0 0 6px rgba(181, 159, 59, 0.4);
+  letter-spacing: 0.2em;
+}
+
+.hangman-gallows {
+  font-family: var(--t-font-terminal);
+  font-size: 0.85rem;
+  line-height: 1.3;
+  color: var(--t-primary);
+  text-shadow: 0 0 4px var(--t-glow);
+  white-space: pre;
+  margin: 0;
+}
+
+.hangman-gallows--dead {
+  color: #cc3333;
+  text-shadow: 0 0 6px rgba(204, 51, 51, 0.4);
+}
+
+.hangman-word {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.hangman-letter {
+  font-family: var(--t-font-terminal);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--t-dim);
+  width: 28px;
+  text-align: center;
+  border-bottom: 2px solid rgba(var(--t-primary-rgb), 0.2);
+  padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.hangman-letter--revealed {
+  color: var(--t-primary);
+  border-color: var(--t-primary);
+  text-shadow: 0 0 6px var(--t-glow);
+}
+
+.hangman-letter--missed {
+  color: #b59f3b;
+  border-color: #b59f3b;
+  text-shadow: 0 0 6px rgba(181, 159, 59, 0.3);
+}
+
+.hangman-status {
+  font-family: var(--t-font-mono);
+  font-size: 0.65rem;
+  color: var(--t-dim);
+  min-height: 1.2em;
+  letter-spacing: 0.05em;
+}
+
+.hangman-remaining {
+  opacity: 0.7;
+}
+
+.hangman-keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  max-width: 380px;
+  margin-top: 4px;
+}
+
+.hangman-key {
+  min-width: 28px;
+  height: 32px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--t-font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--t-text);
+  background: rgba(var(--t-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--t-primary-rgb), 0.15);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.hangman-key:hover:not(:disabled) {
+  background: rgba(var(--t-primary-rgb), 0.15);
+}
+
+.hangman-key:disabled {
+  cursor: default;
+}
+
+.hangman-key--correct {
+  background: rgba(var(--t-primary-rgb), 0.25);
+  border-color: var(--t-primary);
+  color: var(--t-primary);
+  box-shadow: 0 0 6px rgba(var(--t-primary-rgb), 0.2);
+}
+
+.hangman-key--wrong {
+  background: rgba(var(--t-primary-rgb), 0.02);
+  border-color: rgba(var(--t-primary-rgb), 0.05);
+  color: rgba(var(--t-primary-rgb), 0.2);
+  opacity: 0.5;
+}
+
+.hangman-hint {
+  font-family: var(--t-font-mono);
+  font-size: 0.55rem;
+  color: var(--t-dim);
+  margin-top: 4px;
+}
+
+.hangman-help-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.hangman-help-panel {
+  max-width: 400px;
+  max-height: 80%;
+  overflow-y: auto;
+  background: var(--t-bg);
+  border: 1px solid rgba(var(--t-primary-rgb), 0.2);
+  border-radius: 4px;
+  padding: 16px 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.hangman-help-swatch {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  font-size: 0.6rem;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 /* Conway's Game of Life info overlay */
 .conway-info-overlay {
   position: absolute;
@@ -1105,12 +1579,15 @@ pre {
 }
 
 .vtg-btn--amber {
-  background: radial-gradient(circle at 38% 32%, #8a7040, #5a4820 50%, #2a2010);
+  background: radial-gradient(circle at 38% 32%,
+    rgba(var(--t-primary-rgb), 0.4),
+    rgba(var(--t-primary-rgb), 0.18) 50%,
+    rgba(var(--t-primary-rgb), 0.05));
   box-shadow:
     0 3px 6px rgba(0, 0, 0, 0.7),
-    0 1px 0 rgba(255, 200, 80, 0.1),
+    0 1px 0 rgba(var(--t-primary-rgb), 0.1),
     inset 0 -2px 4px rgba(0, 0, 0, 0.5),
-    inset 0 1px 2px rgba(255, 200, 80, 0.12);
+    inset 0 1px 2px rgba(var(--t-primary-rgb), 0.12);
 }
 
 /* Square button — chunky industrial */
@@ -2595,7 +3072,7 @@ ul.help-list li {
 
 /* ── LCD ticker readout ──────────────────────────────────────── */
 .lcd-ticker {
-  width: 200px;
+  width: 240px;
   flex-shrink: 0;
   height: 54px;
   display: flex;
@@ -2622,7 +3099,7 @@ ul.help-list li {
 .lcd-ticker-screen {
   position: relative;
   width: 100%;
-  height: 30px;
+  height: 34px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -2643,12 +3120,12 @@ ul.help-list li {
     repeating-linear-gradient(
       0deg,
       transparent 0px, transparent 2px,
-      rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0.25) 3px
+      rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 3px
     ),
     repeating-linear-gradient(
       90deg,
       transparent 0px, transparent 2px,
-      rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0.25) 3px
+      rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 3px
     );
   pointer-events: none;
   z-index: 1;
@@ -2659,7 +3136,7 @@ ul.help-list li {
   display: inline-block;
   white-space: nowrap;
   font-family: var(--t-font-mono);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   letter-spacing: 0.1em;
   line-height: 1;
   color: var(--t-lcd);
@@ -2677,13 +3154,14 @@ ul.help-list li {
   display: inline-block;
   white-space: nowrap;
   font-family: var(--t-font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   line-height: 1;
-  color: var(--t-lcd);
-  text-shadow: 0 0 4px rgba(var(--t-primary-rgb), 0.35);
+  color: var(--t-primary);
+  text-shadow: 0 0 6px rgba(var(--t-primary-rgb), 0.5);
   padding: 0 8px;
-  animation: lcd-fadein 0.15s ease-out;
+  animation: lcd-fadein 0.15s ease-out, lcd-pulse 2s ease-in-out 0.15s 3;
 }
 
 @keyframes lcd-fadein {
@@ -2691,9 +3169,47 @@ ul.help-list li {
   100% { opacity: 1; }
 }
 
-/* Amber button lit state when CRT is active */
+@keyframes lcd-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* Theme button lit glow */
 .vtg-btn--active.vtg-btn--amber {
   box-shadow:
-    0 0 6px rgba(255, 170, 0, 0.6),
-    inset 0 0 4px rgba(255, 170, 0, 0.3);
+    0 0 6px rgba(var(--t-primary-rgb), 0.6),
+    inset 0 0 4px rgba(var(--t-primary-rgb), 0.3);
+}
+
+/* Square button subtle lit state — screensaver enabled */
+.vtg-btn--ss-on {
+  box-shadow:
+    0 0 4px rgba(var(--t-primary-rgb), 0.2),
+    0 3px 5px rgba(0, 0, 0, 0.7),
+    inset 0 0 3px rgba(var(--t-primary-rgb), 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+/* ── Mini monitor — screensaver status indicator ─────────────── */
+.mini-monitor {
+  width: 40px;
+  height: 30px;
+  padding: 3px;
+  background: linear-gradient(160deg, #1c1c1a 0%, #111110 100%);
+  border: 1px solid #2a2a26;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.mini-monitor-screen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  border: 1px solid #0a0a08;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
+  image-rendering: pixelated;
 }

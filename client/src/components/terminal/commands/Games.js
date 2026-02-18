@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { TerminalContext } from '../../../context/TerminalContext';
 
-const games = ['snake', 'tetris', 'cagematch', 'hack', 'password', 'matrix'];
+const games = ['snake', 'tetris', 'cagematch', 'hack', 'password', 'matrix', 'codeword', 'hangman'];
 
 const SCENE = `        /\\               /\\          /\\             /\\
    /\\  /  \\    /\\    /\\ /  \\   /\\  /  \\   /\\    /  \\   /\\

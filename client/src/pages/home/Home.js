@@ -10,6 +10,64 @@ import LcdTicker from '../../components/LcdTicker';
 import Screensaver from '../../components/screensaver/Screensaver';
 import { TerminalContext } from '../../context/TerminalContext';
 
+function MiniMonitor({ active }) {
+  const canvasRef = useRef(null);
+  const rafRef = useRef(null);
+  const tRef = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = 36;
+    const H = 24;
+    canvas.width = W;
+    canvas.height = H;
+
+    if (!active) {
+      cancelAnimationFrame(rafRef.current);
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+      // Flat line
+      ctx.strokeStyle = 'rgba(91,248,112,0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, H / 2);
+      ctx.lineTo(W, H / 2);
+      ctx.stroke();
+      return;
+    }
+
+    const animate = () => {
+      ctx.fillStyle = 'rgba(0,0,0,0.35)';
+      ctx.fillRect(0, 0, W, H);
+
+      tRef.current += 0.06;
+      const t = tRef.current;
+
+      ctx.strokeStyle = 'rgba(91,248,112,0.6)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let x = 0; x < W; x++) {
+        const y = H / 2 + Math.sin(x * 0.45 + t) * 6 + Math.sin(x * 0.9 + t * 1.7) * 2;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [active]);
+
+  return (
+    <div className="mini-monitor">
+      <canvas ref={canvasRef} className="mini-monitor-screen" />
+    </div>
+  );
+}
+
 export default function Home() {
   const {
     speakerMuted,
@@ -17,6 +75,10 @@ export default function Home() {
     updateCommand,
     screensaver,
     setScreensaver,
+    screensaverEnabled,
+    setScreensaverEnabled,
+    setScreensaverType,
+    gameMode,
     theme,
     setTheme,
   } = useContext(TerminalContext);
@@ -35,10 +97,10 @@ export default function Home() {
 
   const resetIdleTimer = useCallback(() => {
     clearTimeout(idleTimerRef.current);
-    if (power) {
+    if (power && screensaverEnabled && !gameMode) {
       idleTimerRef.current = setTimeout(() => setScreensaver(true), 30000);
     }
-  }, [power, setScreensaver]);
+  }, [power, screensaverEnabled, gameMode, setScreensaver]);
 
   useEffect(() => {
     resetIdleTimer();
@@ -157,6 +219,7 @@ export default function Home() {
           />
         </div>
         <div className="controls-right">
+          <MiniMonitor active={power && screensaverEnabled} />
           <div className="vintage-buttons">
             <button
               className="vtg-btn vtg-btn--round"
@@ -183,17 +246,23 @@ export default function Home() {
               title="Theme"
             ></button>
             <button
-              className={`vtg-btn vtg-btn--square ${screensaver ? 'vtg-btn--active' : ''}`}
+              className={`vtg-btn vtg-btn--square ${screensaverEnabled ? 'vtg-btn--ss-on' : ''}`}
               onClick={() => {
                 playClick();
-                const next = !screensaver;
-                setScreensaver(next);
+                const next = !screensaverEnabled;
+                setScreensaverEnabled(next);
+                if (next) {
+                  setScreensaverType(null);
+                  setScreensaver(true);
+                } else {
+                  setScreensaver(false);
+                }
                 setLcdMessage(next
-                  ? 'SCREENSAVER — DEPLOYED /// PRESS ANY KEY TO DISMISS'
-                  : 'SCREENSAVER — DISMISSED /// RESUMING SESSION');
+                  ? '◈ SCREENSAVER — ENABLED'
+                  : '◈ SCREENSAVER — DISABLED');
               }}
               disabled={!power}
-              title="Screensaver"
+              title={screensaverEnabled ? 'Screensaver: On' : 'Screensaver: Off'}
             ></button>
           </div>
           <div className="led-cluster">

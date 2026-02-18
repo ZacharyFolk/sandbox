@@ -5,8 +5,9 @@ import StarfieldScreensaver from './StarfieldScreensaver';
 import PipesScreensaver from './PipesScreensaver';
 import AquariumScreensaver from './AquariumScreensaver';
 import SlideshowScreensaver from './SlideshowScreensaver';
+import FlyingToastersScreensaver from './FlyingToastersScreensaver';
 
-const ALL = [DVDScreensaver, StarfieldScreensaver, PipesScreensaver, AquariumScreensaver];
+const ALL = [DVDScreensaver, StarfieldScreensaver, PipesScreensaver, AquariumScreensaver, FlyingToastersScreensaver];
 
 const BY_NAME = {
   dvd: DVDScreensaver,
@@ -18,6 +19,8 @@ const BY_NAME = {
   slideshow: SlideshowScreensaver,
   photos: SlideshowScreensaver,
   gallery: SlideshowScreensaver,
+  toasters: FlyingToastersScreensaver,
+  toast: FlyingToastersScreensaver,
 };
 
 export default function Screensaver() {

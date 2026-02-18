@@ -34,6 +34,8 @@ import Tralfamadore from './commands/Tralfamadore';
 import Roguelike from './commands/Roguelike';
 import Labyrinth from './commands/Labyrinth';
 import ConwayLife from './commands/ConwayLife';
+import WordleGame from './commands/WordleGame';
+import HangmanGame from './commands/HangmanGame';
 
 const HISTORY_KEY = 'folk_terminal_history';
 const MAX_HISTORY = 200;
@@ -119,7 +121,39 @@ export default function Terminal(props) {
     // Screensaver picker: ss <name>
     if (command.startsWith('ss ') || command.startsWith('screensaver ')) {
       const name = command.split(' ').slice(1).join(' ').trim();
-      const valid = ['dvd', 'stars', 'starfield', 'pipes', 'aquarium', 'fish'];
+      if (name === 'help' || name === '?') {
+        setOutput(
+          <pre className="nasa-report">{`
+╔══════════════════════════════════════════════════════════════╗
+║           ██  SCREENSAVER — SUBSYSTEM GUIDE  ██              ║
+║                  FOLK.CODES TERMINAL  MK-II                  ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║   USAGE:   ss <name>   or   screensaver <name>               ║
+║                                                              ║
+║   ┌──────────────────────────────────────────────────┐       ║
+║   │  dvd ............ DVD LOGO BOUNCE                │       ║
+║   │  stars .......... STARFIELD WARP                 │       ║
+║   │  pipes .......... 3D PIPES                       │       ║
+║   │  aquarium ....... FISH TANK                      │       ║
+║   │  toasters ....... FLYING TOASTERS                │       ║
+║   │  slideshow ...... FOLK PHOTOGRAPHY GALLERY       │       ║
+║   └──────────────────────────────────────────────────┘       ║
+║                                                              ║
+║   ALIASES:  fish = aquarium,  photos/gallery = slideshow     ║
+║             starfield = stars                                 ║
+║                                                              ║
+║   TYPE  ss  WITH NO ARGUMENT FOR RANDOM SCREENSAVER.         ║
+║   PRESS ANY KEY OR CLICK TO DISMISS ACTIVE SCREENSAVER.      ║
+║                                                              ║
+║   *** SCREENSAVER SUBSYSTEM — NOMINAL ***                    ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+`}</pre>
+        );
+        return;
+      }
+      const valid = ['dvd', 'stars', 'starfield', 'pipes', 'aquarium', 'fish', 'slideshow', 'photos', 'gallery', 'toasters', 'toast'];
       if (valid.includes(name)) {
         setScreensaverType(name);
         setScreensaver(true);
@@ -270,6 +304,17 @@ export default function Terminal(props) {
         case 'wolfenstein':
         case '3d':
           setOutput(<Labyrinth />);
+          break;
+        case 'codeword':
+        case 'wordle':
+        case 'word':
+        case 'guess':
+          setOutput(<WordleGame />);
+          break;
+        case 'hangman':
+        case 'hang':
+        case 'gallows':
+          setOutput(<HangmanGame />);
           break;
         case 'history':
           setOutput(<History history={historyRef.current} />);
