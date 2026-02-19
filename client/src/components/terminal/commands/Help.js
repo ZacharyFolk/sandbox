@@ -35,6 +35,11 @@ const Help = () => {
     'cowsay',
     '8ball',
     'tarot',
+    'classified',
+    'starwars',
+    'jurassic',
+    'abbey',
+    'hayduke',
   ];
 
   return (

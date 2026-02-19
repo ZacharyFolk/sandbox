@@ -1363,28 +1363,148 @@ pre {
   vertical-align: middle;
 }
 
-/* Eight Ball */
+/* Eight Ball — Mystic Orb */
 .eightball-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 8px 16px;
-  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
 }
 
-.eightball-header {
-  margin: 0;
+.eightball-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.eightball-ball {
+.eightball-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--t-primary);
+  border-radius: 50%;
+  animation: eightball-twinkle 3s ease-in-out infinite;
+}
+
+@keyframes eightball-twinkle {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.6; }
+}
+
+.eightball-title {
   font-family: var(--t-font-terminal);
-  font-size: 0.75rem;
-  line-height: 1.2;
+  font-size: 1.8rem;
   color: var(--t-primary);
-  text-shadow: 0 0 4px var(--t-glow);
-  white-space: pre;
-  text-align: center;
-  transition: transform 0.1s;
+  text-shadow: 0 0 20px var(--t-glow), 0 0 40px var(--t-glow);
+  letter-spacing: 0.4em;
+  z-index: 1;
+}
+
+.eightball-subtitle {
+  font-family: var(--t-font-mono);
+  font-size: 0.55rem;
+  color: var(--t-dim);
+  letter-spacing: 0.2em;
+  z-index: 1;
+}
+
+/* Glowing pyramid tribute — behind the orb */
+.eightball-pyramid {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-bottom: 280px solid rgba(var(--t-primary-rgb), 0.05);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -62%);
+  filter: blur(3px);
+  z-index: 0;
+  animation: eightball-pyramid-glow 4s ease-in-out infinite;
+}
+
+.eightball-pyramid::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: -128px;
+  width: 0;
+  height: 0;
+  border-left: 128px solid transparent;
+  border-right: 128px solid transparent;
+  border-bottom: 224px solid rgba(var(--t-primary-rgb), 0.035);
+}
+
+@keyframes eightball-pyramid-glow {
+  0%, 100% { opacity: 0.6; filter: blur(2px); }
+  50% { opacity: 1; filter: blur(4px); }
+}
+
+.eightball-orb {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1a1a2e 0%, #0a0a15 60%, #000 100%);
+  border: 2px solid rgba(var(--t-primary-rgb), 0.15);
+  box-shadow:
+    0 0 30px rgba(var(--t-primary-rgb), 0.08),
+    inset 0 0 40px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: box-shadow 0.5s;
+}
+
+.eightball-orb:hover {
+  box-shadow:
+    0 0 50px rgba(var(--t-primary-rgb), 0.18),
+    inset 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.eightball-orb-inner {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--t-primary-rgb), 0.08) 0%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eightball-triangle {
+  font-family: var(--t-font-terminal);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--t-primary);
+  text-shadow: 0 0 12px var(--t-glow);
+  opacity: 0.7;
+  transition: color 0.4s, text-shadow 0.4s, opacity 0.4s;
+}
+
+.eightball-sign--yes {
+  color: #4ade80;
+  text-shadow: 0 0 16px rgba(74, 222, 128, 0.6);
+  opacity: 1;
+}
+
+.eightball-sign--no {
+  color: #f87171;
+  text-shadow: 0 0 16px rgba(248, 113, 113, 0.6);
+  opacity: 1;
+}
+
+.eightball-sign--maybe {
+  color: #fbbf24;
+  text-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
+  opacity: 1;
 }
 
 .eightball--shake {
@@ -1393,14 +1513,14 @@ pre {
 
 @keyframes eightball-shake {
   0%, 100% { transform: translate(0, 0) rotate(0); }
-  10%  { transform: translate(-4px, -2px) rotate(-3deg); }
-  20%  { transform: translate(4px, 2px) rotate(3deg); }
-  30%  { transform: translate(-3px, 3px) rotate(-2deg); }
-  40%  { transform: translate(3px, -3px) rotate(2deg); }
-  50%  { transform: translate(-2px, 2px) rotate(-1deg); }
-  60%  { transform: translate(2px, -2px) rotate(1deg); }
-  70%  { transform: translate(-3px, 1px) rotate(-2deg); }
-  80%  { transform: translate(3px, -1px) rotate(2deg); }
+  10%  { transform: translate(-6px, -3px) rotate(-4deg); }
+  20%  { transform: translate(6px, 3px) rotate(4deg); }
+  30%  { transform: translate(-4px, 4px) rotate(-3deg); }
+  40%  { transform: translate(4px, -4px) rotate(3deg); }
+  50%  { transform: translate(-3px, 2px) rotate(-2deg); }
+  60%  { transform: translate(3px, -2px) rotate(2deg); }
+  70%  { transform: translate(-4px, 1px) rotate(-2deg); }
+  80%  { transform: translate(4px, -1px) rotate(2deg); }
   90%  { transform: translate(-1px, 1px) rotate(-1deg); }
 }
 
@@ -1410,31 +1530,51 @@ pre {
   color: var(--t-dim);
   text-align: center;
   min-height: 1.5em;
-  letter-spacing: 0.05em;
-  transition: color 0.5s, text-shadow 0.5s;
+  letter-spacing: 0.08em;
+  transition: color 0.5s, text-shadow 0.5s, font-size 0.3s;
+  z-index: 1;
+  max-width: 80%;
 }
 
 .eightball-answer--revealed {
   color: var(--t-primary);
-  text-shadow: 0 0 10px var(--t-glow);
-  font-size: 0.9rem;
+  text-shadow: 0 0 12px var(--t-glow);
+  font-size: 0.95rem;
+}
+
+.eightball-idle {
+  color: rgba(var(--t-primary-rgb), 0.3);
+  font-size: 0.75rem;
+  font-style: italic;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 8px rgba(var(--t-primary-rgb), 0.15);
+  animation: eightball-idle-fade 3s ease-in-out infinite;
+}
+
+@keyframes eightball-idle-fade {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .eightball-btn {
   font-family: var(--t-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
   color: var(--t-primary);
-  background: rgba(var(--t-primary-rgb), 0.06);
-  border: 1px solid rgba(var(--t-primary-rgb), 0.2);
-  border-radius: 3px;
-  padding: 6px 20px;
+  background: transparent;
+  border: 1px solid rgba(var(--t-primary-rgb), 0.15);
+  border-radius: 20px;
+  padding: 8px 24px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 1;
 }
 
 .eightball-btn:hover {
-  background: rgba(var(--t-primary-rgb), 0.12);
+  background: rgba(var(--t-primary-rgb), 0.08);
+  border-color: rgba(var(--t-primary-rgb), 0.3);
 }
 
 /* Cowsay */
@@ -1716,6 +1856,85 @@ pre {
   width: 160px;
   height: auto;
   image-rendering: auto;
+}
+
+/* Stardate / Hyperspace */
+.stardate-container {
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.stardate-canvas {
+  width: 100%;
+  max-width: 400px;
+  height: 200px;
+  border-radius: 4px;
+  border: 1px solid rgba(var(--t-primary-rgb), 0.1);
+}
+
+.stardate-readout {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s, transform 1s;
+}
+
+.stardate-readout--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stardate-label {
+  font-family: var(--t-font-mono);
+  font-size: 0.5rem;
+  color: var(--t-dim);
+  letter-spacing: 0.25em;
+  margin-bottom: 2px;
+}
+
+.stardate-value {
+  font-family: var(--t-font-terminal);
+  font-size: 1rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 8px var(--t-glow);
+  letter-spacing: 0.08em;
+}
+
+.stardate-value--big {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+}
+
+.stardate-divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(var(--t-primary-rgb), 0.15);
+  margin: 8px auto;
+}
+
+.stardate-row {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.stardate-quote {
+  font-family: var(--t-font-mono);
+  font-size: 0.6rem;
+  color: var(--t-dim);
+  line-height: 1.6;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.stardate-attr {
+  font-style: normal;
+  opacity: 0.5;
 }
 
 /* Inline eggs */
@@ -2429,10 +2648,15 @@ ul.help-list li {
 .game-active {
   max-height: none !important;
   overflow: visible !important;
+  height: 100%;
+  padding: 0 !important;
 }
 
 .game-mode {
   overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  inset: 0 !important;
 }
 
 /* ==================
@@ -3576,4 +3800,100 @@ ul.help-list li {
   border: 1px solid #0a0a08;
   box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
   image-rendering: pixelated;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BASH COMMAND EGGS — varied styles, not all NASA
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── ls / dir — classic green directory listing ─────────────── */
+.terminal-ls {
+  color: var(--t-primary);
+  font-family: var(--t-font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  padding: 8px 0;
+  white-space: pre;
+  text-shadow: 0 0 4px var(--t-glow);
+}
+
+/* ── cat — playful, slightly bigger ──────────────────────────── */
+.terminal-cat {
+  color: var(--t-text);
+  font-family: var(--t-font-mono);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 4px 0;
+  white-space: pre;
+}
+
+/* ── man — styled like a real manpage, dimmer header/footer ─── */
+.terminal-man {
+  color: var(--t-text);
+  font-family: var(--t-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 4px 0;
+  white-space: pre;
+  letter-spacing: 0.3px;
+}
+
+/* ── pwd — one-liner, bold ───────────────────────────────────── */
+.terminal-pwd {
+  color: var(--t-primary);
+  font-family: var(--t-font-mono);
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 6px 0;
+  text-shadow: 0 0 6px var(--t-glow);
+}
+
+/* ── exit — spooky Hotel California ──────────────────────────── */
+.terminal-exit {
+  color: var(--t-text);
+  font-family: var(--t-font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 4px 0;
+  white-space: pre;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* ── uptime — system stat, compact ───────────────────────────── */
+.terminal-uptime {
+  color: var(--t-primary);
+  font-family: var(--t-font-mono);
+  font-size: 0.85rem;
+  padding: 6px 0;
+  white-space: pre;
+  text-shadow: 0 0 3px var(--t-glow);
+}
+
+/* ── editor (vim/nano/emacs) — ominous, glowing ──────────────── */
+.terminal-editor {
+  color: var(--t-primary);
+  font-family: var(--t-font-mono);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  padding: 4px 0;
+  white-space: pre;
+  text-shadow: 0 0 8px var(--t-glow), 0 0 16px var(--t-glow);
+  animation: editor-pulse 3s ease-in-out infinite;
+}
+
+@keyframes editor-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ── curl/wget — HTTP response style ─────────────────────────── */
+.terminal-curl {
+  color: var(--t-text);
+  font-family: var(--t-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 4px 0;
+  white-space: pre;
+  opacity: 0.9;
 }

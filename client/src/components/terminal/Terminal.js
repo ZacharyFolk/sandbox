@@ -42,6 +42,8 @@ import Classified from './commands/Classified';
 import Tarot from './commands/Tarot';
 import StarWars from './commands/StarWars';
 import JurassicPark from './commands/JurassicPark';
+import Stardate from './commands/Stardate';
+import DesertSolitaire from './commands/DesertSolitaire';
 
 // NASA report box generator — ensures perfect alignment
 const W = 58; // inner width between ║ markers
@@ -397,6 +399,19 @@ export default function Terminal(props) {
         case 'ah ah ah':
           setOutput(<JurassicPark />);
           break;
+        case 'abbey':
+        case 'desert':
+        case 'desert solitaire':
+        case 'solitaire':
+        case 'edward abbey':
+          setOutput(<DesertSolitaire mode="abbey" />);
+          break;
+        case 'hayduke':
+        case 'hayduke lives':
+        case 'monkeywrench':
+        case 'monkey wrench':
+          setOutput(<DesertSolitaire mode="hayduke" />);
+          break;
         case 'sudo':
         case 'su':
           setOutput(
@@ -513,27 +528,144 @@ export default function Terminal(props) {
           break;
         case 'date':
         case 'stardate':
-        case 'time': {
-          const now = new Date();
-          const earth = now.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-          const sd = Math.floor(Date.now() / 86400000) + '.' + Math.floor(Math.random() * 9);
-          const epoch = String(Math.floor(Date.now() / 1000));
+        case 'time':
+          setOutput(<Stardate />);
+          break;
+        case 'ls':
+        case 'dir':
           setOutput(
-            <pre className="nasa-report">{nasaBox('CHRONOMETER — TIME REPORT', 'FOLK.CODES TERMINAL MK-II', [
-              `EARTH TIME  :  [[ ${earth} ]]`,
-              `STARDATE    :  [[ ${sd} ]]`,
-              `UNIX EPOCH  :  [[ ${epoch} ]]`,
-              'COSMIC AGE  :  [[ 13,800,000,000 YEARS ]]',
-              '',
-              'TIME IS AN ILLUSION.',
-              'LUNCHTIME DOUBLY SO.',
-              '                    -- FORD PREFECT',
-              '',
-              '*** CHRONOMETER — SYNCHRONIZED ***',
-            ])}</pre>
+            <pre className="terminal-ls">{`drwxr-xr-x  2 folk folk 4096 Jan  1  1970 .secrets/
+drwxr-xr-x  5 folk folk 4096 Feb 18 2026 dreams/
+-rw-r--r--  1 folk folk  42K Feb 18 2026 meaning_of_life.txt
+-rw-------  1 folk folk    0 Jan  1  1970 .hidden_agenda
+drwxr-xr-x  3 folk folk 4096 Feb 18 2026 projects/
+-rwxr-xr-x  1 folk folk 1337 Feb 18 2026 hack_the_planet.sh
+-rw-r--r--  1 folk folk  404 Feb 18 2026 not_found.html
+drwxr-xr-x  2 folk folk 4096 Feb 18 2026 regrets/
+-rw-r--r--  1 folk folk    0 Feb 18 2026 regrets/  (empty)
+drwxr-xr-x  8 folk folk 4096 Feb 18 2026 coffee_logs/
+-rw-r--r--  1 folk folk 9999 Feb 18 2026 TODO.md  (growing)`}</pre>
           );
           break;
-        }
+        case 'cat':
+          setOutput(
+            <pre className="terminal-cat">{`
+    /\\_____/\\
+   /  o   o  \\
+  ( ==  ^  == )
+   )         (
+  (           )
+ ( (  )   (  ) )
+(__(__)___(__)__)
+
+ cat: you didn't specify a file.
+ but here's a cat anyway.`}</pre>
+          );
+          break;
+        case 'man':
+          setOutput(
+            <pre className="terminal-man">{`
+MAN(1)            Folk.Codes Terminal Manual           MAN(1)
+
+NAME
+     man - display manual pages that don't exist
+
+SYNOPSIS
+     man [command]
+
+DESCRIPTION
+     You typed 'man' into a retro terminal on the internet.
+     There are no manual pages here. Only vibes.
+
+     This terminal does not conform to POSIX, IEEE, or any
+     known standard. It conforms to CHAOS.
+
+RETURN VALUE
+     Returns existential uncertainty.
+
+BUGS
+     Too many to count. They're a feature.
+
+SEE ALSO
+     help(1), sanity(0), touch grass(1)
+
+HISTORY
+     Written by a developer who should have been sleeping.
+
+                       February 2026                  MAN(1)`}</pre>
+          );
+          break;
+        case 'pwd':
+          setOutput(
+            <pre className="terminal-pwd">{`/home/folk/the-internet/a-cool-terminal/right-here`}</pre>
+          );
+          break;
+        case 'exit':
+        case 'quit':
+        case 'logout':
+          setOutput(
+            <pre className="terminal-exit">{`
+There is no escape.
+
+You are here now. The terminal is your home.
+You can check out any time you like,
+but you can never leave.
+
+    -- Hotel California, probably
+
+(try the power switch instead)`}</pre>
+          );
+          break;
+        case 'uptime':
+          setOutput(
+            <pre className="terminal-uptime">{` up ${Math.floor(Math.random() * 999)} days, ${Math.floor(Math.random() * 24)}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}, 1 user, load average: 0.42, 0.42, 0.42`}</pre>
+          );
+          break;
+        case 'vi':
+        case 'vim':
+        case 'nano':
+        case 'emacs':
+          setOutput(
+            <pre className="terminal-editor">{`
+  You have entered ${command.toUpperCase()}.
+
+  You cannot leave.
+  You have always been here.
+  You will always be here.
+
+  ${command === 'vim' || command === 'vi' ? ':q!  :wq  :qa!  ZZ  -- none of these work here.' : ''}
+  ${command === 'emacs' ? 'C-x C-c? Cute. M-x butterfly? Closer.' : ''}
+  ${command === 'nano' ? 'At least you chose the friendly one.' : ''}
+
+  Press Ctrl+Alt+Delete+F5+prayer to exit.
+
+  Just kidding. Type something else.`}</pre>
+          );
+          break;
+        case 'curl':
+        case 'wget':
+          setOutput(
+            <pre className="terminal-curl">{`
+  Connecting to the-meaning-of-everything.com...
+  Resolving DNS..................... ok
+  Establishing TLS 4.2............. ok
+  Sending GET request.............. ok
+
+  HTTP/1.1 200 OK
+  Content-Type: text/plain
+  X-Powered-By: cosmic-rays
+  X-Answer: 42
+
+  Response body:
+
+  "The answer to the ultimate question of life,
+   the universe, and everything is 42. But the
+   question itself was lost when the Earth was
+   demolished to make way for a hyperspace bypass."
+
+  Transfer complete: 42 bytes received.`}</pre>
+          );
+          break;
 
         default:
           setOutput(NoMatch);
