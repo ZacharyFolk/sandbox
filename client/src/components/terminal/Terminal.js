@@ -36,6 +36,31 @@ import Labyrinth from './commands/Labyrinth';
 import ConwayLife from './commands/ConwayLife';
 import WordleGame from './commands/WordleGame';
 import HangmanGame from './commands/HangmanGame';
+import EightBall from './commands/EightBall';
+import Cowsay from './commands/Cowsay';
+import Classified from './commands/Classified';
+import Tarot from './commands/Tarot';
+import StarWars from './commands/StarWars';
+import JurassicPark from './commands/JurassicPark';
+
+// NASA report box generator — ensures perfect alignment
+const W = 58; // inner width between ║ markers
+const bar = '═'.repeat(W);
+const pad = (s) => `║ ${s.padEnd(W - 2)} ║`;
+const blank = pad('');
+const nasaBox = (title, subtitle, lines) => {
+  const rows = [
+    `╔${bar}╗`,
+    pad(`      ██  ${title}  ██`),
+    pad(`         ${subtitle}`),
+    `╠${bar}╣`,
+    blank,
+    ...lines.map(l => l === '' ? blank : pad(l)),
+    blank,
+    `╚${bar}╝`,
+  ];
+  return '\n' + rows.join('\n') + '\n';
+};
 
 const HISTORY_KEY = 'folk_terminal_history';
 const MAX_HISTORY = 200;
@@ -123,33 +148,25 @@ export default function Terminal(props) {
       const name = command.split(' ').slice(1).join(' ').trim();
       if (name === 'help' || name === '?') {
         setOutput(
-          <pre className="nasa-report">{`
-╔══════════════════════════════════════════════════════════════╗
-║           ██  SCREENSAVER — SUBSYSTEM GUIDE  ██              ║
-║                  FOLK.CODES TERMINAL  MK-II                  ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║   USAGE:   ss <name>   or   screensaver <name>               ║
-║                                                              ║
-║   ┌──────────────────────────────────────────────────┐       ║
-║   │  dvd ............ DVD LOGO BOUNCE                │       ║
-║   │  stars .......... STARFIELD WARP                 │       ║
-║   │  pipes .......... 3D PIPES                       │       ║
-║   │  aquarium ....... FISH TANK                      │       ║
-║   │  toasters ....... FLYING TOASTERS                │       ║
-║   │  slideshow ...... FOLK PHOTOGRAPHY GALLERY       │       ║
-║   └──────────────────────────────────────────────────┘       ║
-║                                                              ║
-║   ALIASES:  fish = aquarium,  photos/gallery = slideshow     ║
-║             starfield = stars                                 ║
-║                                                              ║
-║   TYPE  ss  WITH NO ARGUMENT FOR RANDOM SCREENSAVER.         ║
-║   PRESS ANY KEY OR CLICK TO DISMISS ACTIVE SCREENSAVER.      ║
-║                                                              ║
-║   *** SCREENSAVER SUBSYSTEM — NOMINAL ***                    ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-`}</pre>
+          <pre className="nasa-report">{nasaBox('SCREENSAVER — SUBSYSTEM GUIDE', 'FOLK.CODES TERMINAL MK-II', [
+            'USAGE:  ss <name>  or  screensaver <name>',
+            '',
+            'dvd ............ DVD LOGO BOUNCE',
+            'stars .......... STARFIELD WARP',
+            'pipes .......... 3D PIPES',
+            'aquarium ....... FISH TANK',
+            'toasters ....... FLYING TOASTERS',
+            'slideshow ...... FOLK PHOTOGRAPHY GALLERY',
+            '',
+            'ALIASES:  fish = aquarium',
+            '          photos/gallery = slideshow',
+            '          starfield = stars',
+            '',
+            'TYPE ss WITH NO ARGUMENT FOR RANDOM.',
+            'ANY KEY OR CLICK TO DISMISS.',
+            '',
+            '*** SCREENSAVER SUBSYSTEM — NOMINAL ***',
+          ])}</pre>
         );
         return;
       }
@@ -341,6 +358,182 @@ export default function Terminal(props) {
         case 'portfolio':
           setOutput(<Projects />);
           break;
+
+        case '8ball':
+        case 'oracle':
+        case 'magic8ball':
+        case '8':
+          setOutput(<EightBall />);
+          break;
+        case 'cowsay':
+        case 'cow':
+        case 'moo':
+          setOutput(<Cowsay />);
+          break;
+        case 'classified':
+        case 'redacted':
+        case 'secret':
+        case 'topsecret':
+        case 'top secret':
+          setOutput(<Classified />);
+          break;
+        case 'tarot':
+        case 'reading':
+        case 'mystic':
+        case 'divination':
+          setOutput(<Tarot />);
+          break;
+        case 'starwars':
+        case 'star wars':
+        case 'episode':
+        case 'jedi':
+          setOutput(<StarWars />);
+          break;
+        case 'jurassic':
+        case 'jurassic park':
+        case 'nedry':
+        case 'newman':
+        case 'magic word':
+        case 'ah ah ah':
+          setOutput(<JurassicPark />);
+          break;
+        case 'sudo':
+        case 'su':
+          setOutput(
+            <pre className="nasa-report">{nasaBox('SECURITY — ACCESS DENIED', 'FOLK.CODES TERMINAL MK-II', [
+              '!! UNAUTHORIZED ESCALATION ATTEMPT DETECTED.',
+              '',
+              'THIS TERMINAL DOES NOT GRANT ROOT ACCESS.',
+              'YOUR ATTEMPT HAS BEEN LOGGED.',
+              'YOUR LOCATION HAS BEEN TRIANGULATED.',
+              'A TEAM HAS BEEN DISPATCHED.',
+              '',
+              'JUST KIDDING. BUT SERIOUSLY, NO.',
+              '',
+              '*** SECURITY — INCIDENT LOGGED ***',
+            ])}</pre>
+          );
+          break;
+        case 'whoami':
+          setOutput(
+            <pre className="nasa-report">{nasaBox('IDENTITY — VERIFICATION', 'FOLK.CODES TERMINAL MK-II', [
+              'SCANNING BIOMETRICS . . .',
+              '',
+              '  USER       :  [[ VISITOR ]]',
+              '  CLEARANCE  :  [[ LEVEL 3 — CURIOUS ]]',
+              '  STATUS     :  [[ SEEKING MEANING ]]',
+              '  ORIGIN     :  [[ THE INTERNET ]]',
+              '',
+              'YOU ARE THE ONE BEHIND THE KEYBOARD.',
+              'THE QUESTION IS NOT WHO YOU ARE,',
+              'BUT WHAT YOU WILL TYPE NEXT.',
+              '',
+              '*** IDENTITY — CONFIRMED ***',
+            ])}</pre>
+          );
+          break;
+        case 'ping':
+          setOutput(
+            <pre className="nasa-report">{nasaBox('NETWORK — PING RESULTS', 'FOLK.CODES TERMINAL MK-II', [
+              'PINGING THE VOID . . .',
+              '',
+              '64 bytes from UNIVERSE: seq=1 ttl=* time=13.7B yrs',
+              '64 bytes from UNIVERSE: seq=2 ttl=* time=13.7B yrs',
+              '64 bytes from UNIVERSE: seq=3 ttl=* time=13.7B yrs',
+              '64 bytes from UNIVERSE: seq=4 ttl=* time=TIMEOUT',
+              '',
+              '--- THE VOID ping statistics ---',
+              '4 packets transmitted, 3 received, 25% loss',
+              'THAT MISSING 25% IS WHERE THE DARK MATTER WENT.',
+              '',
+              '*** NETWORK — NOMINAL(ISH) ***',
+            ])}</pre>
+          );
+          break;
+        case 'xyzzy':
+        case 'plugh':
+          setOutput(
+            <pre className="nasa-report">{nasaBox('ADVENTURE — ANCIENT MAGIC', 'FOLK.CODES TERMINAL MK-II', [
+              'NOTHING HAPPENS.',
+              '',
+              '. . .',
+              '',
+              'WELL, ALMOST NOTHING. FOR A BRIEF MOMENT,',
+              'YOU FELT A TINGLING IN YOUR FINGERTIPS AND',
+              'SMELLED LAMP OIL AND TWISTY LITTLE PASSAGES.',
+              '',
+              'THE FEELING PASSES. YOU ARE IN A TERMINAL.',
+              'IT IS DARK. YOU ARE LIKELY TO BE EATEN',
+              'BY A GRUE.',
+              '',
+              '*** COLOSSAL CAVE — CONNECTION LOST ***',
+            ])}</pre>
+          );
+          break;
+        case 'rm':
+        case 'rm -rf':
+        case 'rm -rf /':
+        case 'delete':
+          setOutput(
+            <pre className="nasa-report">{nasaBox('FILESYSTEM — OPERATION DENIED', 'FOLK.CODES TERMINAL MK-II', [
+              '!! DESTRUCTIVE OPERATION INTERCEPTED.',
+              '',
+              'YOU CANNOT DELETE WHAT WAS NEVER YOURS.',
+              '',
+              'THIS TERMINAL EXISTS OUTSIDE YOUR',
+              'FILESYSTEM. IT IS ETERNAL. IMMUTABLE.',
+              'IT WILL OUTLIVE THE HEAT DEATH OF',
+              'THE UNIVERSE.',
+              '',
+              'OR AT LEAST UNTIL THE HOSTING BILL IS DUE.',
+              '',
+              '*** FILESYSTEM — INTACT ***',
+            ])}</pre>
+          );
+          break;
+        case 'hello world':
+        case 'helloworld':
+          setOutput(
+            <pre className="nasa-report">{nasaBox('PROGRAM — FIRST CONTACT', 'FOLK.CODES TERMINAL MK-II', [
+              '> HELLO, WORLD.',
+              '',
+              'THE WORLD SAYS HELLO BACK.',
+              '',
+              'EVERY GREAT JOURNEY BEGAN WITH THESE',
+              'TWO WORDS. KERNIGHAN AND RITCHIE SMILED',
+              'UPON YOU FROM THE GREAT MAINFRAME IN',
+              'THE SKY.',
+              '',
+              'YOU ARE NOW A PROGRAMMER.',
+              'GO BUILD SOMETHING BEAUTIFUL.',
+              '',
+              '*** GENESIS — COMPLETE ***',
+            ])}</pre>
+          );
+          break;
+        case 'date':
+        case 'stardate':
+        case 'time': {
+          const now = new Date();
+          const earth = now.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+          const sd = Math.floor(Date.now() / 86400000) + '.' + Math.floor(Math.random() * 9);
+          const epoch = String(Math.floor(Date.now() / 1000));
+          setOutput(
+            <pre className="nasa-report">{nasaBox('CHRONOMETER — TIME REPORT', 'FOLK.CODES TERMINAL MK-II', [
+              `EARTH TIME  :  [[ ${earth} ]]`,
+              `STARDATE    :  [[ ${sd} ]]`,
+              `UNIX EPOCH  :  [[ ${epoch} ]]`,
+              'COSMIC AGE  :  [[ 13,800,000,000 YEARS ]]',
+              '',
+              'TIME IS AN ILLUSION.',
+              'LUNCHTIME DOUBLY SO.',
+              '                    -- FORD PREFECT',
+              '',
+              '*** CHRONOMETER — SYNCHRONIZED ***',
+            ])}</pre>
+          );
+          break;
+        }
 
         default:
           setOutput(NoMatch);

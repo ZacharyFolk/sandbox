@@ -1363,6 +1363,370 @@ pre {
   vertical-align: middle;
 }
 
+/* Eight Ball */
+.eightball-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 8px;
+}
+
+.eightball-header {
+  margin: 0;
+}
+
+.eightball-ball {
+  font-family: var(--t-font-terminal);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--t-primary);
+  text-shadow: 0 0 4px var(--t-glow);
+  white-space: pre;
+  text-align: center;
+  transition: transform 0.1s;
+}
+
+.eightball--shake {
+  animation: eightball-shake 1.2s ease-in-out;
+}
+
+@keyframes eightball-shake {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  10%  { transform: translate(-4px, -2px) rotate(-3deg); }
+  20%  { transform: translate(4px, 2px) rotate(3deg); }
+  30%  { transform: translate(-3px, 3px) rotate(-2deg); }
+  40%  { transform: translate(3px, -3px) rotate(2deg); }
+  50%  { transform: translate(-2px, 2px) rotate(-1deg); }
+  60%  { transform: translate(2px, -2px) rotate(1deg); }
+  70%  { transform: translate(-3px, 1px) rotate(-2deg); }
+  80%  { transform: translate(3px, -1px) rotate(2deg); }
+  90%  { transform: translate(-1px, 1px) rotate(-1deg); }
+}
+
+.eightball-answer {
+  font-family: var(--t-font-terminal);
+  font-size: 0.8rem;
+  color: var(--t-dim);
+  text-align: center;
+  min-height: 1.5em;
+  letter-spacing: 0.05em;
+  transition: color 0.5s, text-shadow 0.5s;
+}
+
+.eightball-answer--revealed {
+  color: var(--t-primary);
+  text-shadow: 0 0 10px var(--t-glow);
+  font-size: 0.9rem;
+}
+
+.eightball-btn {
+  font-family: var(--t-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--t-primary);
+  background: rgba(var(--t-primary-rgb), 0.06);
+  border: 1px solid rgba(var(--t-primary-rgb), 0.2);
+  border-radius: 3px;
+  padding: 6px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.eightball-btn:hover {
+  background: rgba(var(--t-primary-rgb), 0.12);
+}
+
+/* Cowsay */
+.cowsay-container {
+  padding: 16px;
+}
+
+.cowsay-art {
+  font-family: var(--t-font-terminal);
+  font-size: 0.85rem;
+  line-height: 1.3;
+  color: var(--t-primary);
+  text-shadow: 0 0 4px var(--t-glow);
+  white-space: pre;
+  margin: 0;
+}
+
+.cowsay-footer {
+  font-family: var(--t-font-mono);
+  font-size: 0.55rem;
+  color: var(--t-dim);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+
+/* Classified */
+.classified-doc {
+  animation: classified-flicker 0.15s ease-in-out;
+}
+
+@keyframes classified-flicker {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.6; }
+  50%  { opacity: 0.2; }
+  70%  { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+/* Tarot */
+.tarot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.tarot-header {
+  margin: 0;
+}
+
+.tarot-spread {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tarot-card {
+  width: 160px;
+  min-height: 200px;
+  border: 1px solid rgba(var(--t-primary-rgb), 0.15);
+  border-radius: 4px;
+  background: rgba(var(--t-primary-rgb), 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.5s, background-color 0.5s, box-shadow 0.5s;
+  overflow: hidden;
+}
+
+.tarot-card--revealed {
+  border-color: rgba(var(--t-primary-rgb), 0.4);
+  background: rgba(var(--t-primary-rgb), 0.06);
+  box-shadow: 0 0 15px rgba(var(--t-primary-rgb), 0.1);
+  animation: tarot-reveal 0.6s ease-out;
+}
+
+@keyframes tarot-reveal {
+  0%   { transform: rotateY(90deg); opacity: 0; }
+  50%  { transform: rotateY(-10deg); opacity: 1; }
+  100% { transform: rotateY(0); opacity: 1; }
+}
+
+.tarot-card-face {
+  padding: 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.tarot-position {
+  font-family: var(--t-font-mono);
+  font-size: 0.55rem;
+  color: var(--t-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.tarot-numeral {
+  font-family: var(--t-font-terminal);
+  font-size: 1.2rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 8px var(--t-glow);
+  margin-bottom: 4px;
+}
+
+.tarot-name {
+  font-family: var(--t-font-terminal);
+  font-size: 0.75rem;
+  color: var(--t-primary);
+  text-shadow: 0 0 4px var(--t-glow);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.tarot-meaning {
+  font-family: var(--t-font-mono);
+  font-size: 0.6rem;
+  color: var(--t-dim);
+  line-height: 1.4;
+  text-align: left;
+}
+
+.tarot-card-back {
+  padding: 12px;
+  text-align: center;
+}
+
+.tarot-back-pattern {
+  font-family: var(--t-font-terminal);
+  font-size: 0.7rem;
+  color: rgba(var(--t-primary-rgb), 0.15);
+  white-space: pre;
+  line-height: 1.3;
+}
+
+/* Star Wars crawl */
+.starwars-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: #000;
+  perspective: 350px;
+  outline: none;
+}
+
+.starwars-crawl-wrapper {
+  width: 100%;
+  height: 85%;
+  overflow: hidden;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.starwars-crawl {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) rotateX(22deg);
+  transform-origin: 50% 100%;
+  width: 320px;
+  animation: starwars-scroll 55s linear forwards;
+}
+
+@keyframes starwars-scroll {
+  0%   { top: 100%; }
+  100% { top: -200%; }
+}
+
+.starwars-text {
+  font-family: var(--t-font-terminal);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #b59f3b;
+  text-shadow: 0 0 6px rgba(181, 159, 59, 0.4);
+  text-align: center;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.starwars-hint {
+  font-family: var(--t-font-mono);
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.2);
+  padding: 8px;
+}
+
+/* Jurassic Park — Nedry hack scene */
+.jp-container {
+  width: 100%;
+  height: 100%;
+  background: #0000aa;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  outline: none;
+  overflow: hidden;
+}
+
+.jp-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scrollbar-width: none;
+}
+
+.jp-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.jp-output {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-line {
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  min-height: 1.2em;
+}
+
+.jp-prompt {
+  color: #aaaaaa;
+}
+
+.jp-cursor {
+  animation: jp-blink 0.6s step-end infinite;
+  color: #aaaaaa;
+}
+
+@keyframes jp-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.jp-response {
+  color: #ffffff;
+}
+
+.jp-spam {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  animation: jp-flash 0.15s ease-in-out;
+}
+
+@keyframes jp-flash {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.jp-ctrlc {
+  color: #55ff55;
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: pre;
+}
+
+.jp-gif-corner {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  border: 2px solid #ffffff;
+  background: #000;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.jp-gif {
+  display: block;
+  width: 160px;
+  height: auto;
+  image-rendering: auto;
+}
+
+/* Inline eggs */
+.inline-egg {
+  padding: 16px;
+}
+
+.inline-egg pre {
+  margin: 0;
+}
+
 /* Conway's Game of Life info overlay */
 .conway-info-overlay {
   position: absolute;

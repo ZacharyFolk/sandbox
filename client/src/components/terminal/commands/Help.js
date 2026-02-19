@@ -31,8 +31,10 @@ const Help = () => {
     'info',
     'blog',
     'fortune',
-    'info',
     'matrix',
+    'cowsay',
+    '8ball',
+    'tarot',
   ];
 
   return (
