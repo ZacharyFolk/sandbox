@@ -3645,6 +3645,41 @@ ul.help-list li {
   outline: none;
 }
 
+/* Illusion Museum plaque overlay */
+.illusion-plaque {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 15, 5, 0.92);
+  border: 2px solid rgba(255, 176, 0, 0.6);
+  padding: 20px 30px;
+  max-width: 500px;
+  font-family: var(--t-font-mono);
+  color: rgba(255, 220, 150, 0.9);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.plaque-title {
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+  color: #ffcc00;
+  text-shadow: 0 0 8px rgba(255, 200, 0, 0.4);
+}
+.plaque-text {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.plaque-credit {
+  font-size: 0.65rem;
+  font-style: italic;
+  color: rgba(255, 200, 100, 0.6);
+}
+
 .labyrinth-hint {
   position: absolute;
   bottom: 8px;
