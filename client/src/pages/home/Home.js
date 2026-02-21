@@ -81,6 +81,7 @@ export default function Home() {
     gameMode,
     theme,
     setTheme,
+    crtFilter,
   } = useContext(TerminalContext);
   const [viewPrompt, setViewPrompt] = useState(false);
   const [power, setPower] = useState(() => {
@@ -168,7 +169,7 @@ export default function Home() {
 
   return (
     <div className={`monitor theme-${theme}`}>
-      <div className="bezel crt">
+      <div className={`bezel ${crtFilter ? 'crt' : ''}`}>
         <Terminal
           output={output}
           setOutput={setOutput}

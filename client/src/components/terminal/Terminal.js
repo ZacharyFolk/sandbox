@@ -80,7 +80,7 @@ const saveHistory = (history) => {
 };
 
 export default function Terminal(props) {
-  const { command, updateCommand, inputRef, updateInput, clearInput, gameMode, setScreensaver, setScreensaverType } =
+  const { command, updateCommand, inputRef, updateInput, clearInput, gameMode, setScreensaver, setScreensaverType, setCrtFilter } =
     useContext(TerminalContext);
   const [enter, setEnter] = useState(false);
   const historyRef = useRef(loadHistory());
@@ -665,6 +665,19 @@ but you can never leave.
 
   Transfer complete: 42 bytes received.`}</pre>
           );
+          break;
+
+        case 'fx on':
+        case 'crt on':
+        case 'fx':
+          setCrtFilter(true);
+          setOutput(<pre className="nasa-report">CRT EFFECTS ENABLED</pre>);
+          break;
+
+        case 'fx off':
+        case 'crt off':
+          setCrtFilter(false);
+          setOutput(<pre className="nasa-report">CRT EFFECTS DISABLED</pre>);
           break;
 
         default:

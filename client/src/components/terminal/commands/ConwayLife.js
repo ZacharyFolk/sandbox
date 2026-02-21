@@ -186,26 +186,30 @@ export default function ConwayLife() {
       // HUD overlay
       if (overlayRef.current) {
         const pName = PATTERNS[patternNamesRef.current[patternIdxRef.current]].name;
-        ctx.font = '13px "VT323", monospace';
+        ctx.font = '14px "VT323", monospace';
         ctx.textBaseline = 'top';
 
         // Top bar
-        ctx.fillStyle = `rgba(0,0,0,0.6)`;
-        ctx.fillRect(0, 0, canvas.width, 22);
+        ctx.fillStyle = `rgba(0,0,0,0.82)`;
+        ctx.fillRect(0, 0, canvas.width, 24);
+        ctx.shadowColor = primary; ctx.shadowBlur = 6;
         ctx.fillStyle = primary;
         ctx.fillText(`CONWAY'S GAME OF LIFE`, 8, 5);
         ctx.fillStyle = text;
         ctx.textAlign = 'right';
         ctx.fillText(`GEN: ${genRef.current}  POP: ${populationRef.current}  SPD: ${speedRef.current}ms`, canvas.width - 8, 5);
         ctx.textAlign = 'left';
+        ctx.shadowBlur = 0;
 
         // Bottom bar
-        ctx.fillStyle = `rgba(0,0,0,0.6)`;
-        ctx.fillRect(0, canvas.height - 42, canvas.width, 42);
-        ctx.fillStyle = `rgba(${primaryRgb}, 0.5)`;
+        ctx.fillStyle = `rgba(0,0,0,0.82)`;
+        ctx.fillRect(0, canvas.height - 44, canvas.width, 44);
+        ctx.shadowColor = primary; ctx.shadowBlur = 5;
+        ctx.fillStyle = primary;
         ctx.fillText(`PATTERN: ${pName}`, 8, canvas.height - 38);
-        ctx.fillStyle = `rgba(${primaryRgb}, 0.35)`;
-        ctx.fillText(`[SPACE] PAUSE  [N] NEXT  [R] RANDOM  [C] CLEAR  [+/-] SPEED  [CLICK] DRAW  [I] INFO  [H] HUD  [ESC] EXIT`, 8, canvas.height - 20);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = `rgba(${primaryRgb}, 0.75)`;
+        ctx.fillText(`[SPACE] PAUSE  [N] NEXT  [R] RANDOM  [C] CLEAR  [+/-] SPEED  [CLICK] DRAW  [I] INFO  [H] HUD  [ESC] EXIT`, 8, canvas.height - 22);
       }
 
     };
